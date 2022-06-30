@@ -313,25 +313,24 @@ public class AdminController {
 	
 		//상품 등록 요청
 		@RequestMapping("requestProduct.bo")
+		@ResponseBody
 		public String requestProduct(@ModelAttribute("ProductRequest")ProductRequest pr,HttpSession session) {
 			
 		
 			
 			Member member = (Member)session.getAttribute("loginUser");
-			
+
 			pr.setEmail(member.getEmail());
 			
 			
 			
 			int result = aService.insertRequestProduct(pr);
 			
-			
-			if(result > 0) {
-				return "redirect:prBoardList.bo";
+			String res = Integer.toString(result);
+		
+			return res;
 				
-			}else {
-				throw new AdminException("상품등록 요청에 실패하였습니다.");
-			}
+			
 			
 		}
 		
