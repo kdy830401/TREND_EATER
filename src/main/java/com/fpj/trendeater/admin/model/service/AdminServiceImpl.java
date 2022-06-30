@@ -27,20 +27,15 @@ public class AdminServiceImpl implements AdminService{
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	@Transactional
-	public int registerProduct(Product product, ArrayList<Image> imageList) {
-	
-		int result1 = aDAO.registerProduct(sqlSession, product);
-		
-		System.out.println("result1 : " + result1);
-		int result2 = 0;
-		
-		if(result1 > 1) {
-			result2 = aDAO.registerProductImage(sqlSession, imageList);
-		}
-		
-		return result1 + result2;
+	public int registerProduct(Product product) {
+		return aDAO.registerProduct(sqlSession, product);
 	}
+	
+	@Override
+	public int registerImage(ArrayList<Image> imageList, int i) {
+		return aDAO.registerProductImage(sqlSession, imageList, i);
+	}
+
 
 	@Override
 	public int getListCount() {
@@ -92,6 +87,20 @@ public class AdminServiceImpl implements AdminService{
 		
 		return aDAO.selectRequestProductList(sqlSession);
 	}
+	
+	// 이미지 삭제
+	@Override
+	public int delImage(int imgNo) {
+		return aDAO.delImage(sqlSession, imgNo);
+	}
+	
+	// 상품 정보 업데이트
+	@Override
+	public int updateProduct(Product product) {
+		return aDAO.updateProduct(sqlSession, product);
+	}
+
+
 	// 김대열 끝
 	
 	
@@ -156,6 +165,9 @@ public class AdminServiceImpl implements AdminService{
 		return aDAO.adminCount(sqlSession,admin);
 	}
 
+
+
+	
 
 
 

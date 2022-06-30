@@ -40,8 +40,9 @@ public class BoardController {
 	}
 	//상품상세보기
 	@RequestMapping("prbdetail.bo")
-	public ModelAndView prbBoardDetail(@RequestParam(value = "pno") int pno, @RequestParam(value = "page") int page,
-			ModelAndView mv) {
+	public ModelAndView prbBoardDetail(@RequestParam(value = "pno") int pno, 
+									   @RequestParam(value = "page", required = false) Integer page,
+									   ModelAndView mv) {
 
 		System.out.println(pno);
 		Product p = bService.selectPrBoard(pno);
@@ -52,7 +53,9 @@ public class BoardController {
 		if (p != null && imgList != null) {
 			mv.addObject("p", p);
 			mv.addObject("imgList", imgList);
-			mv.addObject("page", page);
+			if(page != null) {
+				mv.addObject("page", page);
+			}
 			mv.setViewName("prBoardDetail");
 
 		} else {

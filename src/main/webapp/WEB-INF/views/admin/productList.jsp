@@ -32,15 +32,15 @@
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">상품관리</h2>
 		<form class="uk-child-width-auto " uk-grid>
 			<div class="uk-align-center">
-				<div class="uk-align-center">
-					<div class="uk-inline">
-						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01">
-					</div>
-					<span>~</span>
-					<div class="uk-inline">
-						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01">
-					</div>
-				</div>
+<!-- 				<div class="uk-align-center"> -->
+<!-- 					<div class="uk-inline"> -->
+<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01"> -->
+<!-- 					</div> -->
+<!-- 					<span>~</span> -->
+<!-- 					<div class="uk-inline"> -->
+<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01"> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 				<div class="uk-inline">
 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition">
 						<option value="" disabled selected>검색조건을 선택하세요</option>
@@ -116,8 +116,21 @@
 						</td>
 						<td>${ p.adminName }</td>
 						<td>
-							<a class="uk-margin-small-right" href="" uk-icon="pencil"></a>
+							<form id="productForm${ p.productNo }" action="updateProductForm.ad" method="POST">
+							<a class="uk-margin-small-right edit" href="javascript:void(0)" onclick="edit(this)" uk-icon="pencil"></a>
+							<input type="hidden" name="productNo" value="${ p.productNo }">
+							
+							<script>
+								function edit(e){
+									var formId = "productForm" + $(e).next().val();
+									var $selectForm = $('#'+ formId);
+									$selectForm.submit();
+								}
+							</script>
+							
+							
 							<a href="" uk-icon="trash"></a>
+							</form>
 						</td>
 						<td>
 							<label class="ui-switch warning m-t-xs m-r">

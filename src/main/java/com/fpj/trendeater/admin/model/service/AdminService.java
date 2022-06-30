@@ -15,8 +15,10 @@ public interface AdminService {
 	
 	
 	//####################김대열
-	int registerProduct(Product product, ArrayList<Image> imageList);
-
+	int registerProduct(Product product);
+	int registerImage(ArrayList<Image> imageList, int i);
+	
+	
 	int getListCount();
 
 	ArrayList<Product> getProductList(PageInfo pi);
@@ -36,6 +38,9 @@ public interface AdminService {
 	int insertRequestProduct(ProductRequest pr);
 	
 	ArrayList<ProductRequest> selectRequestProductList();
+	
+	int delImage(int imgNo);
+	
 	//####################김주희
 	
 	//회원 리스트 뿌리기
@@ -62,6 +67,12 @@ public interface AdminService {
 
 	//아이디 중복확인
 	int adminCount(Admin admin);
+
+	int updateProduct(Product product);
+
+
+
+	
 
 
 	
