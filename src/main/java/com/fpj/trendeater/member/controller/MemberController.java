@@ -531,7 +531,15 @@ public class MemberController {
 		return "myApplyTasteList";
 	}
 		 
-		 
+	
+	
+	//*****박미리*****//
+	
+	@RequestMapping("scrapListView.me")
+	public String scrapListView() {
+		return "scrapListView";
+		
+	}
 		 
 //클래스 끝마침		
 }

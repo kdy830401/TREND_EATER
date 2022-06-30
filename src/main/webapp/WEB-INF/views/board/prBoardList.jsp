@@ -63,7 +63,7 @@
 				<a class="uk-button uk-button-default" href="#modal-overflow" uk-toggle>상품 요청</a>
 				<div id="modal-overflow" uk-modal>
 					<div class="uk-modal-dialog">
-						<form action="requestProduct.bo" method="post" class="uk-form-stacked">
+					<!-- 	<form action="requestProduct.bo" method="post" class="uk-form-stacked"> -->
 							<button class="uk-modal-close-default" type="button" uk-close></button>
 							<div class="uk-modal-header">
 								<h3 class="uk-h3 uk-text-bold">상품 요청</h3>
@@ -82,14 +82,41 @@
 							</div>
 							<div class="uk-modal-footer">
 								<button class="uk-button uk-button-default uk-modal-close" type="button">취소</button>
-								<button class="uk-button uk-button-primary" type="submit">요청</button>
+								<button class="request uk-button uk-button-primary" type="submit">요청</button>
 							</div>
-						</form>
+						<!-- </form> -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
+	<!-- 상품 등록 요청 -->
+	<script type="text/javascript">	
+	$('.request').on("click",function(){
+		$.ajax({
+			url:"requestProduct.bo",
+			type:"post",
+			data:{productName:$('#productNo_name').val(),manufacturer:$('#productNo_company').val()},
+			success:function(data){
+				
+			if(data == '1'){
+				alert("상품 등록이 요청되었습니다.");
+			} 
+				
+			},error:function(data){
+				alert("상품 등록 요청에 실패하였습니다.");
+				console.log(data);
+				
+			}
+			
+			
+		});
+		
+	});
+	
+	</script>
 
 	<c:if test="${ empty list }">
 		<div class="uk-align-center">
