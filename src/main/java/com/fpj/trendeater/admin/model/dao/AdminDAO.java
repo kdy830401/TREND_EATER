@@ -32,8 +32,12 @@ public class AdminDAO {
 		return result;//sqlSession.insert("productMapper.registerProduct", product);
 	}
 	
-	public int registerProductImage(SqlSessionTemplate sqlSession, ArrayList<Image> imageList) {
-		return sqlSession.insert("adminMapper.registerProductImage", imageList);
+	public int registerProductImage(SqlSessionTemplate sqlSession, ArrayList<Image> imageList, int i) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("list", imageList);
+		map.put("identifyNo", i);
+		
+		return sqlSession.insert("adminMapper.registerProductImage", map);
 	}
 
 	public int getListCount(SqlSessionTemplate sqlSession) {
@@ -82,6 +86,26 @@ public class AdminDAO {
 
 		return (ArrayList)sqlSession.selectList("adminMapper.selectRequestProductList");
 	}
+	
+	// 이미지 삭제
+	public int delImage(SqlSessionTemplate sqlSession, int imgNo) {
+		return sqlSession.delete("adminMapper.delImage", imgNo);
+	}	
+	
+	// 상품 업데이트
+	public int updateProduct(SqlSessionTemplate sqlSession, Product product) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("product", product);
+		int result = 0;
+		sqlSession.insert("adminMapper.updateProduct", map);
+		result = (int) map.get("result");
+		
+		System.out.println("result: " + result);
+				
+		return result;
+	}
+
 
 
 	///// 김대열 끝
@@ -130,7 +154,10 @@ public class AdminDAO {
 	public int adminCount(SqlSessionTemplate sqlSession, Admin admin) {
 	
 		return sqlSession.selectOne("adminMapper.adminCount",admin);
-	}	
+	}
+
+
+
 
 	/////김주희 끝
 

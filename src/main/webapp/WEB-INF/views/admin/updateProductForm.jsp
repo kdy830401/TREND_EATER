@@ -8,16 +8,20 @@
 
 </head>
 <style>
-
+.originImg {
+	width: 540px;
+	height: 450px !important;
+}
 </style>
 <body>
 	<c:import url="adminMenubar.jsp" />
 	<!-- ############ PAGE START 여기에 내용 넣어주세요 -->
 	<div class="uk-container uk-tile uk-tile-muted uk-margin-medium">
-		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">상품등록</h2>
+		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">상품수정</h2>
 	</div>
 	<div class="uk-container uk-tile uk-tile-muted uk-margin-medium">
-		<form action="registerProduct.ad" class="uk-grid uk-child-width-1-1" method="post" encType="multipart/form-data" uk-grid>
+		<form action="updateProduct.ad" class="uk-grid uk-child-width-1-1" method="post" encType="multipart/form-data" uk-grid>
+			<input type="hidden" name="productNo" value="${ p.productNo }">
 			<div class="col-sm-4">
 				<div class="form-group">
 					<label class="form-control-label">
@@ -25,39 +29,45 @@
 					</label>
 					<select class="form-control c-select " name="productType" required>
 						<option value="" disabled selected>판매 여부를 선택하세요</option>
-						<option value="1">판매</option>
-						<option value="2">미판매</option>
+						<c:choose>
+							<c:when test="${ p.productType == 1 }">
+								<option value="1" selected="selected">판매</option>
+							</c:when>
+							<c:when test="${ p.productType == 2 }">
+								<option value="2" selected="selected">미판매</option>
+							</c:when>
+						</c:choose>
 					</select>
 				</div>
 			</div>
 			<div class="uk-inline">
 				<div class="md-form-group float-label">
-					<input type="text" id="productName" name="productName" class="md-input red-600" required>
-					<label for="productName">상품명</label>
+					<input type="text" id="productNo" value="${ p.productName }" name="productName" class="md-input red-600" required>
+					<label for="productNo">상품명</label>
 				</div>
 			</div>
 			<div class="uk-inline">
 				<div class="md-form-group float-label">
-					<input type="text" id="productPrice" name="productPrice" class="md-input" required>
+					<input type="text" id="productPrice" value="${ p.productPrice }" name="productPrice" class="md-input" required>
 					<label for="productPrice">상품가격</label>
 				</div>
 			</div>
 			<div class="uk-inline">
 				<div class="md-form-group float-label">
-					<input type="text" id="productStock" name="productStock" class="md-input">
+					<input type="text" id="productStock" value="${ p.productStock}" name="productStock" class="md-input">
 					<label for="productStock">재고수량</label>
 				</div>
 			</div>
 
 			<div class="uk-inline">
 				<div class="md-form-group float-label">
-					<input type="text" id="productStock" name="productOneLine" class="md-input" required>
+					<input type="text" id="productStock" value="${ p.productOneLine }" name="productOneLine" class="md-input" required>
 					<label for="productStock">한줄평</label>
 				</div>
 			</div>
 			<div class="uk-inline">
 				<div class="md-form-group float-label">
-					<textarea name="boardContent" id="icon_prefix2" class="md-input" style="resize: none;"></textarea>
+					<textarea name="boardContent" id="icon_prefix2" class="md-input" style="resize: none;">${ p.boardContent }</textarea>
 					<label for="icon_prefix2">제품소개글</label>
 				</div>
 			</div>
@@ -66,11 +76,24 @@
 				<div class="uk-child-width-1-2 uk-grid"uk-grid">
 					<div id="productImgArea">
 						<div id="productImgLayout" class="uk-background-image@m uk-background-default uk-height-large uk-panel uk-flex uk-flex-center uk-flex-middle">
-							<i id="contentImg0" class="material-icons">add_a_photo</i>
-							<h3 class="m-a">상품사진 업로드 클릭</h3>
+							<c:forEach var="img" items="${ imgList }">
+								<c:if test="${ img.fileType == 1 }">
+									<img class="originImg" src="${ contextPath }/resources/productImgUploadFiles/${ img.changeName }">
+								</c:if>
+							</c:forEach>
 						</div>
 					</div>
 
+					<c:forEach var="img" items="${ imgList }">
+						<c:if test="${ img.fileType == 1 }">
+							<input type="hidden" name="delProductImgNo" value="${ img.imageNo }">
+							<input type="hidden" name="delProductImgName" value="${ img.changeName }">
+						</c:if>
+						<c:if test="${ img.fileType == 2 }">
+							<input type="hidden" name="delNutInfoImgNo" value="${ img.imageNo }">
+							<input type="hidden" name="delNutInfoImgName" value="${ img.changeName }">
+						</c:if>
+					</c:forEach>
 					<div id="fileArea1">
 						<input type="file" id="productImg" name="productImg">
 					</div>
@@ -82,17 +105,19 @@
 								$('#productImgLayout').empty();
 							});
 						});
-						
-						$(document).ready(function(){
-							$('#productImg').on('change',handleImgsFileSelect1);
-						});
-						
-						function handleImgsFileSelect1(e){
+
+						$(document).ready(
+								function() {
+									$('#productImg').on('change',
+											handleImgsFileSelect1);
+								});
+
+						function handleImgsFileSelect1(e) {
 							var files = e.target.files;
 							var filesArr = Array.prototype.slice.call(files);
-							
-							filesArr.forEach(function(f){
-								if(!f.type.match("image.*")){
+
+							filesArr.forEach(function(f) {
+								if (!f.type.match("image.*")) {
 									alert("확장자는 이미지 확장자만 가능합니다.");
 									return;
 								}
@@ -100,7 +125,10 @@
 								reader.onload = function(e) {
 									var imgTag = $("<img>");
 									imgTag.attr("uk-cover");
-									imgTag.css({"width":"540px", "height":"450px"})
+									imgTag.css({
+										"width" : "540px",
+										"height" : "450px"
+									})
 									imgTag.attr("src", e.target.result);
 									$("#productImgLayout").append(imgTag);
 								}
@@ -108,11 +136,15 @@
 							});
 						}
 					</script>
-					
+
 					<div id="nutInfoImgArea">
 						<div id="nutInfoImgLayout" class="uk-background-image@m uk-background-default uk-height-large uk-panel uk-flex uk-flex-center uk-flex-middle">
-							<i id="contentImg2" class="material-icons">add_a_photo</i>
-							<h3 class="m-a">상세보기 사진 업로드 클릭</h3>
+							<c:forEach var="img" items="${ imgList }">
+								<c:if test="${ img.fileType == 2 }">
+									<img class="originImg" src="${ contextPath }/resources/productImgUploadFiles/${ img.changeName}">
+
+								</c:if>
+							</c:forEach>
 						</div>
 					</div>
 
@@ -127,17 +159,19 @@
 								$('#nutInfoImgLayout').empty();
 							});
 						});
-						
-						$(document).ready(function(){
-							$('#nutInfoImg').on('change',handleImgsFileSelect2);
-						});
-						
-						function handleImgsFileSelect2(e){
+
+						$(document).ready(
+								function() {
+									$('#nutInfoImg').on('change',
+											handleImgsFileSelect2);
+								});
+
+						function handleImgsFileSelect2(e) {
 							var files = e.target.files;
 							var filesArr = Array.prototype.slice.call(files);
-							
-							filesArr.forEach(function(f){
-								if(!f.type.match("image.*")){
+
+							filesArr.forEach(function(f) {
+								if (!f.type.match("image.*")) {
 									alert("확장자는 이미지 확장자만 가능합니다.");
 									return;
 								}
@@ -145,7 +179,10 @@
 								reader.onload = function(e) {
 									var imgTag = $("<img>");
 									imgTag.attr("uk-cover");
-									imgTag.css({"width":"540px", "height":"450px"})
+									imgTag.css({
+										"width" : "540px",
+										"height" : "450px"
+									})
 									imgTag.attr("src", e.target.result);
 									$("#nutInfoImgLayout").append(imgTag);
 								}
