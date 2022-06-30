@@ -14,7 +14,7 @@ import com.fpj.trendeater.member.model.vo.Member;
 public interface AdminService {
 	
 	
-	// 김대열
+	//####################김대열
 	int registerProduct(Product product, ArrayList<Image> imageList);
 
 	int getListCount();
@@ -33,22 +33,36 @@ public interface AdminService {
 
 	int updateTaste(HashMap<String, Object> map);
 	
-	//김주희
+	int insertRequestProduct(ProductRequest pr);
+	
+	ArrayList<ProductRequest> selectRequestProductList();
+	//####################김주희
+	
+	//회원 리스트 뿌리기
 	ArrayList<Member> selectMember();
 
+	//회원 상태 변경
 	int updateMember(HashMap<String, String> map);
-
+	
+	
+	//회원 리스트의 총 명 수 
 	int memberCount();
 
+	//회원 검색
 	ArrayList<Member> searchMember(String search);
 
+	//회원 검색  총 명 수 
 	int searchCount(String search);
 
+	//관리자 로그인
 	Admin adminlogin(Admin admin);
+	
+	//관리자 등록
+	int insertAdmin(Admin admin);
 
-	int insertRequestProduct(ProductRequest pr);
+	//아이디 중복확인
+	int adminCount(Admin admin);
 
-	ArrayList<ProductRequest> selectRequestProductList();
 
 	
 }

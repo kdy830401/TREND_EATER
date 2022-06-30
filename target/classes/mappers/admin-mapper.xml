@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace = "adminMapper">
-  <select id="selectMember" resultMap="memberResultSet">
+
+
+  <!-- 관리자 등록 -->
+  <insert id="insertAdmin">
+  insert into ADMIN
+  values (#{id},#{pwd},#{name})
+  </insert>
   
+  <!-- 아이디 중복확인 -->
+  <select id="adminCount" resultType = "_int">
+  select count(*)
+  from admin 
+  where admin_id = #{id}
+  </select>
+ 
+ 
+ <!-- 회원 리스트 -->
+  <select id="selectMember" resultMap="memberResultSet">  
   select *
   from member
-  
   </select>
   
   
+  <!-- 회원 리절트맵 -->
   <resultMap type="Member" id="memberResultSet">
   <id column = "EMAIL_ID" property = "email"/>
   <result column = "USER_PWD" property = "pwd"/>
@@ -30,19 +46,16 @@
   <result column = "ORIGIN_NAME" property = "originName"/>
   <result column = "CHANGE_NAME" property = "changeName"/>
   <result column = "LOGIN_TYPE" property = "loginType"/>
-
   </resultMap>
   
-  
+ <!--관리자 리절트맵 --> 
   <resultMap type="Admin" id="adminResultSet">
   <id column = "admin_id" property = "id"/>
   <result column = "admin_pwd" property = "pwd"/>
   <result column = "admin_name" property = "name"/>
-
-  
   </resultMap>
   
- <!--  회원 리스트 불러오기 -->
+ <!--  회원-상태 변경 -->
   <update id="updateMember">
   update member 
   set
@@ -55,32 +68,35 @@
    where email_id = #{email}
   </update>
   
-  
+  <!-- 회원 리스트 총 명 수  -->
   <select id="memberCount" resultType = "_int">
   select count(*)
   from member
-  
-  
   </select>
   
-  
+  <!-- 회원 검색 -->
   <select id="searchMember" resultMap = "memberResultSet">
   select * from
   member where email_id like '%'||#{search}||'%' or user_name like '%'||#{search}||'%'
   </select>
-  
+  <!-- 회원 검색 검색 총 명 수  -->
   <select id="searchCount" resultType="_int">
   select count(*) from
   member where email_id like '%'||#{search}||'%' or user_name like '%'||#{search}||'%'
   </select>
   
-  
+  <!--관리자 로그인 -->
   <select id="selectAdmin" resultMap = "adminResultSet">
   select * from admin
   where admin_id = #{id} and admin_pwd = #{pwd}
-  
   </select>
   
+  
+  
+  
+  
+  
+
   <insert id="registerProduct" statementType="CALLABLE">
 		{#{result, mode=OUT, jdbcType=INTEGER} = call insertproductfn(#{product.productName}, #{product.productPrice}, #{product.productStock}, #{product.productOneLine}, 
 		#{product.productType}, #{product.boardContent}, #{product.adminId})}
@@ -230,4 +246,10 @@
   select * from 
   product_request
   </select>
+  
+  
+  
+  
+  
+  
 </mapper>

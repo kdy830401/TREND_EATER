@@ -90,7 +90,7 @@ a:hover {
 							</li>
 
 							<li>
-								<a href="#">
+								<a href="adminjoinform.ad">
 									<span class="nav-text">관리자 등록</span>
 								</a>
 							</li>

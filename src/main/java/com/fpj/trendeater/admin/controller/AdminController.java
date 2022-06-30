@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -308,6 +309,8 @@ public class AdminController {
 	
 	
 	
+	
+	
 		//상품 등록 요청
 		@RequestMapping("requestProduct.bo")
 		public String requestProduct(@ModelAttribute("ProductRequest")ProductRequest pr,HttpSession session) {
@@ -436,10 +439,49 @@ public class AdminController {
 		}else {			
 			throw new AdminException("관리자 로그인에 실패하였습니다.");
 		}
+	}
+	
+	//어드민 로그인 뷰페이지 이동
+	@RequestMapping("adminjoinform.ad")
+	public String adminJoinForm() {
+		
+		
+		return "adminJoinForm";
+	}
+		
+	//어드민 로그인 
+	@RequestMapping("adminJoin.ad")
+	@ResponseBody
+	public String adminJoin(@ModelAttribute("Admin")Admin admin,HttpSession session){
+		System.out.println(admin);
 		
 		
 		
+		Admin adminUser = (Admin)session.getAttribute("adminUser");
 		
+		String id = adminUser.getId();
+		
+		if(id.equals("supervisor")) {
+		
+			int result = aService.insertAdmin(admin);
+			String res = Integer.toString(result);
+			return res;
+		
+		}else {
+			throw new AdminException("관리자 등록에 실패하였습니다.<br>등록자가 supervisor인지 확인하십시오.");
+		}
+	}
+	
+	
+	//아이디 중복체크
+	@RequestMapping("adminIdCheck.ad")
+	@ResponseBody
+	public String adminIdCheck(@ModelAttribute("Admin")Admin admin) {
+		int result = aService.adminCount(admin);
+		
+		
+		String res = Integer.toString(result);
+		return res;
 	}
 	
 	
