@@ -3,15 +3,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- uikit -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
+
 
 </style>
 </head>
 <body>
+
 	<c:import url="myPageMenu.jsp"/>
 
 				
@@ -56,8 +56,8 @@
 					
 				
 			</div>
+			
 		</div>
-	</div>
 
 
 
