@@ -93,15 +93,6 @@
 					<th>수정/삭제</th>
 					<th>제품 게시</th>
 					<th>시식 등록</th>
-					<!-- 								<th class="uk-table-shrink"></th> -->
-					<!-- 								<th class="uk-table-shrink"></th> -->
-					<!-- 								<th class="uk-table-shrink uk-table-expand">등록일</th> -->
-					<!-- 								<th class="uk-table-expand uk-table-shrink">상품명</th> -->
-					<!-- 								<th class="uk-table-shrink">가격</th> -->
-					<!-- 								<th class="uk-table-shrink">재고수량</th> -->
-					<!-- 								<th class="uk-table-shrink">판매여부</th> -->
-					<!-- 								<th class="uk-table-shrink uk-text-nowrap">수정/삭제</th> -->
-					<!-- 								<th class="uk-table-shrink uk-text-nowrap">제품 게시</th> -->
 
 				</tr>
 			</thead>
@@ -150,14 +141,14 @@
 
 												<input type="hidden" name="productNo" value="${ p.productNo }">
 												<div class="uk-margin">
-													<label class="uk-form-label" for="form-s-date">신청 종료일</label>
-													<input class="uk-input" id="form-s-date_" name="endDate" type="date" placeholder="1970-01-01">
+													<label class="uk-align-left label warning m-b-sm" for="form-s-date">신청 종료일</label>
+													<input class="uk-input" id="form-s-date_" name="endDate" type="date" placeholder="1970-01-01" required>
 												</div>
 
 											</div>
 											<div class="modal-footer">
-												<button type="button" class="btn dark-white p-x-md" data-dismiss="modal">No</button>
-												<button type="submit" class="btn danger p-x-md">Yes</button>
+												<button type="button" class="btn dark-white p-x-md" data-dismiss="modal">취소</button>
+												<button type="submit" class="btn danger p-x-md">등록</button>
 											</div>
 										</form>
 									</div>

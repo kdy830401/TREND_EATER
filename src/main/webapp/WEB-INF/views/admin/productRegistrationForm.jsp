@@ -5,44 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>TREND EATER</title>
-<<<<<<< HEAD
-=======
-<meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-<!-- for ios 7 style, multi-resolution icon of 152x152 -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
-<link rel="apple-touch-icon" href="${ pageContext.servletContext.contextPath }/resources/assets/images/logo.png">
-<meta name="apple-mobile-web-app-title" content="Flatkit">
-<!-- for Chrome on Android, multi-resolution icon of 196x196 -->
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="shortcut icon" sizes="196x196" href="${ pageContext.servletContext.contextPath }/resources/assets/images/logo.png">
-
-<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
-<!-- style -->
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/animate.css/animate.min.css" type="text/css" />
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/glyphicons/glyphicons.css" type="text/css" />
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/material-design-icons/material-design-icons.css" type="text/css" />
-
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
-<!-- build:css ../assets/styles/app.min.css -->
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/app.css" type="text/css" />
-<!-- endbuild -->
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/font.css" type="text/css" />
-
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
 
->>>>>>> refs/remotes/origin/develop
-
-
+<link rel="stylesheet" href="/css/jquery.uploader.css">
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<script src="./dist/jquery.uploader.min.js"></script>
 <style>
 p {
 	font-weight: 600;
@@ -133,146 +101,31 @@ p {
 
 
 			<div class="uk-inline">
-				<div class="insertArea">
-					<div id="contentImgArea0">
-						<br>
-						<span>
-							<i id="contentImg0" class="material-icons">add_a_photo</i>
-							<p class="m-a">상품사진</p>
-						</span>
-					</div>
-
-					<!-- 파일 업로드 하는 부분 -->
-					<div id="fileArea0">
-						<input type="file" id="productImg" name="productImg">
-					</div>
-					<div class="col 12" uk-grid>
-						<div class="col s6 uk-align-center" id="productImgLayout"></div>
-					</div>
-					<script>
-						// 내용 작성 부분의 공간을 클릭할 때 파일 첨부 창이 뜨도록 설정하는 함수
-						$(function() {
-							// 해당영역 숨김
-							$("#fileArea0").hide();
-
-							$("#contentImgArea0").click(function() {
-								$("#productImg").click();
-								$('#productImgLayout').empty();
-							});
-
-						});
-
-						// 파일을 첨부 했을 경우 미리 보기가 가능하도록 하는 함수
-						var sel_files = [];
-
-						$(document).ready(
-								function() {
-									// 선택자의 값이 변경되면 handleImgsFilesSelect 함수가 실행
-									$('#productImg').on('change',
-											handleImgsFilesSelect0);
-								});
-
-						function handleImgsFilesSelect0(e) {
-							var files = e.target.files; // file의 정보를 저장, files는 선택한 파일의 FileList 객체(배열형태)
-							var filesArr = Array.prototype.slice.call(files); // 해당 객체를 배열로 잘라서 저장
-
-							filesArr.forEach(function(f) {
-								if (!f.type.match("image.*")) {
-									alert("확장자는 이미지 확장자만 가능합니다.");
-									return;
-								}
-
-								sel_files.push(f); // 이미지 확장자 파일을 배열에 넣는다
-
-								var reader = new FileReader();
-								reader.onload = function(e) { // reader의 읽기에 성공하면 함수 실행 onload는 파일 읽기에 성공하면 실행되는 이벤트 핸들러
-									var divTag = $("<div></div>");
-									divTag.attr("class", "uk-text-center");
-
-									var imgTag = $("<img>");
-									imgTag.attr("src", e.target.result);
-
-									divTag.append(imgTag);
-
-									$("#productImgLayout").append(divTag);
-								}
-								reader.readAsDataURL(f); // DataURL 형식으로 파일을 읽어온다
-							});
-						}
-					</script>
-
-					<div id="contentImgArea1">
-						<br>
-						<span>
-							<i id="contentImg0" class="material-icons">add_a_photo</i>
-							<p class="m-a">상세정보</p>
-						</span>
-					</div>
-
-					<!-- 파일 업로드 하는 부분 -->
-					<div id="fileArea1">
-						<input type="file" id="nutInfoImg" multiple name="nutInfoImg">
-					</div>
-					<div class="col 12" uk-grid>
-						<div class="col s6 uk-align-center" id="detailImgLayout"></div>
-					</div>
-					<script>
-						// 내용 작성 부분의 공간을 클릭할 때 파일 첨부 창이 뜨도록 설정하는 함수
-						$(function() {
-							$("#fileArea1").hide();
-
-							$("#contentImgArea1").click(function() {
-								$("#nutInfoImg").click();
-								$('#detailImgLayout').children().remove();
-							});
-
-						});
-
-						// 파일을 첨부 했을 경우 미리 보기가 가능하도록 하는 함수
-						var sel_files = [];
-
-						$(document).ready(
-								function() {
-									$('#nutInfoImg').on('change',
-											handleImgsFilesSelect1);
-								});
-
-						function handleImgsFilesSelect1(e) {
-							var files = e.target.files;
-							var filesArr = Array.prototype.slice.call(files);
-
-							filesArr.forEach(function(f) {
-								if (!f.type.match("image.*")) {
-									alert("확장자는 이미지 확장자만 가능합니다.");
-									return;
-								}
-
-								sel_files.push(f);
-
-								var reader = new FileReader();
-								reader.onload = function(e) {
-									var divTag = $("<div></div>");
-									divTag.attr("class", "uk-text-center");
-
-									var imgTag = $("<img>");
-									imgTag.attr("src", e.target.result);
-
-									divTag.append(imgTag);
-
-									$("#detailImgLayout").append(divTag);
-								}
-								reader.readAsDataURL(f);
-							});
-						}
-					</script>
-				</div>
+			<ul>
+        <li>
+            <i>Multiple File Upload</i>
+            <input type="text" id="demo1" value="">
+        </li>
+        <li>
+            <i>Single File Upload</i>
+            <input type="text" id="demo2" value="">
+        </li>
+        <li>
+            <i>With preselected Files</i>
+            <input type="text" id="demo3" value="">
+        </li>
+    </ul>
+			
+			
 			</div>
 			<div class="uk-text-center submit">
-				<button class="btn btn-outline b-warning text-warning">취소</button>
+				<button class="btn btn-outline b-warning text-warning" onclick="location.href='javascript:history.go(-1);'">취소</button>
 				<button class="btn btn-outline b-primary text-primary">등록</button>
 			</div>
 		</form>
 	</div>
+
+
 
 
 	<!-- ############ PAGE END 끝~ -->

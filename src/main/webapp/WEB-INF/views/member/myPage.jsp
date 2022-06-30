@@ -327,7 +327,7 @@ body {
 			<aside class="uk-width-1-5 uk-flex-first">
 				<ul class="uk-nav uk-nav-default uk-margin-medium-bottom">
 					<li class="uk-active"><a href="#">내 정보 수정</a></li>
-					<li><a href="#">나의 시식 신청</a></li>
+					<li><a href="myApplyTaste.me">나의 시식 신청</a></li>
 					<li><a href="#">내 리뷰</a></li>
 					<li><a href="#">내 스크랩</a></li>
 					<li><a href="#">내 출석</a></li>
