@@ -86,57 +86,74 @@ public class AdminServiceImpl implements AdminService{
 	public int updateTaste(HashMap<String, Object> map) {
 		return aDAO.updateTaste(sqlSession, map);
 	}
+	
+	@Override
+	public ArrayList<ProductRequest> selectRequestProductList() {
+		
+		return aDAO.selectRequestProductList(sqlSession);
+	}
 	// 김대열 끝
 	
 	
 	
+	
 	//김주희
+	//회원 리스트
 	@Override
 	public ArrayList<Member> selectMember() {
 		
 		return aDAO.selectMember(sqlSession);
 	}
-
+	//회원 상태 변경
 	@Override
 	public int updateMember(HashMap<String, String> map) {
 	
 		return aDAO.updateMember(sqlSession,map);
 	}
-
+	//회원 리스트 총 명 수 
 	@Override
 	public int memberCount() {
 		
 		return aDAO.memberCount(sqlSession);
 	}
-
+	//회원 검색
 	@Override
 	public ArrayList<Member> searchMember(String search) {
 		
 		return aDAO.searchMember(sqlSession,search);
 	}
-
+	//회원 검색 총 명 수
 	@Override
 	public int searchCount(String search) {
 		// TODO Auto-generated method stub
 		return aDAO.searchCount(sqlSession,search);
 	}
-
+	//관리자 로그인
 	@Override
 	public Admin adminlogin(Admin admin) {
 		
 		return aDAO.adminlogin(sqlSession,admin);
 	}
-
+	//관리자 등록
 	@Override
 	public int insertRequestProduct(ProductRequest pr) {
 		
 		return aDAO.insertRequestProduct(sqlSession,pr);
 	}
-
+	
+	
+	//어드민 로그인
 	@Override
-	public ArrayList<ProductRequest> selectRequestProductList() {
+	public int insertAdmin(Admin admin) {
+		return aDAO.insertAdmin(sqlSession,admin);
 		
-		return aDAO.selectRequestProductList(sqlSession);
+	}
+	
+	//아이디 중복 체크
+	@Override
+	public int adminCount(Admin admin) {
+		
+		return aDAO.adminCount(sqlSession,admin);
 	}
 
 

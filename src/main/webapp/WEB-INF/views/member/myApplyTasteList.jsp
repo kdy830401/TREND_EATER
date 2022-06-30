@@ -11,16 +11,18 @@
 </style>
 </head>
 <body>
-	<c:import url="myPageMenu.jsp"></c:import>
 
-					<div class="uk-align-center">
-						<h4 class="uk-text-bold">나의 시식 신청</h4>
-						<hr class="hr1">
+	<c:import url="myPageMenu.jsp"/>
+
+				
+					<div class=" uk-align-center">
+						<h3 class="uk-heading-bullet">나의 시식 신청</h3>
+
 						
-						<table class="uk-table uk-table-divider">
+						<table class="uk-table uk-table-middle uk-table-divider">
 							<tr>
-								<th>신청 제품명</th>
-								<th>신청 일</th>
+								<th class = "uk-table-expand">신청 제품명</th>
+								<th class = "uk-width-small">신청 일</th>
 							</tr>
 							<tr>
 								<td>쌕쌕 오렌지 아이스크림</td>
@@ -52,7 +54,7 @@
 					
 	<!--------------------------------------------------------------------------------->
 					
-				</div>
+				
 			</div>
 			
 		</div>
