@@ -364,8 +364,6 @@ public class AdminController {
 		int result = aService.memberCount();
 		
 		
-		System.out.println(member);
-		System.out.println(result);
 		model.addAttribute("member",member);
 		model.addAttribute("result",result);
 		return "memberList";
@@ -412,9 +410,6 @@ public class AdminController {
 		ArrayList<Member> member = aService.searchMember(search);
 		int result = aService.searchCount(search);
 
-		System.out.println(result);
-		
-		System.out.println(member);
 		
 		model.addAttribute("result",result);
 		model.addAttribute("member",member);
@@ -427,8 +422,7 @@ public class AdminController {
 		
 	
 		Admin admind = aService.adminlogin(admin);
-		System.out.println(admind);
-		
+	
 		
 		if(admind != null ) {
 			session.setAttribute("adminUser",admind);
