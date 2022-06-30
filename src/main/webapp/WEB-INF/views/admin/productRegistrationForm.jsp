@@ -6,45 +6,46 @@
 <meta charset="UTF-8">
 <title>TREND EATER</title>
 
-
-
-<link rel="stylesheet" href="/css/jquery.uploader.css">
-<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-<script src="./dist/jquery.uploader.min.js"></script>
+</head>
 <style>
-p {
-	font-weight: 600;
-	font-size: 10px;
-}
-
-.insertArea, form {
+.form .grid {
 	margin-top: 50px;
-	width: 100%;
-}
-
-#contentImgArea0:hover, #contentImgArea1:hover {
-	cursor: pointer;
-	background: rgba(0, 0, 0, 0.8);
-	color: #fff;
-	transition-duration: 0.5s;
-}
-
-#contentImgArea0, #contentImgArea1 {
-	width: 90px;
-	height: 90px;
 	display: flex;
-	flex-direction: column;
-	border: 2px solid darkgray;
-	text-align: center;
-	margin: auto;
-	margin-top: 70px;
-	margin-bottom: 70px;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	gap: 20px;
 }
 
-.material-symbols-outlined {
-	font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
-	font-size: 20px;
+.form .grid .form-element {
+	width: 200px;
+	height: 200px;
+	box-shadow: 0px 0px 20px 5px rgba(100, 100, 100, 0.1);
+}
+
+.form .grid .form-element input {
+	display: none;
+}
+
+.form .grid .form-element img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.form .grid .form-element div {
+	position: relative;
+	height: 40px;
+	margin-top: -40px;
+	background: rgba(0, 0, 0, 0.5);
 	text-align: center;
+	line-height: 40px;
+	font-size: 13px;
+	color: #f5f5f5;
+	font-weight: 600;
+}
+
+.form .grid .form-element div span {
+	font-size: 40px;
 }
 </style>
 <body>
@@ -99,25 +100,108 @@ p {
 				</div>
 			</div>
 
+			<div class="uk-margin">
+				<div class="uk-child-width-1-2 uk-grid"uk-grid">
+					<div id="productImgArea">
+						<div id="productImgLayout" class="uk-background-image@m uk-background-default uk-height-large uk-panel uk-flex uk-flex-center uk-flex-middle">
+							<i id="contentImg0" class="material-icons">add_a_photo</i>
+							<h3 class="m-a">상품사진 업로드 클릭</h3>
+						</div>
+					</div>
 
-			<div class="uk-inline">
-			<ul>
-        <li>
-            <i>Multiple File Upload</i>
-            <input type="text" id="demo1" value="">
-        </li>
-        <li>
-            <i>Single File Upload</i>
-            <input type="text" id="demo2" value="">
-        </li>
-        <li>
-            <i>With preselected Files</i>
-            <input type="text" id="demo3" value="">
-        </li>
-    </ul>
-			
-			
+					<div id="fileArea1">
+						<input type="file" id="productImg" name="productImg">
+					</div>
+					<script>
+						$(function() {
+							$('#fileArea1').hide();
+							$('#productImgArea').click(function() {
+								$('#productImg').click();
+								$('#productImgLayout').empty();
+							});
+						});
+						
+						$(document).ready(function(){
+							$('#productImg').on('change',handleImgsFileSelect1);
+						});
+						
+						function handleImgsFileSelect1(e){
+							var files = e.target.files;
+							var filesArr = Array.prototype.slice.call(files);
+							
+							filesArr.forEach(function(f){
+								if(!f.type.match("image.*")){
+									alert("확장자는 이미지 확장자만 가능합니다.");
+									return;
+								}
+								var reader = new FileReader();
+								reader.onload = function(e) {
+									var imgTag = $("<img>");
+									imgTag.attr("uk-cover");
+									imgTag.css({"width":"540px", "height":"450px"})
+									imgTag.attr("src", e.target.result);
+									$("#productImgLayout").append(imgTag);
+								}
+								reader.readAsDataURL(f);
+							});
+						}
+					</script>
+					
+					<div id="nutInfoImgArea">
+						<div id="nutInfoImgLayout" class="uk-background-image@m uk-background-default uk-height-large uk-panel uk-flex uk-flex-center uk-flex-middle">
+							<i id="contentImg2" class="material-icons">add_a_photo</i>
+							<h3 class="m-a">상세보기 사진 업로드 클릭</h3>
+						</div>
+					</div>
+
+					<div id="fileArea2">
+						<input type="file" id="nutInfoImg" name="nutInfoImg">
+					</div>
+					<script>
+						$(function() {
+							$('#fileArea2').hide();
+							$('#nutInfoImgArea').click(function() {
+								$('#nutInfoImg').click();
+								$('#nutInfoImgLayout').empty();
+							});
+						});
+						
+						$(document).ready(function(){
+							$('#nutInfoImg').on('change',handleImgsFileSelect2);
+						});
+						
+						function handleImgsFileSelect2(e){
+							var files = e.target.files;
+							var filesArr = Array.prototype.slice.call(files);
+							
+							filesArr.forEach(function(f){
+								if(!f.type.match("image.*")){
+									alert("확장자는 이미지 확장자만 가능합니다.");
+									return;
+								}
+								var reader = new FileReader();
+								reader.onload = function(e) {
+									var imgTag = $("<img>");
+									imgTag.attr("uk-cover");
+									imgTag.css({"width":"540px", "height":"450px"})
+									imgTag.attr("src", e.target.result);
+									$("#nutInfoImgLayout").append(imgTag);
+								}
+								reader.readAsDataURL(f);
+							});
+						}
+					</script>
+
+
+				</div>
+
+
+
+
+
 			</div>
+
+
 			<div class="uk-text-center submit">
 				<button class="btn btn-outline b-warning text-warning" onclick="location.href='javascript:history.go(-1);'">취소</button>
 				<button class="btn btn-outline b-primary text-primary">등록</button>
@@ -149,6 +233,10 @@ p {
 			$(this).height(1).height($(this).prop('scrollHeight'));
 		});
 	</script>
+
+
+
+
 
 	<!-- build:js scripts/app.html.js -->
 	<!-- jQuery -->

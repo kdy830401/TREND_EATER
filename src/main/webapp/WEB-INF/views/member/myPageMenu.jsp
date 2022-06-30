@@ -10,66 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
 <script src="${ contextPath}/resources/js/jquery-3.6.0.min.js"></script>
 <style>
-/*탭 메뉴*/
-* {
-	box-sizing: border-box
-}
-
-body {
-	font-family: "Lato", sans-serif;
-}
-
-/*탭전체 아래로 내리기*/
-.tabdiv {
-	margin-top: 50px;
-}
-
-/* Style the tab */
-.tab {
-	float: left;
-	/*   border: 1px solid #ccc; */
-	/*  background-color: white; */
-	width: 200px;
-	height: 150px;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-	display: block;
-	background-color: inherit;
-	color: black;
-	padding-left: 16px;
-	width: 200px;
-	/*  border: none; */
-	outline: none;
-	text-align: left;
-	cursor: pointer;
-	transition: 0.3s;
-	font-size: 14px;
-	border: 1px solid #ccc;
-	height: 55px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-	background-color: #F5F5F5;
-}
-
-/* Create an active/current "tab button" class */
-.tab button.active {
-	background-color: #F5F5F5;
-}
-
-/* Style the tab content */
-.tabcontent {
-	float: top;
-	padding: 0px 10px;
-	/*  border: 1px solid #ccc; */
-	width: 70%;
-	border-left: none;
-	/*  height: 500px; */
-}
-
 
 </style>
 </head>
@@ -140,7 +80,7 @@ body {
 						<a href="#">내 정보 수정</a>
 					</li>
 					<li>
-						<a href="myApplytaste.me">나의 시식 신청</a>
+						<a href="myApplyTaste.me">나의 시식 신청</a>
 					</li>
 					<li>
 						<a href="#">내 리뷰</a>
@@ -163,12 +103,11 @@ body {
 				</ul>
 			</aside>
 
-			<div class="uk-container" uk-scrollspy="cls:uk-animation-fade">
-				<div class="uk-grid" uk-grid>
+			<div class="uk-container uk-width-expand" uk-scrollspy="cls:uk-animation-fade">
 
-					<!-- 여기 사이에다가 넣기! -->
+				<!-- 여기 사이에다가 넣기! -->
 
 
-					<!-- ------------------------------------------------여기까지 넣어야함------------------------------------------------------------------->
+				<!-- ------------------------------------------------여기까지 넣어야함------------------------------------------------------------------->
 </body>
 </html>

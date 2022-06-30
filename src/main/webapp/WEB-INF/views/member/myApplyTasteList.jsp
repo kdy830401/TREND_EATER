@@ -3,19 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- uikit -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
+
 
 </style>
 </head>
 <body>
-	<c:import url="myPageMenu.jsp"/>
+	<c:import url="myPageMenu.jsp"></c:import>
 
-
-					<div class="uk-width-auto uk-align-center">
+					<div class="uk-align-center">
 						<h4 class="uk-text-bold">나의 시식 신청</h4>
 						<hr class="hr1">
 						
@@ -56,8 +54,8 @@
 					
 				</div>
 			</div>
+			
 		</div>
-	</div>
 
 
 
