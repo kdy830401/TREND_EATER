@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="productMapper">
+	<insert id="registerProduct" statementType="CALLABLE">
+		{#{result, mode=OUT, jdbcType=INTEGER} = call insertproductfn(#{product.productName}, #{product.productPrice}, #{product.productStock}, #{product.productOneLine}, 
+		#{product.productType}, #{product.boardContent}, #{product.adminId})}
+	</insert>
+	
+
+	
+	<!-- insert all (함수를 생성해서 불러와야하는데 실패. 시간날때 재도전) -->
+<!-- 	<insert id="registerProductImage" statementType="CALLABLE"> -->
+<!-- 		<foreach item="item" collection="list" index="index" open="INSERT ALL" close="select * from dual"> -->
+<!-- 		into image values -->
+<!-- 			(get_seq_ino('seq_ino'), #{item.changeName}, #{item.originName}, #{item.filePath}, default, #{item.fileLevel}, #{item.fileType}, #{item.boardType}, #{item.identifyNo}) 		  -->
+<!-- 		</foreach> -->
+		
+<!-- 	</insert> -->
+
+	<!-- union all 방식 -->
+	<insert id="registerProductImage">
+		insert into image
+		select seq_ino.nextval, A.*, seq_pid.currval from(
+		<foreach item="item" collection="list" index="index" separator="union all">
+			select #{item.changeName} as CHANGE_NAME, 
+				   #{item.originName} as ORIGIN_NAME,
+				   #{item.filePath} as FILE_PATH,
+				   sysdate as UPLOAD_DATE,
+				   #{item.fileLevel} as FILE_LEVEL,
+				   #{item.fileType} as FILE_TYPE,
+				   #{item.boardType} as BOARD_TYPE
+<!-- 				   #{item.identifyNo} as IDENTIFY_NO -->
+		   from dual 		 
+		</foreach>
+		) A
+	</insert>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*) 
+		from pList
+		order by product_no desc
+	</select>
+	
+	<select id="getProductList" resultMap="productResultSet">
+		select * 
+		from pList
+		order by product_no desc
+	</select>
+	
+	<resultMap type="product" id="productResultSet">
+		<id column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="PRODUCT_STOCK" property="productStock"/>
+		<result column="PRODUCT_ONELINE" property="productOneLine"/>
+		<result column="PRODUCT_TYPE" property="productType"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="BOARD_STATUS" property="boardStatus"/>
+		<result column="ADMIN_ID" property="adminId"/>
+		<result column="ADMIN_NAME" property="adminName"/>
+		
+		<result column="TOTAL_AVG" property="totalAvg"/>
+		<result column="RECOMMEND_AVG" property="recommendAvg"/>
+		<result column="REORDER_AVG" property="reorderAvg"/>
+		<result column="SPICY_AVG" property="spicyAvg"/>
+		<result column="SWEET_AVG" property="sweetAvg"/>
+		<result column="BITTER_AVG" property="bitterAvg"/>
+		<result column="SALTY_AVG" property="saltyAvg"/>
+		<result column="SOUR_AVG" property="sourAvg"/>
+	
+	</resultMap>
+	
+	<select id="getProductImgList" resultMap="imageResultSet">
+		select *
+		from image
+		where board_type = 1
+	</select>
+	
+	<resultMap type="image" id="imageResultSet">
+		<id column="IMAGE_NO" property="imageNo"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="FILE_LEVEL" property="fileLevel"/>
+		<result column="FILE_TYPE" property="fileType"/>
+		<result column="IDENTIFY_NO" property="identifyNo"/>
+	</resultMap>
+
+
+</mapper>

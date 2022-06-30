@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.fpj.trendeater.admin.model.vo.Product" alias="product"/>
+		<typeAlias type="com.fpj.trendeater.admin.model.vo.Image" alias="image"/>
+		<typeAlias type="com.fpj.trendeater.admin.model.vo.Admin" alias="Admin"/>
+		<typeAlias type="com.fpj.trendeater.admin.model.vo.ApplyTaste" alias="ApplyTaste"/>
+		<typeAlias type="com.fpj.trendeater.admin.model.vo.ProductRequest" alias ="ProductRequest"/>
+		<typeAlias type="com.fpj.trendeater.member.model.vo.Member" alias ="Member"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="mappers/product-mapper.xml"/>
+		<mapper resource="mappers/board-mapper.xml"/>
+		<mapper resource="mappers/member-mapper.xml"/>
+   		<mapper resource="mappers/admin-mapper.xml"/>
+	</mappers>
+
+</configuration>

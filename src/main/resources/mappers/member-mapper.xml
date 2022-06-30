@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace ="memberMapper">
+  
+  <!-- 회원가입 -->
+  <insert id="insertMember">
+  insert into member
+  values (#{email},#{pwd},#{name},#{nickName},#{phone},#{birthday},#{gender},'Y',sysdate,sysdate,#{address},null,
+  #{radio3},#{radio4},#{radio5},0,null,null,null,1)
+  </insert>
+  
+  
+  <!-- 아이디 찾기 -->
+  <select id="findId" resultMap ="memberResultSet">
+  select * from member
+  where user_name = #{name} and phone = #{phone}
+
+  </select>
+  
+  
+  <!-- 로그인 중요!!!!!!!! -->
+  <!-- select할 때 비밀번호로 검색하지않는 이유는 입력한 비밀번호는 그대로의 비밀번호인데 db에 있는 비밀번호는 암호화되어있는거라서 검색못함.
+    그러므로 검색은 id로만 하고 controller에서 입력한 비밀번호와 디비에서 검색된 결과 행의 암호화된 비밀번호를 따로 비교하는 것임 -->
+  <select id="loginMember" resultMap="memberResultSet">
+  select * from member
+  where EMAIL_ID = #{email} and MEMBER_STATUS ='Y' and LOGIN_TYPE = 1
+  </select>
+  
+  <update id="findPwd">
+  update member 
+  set user_pwd = #{newpw}
+  where email_id = #{email} 
+
+  </update>
+  
+  
+  <select id="emailcheck2" resultType="_int">
+  select count(*)
+  from member
+  where email_id = #{email}
+  </select>
+  
+  
+  <resultMap type="Member" id="memberResultSet">
+  <id column = "EMAIL_ID" property = "email"/>
+  <result column = "USER_PWD" property = "pwd"/>
+  <result column = "USER_NAME" property = "name"/>
+  <result column = "NICKNAME" property ="nickName"/>
+  <result column = "PHONE" property = "phone"/>
+  <result column = "BIRTH_DATE" property = "birthday"/>
+  <result column = "GENDER" property = "gender"/>
+  <result column = "MEMBER_STATUS" property ="status"/>
+  <result column = "CREATE_DATE" property = "createDate"/>
+  <result column = "MODIFY_DATE" property = "modifyDate"/>
+  <result column = "ADDRESS" property = "address"/>
+  <result column = "POINT"  property = "point"/>
+  <result column = "FLAVOR1" property = "radio3"/>
+  <result column = "FLAVOR2" property = "radio4"/>
+  <result column = "FLAVOR3" property = "radio5"/>
+  <result column = "REPORT_COUNT" property = "reportCount"/>
+  <result column = "PROFILE_PATH" property = "profilePath"/>
+  <result column = "ORIGIN_NAME" property = "originName"/>
+  <result column = "CHANGE_NAME" property = "changeName"/>
+  <result column = "LOGIN_TYPE" property = "loginType"/>
+  </resultMap>
+  
+  
+  
+  <update id="updateInfo">
+  
+  
+  update member
+  set 
+<if test = "pwd != null">
+  user_pwd = #{pwd} , 
+ </if>  
+  user_name = #{name}, nickname = #{nickName}, phone = #{phone}, birth_date = #{birthday}
+  , gender = #{gender}, modify_Date = sysdate , address = #{address}, flavor1 = #{radio3}, flavor2 = #{radio4}
+ , flavor3 = #{radio5}
+ 
+ <if test = "originName != null">
+ , origin_name = #{originName}
+  </if>  
+  <if test = "changeName != null">
+  , change_name = #{changeName}
+  </if>
+ where email_id = #{email}
+
+  
+  </update>
+  
+  
+  <select id="selectMember" resultMap="memberResultSet">
+  
+  
+  select * from member
+  where email_id = #{email} and login_type = 1 and MEMBER_STATUS ='Y'
+  </select>
+  
+  
+  
+  <!-- 카카오로 회원가입 되어있는지 확인 -->
+  <select id="countkakao" resultType="_int">
+  select count(*)
+  from member
+  where email_id = #{email} and login_type = 2
+  
+  </select>
+  
+  
+  
+  
+  <!-- 일반으로 회원가입 되어있는지 확인 -->
+  <select id="countmember" resultType="_int">
+  select count(*)
+  from member
+  where email_id = #{email} and login_type = 1
+  
+  </select>
+  
+  
+  <!-- 카카오 로그인 정보 가져오기-->
+  <select id="selectkakao" resultMap="memberResultSet">
+  select *
+  from member
+  where email_id = #{email} and login_type = 2 and member_status = 'Y'
+  </select>
+  
+  
+ 	<!-- 카카오 회원가입 -->
+  <insert id="insertkakaomember">
+  insert into member
+  values (#{email},#{pwd},#{name},#{nickName},#{phone},#{birthday},#{gender},'Y',sysdate,sysdate,#{address},null,
+  #{radio3},#{radio4},#{radio5},0,null,null,null,2)
+  </insert>
+
+</mapper>
