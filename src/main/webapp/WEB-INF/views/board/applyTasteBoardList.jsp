@@ -35,7 +35,7 @@
 
 <style>
 .uk-breadcrumb>:nth-child(n+2):not(.uk-first-column)::before {
-	margin: 0 5px 0 calc(5px - 4px)
+	margin: 0 5px 0 calc(5px - 4px);
 }
 
 .uk-overlay-primary {
@@ -57,15 +57,15 @@
 	font-weight: 500;
 }
 
-li {
+.li {
 	display: inline-block;
-	font-size: 1.5em;
+	font-size: 0.5em;
 	list-style-type: none;
 	padding: 1em;
 	text-transform: uppercase;
 }
 
-li span {
+.li span {
 	display: block;
 }
 
@@ -109,11 +109,11 @@ li span {
 <body>
 	<c:import url="../common/menubar.jsp" />
 
-	<div class="uk-container m-a-lg">
+	<div class="uk-container uk-margin-large">
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">시식신청 게시판</h2>
 	</div>
 
-	<div class="uk-container m-a-lg">
+	<div class="uk-container uk-margin-large">
 		<div class="uk-child-width-1-3@m" uk-grid uk-height-match="target: > div > .uk-card">
 			<c:if test="${ empty aList}">
 				<div class="uk-align-center">
@@ -149,37 +149,37 @@ li span {
 								<input type="hidden" value="${ a.endDate }" name="dDay">
 								<div class="countdown">
 									<ul class="uk-padding-remove uk-text-center">
-										<li class="uk-text-small uk-text-light uk-text-muted uk-margin-remove uk-padding-remove">
+										<li class="li uk-text-small uk-text-light uk-text-muted uk-margin-remove uk-padding-remove">
 											days
 											<span class="days uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
 										</li>
-										<li class="uk-margin-remove uk-padding-remove">
+										<li class="li uk-margin-remove uk-padding-remove">
 											<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
 										</li>
-										<li class="uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
+										<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
 											Hours
 											<span class="hours uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
 										</li>
-										<li class="uk-margin-remove uk-padding-remove">
+										<li class="li uk-margin-remove uk-padding-remove">
 											<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
 										</li>
-										<li class="uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
+										<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
 											Minutes
 											<span class="minutes uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
 										</li>
-										<li class="uk-margin-remove uk-padding-remove">
+										<li class="li uk-margin-remove uk-padding-remove">
 											<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
 										</li>
-										<li class="uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
+										<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
 											Seconds
 											<span class="seconds uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
 										</li>
 									</ul>
 								</div>
 								<div>
-									<a class="uk-button uk-button-small uk-button-default waves-effect waves-red" href="#modal-overflow_${ a.tasteNo }" uk-toggle>신청하기</a>
-									<a class="uk-button uk-button-small uk-button-default waves-effect waves-red" href='prbdetail.bo?pno=${ a.productNo }'>제품보기</a>
-									<div id="modal-overflow__${ a.tasteNo }" uk-modal>
+									<a class="uk-button uk-button-small uk-button-default" href="#modal-overflow_${ a.tasteNo }" uk-toggle>신청하기</a>
+									<a class="uk-button uk-button-small uk-button-default" href='prbdetail.bo?pno=${ a.productNo }'>제품보기</a>
+									<div id="modal-overflow_${ a.tasteNo }" uk-modal>
 										<div class="uk-modal-dialog">
 
 											<button class="uk-modal-close-default" type="button" uk-close></button>
@@ -321,6 +321,36 @@ li span {
 			});
 		}());
 	</script>
+	<!-- build:js scripts/app.html.js -->
+	<!-- jQuery -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery/dist/jquery.js"></script>
+	<!-- Bootstrap -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/tether/dist/js/tether.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- core -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/underscore/underscore-min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/PACE/pace.min.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/config.lazyload.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/palette.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-load.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-jp.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-include.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
+
+	<!-- ajax -->
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
+	<!-- endbuild -->
 
 </body>
 </html>

@@ -524,6 +524,12 @@ public class MemberController {
 	    }
 		 
 		 
+		//*****김대열*****//
+	@RequestMapping("myApplyTaste.me")
+	public String myApplyTasteView() {
+		
+		return "myApplyTasteList";
+	}
 		 
 		 
 		 
