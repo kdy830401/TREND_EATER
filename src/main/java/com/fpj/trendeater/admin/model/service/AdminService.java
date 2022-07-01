@@ -39,7 +39,12 @@ public interface AdminService {
 	
 	ArrayList<ProductRequest> selectRequestProductList();
 	
+	int updateProduct(Product product);
+
 	int delImage(int imgNo);
+	
+	// 상품 게시물 삭제
+	int deleteProductBoard(HashMap<String, Object> map);
 	
 	//####################김주희
 	
@@ -68,7 +73,7 @@ public interface AdminService {
 	//아이디 중복확인
 	int adminCount(Admin admin);
 
-	int updateProduct(Product product);
+	
 
 
 

@@ -371,13 +371,13 @@ public class AdminController {
 								@RequestParam(value="nutInfoImg", required=false) MultipartFile nutInfoImg,
 								HttpServletRequest request) {
 		
-		System.out.println(product);
-		System.out.println(delProductImgNo);
-		System.out.println(delProductImgName);
-		System.out.println(delNutInfoImgNo);
-		System.out.println(delNutInfoImgName);
-		System.out.println(productImg);
-		System.out.println(nutInfoImg);
+//		System.out.println(product);
+//		System.out.println(delProductImgNo);
+//		System.out.println(delProductImgName);
+//		System.out.println(delNutInfoImgNo);
+//		System.out.println(delNutInfoImgName);
+//		System.out.println(productImg);
+//		System.out.println(nutInfoImg);
 		
 		String savePath = null;
 		ArrayList<Image> imgList = new ArrayList<>();
@@ -454,6 +454,7 @@ public class AdminController {
 		}
 	}
 	
+	// 파일삭제 메소드
 	public void deleteFile(String fileName, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/productImgUploadFiles";
@@ -463,6 +464,27 @@ public class AdminController {
 			f.delete();
 		}
 	}
+	
+	// 상품게시글 삭제
+	@RequestMapping("deleteProductBoard.ad")
+	public void deleteProductBoard(@RequestParam("bool") String bool, 
+								   @RequestParam("pno") int pno,
+								   HttpServletResponse response) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("pno", pno);
+		map.put("bool", bool);
+		
+		int result = aService.deleteProductBoard(map);
+		
+		try {
+			PrintWriter pw = response.getWriter();
+			pw.print(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	////###############
 	

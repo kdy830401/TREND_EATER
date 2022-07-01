@@ -52,7 +52,6 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public ArrayList<Image> getProductImgList() {
-		// TODO Auto-generated method stub
 		return aDAO.getProductImgList(sqlSession);
 	}
 	
@@ -99,6 +98,13 @@ public class AdminServiceImpl implements AdminService{
 	public int updateProduct(Product product) {
 		return aDAO.updateProduct(sqlSession, product);
 	}
+	
+	// 상품 게시물 삭제
+	@Override
+	public int deleteProductBoard(HashMap<String, Object> map) {
+		return aDAO.deleteProductBoard(sqlSession, map);
+	}
+
 
 
 	// 김대열 끝
@@ -164,6 +170,7 @@ public class AdminServiceImpl implements AdminService{
 		
 		return aDAO.adminCount(sqlSession,admin);
 	}
+
 
 
 

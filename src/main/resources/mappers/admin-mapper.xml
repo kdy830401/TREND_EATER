@@ -98,9 +98,6 @@
 
 
 
-
-
-
 	<!-- 상품 테이블 등록 및 상품 게시판 테이블 등록 -->
 	<insert id="registerProduct" statementType="CALLABLE">
 		{#{result, mode=OUT,
@@ -310,6 +307,16 @@
 		#{product.productStock}, #{product.productOneLine},
 		#{product.productType}, #{product.boardContent}, #{product.adminId})}
 	</update>
-
+	
+	<update id="deleteProductBoard">
+		update pr_board
+		<if test="bool.equals('true')">
+		set board_status = 'Y'
+		</if>
+		<if test="bool.equals('false')">
+		set board_status = 'N'
+		</if>
+		where product_no = #{pno}
+	</update>
 
 </mapper>
