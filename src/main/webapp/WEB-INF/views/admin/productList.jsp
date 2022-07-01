@@ -30,34 +30,38 @@
 	<!-- ############ PAGE START 여기에 내용 넣어주세요 -->
 	<div class="uk-container uk-tile uk-tile-default uk-padding-small">
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">상품관리</h2>
-		<form class="uk-child-width-auto " uk-grid>
-			<div class="uk-align-center">
-<!-- 				<div class="uk-align-center"> -->
-<!-- 					<div class="uk-inline"> -->
-<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01"> -->
-<!-- 					</div> -->
-<!-- 					<span>~</span> -->
-<!-- 					<div class="uk-inline"> -->
-<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01"> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-				<div class="uk-inline">
-					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition">
-						<option value="" disabled selected>검색조건을 선택하세요</option>
-						<option value="requestProduct">제품명</option>
-						<option value="manufacturer">제조사</option>
-					</select>
-				</div>
+		<div class="margin uk-width-1-1">
+			<form class="uk-text-center">
+				<!-- 			<div class="inline"> -->
+				<!-- 				<div class="uk-align-center"> -->
+				<!-- 					<div class="uk-inline"> -->
+				<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01"> -->
+				<!-- 					</div> -->
+				<!-- 					<span>~</span> -->
+				<!-- 					<div class="uk-inline"> -->
+				<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01"> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
+				<!-- 				<div class="uk-inline"> -->
+				<!-- 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition"> -->
+				<!-- 						<option value="" disabled selected>검색조건을 선택하세요</option> -->
+				<!-- 						<option value="requestProduct">제품명</option> -->
+				<!-- 						<option value="manufacturer">제조사</option> -->
+				<!-- 					</select> -->
+				<!-- 				</div> -->
 				<div class="uk-inline">
 					<a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search"></a>
-					<input class="uk-input uk-width-medium" id="seachValue" type="search" placeholder="검색어 입력">
+					<input class="uk-input uk-width-medium" id="seachValue" type="search" placeholder="상품명 입력">
 				</div>
-				<div class="uk-inline">
-					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button>
-				</div>
-			</div>
-		</form>
-		<button class="btn btn-outline rounded b-warning text-warning uk-align-center" id="registerProduct">상품등록</button>
+				<!-- 				<div class="uk-inline"> -->
+				<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
+				<!-- 				</div> -->
+				<!-- 			</div> -->
+			</form>
+		</div>
+		<div class="margin uk-width-1-1">
+			<button class="btn btn-outline rounded b-warning text-warning uk-align-center" id="registerProduct">상품등록</button>
+		</div>
 		<script>
 			$(function() {
 				$('#registerProduct').on('click', function() {
@@ -117,27 +121,62 @@
 						<td>${ p.adminName }</td>
 						<td>
 							<form id="productForm${ p.productNo }" action="updateProductForm.ad" method="POST">
-							<a class="uk-margin-small-right edit" href="javascript:void(0)" onclick="edit(this)" uk-icon="pencil"></a>
-							<input type="hidden" name="productNo" value="${ p.productNo }">
-							
-							<script>
+								<a class="uk-margin-small-right edit" href="javascript:void(0)" onclick="edit(this)" uk-icon="pencil"></a>
+								<input type="hidden" name="productNo" value="${ p.productNo }">
+
+								<script>
 								function edit(e){
 									var formId = "productForm" + $(e).next().val();
 									var $selectForm = $('#'+ formId);
 									$selectForm.submit();
 								}
 							</script>
-							
-							
-							<a href="" uk-icon="trash"></a>
+
+
+								<a href="" uk-icon="trash"></a>
 							</form>
 						</td>
 						<td>
-							<label class="ui-switch warning m-t-xs m-r">
-								<input type="checkbox" checked="" class="has-value">
-								<i></i>
-							</label>
+							<c:if test="${ p.boardStatus == 'Y'}">
+								<label class="ui-switch warning m-t-xs m-r">
+									<input type="checkbox" name="boardStatus" checked id="boardStatus${ p.productNo }" class="has-value status">
+									<i></i>
+								</label>
+							</c:if>
+							<c:if test="${ p.boardStatus == 'N'}">
+								<label class="ui-switch warning m-t-xs m-r">
+									<input type="checkbox" name="boardStatus" id="boardStatus${ p.productNo }" class="has-value status">
+									<i></i>
+								</label>
+							</c:if>
+							<script>
+							var $inputStatus = $('#boardStatus'+${ p.productNo });
+							console.log($inputStatus);
+							$inputStatus.on('change', function(){
+								var pno = $(this).parent().parent().parent().children().eq(0).text();
+								console.log(pno);
+								
+								var bool = $(this).is(":checked");
+								console.log(bool);
+								
+								$.ajax({
+									url: 'deleteProductBoard.ad',
+									data: {bool:bool, pno:pno},
+									type: 'post',
+									success: function(data){
+										console.log(data);
+									},
+									error: function(data){
+										console.log(data);
+									}
+								});
+								
+							});
+	
+							
+						</script>
 						</td>
+
 						<td class='registerTaste'>
 							<input type="hidden" name="pno" value="${ p.productNo }">
 							<button class="btn btn-sm white tasteBtn" data-toggle="modal" data-target="#m-a-a_${ p.productNo }" ui-toggle-class="fade-down" ui-target="#animate">등록</button>
@@ -178,12 +217,12 @@
 		<script>
 			$(function() {
 				var btn = $('.tasteBtn');
-				console.log(btn);
+// 				console.log(btn);
 				btn.each(function(index, element) {
 					var checkBtn = $(this);
 					var productNo = $(this).parent().parent().children().eq(0)
 							.text();
-					console.log(productNo);
+// 					console.log(productNo);
 					$.ajax({
 						url : 'checkTasteIng.ad',
 						data : {

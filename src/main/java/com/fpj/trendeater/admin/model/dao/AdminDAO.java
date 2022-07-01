@@ -105,6 +105,11 @@ public class AdminDAO {
 				
 		return result;
 	}
+	
+	// 상품 게시물 삭제
+	public int deleteProductBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.update("adminMapper.deleteProductBoard", map);
+	}
 
 
 
@@ -155,6 +160,8 @@ public class AdminDAO {
 	
 		return sqlSession.selectOne("adminMapper.adminCount",admin);
 	}
+
+
 
 
 
