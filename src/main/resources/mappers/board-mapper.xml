@@ -84,6 +84,7 @@
 		<result column="BOARD_STATUS" property="boardStatus"/>
 		<result column="ADMIN_ID" property="adminId"/>
 	</resultMap>
+	
 
 <!-- notice 쓰기  -->
 	<insert id="insertBoard">
@@ -104,6 +105,20 @@
 		set board_status = 'N'
 		where admin_id = #{adminId}
 	</update>
+	
+<!-- notice 상세보기 -->	
+	<update id="addReadCount">
+		update board
+		set board_count = board_count + 1
+		where board_no = #{bId}
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		select *
+		from board
+			<!-- join member on (board_writer = id) -->
+		where board_no = #{bId} and board_status = 'Y'
+	</select>
  
  
 <!-- QnA 읽기(조회) : 페이징처리1 - 총게시물 --> 

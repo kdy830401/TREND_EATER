@@ -274,7 +274,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping("boardQnaUpdateForm.bo") 
-	public String updateBoardQna(@ModelAttribute BoardQnA b, @RequestParam("page") int page,
+	public String updateBoardQna(
+			@ModelAttribute BoardQnA b, /* @RequestParam("page") int page, */
 									HttpSession session) {  
 		
 		String id = ((Member)session.getAttribute("loginUser")).getEmail();

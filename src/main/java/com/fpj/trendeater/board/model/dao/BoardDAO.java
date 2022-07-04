@@ -29,13 +29,11 @@ public class BoardDAO {
 	
 	// Notice 읽기(조회) - 페이징처리1 :총게시물수 가져오기
 	public int getListCount(SqlSessionTemplate sqlSession) {
-		
 		return sqlSession.selectOne("boardMapper.getListCount");
 	}
 
 	// Notice 읽기(조회) - 페이징처리2 : 원하는 게시판 번호 조회
 	public ArrayList<Board> getBoardList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());  // 임포트 RowBounds 
 		
@@ -43,6 +41,9 @@ public class BoardDAO {
 	}
 	
 	// Notice 상세보기
+	public int addReadCount(SqlSessionTemplate sqlSession, int bId) {
+		return sqlSession.update("boardMapper.addReadCount",bId);
+	}
 	public Board selectBoard(SqlSessionTemplate sqlSession, int bId) {
 		return sqlSession.selectOne("boardMapper.selectBoard",bId);
 	}

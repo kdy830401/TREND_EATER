@@ -104,7 +104,8 @@ pageEncoding="UTF-8"%>
 	                    </ul>
 	                    <div class="QnaToggleOpen_Button">
 	                        <button type="submit" name="page" value="${pi.currentPage}" 
-	                        		onclick="location.href='boardQnaUpdateForm.bo?page='+ ${pi.currentPage}">수정</button>
+	                        		onclick="location.href='boardQnaUpdateForm.bo'">수정</button>
+	                        		<%-- onclick="location.href='boardQnaUpdateForm.bo?page='+ ${pi.currentPage}">수정</button> --%>
 	                        <button type="submit" name="page" value="${pi.currentPage}" id="boardQnaDelete"
 	                        		onclick="boardQnaDelete()">삭제</button>
 	                        <%-- <button type="submit" name="page" value="${pi.currentPage}" onclick="location.href='boardQnaDeleteForm.bo'">삭제</button> --%>
