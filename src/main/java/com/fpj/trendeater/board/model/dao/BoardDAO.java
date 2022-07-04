@@ -20,4 +20,10 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectPrImage", pno);
 	}
 
+	
+	
+	
+	
+	// test5
+	
 }
