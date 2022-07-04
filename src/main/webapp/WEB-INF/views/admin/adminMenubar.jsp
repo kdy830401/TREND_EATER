@@ -111,7 +111,7 @@ a:hover {
 								</a>
 								<ul class="nav-sub">
 									<li>
-										<a href="#">
+										<a href="prbAdminList.ad">
 											<span class="nav-text">제품/리뷰 게시판</span>
 										</a>
 									</li>
@@ -126,7 +126,7 @@ a:hover {
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="applyPersonList.ad">
 											<span class="nav-text">시식 신청 리스트</span>
 										</a>
 									</li>

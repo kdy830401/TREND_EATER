@@ -9,14 +9,16 @@ public class Product {
 	private int productStock;
 	private String productOneLine;
 	private int productType;
+	private String productStatus;
 	private String boardContent;
 	private Date createDate;
 	private Date modifyDate;
 	private int boardCount;
+	private String reviewCount;
 	private String boardStatus;
 	private String adminId;
 	private String adminName;
-	
+
 	private double totalAvg;
 	private double recommendAvg;
 	private double reorderAvg;
@@ -25,13 +27,12 @@ public class Product {
 	private double bitterAvg;
 	private double saltyAvg;
 	private double sourAvg;
-	
-	public Product() {}
 
-	public Product(int productNo, String productName, int productPrice, int productStock, String productOneLine,
-			int productType, String boardContent, Date createDate, Date modifyDate, int boardCount, String boardStatus,
-			String adminId, String adminName, double totalAvg, double recommendAvg, double reorderAvg, double spicyAvg,
-			double sweetAvg, double bitterAvg, double saltyAvg, double sourAvg) {
+	public Product() {
+	}
+
+	public Product(int productNo, String productName, int productPrice, int productStock, String productOneLine, int productType, String productStatus, String boardContent, Date createDate, Date modifyDate, int boardCount, String reviewCount,
+			String boardStatus, String adminId, String adminName, double totalAvg, double recommendAvg, double reorderAvg, double spicyAvg, double sweetAvg, double bitterAvg, double saltyAvg, double sourAvg) {
 		super();
 		this.productNo = productNo;
 		this.productName = productName;
@@ -39,10 +40,12 @@ public class Product {
 		this.productStock = productStock;
 		this.productOneLine = productOneLine;
 		this.productType = productType;
+		this.productStatus = productStatus;
 		this.boardContent = boardContent;
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.boardCount = boardCount;
+		this.reviewCount = reviewCount;
 		this.boardStatus = boardStatus;
 		this.adminId = adminId;
 		this.adminName = adminName;
@@ -104,6 +107,14 @@ public class Product {
 		this.productType = productType;
 	}
 
+	public String getProductStatus() {
+		return productStatus;
+	}
+
+	public void setProductStatus(String productStatus) {
+		this.productStatus = productStatus;
+	}
+
 	public String getBoardContent() {
 		return boardContent;
 	}
@@ -134,6 +145,14 @@ public class Product {
 
 	public void setBoardCount(int boardCount) {
 		this.boardCount = boardCount;
+	}
+
+	public String getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(String reviewCount) {
+		this.reviewCount = reviewCount;
 	}
 
 	public String getBoardStatus() {
@@ -226,17 +245,12 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice
-				+ ", productStock=" + productStock + ", productOneLine=" + productOneLine + ", productType="
-				+ productType + ", boardContent=" + boardContent + ", createDate=" + createDate + ", modifyDate="
-				+ modifyDate + ", boardCount=" + boardCount + ", boardStatus=" + boardStatus + ", adminId=" + adminId
-				+ ", adminName=" + adminName + ", totalAvg=" + totalAvg + ", recommendAvg=" + recommendAvg
-				+ ", reorderAvg=" + reorderAvg + ", spicyAvg=" + spicyAvg + ", sweetAvg=" + sweetAvg + ", bitterAvg="
-				+ bitterAvg + ", saltyAvg=" + saltyAvg + ", sourAvg=" + sourAvg + "]";
+		return "Product [productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice + ", productStock=" + productStock + ", productOneLine=" + productOneLine + ", productType=" + productType + ", productStatus="
+				+ productStatus + ", boardContent=" + boardContent + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", boardCount=" + boardCount + ", reviewCount=" + reviewCount + ", boardStatus=" + boardStatus + ", adminId=" + adminId
+				+ ", adminName=" + adminName + ", totalAvg=" + totalAvg + ", recommendAvg=" + recommendAvg + ", reorderAvg=" + reorderAvg + ", spicyAvg=" + spicyAvg + ", sweetAvg=" + sweetAvg + ", bitterAvg=" + bitterAvg + ", saltyAvg=" + saltyAvg
+				+ ", sourAvg=" + sourAvg + "]";
 	}
 
+	
 
-	
-	
-	
 }

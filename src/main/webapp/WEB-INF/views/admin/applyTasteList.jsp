@@ -20,15 +20,6 @@
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">시식게시판 관리</h2>
 		<form class="uk-child-width-auto " uk-grid>
 			<div class="uk-align-center">
-				<div class="uk-align-center">
-					<div class="uk-inline">
-						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01">
-					</div>
-					<span>~</span>
-					<div class="uk-inline">
-						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01">
-					</div>
-				</div>
 				<div class="uk-inline">
 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition">
 						<option value="" disabled selected>검색조건을 선택하세요</option>
@@ -66,12 +57,14 @@
 					<th>게시글번호</th>
 					<th>상품번호</th>
 					<th>상품명</th>
-					<th>시식시작일시</th>
-					<th>시식마감일시</th>
+					<th>시작일</th>
+					<th>마감일</th>
 					<th>진행상황</th>
 					<th>작성자</th>
+					<th>신청수</th>
 					<th>수정/삭제</th>
 					<th>시식종료</th>
+					<th>게시여부</th>
 
 				</tr>
 			</thead>
@@ -84,12 +77,13 @@
 						<td>${ p.startDate }</td>
 						<td>${ p.endDate }</td>
 						<c:if test="${ p.tasteIng == 1 }">
-							<td>진행중</td>
+							<td>진행</td>
 						</c:if>
 						<c:if test="${ p.tasteIng == 2 }">
-							<td>종료됨</td>
-						</c:if>
-						<td>${ p.adminName }</td>
+							<td>종료</td>
+						</c:if>						
+						<td>${ p.adminId }</td>
+						<td>${ p.applyCount }</td>
 						<td>
 							<a class="uk-margin-small-right" href="" uk-icon="pencil" data-toggle="modal" data-target="#m-a-a_${ p.tasteNo }" ui-toggle-class="fade-down" ui-target="#animate"></a>
 							<input type="hidden" name="pno" value="${ p.tasteNo }">
@@ -108,15 +102,20 @@
 												<input type="hidden" name="tasteNo" value="${ p.tasteNo }">
 												<div class="uk-margin">
 													<label class="uk-align-left label warning m-b-sm" for="form-s-date">신청 종료일</label>
-													<input class="uk-input" id="form-s-date_" name="endDate" type="date" placeholder="1970-01-01">
+													<input class="uk-input" id="form-s-date_" name="endDate" type="date" placeholder="1970-01-01" value="${ p.endDate }">
 												</div>
 												<div class="uk-margin">
-													<div class="label warning m-b-sm uk-align-left inline">진행상황</div>
+													<div class="label warning m-b-sm uk-align-left inline">상태</div>
 													<div class="uk-margin">
 														<select name="tasteIng" class="uk-select">
-															<option value="" disabled selected>진행상황을 선택하세요</option>
-															<option value="1">진행중</option>
-															<option value="2">종료됨</option>
+														<c:if test="${ p.tasteIng == 1 }">
+															<option value="1" selected="selected">진행</option>
+															<option value="2">종료</option>
+														</c:if>
+														<c:if test="${ p.tasteIng == 2 }">
+															<option value="1">진행</option>
+															<option value="2" selected="selected">종료</option>
+														</c:if>
 														</select>
 													</div>
 
@@ -137,7 +136,42 @@
 
 
 
-							<a href="" uk-icon="trash"></a>
+							<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }" ></a>
+							<script>
+								let selectNo = ${ p.productNo };
+								var $deleteAdmin = $('#delete'+selectNo);
+								console.log($deleteAdmin);
+								
+									$deleteAdmin.on('click', function(){
+										var pno = $(this).parent().parent().children().eq(1).text();
+										console.log(this);
+										var td = $(this).parent().parent();
+										
+										console.log(td);
+										console.log(pno);
+										if(confirm("해당 시식게시정보를 관리자 게시판에서 삭제하시겠습니까?") == true){
+										   $.ajax({
+										      url: 'deleteTasteAdmin.ad',
+										      data: {pno:pno},
+										      type:'post',
+										      success:function(data){
+										          console.log(data);
+										          td.hide();
+										      },
+										      error:function(data){
+										          console.log(data);
+										          
+										      }
+										      
+										   });
+								    
+									} 
+								
+								});
+								    
+							</script>
+							
+							
 						</td>
 						<td>
 							<c:if test="${ p.tasteIng == 1 }">
@@ -148,6 +182,47 @@
 							</c:if>
 
 						</td>
+						<td>
+							<c:if test="${ p.boardStatus == 'Y'}">
+								<label class="ui-switch warning m-t-xs m-r">
+									<input type="checkbox" name="boardStatus" checked id="boardStatus${ p.productNo }" class="has-value status">
+									<i></i>
+								</label>
+							</c:if>
+							<c:if test="${ p.boardStatus == 'N'}">
+								<label class="ui-switch warning m-t-xs m-r">
+									<input type="checkbox" name="boardStatus" id="boardStatus${ p.productNo }" class="has-value status">
+									<i></i>
+								</label>
+							</c:if>
+							<script>
+							let selectNo = ${ p.productNo };
+							var $inputStatus = $('#boardStatus'+selectNo);
+							console.log($inputStatus);
+							$inputStatus.on('change', function(){
+								var pno = $(this).parent().parent().parent().children().eq(1).text();
+								console.log(pno);
+								
+								var bool = $(this).is(":checked");
+								console.log(bool);
+								
+								$.ajax({
+									url: 'deleteTasteBoard.ad',
+									data: {bool:bool, pno:pno},
+									type: 'post',
+									success: function(data){
+										console.log(data);
+									},
+									error: function(data){
+										console.log(data);
+									}
+								});
+								
+							});
+	
+							
+						</script>
+						</td>
 
 					</tr>
 
@@ -156,38 +231,35 @@
 		</table>
 
 		<script>
-			var $endTaste = $('.endTaste');
-			$endTaste.each(function(index, element) {
-				$(this).on(
-						'click',
-						function() {
-							var $thisBtn = $(this);
-							var tasteNo = $(this).parent().parent().children()
-									.eq(0).text();
-							var $tasteIng = $(this).parent().parent()
-									.children().eq(5);
-							console.log(tasteNo);
-							$.ajax({
-								url : 'endApplyTaste.ad',
-								type : 'post',
-								data : {
-									tasteNo : tasteNo
-								},
-								success : function(data) {
-									console.log(data);
-									if (parseInt(data) > 0) {
-										$thisBtn.attr('disabled', true);
-										$thisBtn.text("종료됨");
-										$tasteIng.text("종료됨");
-									}
-								},
-								error : function(data) {
-									console.log(data);
-								}
-							});
-						});
-			});
-		</script>
+            var $endTaste = $('.endTaste');
+            $endTaste.each(function(index, element) {
+                $(this).on('click', function() {
+                    var $thisBtn = $(this);
+                    var tasteNo = $(this).parent().parent().children().eq(0).text();
+                    var $tasteIng = $(this).parent().parent().children().eq(5);
+                    console.log(tasteNo);
+                    $.ajax({
+                        url : 'endApplyTaste.ad',
+                        type : 'post',
+                        data : {
+                            tasteNo : tasteNo
+                        },
+                        success : function(data) {
+                            console.log(data);
+                            if (parseInt(data) > 0) {
+                                $thisBtn.attr('disabled', true);
+                                $thisBtn.text("종료됨");
+                                $tasteIng.text("종료");
+                               	
+                            }
+                        },
+                        error : function(data) {
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+        </script>
 
 
 
@@ -282,7 +354,8 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 

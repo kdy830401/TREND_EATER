@@ -4,7 +4,7 @@
 	
 	<select id="selectPrBoard" resultMap="productResultSet">
 		select *
-		from pList
+		from plist
 		where product_no = #{pno} and board_status = 'Y'
 		
 	</select>
@@ -19,7 +19,9 @@
 		<result column="BOARD_CONTENT" property="boardContent"/>
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
 		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="REVIEW_COUNT" property="reviewCount"/>
 		<result column="BOARD_STATUS" property="boardStatus"/>
 		<result column="ADMIN_ID" property="adminId"/>
 		<result column="ADMIN_NAME" property="adminName"/>
@@ -49,6 +51,11 @@
 		<result column="FILE_TYPE" property="fileType"/>
 		<result column="IDENTIFY_NO" property="identifyNo"/>
 	</resultMap>
+	
+	<insert id="registerApplyTaste">
+		insert into Apply_Taste
+		values(seq_apid.nextval, #{address}, #{phone}, #{emailId}, #{tasteNo}, default)
+	</insert>
 
 
 

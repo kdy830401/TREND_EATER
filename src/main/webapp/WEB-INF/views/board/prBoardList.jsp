@@ -171,7 +171,7 @@
 								<P class="uk-text-meta uk-margin-remove-top">${ b.productOneLine }</P>
 								<i class="fa-regular fa-heart"></i>
 								<i class="fa-regular fa-comments"></i>
-								<span class="uk-badge uk-text-top">100</span>
+								<span class="uk-badge uk-text-top">${ b.reviewCount }</span>
 							</div>
 						</div>
 					</div>
@@ -276,7 +276,8 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 

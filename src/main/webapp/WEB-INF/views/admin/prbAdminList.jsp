@@ -20,6 +20,9 @@
 * {
 	word-break: keep-all;
 }
+.productNo {
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -29,7 +32,7 @@
 
 	<!-- ############ PAGE START 여기에 내용 넣어주세요 -->
 	<div class="uk-container uk-tile uk-tile-default uk-padding-small">
-		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">상품관리</h2>
+		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">제품 및 리뷰 게시판 관리</h2>
 		<div class="margin uk-width-1-1">
 			<form class="uk-text-center">
 				<!-- 			<div class="inline"> -->
@@ -59,9 +62,6 @@
 				<!-- 			</div> -->
 			</form>
 		</div>
-		<div class="margin uk-width-1-1">
-			<button class="btn btn-outline rounded b-warning text-warning uk-align-center" id="registerProduct">상품등록</button>
-		</div>
 		<script>
 			$(function() {
 				$('#registerProduct').on('click', function() {
@@ -87,16 +87,17 @@
 		<table class="table table-hover b-t">
 			<thead>
 				<tr>
-					<th>상품번호</th>
-					<th>등록일</th>
+<!-- 					<th>상품No.</th> -->
 					<th>상품명</th>
 					<th>가격</th>
-					<th>재고수량</th>
 					<th>판매여부</th>
-					<th>관리자</th>
-					<th>수정/삭제</th>
-					<th>제품 게시</th>
-					<th>시식 등록</th>
+					<th>한줄평</th>
+					<th>상품소개</th>
+					<th>리뷰</th>
+					<th>스크랩</th>
+					<th>작성자</th>
+					<th>수정</th>
+					<th>게시</th>
 
 				</tr>
 			</thead>
@@ -104,12 +105,10 @@
 				<c:forEach var="p" items="${ list }">
 					<tr>
 						<td class="productNo">${ p.productNo }</td>
-						<td>${ p.createDate }</td>
 						<td>${ p.productName }</td>
 						<td>
 							<fmt:formatNumber value="${ p.productPrice }" type="currency" />
 						</td>
-						<td>${ p.productStock }</td>
 						<td>
 							<c:if test="${ p.productType == 1}">
 											판매
@@ -118,6 +117,10 @@
 											미판매
 										</c:if>
 						</td>
+						<td>${ p.productOneLine }</td>
+						<td>${ p.boardContent }</td>
+						<td>${ p.reviewCount }건</td>
+						<td>23건</td>
 						<td>${ p.adminName }</td>
 						<td>
 							<form id="productForm${ p.productNo }" action="updateProductForm.ad" method="POST">
@@ -132,43 +135,6 @@
 								}
 							</script>
 
-
-								<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }" ></a>
-							<script>
-								let selectNo = ${ p.productNo };
-								var $deleteAdmin = $('#delete'+selectNo);
-								console.log($deleteAdmin);
-								
-									$deleteAdmin.on('click', function(){
-										var pno = $(this).parent().parent().parent().children().eq(0).text();
-										console.log(this);
-										var td = $(this).parent().parent().parent();
-										
-										console.log(td);
-										console.log(pno);
-										if(confirm("해당 게시물 관리자 게시판에서 삭제하시겠습니까?") == true){
-										   $.ajax({
-										      url: 'deleteProductAdmin.ad',
-										      data: {pno:pno},
-										      type:'post',
-										      success:function(data){
-										          console.log(data);
-										          td.hide();
-										      },
-										      error:function(data){
-										          console.log(data);
-										          
-										      }
-										      
-										   });
-								    
-									} 
-								
-								});
-								    
-							</script>
-								
-								
 							</form>
 						</td>
 						<td>
@@ -185,8 +151,7 @@
 								</label>
 							</c:if>
 							<script>
-							let selectNo = ${ p.productNo };
-							var $inputStatus = $('#boardStatus'+selectNo);
+							var $inputStatus = $('#boardStatus'+${ p.productNo });
 							console.log($inputStatus);
 							$inputStatus.on('change', function(){
 								var pno = $(this).parent().parent().parent().children().eq(0).text();
@@ -213,38 +178,7 @@
 						</script>
 						</td>
 
-						<td class='registerTaste'>
-							<input type="hidden" name="pno" value="${ p.productNo }">
-							<button class="btn btn-sm white tasteBtn" data-toggle="modal" data-target="#m-a-a_${ p.productNo }" ui-toggle-class="fade-down" ui-target="#animate">등록</button>
-							<!-- .modal -->
-							<div id="m-a-a_${ p.productNo }" class="modal fade animate${ p.productNo }" data-backdrop="true">
-								<div class="modal-dialog" id="animate${ p.productNo }">
-									<div class="modal-content">
-										<div class="modal-header">
-											<span class="label label-lg">${ p.productName }</span>
-											<h6 class="modal-title uk-text-bold">시식게시판 등록</h6>
-										</div>
-										<form action="registerTaste.ad" method="post">
-											<div class="modal-body text-center p-lg">
-
-												<input type="hidden" name="productNo" value="${ p.productNo }">
-												<div class="uk-margin">
-													<label class="uk-align-left label warning m-b-sm" for="form-s-date">신청 종료일</label>
-													<input class="uk-input" id="form-s-date_" name="endDate" type="date" placeholder="1970-01-01" required>
-												</div>
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn dark-white p-x-md" data-dismiss="modal">취소</button>
-												<button type="submit" class="btn danger p-x-md">등록</button>
-											</div>
-										</form>
-									</div>
-									<!-- /.modal-content -->
-								</div>
-							</div>
-							<!-- / .modal -->
-						</td>
+						
 					</tr>
 
 				</c:forEach>
@@ -380,8 +314,7 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 
