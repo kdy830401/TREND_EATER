@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fpj.trendeater.admin.model.vo.Image;
+import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.dao.BoardDAO;
+import com.fpj.trendeater.board.model.vo.Board;
+import com.fpj.trendeater.board.model.vo.BoardQnA;
 
 @Service("bSerivce")
 public class BoardServiceImpl implements BoardService{
@@ -29,6 +33,90 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.selectPrImage(sqlSession, pno);
 	}
 
+
+/********************************* notice *********************************/
 	
+	// Notice 읽기(조회) - 페이징처리1 :총게시물수 가져오기
+	@Override
+	public int getListCount() {
+		return bDAO.getListCount(sqlSession);
+	}
+
+	// Notice 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
+	@Override
+	public ArrayList<Board> getBoardList(PageInfo pi) {
+		return bDAO.getBoardList(sqlSession, pi);
+	}
+	
+	// Notice 상세보기
+   @Override
+   @Transactional
+   public Board selectBoard(int bId) {
+      int result = bDAO.addReadCount(sqlSession, bId);
+      
+      Board b = null;
+      if(result > 0 ) {
+         b = bDAO.selectBoard(sqlSession,bId);
+      }
+      return b;
+   }
+   	
+   // Notice 쓰기
+   @Override
+   public int insertNotice(Board b) {
+	   int result = bDAO.insertNotice(sqlSession, b);
+   }
+   
+   // Notice 수정
+	@Override
+	public int updateNotice(Board b) {
+		int result = bDAO.updateNotice(sqlSession, b);
+	}
+	
+	// Notice 삭제
+	@Override
+	public int deleteNotice(Board b) {
+		int result = bDAO.deleteNotice(sqlSession, b);
+	}
+
+/******************************** QnA **********************************/
+	
+	// Qna 읽기(조회) - 페이징처리1 :총게시물수 가져오기
+	@Override
+	public int getQnaListCount() {
+		return bDAO.getQnaListCount(sqlSession);
+	}
+	// Qna 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
+	@Override
+	public ArrayList<BoardQnA> getBoardQnaList(PageInfo pi) {
+		return bDAO.getBoardQnaList(sqlSession, pi);
+	}
+	
+	// QnA 쓰기
+	@Override
+	public int insertBoardQna(BoardQnA b) {
+		return bDAO.insertBoardQna(sqlSession, b);
+	}
+
+   	// QnA 수정 
+	@Override
+	public int updateBoardQna(BoardQnA b) {
+		return bDAO.updateBoardQna(sqlSession, b);
+	}
+
+	// QnA 삭제 
+	@Override
+	public int deleteBoardQna(BoardQnA b) {
+		return bDAO.deleteBoardQna(sqlSession, b);
+	}
+
+
+
+
+
+
+
+
+/***********************************************************************/	
 	
 }
