@@ -276,19 +276,7 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 		    <li><a href="#">5</a></li>
 		    <li><a href="#"><span uk-pagination-next></span></a></li>
 		</ul>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+	
 	</div>
 	<!-- container -->
 	
