@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.dao.BoardDAO;
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 
 @Service("bSerivce")
 public class BoardServiceImpl implements BoardService{
@@ -27,6 +28,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public ArrayList<Image> selectPrImage(int pno) {
 		return bDAO.selectPrImage(sqlSession, pno);
+	}
+
+	@Override
+	public int registerApplyTaste(ApplyTastePerson applyPerson) {
+		return bDAO.registerApplyTaste(sqlSession, applyPerson);
 	}
 
 	

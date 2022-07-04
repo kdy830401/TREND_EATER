@@ -199,12 +199,11 @@
 
 
 			</div>
-
-
-			<div class="uk-text-center submit">
-				<button class="btn btn-outline b-warning text-warning" onclick="location.href='javascript:history.go(-1);'">취소</button>
-				<button class="btn btn-outline b-primary text-primary">등록</button>
+			<div class="uk-text-center submit uk-margin-large">
+				<input class="btn btn-outline b-primary text-primary" type="submit" value="수정">
+				<input type="button" class="btn btn-outline b-warning text-warning" value="취소" onclick="location.href='javascript:history.go(-1);'" onsubmit="dosubmit();">
 			</div>
+
 		</form>
 	</div>
 

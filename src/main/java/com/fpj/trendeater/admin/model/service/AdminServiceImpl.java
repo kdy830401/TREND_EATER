@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fpj.trendeater.admin.model.dao.AdminDAO;
 import com.fpj.trendeater.admin.model.vo.Admin;
@@ -15,6 +14,7 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Service("aService")
@@ -38,16 +38,14 @@ public class AdminServiceImpl implements AdminService{
 
 
 	@Override
-	public int getListCount() {
-		
-		
-		return aDAO.getListCount(sqlSession);
+	public int getListCount(String table) {
+		return aDAO.getListCount(sqlSession, table);
 	}
 
 	@Override
-	public ArrayList<Product> getProductList(PageInfo pi) {
+	public ArrayList<Product> getProductList(PageInfo pi, boolean boardCheck) {
 	
-		return aDAO.getProductList(sqlSession, pi);
+		return aDAO.getProductList(sqlSession, pi, boardCheck);
 	}
 
 	@Override
@@ -61,9 +59,9 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public ArrayList<ApplyTaste> getTasteList() {
+	public ArrayList<ApplyTaste> getTasteList(PageInfo pi, boolean boardCheck) {
 		
-		return aDAO.getTasteList(sqlSession);
+		return aDAO.getTasteList(sqlSession, pi, boardCheck);
 	}
 
 	@Override
@@ -82,9 +80,9 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public ArrayList<ProductRequest> selectRequestProductList() {
+	public ArrayList<ProductRequest> selectRequestProductList(PageInfo pi) {
 		
-		return aDAO.selectRequestProductList(sqlSession);
+		return aDAO.selectRequestProductList(sqlSession, pi);
 	}
 	
 	// 이미지 삭제
@@ -99,11 +97,25 @@ public class AdminServiceImpl implements AdminService{
 		return aDAO.updateProduct(sqlSession, product);
 	}
 	
-	// 상품 게시물 삭제
+	// 사용 게시물 삭제
 	@Override
-	public int deleteProductBoard(HashMap<String, Object> map) {
-		return aDAO.deleteProductBoard(sqlSession, map);
+	public int deleteUserBoard(HashMap<String, Object> map) {
+		return aDAO.deleteUserBoard(sqlSession, map);
 	}
+	
+	//시식신청 리스트 불러오기
+	@Override
+	public ArrayList<ApplyTastePerson> getApplyPersonList(PageInfo pi) {
+		return aDAO.getApplyPersonList(sqlSession, pi);
+	}
+	
+	// 관리자 게시물 삭제
+	@Override
+	public int deleteAdminBoard(HashMap<String, Object> map) {
+		return aDAO.deleteAdminBoard(sqlSession, map);
+	}
+
+
 
 
 
@@ -170,6 +182,8 @@ public class AdminServiceImpl implements AdminService{
 		
 		return aDAO.adminCount(sqlSession,admin);
 	}
+
+
 
 
 

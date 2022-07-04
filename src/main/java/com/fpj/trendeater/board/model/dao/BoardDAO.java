@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.Product;
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 
 @Repository("bDAO")
 public class BoardDAO {
@@ -17,7 +18,11 @@ public class BoardDAO {
 	}
 
 	public ArrayList<Image> selectPrImage(SqlSessionTemplate sqlSession, int pno) {
-		return (ArrayList)sqlSession.selectList("boardMapper.selectPrImage", pno);
+		return (ArrayList) sqlSession.selectList("boardMapper.selectPrImage", pno);
+	}
+
+	public int registerApplyTaste(SqlSessionTemplate sqlSession, ApplyTastePerson applyPerson) {
+		return sqlSession.insert("boardMapper.registerApplyTaste", applyPerson);
 	}
 
 }
