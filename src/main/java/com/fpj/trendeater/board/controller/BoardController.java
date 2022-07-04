@@ -79,8 +79,37 @@ public class BoardController {
 		return applyMv;
 	}
 
-	// test test2
-	// test3 test4 test5
-	// test3
+
+	
+/********************************** Notice(공지사항) : 조회 *************************************/
+
+	// Notice 공지사항 조회 + 페이지네이션
+	@RequestMapping("noticeList.bo")
+	public ModelAndView boardList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv) {
+
+		int currentPage = 1; 
+
+		if (page != null) { 
+			currentPage = page;
+		}
+
+		int listCount = bService.getListCount();
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+		ArrayList<Board> list = bService.getBoardList(pi);
+
+		if (list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("boardNoticeList");
+		} else {
+			throw new BoardException("게시글 전체 조회에 실패했습니다");
+		}
+		return mv;
+	}
+	
+	
+	
 
 }
