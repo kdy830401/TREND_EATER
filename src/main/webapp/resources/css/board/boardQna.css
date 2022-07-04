@@ -1,0 +1,247 @@
+@import "reset.css";    
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css); 
+
+
+html, body {
+    box-sizing: border-box;
+}
+summary{
+    outline: none;
+    cursor : pointer;
+    display: -webkit-box;
+    /* display: none;  */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family:'Noto Sans KR', sans-serif;
+    
+}
+
+.main .infoContainer {
+    flex-basis: 80%;
+    height: 800px;
+    background-color: white;
+    
+}
+.infoContainer  table{
+    margin: 0 auto;
+    width: 800px;
+    text-align: center;
+} 
+
+.titleArea{
+    display: flex;
+    /* justify-content: center; */
+    gap: 3%; 
+    align-items: center;
+    padding: 2% 11%;
+    width:820px;
+    margin: 0 auto;
+}
+
+.titleArea > h3{
+    font-size: 22px; font-weight: 500;
+}
+.titleArea > span{
+    font-size: 13px; color:rgb(135, 133, 133);
+}
+
+
+/*********************************************/
+
+
+thead tr{
+    width: 100%;
+    height: 2rem;
+        min-height: 20px;
+        max-height: 50px;
+    border-top: 2px solid rgb(254, 143, 143)  ;
+    border-bottom: 2px solid #FE8F8F;
+}
+thead th{
+    padding: 2% 1%;
+    vertical-align: middle;
+    text-align: center;
+    font-size: small;
+    font-weight: none;
+}
+tbody > tr{
+    height: 2rem;
+    /* border-top: 1px solid lightgray; */
+    border-bottom: 1px solid lightgray;
+    align-content: center;
+    vertical-align: middle;
+}
+tbody > tr > td{
+    height: 2rem;
+    font-size: small;
+    font-family: noto sans;
+    align-content: center;
+    vertical-align: middle;
+    letter-spacing: 0px;
+}
+tbody td:nth-last-child(1){
+    color: gray;
+} 
+tbody td:nth-last-child(2){
+    color: gray;
+} 
+
+
+.tbodyTd2{
+	padding-left:10px;	
+}
+
+
+/*********************************************/
+
+.QnaToggle{
+    text-align: center;
+    margin: 0 auto;
+    border : none;
+}
+/* .QnaToggleOpen > p{
+    background-color: lightgray;
+    text-align: center;
+    margin: 0 auto;
+} */
+.QnaToggleOpen li{
+    background-color: rgb(245, 245, 245);
+    width:800px;
+    min-height: 80px;
+    margin: 0 auto;
+}
+.QnaToggleOpen_Button{
+    float: right;
+    margin: 1%;
+    margin-right: 30px;
+}
+.QnaToggleOpen_Button > button{
+    color:rgb(159, 159, 159);
+    border : 0px;
+    background-color: #fff;
+    font-weight: 500;
+}
+.QnaToggleOpen_Button > button:hover{
+    cursor : pointer;
+    box-shadow:1px 1px 1px #FE8F8F;
+	transition-duration:0.2s;
+}
+.QnaToggleOpen_Button > button:active{
+   	margin-left:2px;
+	margin-top:2px;
+	box-shadow:none;
+}
+
+.QnaToggleContent{
+    margin: 0 auto;
+}
+.QnaToggleContent > li{
+    width:740px;
+    padding:3%;
+}    
+
+/*********************************************/
+
+.submitButton{
+    width:800px;
+    text-align: right;
+    margin:2% auto;
+    /* padding-right:160px; */
+    
+}
+
+.submitButton > button{
+    width:150px;
+    height:35px;
+    background-color: #FE8F8F;
+    border: 1px solid #FF5C58;
+    color:#fff;
+
+}
+.submitButton > button:hover{
+	outline: none;
+    cursor : pointer;
+	background-color: #FCD2D1;
+    box-shadow:1px 1px 1px #FE8F8F;
+	transition-duration:0.2s;
+
+}
+.submitButton > button:active{
+	margin-left:3px;
+	margin-top:3px;
+	box-shadow:none;
+}
+
+
+/*********************************************/
+
+
+.boardSearchBox {
+    /* justify-content의 letf,right,center 위치 외에 세부조정하고 싶으면,
+     justify-content: space-between으로 공백을 줘서 조정하면 됨*/
+    display: flex;
+    justify-content: space-between; /* space-between의 디폴트 범위지정값은 나머지 텍스트나 범위를 제외한 전부를 먼저 준다 */
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #FCD2D1;
+    width:800px;
+    margin: 0 auto;
+}
+
+.boardSearchBox > div {
+    display: flex;
+    gap: 15px;
+    padding: 0 2%;
+}
+.boardSearchBox span {
+    font-size: x-small;
+    padding-top: 5px;
+    align-content: center;
+    vertical-align: middle;
+}
+
+.boardSearchBox > div > ul {
+    display: flex;
+    /* justify-content: space-between;  */
+    list-style: none;
+    gap: 10px;
+    font-size: smaller;
+    margin-right: 350px;
+}
+.boardSearchBox > div.searchBar{
+    /* boardSearchBox 아래있는 div태그 중에 이름이 searchBar인 태그에만 적용 */
+    display: flex;
+    gap : 0px;
+    
+}
+/* 
+.boardSearchBox > div .searchBar
+boardSearchBox 아래있는 div태그 자식 요소 중에 seachBar태그에만 적용  */
+
+.searchBar > input{
+    display: flex;
+    border: 1px solid lightgray;
+}
+
+
+/*********************************************/
+
+
+
+
+
+
+
+
+
