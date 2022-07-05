@@ -12,11 +12,13 @@ public class ApplyTaste {
 	private String boardStatus;
 	private String adminId;
 	private String adminName;
+	private String applyCount;
 	
 	public ApplyTaste() {}
 
-	public ApplyTaste(int tasteNo, int productNo, String productName, Date startDate, Date endDate, int tasteIng,
-			String boardStatus, String adminId, String adminName) {
+	public ApplyTaste(int tasteNo, int productNo, String productName,
+			Date startDate, Date endDate, int tasteIng, String boardStatus,
+			String adminId, String adminName, String applyCount) {
 		super();
 		this.tasteNo = tasteNo;
 		this.productNo = productNo;
@@ -27,6 +29,7 @@ public class ApplyTaste {
 		this.boardStatus = boardStatus;
 		this.adminId = adminId;
 		this.adminName = adminName;
+		this.applyCount = applyCount;
 	}
 
 	public int getTasteNo() {
@@ -101,12 +104,24 @@ public class ApplyTaste {
 		this.adminName = adminName;
 	}
 
+	public String getApplyCount() {
+		return applyCount;
+	}
+
+	public void setApplyCount(String applyCount) {
+		this.applyCount = applyCount;
+	}
+
 	@Override
 	public String toString() {
-		return "ApplyTaste [tasteNo=" + tasteNo + ", productNo=" + productNo + ", productName=" + productName
-				+ ", startDate=" + startDate + ", endDate=" + endDate + ", tasteIng=" + tasteIng + ", boardStatus="
-				+ boardStatus + ", adminId=" + adminId + ", adminName=" + adminName + "]";
+		return "ApplyTaste [tasteNo=" + tasteNo + ", productNo=" + productNo
+				+ ", productName=" + productName + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", tasteIng=" + tasteIng
+				+ ", boardStatus=" + boardStatus + ", adminId=" + adminId
+				+ ", adminName=" + adminName + ", applyCount=" + applyCount
+				+ "]";
 	}
+
 
 	
 }

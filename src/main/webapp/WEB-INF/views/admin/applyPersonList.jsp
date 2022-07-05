@@ -1,89 +1,90 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>TREND EATER</title>
 
-
-<style>
+<style type="text/css">
 .uk-breadcrumb>:nth-child(n+2):not(.uk-first-column)::before {
 	margin: 0 5px 0 calc(5px - 4px) !important;
 }
-</style>
-<body>
-	<c:import url="adminMenubar.jsp" />
-	<!-- ############ PAGE START 여기에 내용 넣어주세요 -->
 
+.date {
+	width: 355px;
+}
+
+* {
+	word-break: keep-all;
+}
+</style>
+</head>
+<body>
+
+	<c:import url="adminMenubar.jsp" />
+	<!-- 하단 끝 -->
+
+	<!-- ############ PAGE START 여기에 내용 넣어주세요 -->
 	<div class="uk-container uk-tile uk-tile-default uk-padding-small">
-		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">상품 요청 관리</h2>
+		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">시식신청리스트</h2>
 		<form class="uk-child-width-auto " uk-grid>
 			<div class="uk-align-center">
 				<div class="uk-inline">
-					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition">
+					<select class="uk-select" id="seachCondition" name="searchCondition">
 						<option value="" disabled selected>검색조건을 선택하세요</option>
-						<option value="requestProduct">제품명</option>
-						<option value="manufacturer">제조사</option>
+						<option value="productName">제품명</option>
+						<option value="userName">이름</option>
+						<option value="userId">아이디</option>
 					</select>
 				</div>
 				<div class="uk-inline">
 					<a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search"></a>
-					<input class="uk-input uk-width-medium" id="seachValue" type="search" placeholder="검색어 입력">
+					<input class="uk-input" id="seachValue" type="search" placeholder="검색어 입력">
 				</div>
 				<div class="uk-inline">
 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button>
 				</div>
 			</div>
 		</form>
-
-
 	</div>
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">상품명순</a>
+				<a href="">신청일순</a>
 			</li>
 			<li>
-				<a href="">요청일순</a>
-			</li>
-			<li>
-				<a href="">번호순</a>
+				<a href="">제품명순</a>
 			</li>
 		</ul>
 		<table class="table table-hover b-t">
 			<thead>
-
 				<tr>
-					<th>상품요청 번호</th>
-					<th>상품명</th>
-					<th>제조사명</th>
-					<th>상품요청일</th>
-					<th>상품요청회원</th>
+					<th>신청번호</th>
+					<th>제품명</th>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>연락처</th>
+					<th>배송지정보</th>
+					<th>신청일</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${!empty prlist}">
-					<c:forEach var="pr" items="${ prlist }">
-						<tr>
-							<td>${ pr.requestNo }</td>
-							<td>${ pr.productName}</td>
-							<td>${ pr.manufacturer}</td>
-							<td>${ pr.createDate}</td>
-							<td>${ pr.email}</td>
-						</tr>
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty prlist}">
+				<c:forEach var="apply" items="${ list }">
 					<tr>
-						<td colspan="5">상품등록 요청 리스트가 없습니다.</td>
-					<tr>
-				</c:if>
+						<td>${ apply.applyNo }</td>
+						<td>${ apply.productName }</td>
+						<td>${ apply.emailId }</td>
+						<td>${ apply.name}</td>
+						<td>${ apply.phone }</td>
+						<td>${ apply.address }</td>
+						<td>${ apply.applyDate }</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
-
-
-
 
 
 
@@ -141,9 +142,13 @@
 				</li>
 			</c:if>
 		</ul>
-		<!-- 페이징 처리 끝  -->
+	</div>
+	<!-- 페이징 처리 끝  -->
 
 	</div>
+
+
+
 
 
 	<!-- ############ PAGE END 끝~ -->
