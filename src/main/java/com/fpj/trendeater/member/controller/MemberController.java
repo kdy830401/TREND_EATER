@@ -540,7 +540,21 @@ public class MemberController {
 		return "scrapListView";
 		
 	}
+	
+	//***김주희*****//
+	//회원 탈퇴
+	 @RequestMapping("deleteMember.me")
+	 public String deleteMember(HttpSession session,Model model) {
+		 Member member = (Member)session.getAttribute("loginUser");
+		System.out.println(member);
+		 int result = mService.deleteMember(member);
+		 if(result > 0) {
+		 return "redirect:home.do";
+		 }else {
+				throw new MemberException("회원 탈퇴에 실패하였습니다.");
+		}
 		 
+	 }
 //클래스 끝마침		
 }
 

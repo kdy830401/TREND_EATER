@@ -39,6 +39,8 @@ public interface MemberService {
 
 	void unlink(String attribute);
 
+	int deleteMember(Member member);
+
 
 	
 }

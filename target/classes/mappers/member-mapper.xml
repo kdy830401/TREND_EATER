@@ -134,4 +134,11 @@
   #{radio3},#{radio4},#{radio5},0,null,null,null,2)
   </insert>
 
+ <!-- 회원 탈퇴 -->
+  <update id="deleteMember"> 
+  update member
+  set member_status = 'N' where email_id = #{email}
+  </update>
+
+
 </mapper>
