@@ -190,7 +190,7 @@ a:hover {
 		<div id="content" class="app-content box-shadow-z0" role="main">
 			<div class="app-header white box-shadow">
 				<div class="navbar">
-					<span style="text-align: right; margin-top: auto; margin-bottom: auto;">로그아웃</span>
+					<span onclick = "location.href = 'adminLogout.ad';" style="text-align: right; margin-top: auto; margin-bottom: auto;cursor:pointer;">로그아웃</span>
 				</div>
 
 			</div>
@@ -223,5 +223,18 @@ a:hover {
 
 
 				<!-- ############ PAGE END 끝~ -->
+				
+	
+	<script>
+	//플랜a
+	 $(function(){
+		 var msg = '${msg}';
+		 if(msg != ''){
+			 alert(msg);
+		 }	
+	 });	
+	</script>
+
+				
 </body>
 </html>

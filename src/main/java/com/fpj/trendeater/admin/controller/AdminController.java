@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -494,7 +495,7 @@ public class AdminController {
 	//##########김주희
 	
 	//김주희:회원 리스트 뷰페이지
-	@RequestMapping("/member.ad")
+	@RequestMapping("member.ad")
 	public String adminMember(Model model) {
 		
 		ArrayList<Member> member = aService.selectMember();
@@ -511,7 +512,6 @@ public class AdminController {
 	public String adminView(Model model) {
 
 		return "adminLogin";
-
 	}
 	
 	
@@ -596,6 +596,13 @@ public class AdminController {
 		return res;
 	}
 	
+	//관리자 로그 아웃
+	@RequestMapping("adminLogout.ad")
+	public String AdminLogout(SessionStatus status) {
+		//세션무효화
+		status.setComplete();
+		return "redirect:admin";
+	}
 	
 	//##########
 }
