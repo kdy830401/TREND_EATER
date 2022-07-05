@@ -119,7 +119,9 @@ a:hover {
 						<a class="uk-navbar-item uk-logo" href="home.do">TREND EATER</a>
 						<ul class="uk-navbar-nav">
 							<li><a href="prBoardList.bo" style="font-family: 'Gowun Dodum', sans-serif;">리뷰</a></li>
+
 							<li><a href="applyTasteBoard.bo" style="font-family: 'Gowun Dodum', sans-serif;">시식</a></li>
+
 							<li><a href="#" style="font-family: 'Gowun Dodum', sans-serif;">이벤트</a></li>
 						</ul>
 					</div>
@@ -149,8 +151,17 @@ a:hover {
 			</div>
 		</nav>
 	</div>
-
-
+<!-- 	<script>
+	 $(function(){
+		 var msg = '${msg}';
+		 
+		 if(msg != ''){
+			 alert(msg);
+			 
+		 }
+		 
+	 });	
+	</script> -->
 
 </body>
 </html>

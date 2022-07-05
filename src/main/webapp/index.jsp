@@ -9,11 +9,14 @@
 </head>
 <body>
 
-<script>
+
+
+
+ <script>
 window.onload = (function(){
 	location.href = "home.do";
 });
-</script>
+</script> 
 
 </body>
 </html>
