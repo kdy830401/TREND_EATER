@@ -64,19 +64,19 @@ public class BoardServiceImpl implements BoardService{
    // Notice 쓰기
    @Override
    public int insertNotice(Board b) {
-	   int result = bDAO.insertNotice(sqlSession, b);
+	   return bDAO.insertNotice(sqlSession, b);
    }
    
    // Notice 수정
 	@Override
 	public int updateNotice(Board b) {
-		int result = bDAO.updateNotice(sqlSession, b);
+		return bDAO.updateNotice(sqlSession, b);
 	}
 	
 	// Notice 삭제
 	@Override
 	public int deleteNotice(Board b) {
-		int result = bDAO.deleteNotice(sqlSession, b);
+		return bDAO.deleteNotice(sqlSession, b);
 	}
 
 /******************************** QnA **********************************/

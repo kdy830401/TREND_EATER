@@ -84,13 +84,15 @@ pageEncoding="UTF-8"%>
 	                            </table>
 	                        </div>
 	                </summary>
+                <form action="boardQnaUpdateView.bo" method="post">
 	                <div class="QnaToggleOpen">
 	                    <ul>
 	                        <div class="QnaToggleContent">
 		                        <li>
 		                            <div>
 		                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_q-solid.svg" style="width: 15px;">
-		                                    ${b.qnaContent} 
+		                                   <input type="hidden" name="qnaContent" value="${b.qnaContent}">${b.qnaContent} 
+		                                   <!--타이틀도. 전체를 폼으로 감싸야함. href를 안주고 액션에 주소값 주는 것. 버튼을 누르면 폼에 감싸져있음. 서브밋 필요없이 버튼 누르면 제출됨. vo에 세터값이랑이랑 일치하니   -->
 		                            </div><br>
 		                            <c:if test="${b.qnaAnsStatus eq 'Y'}">
 			                            <div>
@@ -104,13 +106,14 @@ pageEncoding="UTF-8"%>
 	                    </ul>
 	                    <div class="QnaToggleOpen_Button">
 	                        <button type="submit" name="page" value="${pi.currentPage}" 
-	                        		onclick="location.href='boardQnaUpdateForm.bo'">수정</button>
-	                        		<%-- onclick="location.href='boardQnaUpdateForm.bo?page='+ ${pi.currentPage}">수정</button> --%>
+	                        		onclick="location.href=''">수정</button>
+	                        		<%-- onclick="location.href='boardQnaUpdateView.bo?page='+ ${pi.currentPage}">수정</button> --%>
 	                        <button type="submit" name="page" value="${pi.currentPage}" id="boardQnaDelete"
 	                        		onclick="boardQnaDelete()">삭제</button>
 	                        <%-- <button type="submit" name="page" value="${pi.currentPage}" onclick="location.href='boardQnaDeleteForm.bo'">삭제</button> --%>
 	                    </div><br>																<!-- location.href = 'bdetail.bo?bId=' + bId + "&page=" + ${pi.currentPage}; -->
 	                </div>
+                </form>
 	            </details>  
             </c:forEach>
             <br>

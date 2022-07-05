@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -269,28 +270,54 @@ public class BoardController {
 	
 	// QnA : 수정
 	@RequestMapping("boardQnaUpdateView.bo")
-	public String boardUpdateForm() {
+	public String boardUpdateForm(@RequestParam("qnaTitle") String qnaTitle, 
+								  @RequestParam("qnaContent") String qnaContent) {
+		
+		
 		return "boardQnaUpdateForm";
+		// 뷰에서 데이터를 받아와야함 파라미터 데이터 가져오기 데이터를 다시 폼으로 뿌려줘야함 
+		// 포스트방식, 인풋히든 밸류값, 
+		
+		
+		// 인풋 히든,네임, 폼태그감싸고, 파람 으로 컨트롤에서 받아서 다시 뷰로보내서 모델앤뷰 뿌려주고
+		// 업데이트폼에서 el로 받음. 수저
+		
+		// 강사님이 위험하다는거는 보드아이디를 보내서 보드아이디를 가지고 서비스
+		// 디테일 불러온거 그냥 뿌려주는거
+		// 방법1
+		// 해당 피케이값 받아오는 로직필요 번호를 받아와서 db에서 값 가져와서 객체를 다시 뿌려주는 방법
+		// 방법2
+		// 인풋 히든 방법
+		// 폼태그에 보드아이디를 가지는 인풋히든창 하나 만들고 보드 아이디를 가지고 서비스를 dao,db가지고
+		// 폼으로 감싸서 보내 파람으로 데이터 받아와 (디테일 상세보기 불러오는것처럼) 메소드에 bid보내서 보드 객체를 가져와서 뿌려주면 됨. 주소창 보내는 곳 리턴만 바뀌는 것
+		
+		
 	}
 	
 	@RequestMapping("boardQnaUpdateForm.bo") 
-	public String updateBoardQna(
-			@ModelAttribute BoardQnA b, /* @RequestParam("page") int page, */
-									HttpSession session) {  
-		
+	public String updateBoardQna(@ModelAttribute BoardQnA b, /* @RequestParam("page") int page, */
+								 Model model, HttpSession session) { 
+
 		String id = ((Member)session.getAttribute("loginUser")).getEmail();
 		b.setEmailId(id);
 		
-		int result = bService.updateBoardQna(b); 
+		System.out.println("id="+id); 			// id=1@a.com
+		System.out.println("b="+b);			    // b=BoardQnA [qnaNo=0, qnaTitle=null, qnaContent=null, qnaCreateDate=null, qnaModifyDate=null, qnaStatus=null, qnaAnsStatus=null, emailId=1@a.com]
 
+		
+		int result = bService.updateBoardQna(b); 
+		System.out.println("b="+b);			  // b=BoardQnA [qnaNo=0, qnaTitle=null, qnaContent=null, qnaCreateDate=null, qnaModifyDate=null, qnaStatus=null, qnaAnsStatus=null, emailId=1@a.com]
+		System.out.println("result="+result); // 0
+		
 		if(result > 0) {
 			//model.addAttribute("board", b)...;
 			// 보드 보낼 필요없음. 화면 상세보기 페이지로 가기 때문에 상세보기 페이지로 가는 bdetail.bo 이용하면 됨
 			//return "redirect:bdetail.bo?bId=" + b.getBoardId() + "&page=" + page;
 			
 			// 리다이렉트인데 데이터보존됨
-//			model.addAttribute("bId",b.getBoardId());
-//			model.addAttribute("page",page);
+			model.addAttribute("qna",b.getQnaTitle());
+			model.addAttribute("qna",b.getQnaContent());
+			model.addAttribute("qna",b.getQnaAnsStatus());
 			return "redirect:boardQna.bo";
 		} else {
 			throw new BoardException("문의사항 수정에 실패하였습니다.");

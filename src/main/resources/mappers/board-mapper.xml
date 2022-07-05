@@ -82,6 +82,7 @@
 		<result column="MODIFY_DATE" property="boardModifyDate"/>
 		<result column="BOARD_COUNT" property="boardCount"/>
 		<result column="BOARD_STATUS" property="boardStatus"/>
+		<!-- <result column="BOARD_TYPE" property="boardStatus"/>  --> <!-- ??? -->
 		<result column="ADMIN_ID" property="adminId"/>
 	</resultMap>
 	
@@ -157,7 +158,6 @@
 	<update id="updateBoardQna">
 		update qna
 		set qna_title = #{qnaTitle}, qna_content = #{qnaContent}
-		
 		where email_id = #{emailId}
 	</update>
  	
