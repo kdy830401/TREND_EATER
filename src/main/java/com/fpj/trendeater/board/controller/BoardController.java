@@ -271,8 +271,10 @@ public class BoardController {
 	// QnA : 수정
 	@RequestMapping("boardQnaUpdateView.bo")
 	public String boardUpdateForm(@RequestParam("qnaTitle") String qnaTitle, 
-								  @RequestParam("qnaContent") String qnaContent) {
-		
+								  @RequestParam("qnaContent") String qnaContent,
+								  Model model) {
+		model.addAttribute(qnaTitle);
+		model.addAttribute(qnaContent);
 		
 		return "boardQnaUpdateForm";
 		// 뷰에서 데이터를 받아와야함 파라미터 데이터 가져오기 데이터를 다시 폼으로 뿌려줘야함 
