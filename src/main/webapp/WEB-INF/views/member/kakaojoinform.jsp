@@ -239,16 +239,11 @@
 		       	 	<div class="uk-inline">
 		       	 	 	<h5 class="uk-text-bold ">이메일<span class = "star" style = "color:#FF5C58;">*</span></h5>
 		            	<input class="uk-input" id="email" name="email" value = "${userInfo.email}"  type="text" placeholder="이메일 형식으로 입력해주세요" style = "height:44px;width:300px;text-align:left;padding-left:10px;" readonly>
-		        		<!-- <button class="email" type="button"><b>이메일 인증</b></button> -->
-		        		
-		        		<button class="uk-button uk-button-primary email" type="button">이메일 인증</button>
 		        	</div>
-			        <div class = "checkemail" style = " font-size:12px; font-weight:bold;margin-left:160px;"></div>
-		       		<div class = "checkemail2" style = " font-size:12px; font-weight:bold;margin-left:160px;"></div>
-		       		<div class = "checkemail3" style = " font-size:12px; font-weight:bold;margin-left:160px;"></div>
+			
 		       		
 		        </div> 
-	           	<!-- <input  class ="input" id = "email" name="email" type="text" placeholder="이메일 형식으로 입력해주세요" style = "height:44px;width:300px;text-align:left;padding-left:10px;margin-left:100px;" required> -->
+	        
 	 			
 	        	
 	       		
@@ -600,83 +595,6 @@
 	 		});
 	 	});
 	 	
-	 	 var isUsable = false;  //id중복 체크
-		 var isIdChecked = false; //id유효성 검사
-		
-		 
-	 	//이메일 유효성검사
-	 	$(function(){
-	 		var checkemail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	 		$('#email').keyup(function(){
-	 			if(!checkemail.test($('#email').val())){
-	 				$(".checkemail").css("color",'red');
-	 				isIdChecked = false;
-	 			}else{
-	 				$(".checkemail").css("color",'green');
-	 				isIdChecked = true;
-	 			}
-	 			
-	 			$.ajax({
-		 			type : 'GET',
-	 				url:"emailcheck2.me?email=" + $('#email').val(),
-					success:function(data){
-						if(data == '1'){
-							$(".checkemail2").css("color",'red');
-								 isUsable = false;
-						} else{
-							
-							$(".checkemail2").css("color",'green');
-								 isUsable = true;
-						}
-						
-					},error:function(){
-						
-						console.log(data);
-					}
-
-	 			});
-	 			
-	 		});
-	 	}); 
-		 
-		//이메일 인증
-		 var emailChecked = false; //이메일 인증
-		
-	 	var code = "";
- 	   $(".email").on("click",function(){
-				var email = $('#email').val();
-				 $("#emailin").append(
-				   "<input class ='uk-input checkemails' type = 'text'  placeholder ='인증번호를 입력해주세요' style = 'width:200px;margin-left:160px;' disabled = 'disabled'>");
- 			$.ajax({
- 				type : 'GET',
- 				url:"emailcheck.me?email=" + email,
- 				success:function(data){
- 					alert('해당 이메일로 인증번호가 발송되었습니다.');
- 					console.log("data:" + data);
- 					$('.checkemails').attr("disabled",false);
- 					code=data;
- 					$(".checkemails").keyup(function(){
- 						console.log($(".checkemails").val());
- 			    		   if($(".checkemails").val() == code){
- 			    			   $(".checkemail3").css("color",'green');
- 			    			  emailChecked=true;
- 			    			  
- 			    		   } else{
- 			    			   $(".checkemail3").css("color",'red');
- 			    			  emailChecked=false;
- 			    		   }
- 			    	  });
- 				}
- 			
- 			});
- 			$(".email").off("click");
- 	   });
- 	   
- 	   
-
- 	   
- 	   
- 	   
  	   
  	   
  	   //비밀번호 인풋창 클릭시
@@ -803,23 +721,16 @@
 	            }
 	        }).open();
 	    };
-	    console.log(isUsable);
-	    console.log(isUsable);
-	    console.log(pwdChecked);
+		console.log(pwdChecked);
 	    console.log(pwdChecked2);
-	    console.log(emailChecked);
-	    
+
   		 function insertValidate(){
-			 if(isUsable && isIdChecked ){
+			 if(pwdChecked == false || pwdChecked2 == false) {
+				 alert("비밀번호를 확인해 주세요.");
+				 return false;			 
+			 }else{		
+				 alert("회원가입이 완료되었습니다.");
 				 return true;
-			 } else if(pwdChecked) {
-				 return true;
-				 
-				 
-			 }else{
-				 
-				 alert("이메일 또는 비밀번호가 올바르지 않습니다.");
-				 return false;
 			 }
 		 }
 	     
