@@ -75,14 +75,15 @@
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">상품명순</a>
+				<a href="prbAdminList.ad?value=productName">상품명순</a>
 			</li>
 			<li>
-				<a href="">재고량순</a>
+				<a href="prbAdminList.ad?value=reviewCount">리뷰순</a>
 			</li>
 			<li>
-				<a href="">게시일순</a>
+				<a href="prbAdminList.ad?value=scrapCount">스크랩순</a>
 			</li>
+			
 		</ul>
 		<table class="table table-hover b-t">
 			<thead>
@@ -120,7 +121,7 @@
 						<td>${ p.productOneLine }</td>
 						<td>${ p.boardContent }</td>
 						<td>${ p.reviewCount }건</td>
-						<td>23건</td>
+						<td>${ p.scrapCount }건</td>
 						<td>${ p.adminName }</td>
 						<td>
 							<form id="productForm${ p.productNo }" action="updateProductForm.ad" method="POST">

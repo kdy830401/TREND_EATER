@@ -139,12 +139,12 @@ a:hover {
 				                    	<c:if test = "${loginUser != null}"> 
 				                        <li><a href="myPageform.me">마이페이지</a></li>
 				                        </c:if>										
-				                        <li><a href="#">공지사항</a></li>
-										<li><a href="#">문의사항</a></li>
+				                        <li><a href="noticeList.bo">공지사항</a></li>
+										<li><a href="boardQna.bo">문의사항</a></li>
 									</ul>
 								</div></li>
 							<li><a href="" uk-icon="heart"></a></li>
-							<li><a href="" uk-icon="cart"></a></li>
+							<li><a href="list.ct" uk-icon="cart"></a></li>
 						</ul>
 					</div>
 				</div>

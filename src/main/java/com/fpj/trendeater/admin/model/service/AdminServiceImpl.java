@@ -43,9 +43,9 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public ArrayList<Product> getProductList(PageInfo pi, boolean boardCheck) {
+	public ArrayList<Product> getProductList(PageInfo pi,HashMap<String, Object> map) {
 	
-		return aDAO.getProductList(sqlSession, pi, boardCheck);
+		return aDAO.getProductList(sqlSession, pi, map);
 	}
 
 	@Override
@@ -59,9 +59,9 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public ArrayList<ApplyTaste> getTasteList(PageInfo pi, boolean boardCheck) {
+	public ArrayList<ApplyTaste> getTasteList(PageInfo pi, HashMap<String, Object> map) {
 		
-		return aDAO.getTasteList(sqlSession, pi, boardCheck);
+		return aDAO.getTasteList(sqlSession, pi, map);
 	}
 
 	@Override
@@ -79,10 +79,11 @@ public class AdminServiceImpl implements AdminService{
 		return aDAO.updateTaste(sqlSession, map);
 	}
 	
+	// 상품요청관리 리스트 불러오기
 	@Override
-	public ArrayList<ProductRequest> selectRequestProductList(PageInfo pi) {
+	public ArrayList<ProductRequest> selectRequestProductList(PageInfo pi, String value) {
 		
-		return aDAO.selectRequestProductList(sqlSession, pi);
+		return aDAO.selectRequestProductList(sqlSession, pi, value);
 	}
 	
 	// 이미지 삭제
@@ -105,8 +106,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	//시식신청 리스트 불러오기
 	@Override
-	public ArrayList<ApplyTastePerson> getApplyPersonList(PageInfo pi) {
-		return aDAO.getApplyPersonList(sqlSession, pi);
+	public ArrayList<ApplyTastePerson> getApplyPersonList(PageInfo pi, HashMap<String, String> map) {
+		return aDAO.getApplyPersonList(sqlSession, pi, map);
 	}
 	
 	// 관리자 게시물 삭제

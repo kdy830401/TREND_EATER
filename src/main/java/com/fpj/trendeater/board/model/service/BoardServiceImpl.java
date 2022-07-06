@@ -1,6 +1,7 @@
 package com.fpj.trendeater.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,32 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	
+	// 리뷰게시판 상세보기
 	@Override
 	public Product selectPrBoard(int pno) {
 		return bDAO.selectPrBoard(sqlSession, pno);
 	}
-
+	// 리뷰게시판 상세보기
 	@Override
 	public ArrayList<Image> selectPrImage(int pno) {
 		return bDAO.selectPrImage(sqlSession, pno);
 	}
-
+	// 시식신청
 	@Override
 	public int registerApplyTaste(ApplyTastePerson applyPerson) {
 		return bDAO.registerApplyTaste(sqlSession, applyPerson);
+	}
+	
+	// 스크랩
+	@Override
+	public int scrap(HashMap<String, Object> map) {
+		return bDAO.scrap(sqlSession, map) ;
+	}
+	
+	@Override
+	public int checkScrap(HashMap<String, Object> map) {
+		return bDAO.checkScrap(sqlSession, map);
 	}
 
 
@@ -70,19 +84,19 @@ public class BoardServiceImpl implements BoardService{
    // Notice 쓰기
    @Override
    public int insertNotice(Board b) {
-	   int result = bDAO.insertNotice(sqlSession, b);
+	   return bDAO.insertNotice(sqlSession, b);
    }
    
    // Notice 수정
 	@Override
 	public int updateNotice(Board b) {
-		int result = bDAO.updateNotice(sqlSession, b);
+		return bDAO.updateNotice(sqlSession, b);
 	}
 	
 	// Notice 삭제
 	@Override
 	public int deleteNotice(Board b) {
-		int result = bDAO.deleteNotice(sqlSession, b);
+		return bDAO.deleteNotice(sqlSession, b);
 	}
 
 /******************************** QnA **********************************/
@@ -94,8 +108,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 	// Qna 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
 	@Override
-	public ArrayList<BoardQnA> getBoardQnaList(PageInfo pi) {
-		return bDAO.getBoardQnaList(sqlSession, pi);
+	public ArrayList<BoardQnA> getBoardQnaList(PageInfo pi, BoardQnA b) {
+		return bDAO.getBoardQnaList(sqlSession, pi, b);
 	}
 	
 	// QnA 쓰기
@@ -104,17 +118,30 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.insertBoardQna(sqlSession, b);
 	}
 
+	// 수정을 위한 해당 id의 qna 전체 정보 받아오기
+	@Override
+	public BoardQnA selectBoardQna(BoardQnA b) {
+		return bDAO.selectBoardQna(sqlSession, b);
+	}
+
    	// QnA 수정 
 	@Override
 	public int updateBoardQna(BoardQnA b) {
 		return bDAO.updateBoardQna(sqlSession, b);
 	}
+//	@Override
+//	public int updateBoardQna(int qnaNo) {
+//		return bDAO.updateBoardQna(sqlSession, qnaNo);
+//	}
 
 	// QnA 삭제 
 	@Override
 	public int deleteBoardQna(BoardQnA b) {
 		return bDAO.deleteBoardQna(sqlSession, b);
 	}
+
+
+
 
 
 

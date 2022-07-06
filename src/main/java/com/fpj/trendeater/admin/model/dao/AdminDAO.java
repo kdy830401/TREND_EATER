@@ -45,13 +45,13 @@ public class AdminDAO {
 		return sqlSession.selectOne("adminMapper.getListCount", table);
 	}
 
-	public ArrayList<Product> getProductList(SqlSessionTemplate sqlSession, PageInfo pi, boolean boardCheck) {
+	public ArrayList<Product> getProductList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
 		
 			int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 			RowBounds rowBounds =new RowBounds(offset, pi.getBoardLimit());
 		
 		
-		return (ArrayList)sqlSession.selectList("adminMapper.getProductList", boardCheck, rowBounds);
+		return (ArrayList)sqlSession.selectList("adminMapper.getProductList", map, rowBounds);
 	}
 
 	public ArrayList<Image> getProductImgList(SqlSessionTemplate sqlSession) {
@@ -62,13 +62,13 @@ public class AdminDAO {
 		return sqlSession.insert("adminMapper.registerTaste", map);
 	}
 
-	public ArrayList<ApplyTaste> getTasteList(SqlSessionTemplate sqlSession, PageInfo pi, boolean boardCheck) {
+	public ArrayList<ApplyTaste> getTasteList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("adminMapper.selectTaste", boardCheck, rowBounds);
+		return (ArrayList)sqlSession.selectList("adminMapper.selectTaste", map, rowBounds);
 	}
 
 	public int checkTasteIng(SqlSessionTemplate sqlSession, int productNo) {
@@ -88,13 +88,14 @@ public class AdminDAO {
 		return sqlSession.insert("adminMapper.insertRequestProduct",pr);
 	}
 
-	public ArrayList<ProductRequest> selectRequestProductList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<ProductRequest> selectRequestProductList(SqlSessionTemplate sqlSession, PageInfo pi, String value) {
 		
 		int offset = (pi.getCurrentPage() - 1) * (pi.getBoardLimit());
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-
-		return (ArrayList)sqlSession.selectList("adminMapper.selectRequestProductList",null,rowBounds);
+		HashMap<String, String> map = new HashMap<>();
+		map.put("value", value);
+		return (ArrayList)sqlSession.selectList("adminMapper.selectRequestProductList",map , rowBounds);
 	}
 	
 	// 이미지 삭제
@@ -122,12 +123,12 @@ public class AdminDAO {
 	}
 
 	// 시식신청 리스트 불러오기
-	public ArrayList<ApplyTastePerson> getApplyPersonList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<ApplyTastePerson> getApplyPersonList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
 		
 		int offset = (pi.getCurrentPage() - 1) * (pi.getBoardLimit());
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("adminMapper.getApplyPersonList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("adminMapper.getApplyPersonList", map, rowBounds);
 	}
 	
 	// 관리자 게시글 삭제

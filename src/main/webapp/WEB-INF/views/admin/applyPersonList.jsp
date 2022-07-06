@@ -53,10 +53,13 @@
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">신청일순</a>
+				<a href="applyPersonList.ad?value=applyNo">신청번호순</a>
 			</li>
 			<li>
-				<a href="">제품명순</a>
+				<a href="applyPersonList.ad?value=applyDate">신청일순</a>
+			</li>
+			<li>
+				<a href="applyPersonList.ad?value=productName">제품명순</a>
 			</li>
 		</ul>
 		<table class="table table-hover b-t">

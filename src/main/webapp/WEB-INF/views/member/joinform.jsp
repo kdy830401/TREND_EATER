@@ -620,17 +620,17 @@
 	 				url:"emailcheck2.me?email=" + $('#email').val(),
 					success:function(data){
 						console.log(data);
-						if(data == 1){
+
+						if(data == '1'){
 							$(".checkemail2").css("color",'red');
 								 isUsable = false;
-						} else{
-						
+						} else{							
+
 							$(".checkemail2").css("color",'green');
 								 isUsable = true;
 						}
-						
-					},error:function(){
-						
+					},
+					error:function(data){						
 						console.log(data);
 					}
 
