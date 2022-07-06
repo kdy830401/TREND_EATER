@@ -620,10 +620,12 @@
 	 				url:"emailcheck2.me?email=" + $('#email').val(),
 					success:function(data){
 						console.log(data);
+
 						if(data == '1'){
 							$(".checkemail2").css("color",'red');
 								 isUsable = false;
 						} else{							
+
 							$(".checkemail2").css("color",'green');
 								 isUsable = true;
 						}
@@ -716,10 +718,11 @@
 	 		$('#pwd2').keyup(function(){
 	 			if($('#pwd2').val() == $('#pwd').val()){
 	 				$(".pwd4").css("color",'green');
-	 				 var pwdChecked = true;
+	 			
+	 				  pwdChecked = true;
 	 			}else{
 	 				$(".pwd4").css("color",'red');
-	 				 var pwdChecked = false;
+	 				  pwdChecked = false;
 	 			}
 	 		});
 	 	}); 
@@ -808,18 +811,18 @@
 	    console.log(emailChecked);
 	    
     function insertValidate(){
-			 if(isUsable && isIdChecked){
-				 return true;
-			 } else if(pwdChecked && pwdChecked2) {
-				 return true;
-			 } else if(!emailChecked){
-				 alert("이메일을 인증해주세요.");
+			 if(!isUsable  || !isIdChecked || !emailChecked){
+				 alert("이메일을 확인해 주세요.");
+				 return false;
+			 } else if(!pwdChecked || !pwdChecked2) {
+				 alert("비밀번호를 확인해주세요.");
 				 return false;
 			 } else{
+				 alert("회원가입이 완료되었습니다.");
 				 return true;
 				 
 			 }
-		 } 
+		 }  
 	    
 	   	</script> 
 	   	  

@@ -367,7 +367,7 @@ public class MemberController {
 			
 		System.out.println(checkNum);
 		
-		String setFrom = "trendeater2@naver.com";
+		String setFrom = "kdkj12345@naver.com";
 		String toMail = email;
 		String title = "회원가입 이메일 인증입니다.";
 		String content = "홈페이지를 방문해주셔서 감사합니다." + 
