@@ -22,7 +22,25 @@
    
    <context:component-scan base-package="com.fpj.trendeater" />
    
-
+   
+   <!-- 로그인 인증 인터셉터 -->
+   	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 상품관리 -->
+			<mvc:mapping path = "/productList.ad"/>
+			
+			<!-- 시식게시판관리 -->
+			<mvc:mapping path = "/applyTaste.ad"/>
+			
+			<!-- 회원관리 -->
+			<mvc:mapping path = "/member.ad"/>
+			
+			<!-- 상품요청관리 -->
+			<mvc:mapping path = "/requestProductList.ad"/>
+			<bean id = "boardInterceptor" class = "com.fpj.trendeater.common.interceptor.AdminInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 </beans>
 
 
