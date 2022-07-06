@@ -42,20 +42,20 @@
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">상품명순</a>
+				<a href="requestProductList.ad?value=productName">상품명순</a>
 			</li>
 			<li>
-				<a href="">요청일순</a>
+				<a href="requestProductList.ad?value=createDate">요청일순</a>
 			</li>
 			<li>
-				<a href="">번호순</a>
+				<a href="requestProductList.ad?value=requestNo">요청번호순</a>
 			</li>
 		</ul>
 		<table class="table table-hover b-t">
 			<thead>
 
 				<tr>
-					<th>상품요청 번호</th>
+					<th>요청번호</th>
 					<th>상품명</th>
 					<th>제조사명</th>
 					<th>상품요청일</th>

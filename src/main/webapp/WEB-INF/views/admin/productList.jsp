@@ -75,13 +75,13 @@
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">상품명순</a>
+				<a href="productList.ad?value=productName">상품명순</a>
 			</li>
 			<li>
-				<a href="">재고량순</a>
+				<a href="productList.ad?value=productStock">재고량순</a>
 			</li>
 			<li>
-				<a href="">게시일순</a>
+				<a href="productList.ad?value=productNo">게시일순</a>
 			</li>
 		</ul>
 		<table class="table table-hover b-t">

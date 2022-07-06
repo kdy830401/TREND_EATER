@@ -1,12 +1,13 @@
 package com.fpj.trendeater.board.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,13 +25,10 @@ import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.service.BoardService;
-
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
-
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.common.Pagination;
-
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Controller
@@ -48,13 +46,19 @@ public class BoardController {
 	
 	//상품 리스트
 	@RequestMapping("prBoardList.bo")
-	public ModelAndView prBoardList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView prBoardList(@RequestParam(value="page", required=false) Integer page,
+									@RequestParam(value="value", required=false) String value,
+									ModelAndView mv, HttpServletRequest request) {
 	
-//		mv.setViewName("true");
+		System.out.println(value);
 		
 		boolean boardCheck = true;
 		
-		ModelAndView boardMv = aController.productList(page, mv, request, boardCheck);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("boardCheck", boardCheck);
+		map.put("value", value);
+		
+		ModelAndView boardMv = aController.productList(page, mv, value, request, map);
 		
 		boardMv.setViewName("prBoardList");
 
@@ -65,17 +69,34 @@ public class BoardController {
 	@RequestMapping("prbdetail.bo")
 	public ModelAndView prbBoardDetail(@RequestParam(value = "pno") int pno, 
 									   @RequestParam(value = "page", required = false) Integer page,
+									   HttpServletRequest request,
 									   ModelAndView mv) {
 
+		String emailId = null;
+		int scrapCheckNum = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
+			HashMap<String, Object> map = new HashMap<>();
+			
+			map.put("pNo", pno);
+			map.put("emailId", emailId);
+			
+			scrapCheckNum = bService.checkScrap(map);
+		}
+		
+		System.out.println(scrapCheckNum);
 		System.out.println(pno);
 		Product p = bService.selectPrBoard(pno);
 
 //		System.out.println(p);
 		ArrayList<Image> imgList = bService.selectPrImage(pno);
+		
+		
 
 		if (p != null && imgList != null) {
 			mv.addObject("p", p);
 			mv.addObject("imgList", imgList);
+			mv.addObject("scrapCheckNum", scrapCheckNum);
 			if(page != null) {
 				mv.addObject("page", page);
 			}
@@ -129,6 +150,27 @@ public class BoardController {
 		
 	}
 	
+	// 스크랩
+	@RequestMapping("scrap.me")
+	public void scrap(@RequestParam("pNo") Integer pNo, HttpServletRequest request, HttpServletResponse response) {
+		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
+		
+		HashMap<String, Object> map = new HashMap<>();
+		
+		map.put("pNo", pNo);
+		map.put("emailId", emailId);
+		
+		int result = bService.scrap(map);
+		
+		try {
+			PrintWriter pw = response.getWriter();
+			pw.print(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 
 
 	

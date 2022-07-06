@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -154,13 +155,13 @@
 			<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">제품 및 리뷰 게시판</h2>
 			<ul class="uk-breadcrumb uk-align-right">
 				<li>
-					<a href="">최신순</a>
+					<a href="prBoardList.bo?value=productNo">최신순</a>
 				</li>
 				<li>
-					<a href="">리뷰순</a>
+					<a href="prBoardList.bo?value=reviewCount">리뷰순</a>
 				</li>
 				<li>
-					<a href="">스크랩순</a>
+					<a href="prBoardList.bo?value=scrapCount">스크랩순</a>
 				</li>
 			</ul>
 		</div>
@@ -177,7 +178,16 @@
 							<div class="uk-card-header">
 								<div class="uk-width-expand">
 									<h4 class="uk-card-title uk-text-bold uk-margin-top uk-margin-remove-bottom">${ b.productName }</h4>
+									
+									<jsp:useBean id="now" class="java.util.Date"/>
+									<fmt:formatDate value="${ now }"  pattern="yyyyMMdd" var="now2"/>
+									<fmt:parseNumber value="${ now.time / (1000*60*60*24) }" var="nowDate" integerOnly="true"/>
+									
+									<fmt:parseDate value="${ b.createDate }" var="viewDate" pattern="yyyy-MM-dd"/>
+									<fmt:parseNumber value="${ viewDate.time / (1000*60*60*24) }" var="enrollDate" integerOnly="true"/>
+									<c:if test="${ nowDate - enrollDate < 7 }">
 									<div class="uk-card-badge">N</div>
+									</c:if>
 								</div>
 							</div>
 							<div class="uk-card-media">
@@ -192,7 +202,6 @@
 							<hr class="uk-margin-remove-bottom">
 							<div class="uk-card-body uk-padding-small">
 								<P class="uk-text-meta uk-margin-remove-top">${ b.productOneLine }</P>
-								<i class="fa-regular fa-heart"></i>
 								<i class="fa-regular fa-comments"></i>
 								<span class="uk-badge uk-text-top">${ b.reviewCount }</span>
 							</div>

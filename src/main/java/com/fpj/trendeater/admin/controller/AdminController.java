@@ -58,7 +58,9 @@ public class AdminController {
 
 	// 상품 목록 불러오기
 	@RequestMapping(value={"productList.ad" , "prbAdminList.ad"})
-	public ModelAndView productList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv, HttpServletRequest request, boolean boardCheck) {
+	public ModelAndView productList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv, 
+									@RequestParam(value = "value", required = false) String value,
+									HttpServletRequest request, HashMap<String, Object> map) {
 
 		int currentPage = 1;
 
@@ -68,13 +70,14 @@ public class AdminController {
 		
 		String table = "pListAdmin";
 		int boardLimit = 5;
-		
-		if(boardCheck == true) {
+		if(map.get("boardCheck") != null && (boolean)map.get("boardCheck") == true) {
 			table = "pListBoard";
 			boardLimit = 9;
 		}
+		if(map.get("value") == null) {
+			map.put("value", value);
+		}
 		
-		System.out.println("boardCheck:" + boardCheck);
 		int listCount = aService.getListCount(table);
 		
 
@@ -83,7 +86,7 @@ public class AdminController {
 		System.out.println(pi);
 
 		 
-		ArrayList<Product> list = aService.getProductList(pi, boardCheck);
+		ArrayList<Product> list = aService.getProductList(pi, map);
 		ArrayList<Image> imgList = aService.getProductImgList();
 		String url = (String)request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 //		System.out.println(url);
@@ -227,7 +230,8 @@ public class AdminController {
 
 	// 시식게시판 관리 리스트 불러오기
 	@RequestMapping("applyTaste.ad")
-	public ModelAndView applyTasteList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv, boolean boardCheck) {
+	public ModelAndView applyTasteList(@RequestParam(value = "page", required = false) Integer page, 
+									   @RequestParam(value = "value", required = false) String value, ModelAndView mv, boolean boardCheck) {
 
 		int currentPage = 1;
 
@@ -243,17 +247,22 @@ public class AdminController {
 			boardLimit = 9;
 			
 		}
+		
 		System.out.println("boardCheck:" + boardCheck);
 		
 		int listCount = aService.getListCount(table);
 		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("value", value);
+		map.put("boardCheck", boardCheck);
 		
-		
+		System.out.println(map);
+		System.out.println(value);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
 		System.out.println(pi);
 
-		ArrayList<ApplyTaste> aList = aService.getTasteList(pi, boardCheck);
+		ArrayList<ApplyTaste> aList = aService.getTasteList(pi, map);
 //		System.out.println(aList);
 		mv.addObject("pi", pi);
 		mv.addObject("aList", aList);
@@ -378,7 +387,8 @@ public class AdminController {
 
 	// 상품 요청 리스트 관리자 페이지에 뿌리기
 	@RequestMapping("requestProductList.ad")
-	public ModelAndView requestProductList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv) {
+	public ModelAndView requestProductList(@RequestParam(value = "page", required = false) Integer page, 
+										   @RequestParam(value="value", required=false) String value, ModelAndView mv) {
 
 		int currentPage = 1;
 
@@ -393,8 +403,9 @@ public class AdminController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
 		System.out.println(pi);
+		System.out.println("value :" + value);
 
-		ArrayList<ProductRequest> prlist = aService.selectRequestProductList(pi);
+		ArrayList<ProductRequest> prlist = aService.selectRequestProductList(pi, value);
 
 		if (prlist != null) {
 			mv.addObject("prlist", prlist);
@@ -410,7 +421,7 @@ public class AdminController {
 	@RequestMapping("updateProductForm.ad")
 	public ModelAndView updateProductView(@RequestParam("productNo") int productNo, ModelAndView mv) {
 
-		ModelAndView updateMv = bController.prbBoardDetail(productNo, 1, mv);
+		ModelAndView updateMv = bController.prbBoardDetail(productNo, 1, null, mv);
 		updateMv.setViewName("updateProductForm");
 
 		return updateMv;
@@ -541,7 +552,8 @@ public class AdminController {
 
 	// 시식 신청자 불러오기
 	@RequestMapping("applyPersonList.ad")
-	public ModelAndView getApplyPersonList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv) {
+	public ModelAndView getApplyPersonList(@RequestParam(value = "page", required = false) Integer page, 
+										   @RequestParam(value = "value", required = false) String value, ModelAndView mv) {
 		int currentPage = 1;
 
 		if (page != null) {
@@ -557,8 +569,10 @@ public class AdminController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
 		System.out.println(pi);
-
-		ArrayList<ApplyTastePerson> applyPersonList = aService.getApplyPersonList(pi);
+		HashMap<String, String> map = new HashMap<>();
+		map.put("value", value);
+		
+		ArrayList<ApplyTastePerson> applyPersonList = aService.getApplyPersonList(pi, map);
 
 		if (applyPersonList != null) {
 			mv.addObject("list", applyPersonList);
