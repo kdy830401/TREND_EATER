@@ -88,7 +88,22 @@
 		<url-pattern>/admin/*</url-pattern>
 	</servlet-mapping>
 	
-
+	<!-- 장바구니, 주문 관련 -->
+	<servlet>
+		<servlet-name>CartServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/cart-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>CartServlet</servlet-name>
+		<url-pattern>*.ct</url-pattern>
+	</servlet-mapping>
+	
 	<!-- 인코딩 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

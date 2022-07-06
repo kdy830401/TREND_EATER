@@ -333,22 +333,22 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					<p class="uk-text-small uk-margin-remove-top">${ p.boardContent }</p>
 					<hr>
 				</div>
-				<form action="#" method="post" class="uk ">
+				<!-- <form action="addCart.ct" method="post" class="uk "> -->
+					<!-- 구매수량(productAmount) 정보 -->
 					<label for="amount" class="uk-text-small uk-text-bold">구매수량</label>
-					<div class="uk-margin">
-						<input type="hidden" name="totalPrice" id="totalPrice" value="">
+					<div class="uk-margin" id="pdtAmount">
 						<div class="uk-grid-collapse uk-margin-remove" uk-grid>
 							<button class="minus" type="button">
 								<span uk-icon="icon: minus; ratio: 1"></span>
 							</button>
-							<input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount" value="1">
+							<!-- Cart(장바구니)에 추가할 정보 1-->
+							<!-- 구매 상품 수량 -->
+							<!-- <input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount" value="1"> -->
+							<input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount">						
 							<button class="plus" type="button">
 								<span class=" uk-text-middle" uk-icon="icon: plus; ratio: 1"></span>
-
 							</button>
 						</div>
-
-
 					</div>
 					<div class="uk-width-1-1 uk-text-right ">
 						<span class="uk-text-bold uk-text-small">총 상품금액</span>
@@ -414,19 +414,58 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
                                     });
                             </script>
 							<c:if test="${ p.productType == 1 }">
-								<button class="uk-button uk-button-default uk-width-auto@m">장바구니</button>
-								<button class="uk-button uk-button-primary uk-width-1-2@m">구매하기</button>
+
+
+							<!-- 장바구니 -->
+							<button class="uk-button uk-button-default uk-width-auto@m" id="addCart">장바구니</button>
+							<!-- Cart(장바구니)에 추가할 정보 2-->
+							<!-- 구매 상품 번호, 가격, 이름 -->
+							<input type="hidden" name="productNo" id="productNo" value="${p.productNo}">
+							<input type="hidden" name="productPrice" id="productPrice" value="${p.productPrice}">
+							<input type="hidden" name="productName" id="productName" value="${p.productName}">	
+							<!-- 구매하기 -->
+							<button class="uk-button uk-button-primary uk-width-1-2@m">구매하기</button>
+
 							</c:if>
 							<c:if test="${ p.productType == 2 }">
 								<button class="uk-button uk-button-default uk-width-4-5@m" disabled>미판매 상품입니다.</button>
 							</c:if>
 						</div>
 					</div>
-				</form>
+				<!-- </form> -->
 			</div>
 		</div>
 	</div>
 
+
+	
+	<script>
+		$('#addCart').on('click', function(){
+			var productNo = $(this).siblings('#productNo').val();
+			var productName = $(this).siblings('#productName').val();
+			var productPrice = $(this).siblings('#productPrice').val();
+			var productAmount = $(this).parent().parent().siblings('#pdtAmount').find('#amount').val();
+			
+			$.ajax({
+				url:'checkCart.ct',
+				data: {productNo:productNo},
+				type:'post',
+				async:false,
+				success : function(data){
+					if(data=='true'){
+						console.log(data);
+						alert('이미 장바구니에 추가된 품목입니다.');
+					} else{
+						console.log("false : " + data);
+						location.href ='addCart.ct?productNo='+productNo+'&productName='+productName+'&productPrice='+productPrice+'&productAmount='+productAmount; 	
+					}
+				}, 
+				error : function(data){
+					alert('오류입니다.');
+				}
+			});
+		});
+	</script>
 
 
 
@@ -752,7 +791,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		</div>
 	</c:if>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/prBoardDetail.js"></script>
-
+	
 
 </body>
 </html>

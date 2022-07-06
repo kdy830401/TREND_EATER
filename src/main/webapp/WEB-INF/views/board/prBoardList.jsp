@@ -61,7 +61,7 @@
 				<h4 class="uk-h4 uk-text-center@s" id="requestEat">
 					TREND EATER는 언제나 EATER님들의 의견을 기다리고 있습니다.<br> 도무지 찾을 수 없는, 경험해 보고 싶은 TREND FOODS<br> TREND EATER에게 맡겨보세요
 				</h4>
-				<a class="uk-button uk-button-default" href="#modal-overflow" uk-toggle>상품 요청</a>
+				<a id="requestmodal" class="uk-button uk-button-default" onclick ="requestEat();" href ="#modal-overflow" uk-toggle>상품 요청</a>
 				<div id="modal-overflow" uk-modal>
 					<div class="uk-modal-dialog">
 					<!-- 	<form action="requestProduct.bo" method="post" class="uk-form-stacked"> -->
@@ -94,6 +94,27 @@
 	
 	
 	<!-- 상품 등록 요청 -->
+	
+	<!-- 로그인 안하고 상품요청 버튼 클릭 시 이벤트 발생 -->
+	<script>
+	function requestEat(){
+		var loginUser = '${loginUser}';
+		console.log(loginUser);
+		if(loginUser == ''){
+			$('#requestmodal').attr("href","loginform.me");
+			alert("로그인 후 이용해주세요.");
+			return false;
+		}else{
+		
+			return true;
+		}
+	}
+	</script>
+	
+	
+	
+	
+	
 	<script type="text/javascript">	
 	$('.request').on("click",function(){
 		$.ajax({
@@ -104,6 +125,8 @@
 				
 			if(data == '1'){
 				alert("상품 등록이 요청되었습니다.");
+				$('#productNo_name').val("");
+				$('#productNo_company').val("");
 			} 
 				
 			},error:function(data){

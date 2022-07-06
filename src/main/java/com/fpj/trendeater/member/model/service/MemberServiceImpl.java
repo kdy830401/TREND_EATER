@@ -264,6 +264,13 @@ public void kakaoLogout(String access_Token) {
 	
 }
 
+	//김주희:회원 탈퇴
+	@Override
+	public int deleteMember(Member member) {
+		
+		return mDAO.deleteMember(sqlSession,member);
+	}
+
 	
 	
 
