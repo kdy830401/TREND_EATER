@@ -42,13 +42,16 @@
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">상품명순</a>
+				<a href="applyTaste.ad?value=applyCount">신청순</a>
 			</li>
 			<li>
-				<a href="">재고량순</a>
+				<a href="applyTaste.ad?value=tasteNo">최신순</a>
 			</li>
 			<li>
-				<a href="">게시일순</a>
+				<a href="applyTaste.ad?value=productName">상품명순</a>
+			</li>
+			<li>
+				<a href="applyTaste.ad?value=endDate">마감일순</a>
 			</li>
 		</ul>
 		<table class="table table-hover b-t">

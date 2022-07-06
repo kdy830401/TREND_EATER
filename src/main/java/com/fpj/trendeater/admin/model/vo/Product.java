@@ -14,7 +14,8 @@ public class Product {
 	private Date createDate;
 	private Date modifyDate;
 	private int boardCount;
-	private String reviewCount;
+	private int reviewCount;
+	private int scrapCount;
 	private String boardStatus;
 	private String adminId;
 	private String adminName;
@@ -31,8 +32,8 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(int productNo, String productName, int productPrice, int productStock, String productOneLine, int productType, String productStatus, String boardContent, Date createDate, Date modifyDate, int boardCount, String reviewCount,
-			String boardStatus, String adminId, String adminName, double totalAvg, double recommendAvg, double reorderAvg, double spicyAvg, double sweetAvg, double bitterAvg, double saltyAvg, double sourAvg) {
+	public Product(int productNo, String productName, int productPrice, int productStock, String productOneLine, int productType, String productStatus, String boardContent, Date createDate, Date modifyDate, int boardCount, int reviewCount,
+			int scrapCount, String boardStatus, String adminId, String adminName, double totalAvg, double recommendAvg, double reorderAvg, double spicyAvg, double sweetAvg, double bitterAvg, double saltyAvg, double sourAvg) {
 		super();
 		this.productNo = productNo;
 		this.productName = productName;
@@ -46,6 +47,7 @@ public class Product {
 		this.modifyDate = modifyDate;
 		this.boardCount = boardCount;
 		this.reviewCount = reviewCount;
+		this.scrapCount = scrapCount;
 		this.boardStatus = boardStatus;
 		this.adminId = adminId;
 		this.adminName = adminName;
@@ -147,12 +149,20 @@ public class Product {
 		this.boardCount = boardCount;
 	}
 
-	public String getReviewCount() {
+	public int getReviewCount() {
 		return reviewCount;
 	}
 
-	public void setReviewCount(String reviewCount) {
+	public void setReviewCount(int reviewCount) {
 		this.reviewCount = reviewCount;
+	}
+
+	public int getScrapCount() {
+		return scrapCount;
+	}
+
+	public void setScrapCount(int scrapCount) {
+		this.scrapCount = scrapCount;
 	}
 
 	public String getBoardStatus() {
@@ -246,11 +256,12 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice + ", productStock=" + productStock + ", productOneLine=" + productOneLine + ", productType=" + productType + ", productStatus="
-				+ productStatus + ", boardContent=" + boardContent + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", boardCount=" + boardCount + ", reviewCount=" + reviewCount + ", boardStatus=" + boardStatus + ", adminId=" + adminId
-				+ ", adminName=" + adminName + ", totalAvg=" + totalAvg + ", recommendAvg=" + recommendAvg + ", reorderAvg=" + reorderAvg + ", spicyAvg=" + spicyAvg + ", sweetAvg=" + sweetAvg + ", bitterAvg=" + bitterAvg + ", saltyAvg=" + saltyAvg
-				+ ", sourAvg=" + sourAvg + "]";
+				+ productStatus + ", boardContent=" + boardContent + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", boardCount=" + boardCount + ", reviewCount=" + reviewCount + ", scrapCount=" + scrapCount + ", boardStatus="
+				+ boardStatus + ", adminId=" + adminId + ", adminName=" + adminName + ", totalAvg=" + totalAvg + ", recommendAvg=" + recommendAvg + ", reorderAvg=" + reorderAvg + ", spicyAvg=" + spicyAvg + ", sweetAvg=" + sweetAvg + ", bitterAvg="
+				+ bitterAvg + ", saltyAvg=" + saltyAvg + ", sourAvg=" + sourAvg + "]";
 	}
 
+	
 	
 
 }

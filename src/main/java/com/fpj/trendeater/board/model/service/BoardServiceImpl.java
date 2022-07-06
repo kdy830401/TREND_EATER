@@ -1,6 +1,7 @@
 package com.fpj.trendeater.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,32 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	
+	// 리뷰게시판 상세보기
 	@Override
 	public Product selectPrBoard(int pno) {
 		return bDAO.selectPrBoard(sqlSession, pno);
 	}
-
+	// 리뷰게시판 상세보기
 	@Override
 	public ArrayList<Image> selectPrImage(int pno) {
 		return bDAO.selectPrImage(sqlSession, pno);
 	}
-
+	// 시식신청
 	@Override
 	public int registerApplyTaste(ApplyTastePerson applyPerson) {
 		return bDAO.registerApplyTaste(sqlSession, applyPerson);
+	}
+	
+	// 스크랩
+	@Override
+	public int scrap(HashMap<String, Object> map) {
+		return bDAO.scrap(sqlSession, map) ;
+	}
+	
+	@Override
+	public int checkScrap(HashMap<String, Object> map) {
+		return bDAO.checkScrap(sqlSession, map);
 	}
 
 
@@ -115,6 +129,9 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteBoardQna(BoardQnA b) {
 		return bDAO.deleteBoardQna(sqlSession, b);
 	}
+
+
+
 
 
 

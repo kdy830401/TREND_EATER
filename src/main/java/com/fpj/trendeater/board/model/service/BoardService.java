@@ -1,6 +1,7 @@
 package com.fpj.trendeater.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
@@ -14,11 +15,21 @@ import com.fpj.trendeater.board.model.vo.BoardQnA;
 
 public interface BoardService {
 
+	
+	// 리뷰 게시판 상세보기
 	Product selectPrBoard(int pno);
 
+	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
-
+	
+	// 시식신청
 	int registerApplyTaste(ApplyTastePerson applyPerson);
+	
+	//스크랩
+	int scrap(HashMap<String, Object> map);
+	
+	// 스크랩 여부 체크
+	int checkScrap(HashMap<String, Object> map);
 
 
 /********************************** notice *********************************/	
@@ -35,6 +46,14 @@ public interface BoardService {
 	int insertBoardQna(BoardQnA b);		// 문의사항 게시판 글쓰기
 	int updateBoardQna(BoardQnA b);
 	int deleteBoardQna(BoardQnA b);
+
+	
+
+
+
+	
+
+
 	
 	
 	
