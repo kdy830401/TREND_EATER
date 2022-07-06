@@ -68,7 +68,7 @@ public class MemberController {
 	
 		Member loginMember = mService.login(m);
 
-		
+		System.out.println(bcrypt.encode(m.getPwd()));
 		
 		
 		//로그인입력창에 입력한 비밀번호와 아이디로 검색한 회원의 암호화된 비밀번호 비교
