@@ -110,8 +110,10 @@
 		<result column="MODIFY_DATE" property="boardModifyDate"/>
 		<result column="BOARD_COUNT" property="boardCount"/>
 		<result column="BOARD_STATUS" property="boardStatus"/>
+		<!-- <result column="BOARD_TYPE" property="boardStatus"/>  --> <!-- ??? -->
 		<result column="ADMIN_ID" property="adminId"/>
 	</resultMap>
+	
 
 <!-- notice 쓰기  -->
 	<insert id="insertBoard">
@@ -132,6 +134,20 @@
 		set board_status = 'N'
 		where admin_id = #{adminId}
 	</update>
+	
+<!-- notice 상세보기 -->	
+	<update id="addReadCount">
+		update board
+		set board_count = board_count + 1
+		where board_no = #{bId}
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		select *
+		from board
+			<!-- join member on (board_writer = id) -->
+		where board_no = #{bId} and board_status = 'Y'
+	</select>
  
  
 <!-- QnA 읽기(조회) : 페이징처리1 - 총게시물 --> 
@@ -145,7 +161,7 @@
 	<select id="getBoardQnaList" resultMap="boardQnaResultSet">
 		select *
 		from qna 
-		where qna_status = 'Y'
+		where qna_status = 'Y' and email_id = #{emailId}
 		order by qna_no desc
 	</select>
 	<resultMap type="BoardQnA" id="boardQnaResultSet">	<!-- type="" 속성 별칭 설정하면 Board도 가능 -->
@@ -163,15 +179,23 @@
 <!-- QnA 쓰기 -->
 	<insert id="insertBoardQna"> 
 		insert into qna
-		values(seq_qnaid.nextval, #{qnaTitle}, #{qnaContent}, sysdate, default, default, default, default)
+		values(seq_qnaid.nextval, #{qnaTitle}, #{qnaContent}, sysdate, default, default, default, #{emailId})
 	</insert>
+	
+	
+<!-- 수정을 위한 해당 id의 qna 전체 정보 받아오기 -->	
+	<select id="selectBoardQna" resultMap="boardQnaResultSet">
+		select *
+		from qna
+		where qna_status = 'Y' and qna_no = #{qnaNo} 
+	</select>
+
 	
 <!-- QnA 수정 -->
 	<update id="updateBoardQna">
 		update qna
 		set qna_title = #{qnaTitle}, qna_content = #{qnaContent}
-		
-		where email_id = #{emailId}
+		where qna_status = 'Y' and qna_No = #{qnaNo}  
 	</update>
  	
 <!-- QnA 삭제 -->
