@@ -341,16 +341,19 @@ public class BoardController {
 	
 	// QnA : 삭제
 	@RequestMapping("boardQnaDeleteForm.bo")
-	public String deleteBoard(@ModelAttribute BoardQnA b, HttpSession session) {  
+	public String deleteBoard(/* @ModelAttribute BoardQnA b, */ @RequestParam("qnaNo") int qnaNo
+							/* ,HttpSession session */) {  
 			
 		
-		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-		b.setEmailId(id);
+//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
+//		b.setEmailId(id);
 		
-		System.out.println("삭제 id="+id);
-		System.out.println("삭제 b="+b);
+//		System.out.println("삭제 id="+id);
+//		System.out.println("삭제 b="+b);
+		System.out.println("삭제 qnaNo="+qnaNo);
 		
-		int result = bService.deleteBoardQna(b);
+		int result = bService.deleteBoardQna(qnaNo);
+//		int result = bService.deleteBoardQna(b);
 		
 		System.out.println("삭제 result="+result);
 		

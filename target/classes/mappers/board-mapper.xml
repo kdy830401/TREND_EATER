@@ -174,7 +174,7 @@
 	<update id="deleteBoardQna">
 		update qna
 		set qna_status = 'N'
-		where email_id = #{emailId}
+		where qna_No = #{qnaNo}
 	</update>
 
 

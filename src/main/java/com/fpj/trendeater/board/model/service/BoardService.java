@@ -29,7 +29,8 @@ public interface BoardService {
 	int insertBoardQna(BoardQnA b);		// 문의사항 게시판 글쓰기
 	BoardQnA selectBoardQna(BoardQnA b); // 수정을 위한 해당 id의 qna 전체 정보 받아오기
 	int updateBoardQna(BoardQnA b);
-	int deleteBoardQna(BoardQnA b);
+	int deleteBoardQna(int qnaNo);
+//	int deleteBoardQna(BoardQnA b);
 
 
 	

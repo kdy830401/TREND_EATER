@@ -102,7 +102,7 @@ pageEncoding="UTF-8"%>
 	                    </ul>
 	                    <div class="QnaToggleOpen_Button">
 	                        <button type="button" name="page" id="updateBtn${ vs.index }" class="updateBtn">수정</button> <!-- { vs.index } == 위의 varStatus -->
-	                        <button type="submit" name="page" id="deleteBtn${ vs.index }" class="deleteBtn">삭제</button>
+	                        <button type="button" name="page" id="deleteBtn${ vs.index }" class="deleteBtn">삭제</button>
 	                        		
 <%-- 	                        <button type="submit" name="page" value="${pi.currentPage}" id="boardQnaDelete"
 	                        		onclick="boardQnaDelete()">삭제</button>
@@ -193,11 +193,16 @@ pageEncoding="UTF-8"%>
 	/* 	}
 		
 	} */
-	$('.deleteBtn${').on('click',function(){
+	$('.deleteBtn').on('click',function(){
 		var no = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		$('#qnaNo').val(no); 
-		$('#boardQnaUpdateViewForm').submit();
-		
+		console.log(no);
+		/* $('#qnaNo').submit(); */
+		/* console.log($('#qnaNo').val(no)); */
+		if(confirm("정말 삭제하시겠습니까?")){
+			location.href="boardQnaDeleteForm.bo";
+		}
+	});	
 	$('.updateBtn').on('click',function(){
 		var no = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		// parent() : 상위태그로 // prev() : 동급의 이전태그(같은 띄어쓰기 단계의 바로 앞에 쓰인 태그) // children() : 하위태그로 // eq(0) : 해당 태그의 0번째있는 태그 // text() : 텍스트만 끌어오는 태그
