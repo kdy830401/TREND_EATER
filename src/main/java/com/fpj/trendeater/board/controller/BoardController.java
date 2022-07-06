@@ -38,6 +38,7 @@ public class BoardController {
 
 		return boardMv;
 	}
+	
 	//상품상세보기
 	@RequestMapping("prbdetail.bo")
 	public ModelAndView prbBoardDetail(@RequestParam(value = "pno") int pno, 

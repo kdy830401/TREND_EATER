@@ -141,7 +141,7 @@ a:hover {
 									</ul>
 								</div></li>
 							<li><a href="" uk-icon="heart"></a></li>
-							<li><a href="" uk-icon="cart"></a></li>
+							<li><a href="list.ct" uk-icon="cart"></a></li>
 						</ul>
 					</div>
 				</div>

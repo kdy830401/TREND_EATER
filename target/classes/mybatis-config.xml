@@ -11,12 +11,14 @@
 		<typeAlias type="com.fpj.trendeater.admin.model.vo.ApplyTaste" alias="ApplyTaste"/>
 		<typeAlias type="com.fpj.trendeater.admin.model.vo.ProductRequest" alias ="ProductRequest"/>
 		<typeAlias type="com.fpj.trendeater.member.model.vo.Member" alias ="Member"/>
+		<typeAlias type="com.fpj.trendeater.cart.model.vo.Cart" alias ="Cart"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/product-mapper.xml"/>
 		<mapper resource="mappers/board-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
    		<mapper resource="mappers/admin-mapper.xml"/>
+   		<mapper resource="mappers/cart-mapper.xml"/>
 	</mappers>
 
 </configuration>
