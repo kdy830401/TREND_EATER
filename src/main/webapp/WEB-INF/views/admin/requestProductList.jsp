@@ -20,15 +20,6 @@
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">상품 요청 관리</h2>
 		<form class="uk-child-width-auto " uk-grid>
 			<div class="uk-align-center">
-				<div class="uk-align-center">
-					<div class="uk-inline">
-						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01">
-					</div>
-					<span>~</span>
-					<div class="uk-inline">
-						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01">
-					</div>
-				</div>
 				<div class="uk-inline">
 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition">
 						<option value="" disabled selected>검색조건을 선택하세요</option>
@@ -51,20 +42,20 @@
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">상품명순</a>
+				<a href="requestProductList.ad?value=productName">상품명순</a>
 			</li>
 			<li>
-				<a href="">요청일순</a>
+				<a href="requestProductList.ad?value=createDate">요청일순</a>
 			</li>
 			<li>
-				<a href="">번호순</a>
+				<a href="requestProductList.ad?value=requestNo">요청번호순</a>
 			</li>
 		</ul>
 		<table class="table table-hover b-t">
 			<thead>
 
 				<tr>
-					<th>상품요청 번호</th>
+					<th>요청번호</th>
 					<th>상품명</th>
 					<th>제조사명</th>
 					<th>상품요청일</th>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +61,7 @@
 				<h4 class="uk-h4 uk-text-center@s" id="requestEat">
 					TREND EATER는 언제나 EATER님들의 의견을 기다리고 있습니다.<br> 도무지 찾을 수 없는, 경험해 보고 싶은 TREND FOODS<br> TREND EATER에게 맡겨보세요
 				</h4>
-				<a class="uk-button uk-button-default" href="#modal-overflow" uk-toggle>상품 요청</a>
+				<a id="requestmodal" class="uk-button uk-button-default" onclick ="requestEat();" href ="#modal-overflow" uk-toggle>상품 요청</a>
 				<div id="modal-overflow" uk-modal>
 					<div class="uk-modal-dialog">
 					<!-- 	<form action="requestProduct.bo" method="post" class="uk-form-stacked"> -->
@@ -93,6 +94,27 @@
 	
 	
 	<!-- 상품 등록 요청 -->
+	
+	<!-- 로그인 안하고 상품요청 버튼 클릭 시 이벤트 발생 -->
+	<script>
+	function requestEat(){
+		var loginUser = '${loginUser}';
+		console.log(loginUser);
+		if(loginUser == ''){
+			$('#requestmodal').attr("href","loginform.me");
+			alert("로그인 후 이용해주세요.");
+			return false;
+		}else{
+		
+			return true;
+		}
+	}
+	</script>
+	
+	
+	
+	
+	
 	<script type="text/javascript">	
 	$('.request').on("click",function(){
 		$.ajax({
@@ -103,6 +125,8 @@
 				
 			if(data == '1'){
 				alert("상품 등록이 요청되었습니다.");
+				$('#productNo_name').val("");
+				$('#productNo_company').val("");
 			} 
 				
 			},error:function(data){
@@ -131,13 +155,13 @@
 			<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">제품 및 리뷰 게시판</h2>
 			<ul class="uk-breadcrumb uk-align-right">
 				<li>
-					<a href="">최신순</a>
+					<a href="prBoardList.bo?value=productNo">최신순</a>
 				</li>
 				<li>
-					<a href="">리뷰순</a>
+					<a href="prBoardList.bo?value=reviewCount">리뷰순</a>
 				</li>
 				<li>
-					<a href="">스크랩순</a>
+					<a href="prBoardList.bo?value=scrapCount">스크랩순</a>
 				</li>
 			</ul>
 		</div>
@@ -154,7 +178,16 @@
 							<div class="uk-card-header">
 								<div class="uk-width-expand">
 									<h4 class="uk-card-title uk-text-bold uk-margin-top uk-margin-remove-bottom">${ b.productName }</h4>
+									
+									<jsp:useBean id="now" class="java.util.Date"/>
+									<fmt:formatDate value="${ now }"  pattern="yyyyMMdd" var="now2"/>
+									<fmt:parseNumber value="${ now.time / (1000*60*60*24) }" var="nowDate" integerOnly="true"/>
+									
+									<fmt:parseDate value="${ b.createDate }" var="viewDate" pattern="yyyy-MM-dd"/>
+									<fmt:parseNumber value="${ viewDate.time / (1000*60*60*24) }" var="enrollDate" integerOnly="true"/>
+									<c:if test="${ nowDate - enrollDate < 7 }">
 									<div class="uk-card-badge">N</div>
+									</c:if>
 								</div>
 							</div>
 							<div class="uk-card-media">
@@ -169,9 +202,8 @@
 							<hr class="uk-margin-remove-bottom">
 							<div class="uk-card-body uk-padding-small">
 								<P class="uk-text-meta uk-margin-remove-top">${ b.productOneLine }</P>
-								<i class="fa-regular fa-heart"></i>
 								<i class="fa-regular fa-comments"></i>
-								<span class="uk-badge uk-text-top">100</span>
+								<span class="uk-badge uk-text-top">${ b.reviewCount }</span>
 							</div>
 						</div>
 					</div>
@@ -276,7 +308,8 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 

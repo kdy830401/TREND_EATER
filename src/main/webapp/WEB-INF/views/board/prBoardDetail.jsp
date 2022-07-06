@@ -96,6 +96,17 @@
 	font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48
 }
 
+.nofill {
+	font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+	color:  #FF5C58;
+}
+
+.fill {
+	font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+	color: #FF5C58;
+}
+
+
 .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even)
 	{
 	background: #f8f8f8;
@@ -161,8 +172,13 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			</a>
 		</div>
 		<div class="uk-margin uk-border-circle floating-button favorite" uk-tooltip="스크랩">
-			<a href="#">
-				<span class="material-symbols-outlined icon changColor">favorite</span>
+			<a class="scrap scrap-float" href="javascript:void(0)">
+				<c:if test="${ scrapCheckNum == 1 }">
+					<span class="material-symbols-outlined icon fill">favorite</span>
+				</c:if>
+				<c:if test="${ scrapCheckNum == 0 }">
+					<span class="material-symbols-outlined icon nofill">favorite</span>
+				</c:if>
 			</a>
 		</div>
 	</div>
@@ -179,7 +195,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					</c:if>
 				</c:forEach>
 				<c:if test="${ p.productType == 1 }">
-				<a class="uk-width-1-3 uk-align-center uk-button uk-button-default" href="#modal-overflow" uk-toggle>상품상세정보 보기</a>
+					<a class="uk-width-1-3 uk-align-center uk-button uk-button-default" href="#modal-overflow" uk-toggle>상품상세정보 보기</a>
 				</c:if>
 			</div>
 			<div id="modal-overflow" class="" uk-modal>
@@ -195,46 +211,102 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<table class="uk-table uk-table-justify">
 								<tbody>
 									<tr>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>제품명</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>식품의 유형</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>제품명</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>식품의 유형</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
 									</tr>
 									<tr>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>제조업소의 명칭과 소재지</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>제조연월일, 유통기한</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>제조업소의 명칭과 소재지</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>제조연월일, 유통기한</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
 									</tr>
 									<tr>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>포장단위별 내용물의 용량(중량), 수량</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>원재료명 및 함량</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>포장단위별 내용물의 용량(중량), 수량</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>원재료명 및 함량</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
 									</tr>
 									<tr>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>영양정보</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>기능정보</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>영양정보</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>기능정보</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
 									</tr>
 									<tr>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>섭취량, 섭취방법, 섭취 시 주의사항 및 부작용 발생 가능성</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>의약품 여부</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>섭취량, 섭취방법, 섭취 시 주의사항 및 부작용 발생 가능성</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>의약품 여부</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
 									</tr>
 									<tr>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>유전자변형건강식품에 해당하는 경우의 표시</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>소비자안전을 위한 주의사항</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>유전자변형건강식품에 해당하는 경우의 표시</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>소비자안전을 위한 주의사항</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
 									</tr>
 									<tr>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>수입식품 문구</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
-										<th class="uk-table-small uk-background-muted uk-text-top"><small>소비자상담관련 전화번호</small></th>
-										<td class="uk-table-expand uk-text-small"><small>상품이미지 참조</small></td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>수입식품 문구</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
+										<th class="uk-table-small uk-background-muted uk-text-top">
+											<small>소비자상담관련 전화번호</small>
+										</th>
+										<td class="uk-table-expand uk-text-small">
+											<small>상품이미지 참조</small>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -261,22 +333,22 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					<p class="uk-text-small uk-margin-remove-top">${ p.boardContent }</p>
 					<hr>
 				</div>
-				<form action="#" method="post" class="uk ">
+				<!-- <form action="addCart.ct" method="post" class="uk "> -->
+					<!-- 구매수량(productAmount) 정보 -->
 					<label for="amount" class="uk-text-small uk-text-bold">구매수량</label>
-					<div class="uk-margin">
-						<input type="hidden" name="totalPrice" id="totalPrice" value="">
+					<div class="uk-margin" id="pdtAmount">
 						<div class="uk-grid-collapse uk-margin-remove" uk-grid>
 							<button class="minus" type="button">
 								<span uk-icon="icon: minus; ratio: 1"></span>
 							</button>
-							<input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount" value="1">
+							<!-- Cart(장바구니)에 추가할 정보 1-->
+							<!-- 구매 상품 수량 -->
+							<!-- <input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount" value="1"> -->
+							<input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount">						
 							<button class="plus" type="button">
 								<span class=" uk-text-middle" uk-icon="icon: plus; ratio: 1"></span>
-
 							</button>
 						</div>
-
-
 					</div>
 					<div class="uk-width-1-1 uk-text-right ">
 						<span class="uk-text-bold uk-text-small">총 상품금액</span>
@@ -287,30 +359,113 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					</div>
 					<div class="uk-margin-medium uk-child-width-1-2@m uk-grid-small" uk-grid>
 						<div class="uk-width-1-1 uk-text-right">
-							<a class="uk-width-auto@m uk-button-default uk-button scrap" href="javascript:void(0);" uk-icon="icon:heart"></a>
+							<input type="hidden" name="productNo" value="${ p.productNo }">
+							<a class="uk-width-auto@m uk-button-default uk-button scrap scrap-no-float" href="javascript:void(0);">
+									<c:if test="${ scrapCheckNum == 0 }">
+										<span class="material-symbols-outlined nofill uk-text-middle">favorite</span>
+									</c:if>
+									<c:if test="${ scrapCheckNum == 1 }">
+										<span class="material-symbols-outlined fill uk-text-middle">favorite</span>
+									</c:if>
+							</a>
+
+							<script>
+                                    $('.scrap').on('click', function() {
+                                        var pNo = ${ p.productNo};
+                                        console.log(pNo);
+                                        
+                                        var span1 = $('<span>');
+                                        var span2 = $('<span>');
+                                        $.ajax({
+                                            url : 'scrap.me',
+                                            data : {
+                                                pNo : pNo
+                                            },
+                                            type : 'POST',
+                                            success : function(data) {
+                                                console.log(data)
+                                                if (parseInt(data) == 2) {
+                                                    $('.fill').empty();
+                                                    span1.attr('class','material-symbols-outlined icon nofill scspan uk-text-middle');
+                                                    span1.text('favorite')
+                                                    $('.scrap-float').append(span1);
+                                                    span2.attr('class','material-symbols-outlined nofill scspan uk-text-middle');
+                                                    span2.text('favorite')
+                                                    $('.scrap-no-float').append(span2);
+//                                                    
+                                                } else if (parseInt(data) == 1) {
+                                                    $('.nofill').empty();
+                                                    
+                                                    span1.attr('class','material-symbols-outlined icon fill scspan uk-text-middle');
+                                                    span1.text('favorite')
+                                                    $('.scrap-float').append(span1);
+                                                    span2.attr('class','material-symbols-outlined fill scspan uk-text-middle');
+                                                    span2.text('favorite')
+                                                    $('.scrap-no-float').append(span2);
+//                                                 
+                                                }
+
+                                            },
+                                            error : function(data) {
+                                                console.log(data)
+
+                                            }
+                                        });
+                                    });
+                            </script>
 							<c:if test="${ p.productType == 1 }">
-							<button class="uk-button uk-button-default uk-width-auto@m">장바구니</button>
+
+
+							<!-- 장바구니 -->
+							<button class="uk-button uk-button-default uk-width-auto@m" id="addCart">장바구니</button>
+							<!-- Cart(장바구니)에 추가할 정보 2-->
+							<!-- 구매 상품 번호, 가격, 이름 -->
+							<input type="hidden" name="productNo" id="productNo" value="${p.productNo}">
+							<input type="hidden" name="productPrice" id="productPrice" value="${p.productPrice}">
+							<input type="hidden" name="productName" id="productName" value="${p.productName}">	
+							<!-- 구매하기 -->
 							<button class="uk-button uk-button-primary uk-width-1-2@m">구매하기</button>
+
 							</c:if>
 							<c:if test="${ p.productType == 2 }">
-							<button class="uk-button uk-button-default uk-width-4-5@m" disabled>미판매 상품입니다.</button>
+								<button class="uk-button uk-button-default uk-width-4-5@m" disabled>미판매 상품입니다.</button>
 							</c:if>
 						</div>
 					</div>
-				</form>
+				<!-- </form> -->
 			</div>
 		</div>
 	</div>
-	<script>
-	
-// 	$('.scrab').on('')
-// 	var id = ${ loginUser.email }
 
-// 	if(id = null){
-// 		alert("로그인 후 이용해 주세요");
-// 	}
-	</script>
+
 	
+	<script>
+		$('#addCart').on('click', function(){
+			var productNo = $(this).siblings('#productNo').val();
+			var productName = $(this).siblings('#productName').val();
+			var productPrice = $(this).siblings('#productPrice').val();
+			var productAmount = $(this).parent().parent().siblings('#pdtAmount').find('#amount').val();
+			
+			$.ajax({
+				url:'checkCart.ct',
+				data: {productNo:productNo},
+				type:'post',
+				async:false,
+				success : function(data){
+					if(data=='true'){
+						console.log(data);
+						alert('이미 장바구니에 추가된 품목입니다.');
+					} else{
+						console.log("false : " + data);
+						location.href ='addCart.ct?productNo='+productNo+'&productName='+productName+'&productPrice='+productPrice+'&productAmount='+productAmount; 	
+					}
+				}, 
+				error : function(data){
+					alert('오류입니다.');
+				}
+			});
+		});
+	</script>
 
 
 
@@ -324,30 +479,245 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<br>
 		</div>
 	</c:if>
-	
-	
+
 	<c:if test="${ p.totalAvg != 0  }">
-	<div class="uk-container">
-		<div class="uk-child-width-1-4@s uk-grid" uk-grid uk-height-match="target: > .uk-card-body">
+		<div class="uk-container">
+			<div class="uk-child-width-1-4@s uk-grid" uk-grid uk-height-match="target: > .uk-card-body">
 
-			<div class="uk-card">
-				<div class="uk-card-header uk-text-center">
-					<span class="uk-label uk-text-bold overview">평균 만족도</span>
+				<div class="uk-card">
+					<div class="uk-card-header uk-text-center">
+						<span class="uk-label uk-text-bold overview">평균 만족도</span>
+					</div>
+					<div class="uk-card uk-card-body uk-padding-remove">
+						<div class="uk-text-center">
+							<c:choose>
+								<c:when test="${ p.totalAvg == 5 }">
+									<span class="material-symbols-outlined emoji">sentiment_very_satisfied</span>
+								</c:when>
+								<c:when test="${ p.totalAvg < 5 && p.totalAvg >= 4 }">
+									<span class="material-symbols-outlined emoji">sentiment_satisfied</span>
+								</c:when>
+								<c:when test="${ p.totalAvg < 4 && p.totalAvg >= 3 }">
+									<span class="material-symbols-outlined emoji">sentiment_neutral</span>
+								</c:when>
+								<c:when test="${ p.totalAvg < 3 && p.totalAvg >= 2 }">
+									<span class="material-symbols-outlined emoji">sentiment_very_dissatisfied</span>
+								</c:when>
+								<c:when test="${ p.totalAvg < 2 && p.totalAvg >= 1 }">
+									<span class="material-symbols-outlined emoji">sentiment_extremely_dissatisfied</span>
+								</c:when>
+							</c:choose>
+						</div>
+						<div class="uk-text-center">
+							<span class="uk-text-primary uk-h5 uk-text-bold">${ p.totalAvg } / 5</span>
+						</div>
+						<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+							<div class="uk-width-auto uk-margin-right">
+								<p class="uk-text-small uk-text-bold">5점</p>
+							</div>
+							<div class="uk-padding-remove">
+								<progress class="uk-progress" value="45" max="100"></progress>
+							</div>
+							<div class="uk-width-auto uk-padding-remove">
+								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							</div>
+						</div>
+
+						<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+							<div class="uk-width-auto uk-margin-right">
+								<p class="uk-text-small uk-text-bold">4점</p>
+							</div>
+							<div class="uk-padding-remove">
+								<progress class="uk-progress" value="45" max="100"></progress>
+							</div>
+							<div class="uk-width-auto uk-padding-remove">
+								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							</div>
+						</div>
+
+						<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+							<div class="uk-width-auto uk-margin-right">
+								<p class="uk-text-small uk-text-bold">3점</p>
+							</div>
+							<div class="uk-padding-remove">
+								<progress class="uk-progress" value="45" max="100"></progress>
+							</div>
+							<div class="uk-width-auto uk-padding-remove">
+								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							</div>
+						</div>
+
+						<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+							<div class="uk-width-auto uk-margin-right">
+								<p class="uk-text-small uk-text-bold">2점</p>
+							</div>
+							<div class="uk-padding-remove">
+								<progress class="uk-progress" value="45" max="100"></progress>
+							</div>
+							<div class="uk-width-auto uk-padding-remove">
+								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							</div>
+						</div>
+
+						<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+							<div class="uk-width-auto uk-margin-right">
+								<p class="uk-text-small uk-text-bold">1점</p>
+							</div>
+							<div class="uk-padding-remove">
+								<progress class="uk-progress" value="45" max="100"></progress>
+							</div>
+							<div class="uk-width-auto uk-padding-remove">
+								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="uk-card uk-card-body uk-padding-remove">
+
+
+				<div class="uk-card">
+					<div class="uk-card-header uk-text-center">
+						<span class="uk-label uk-text-bold overview">추천할까요?</span>
+					</div>
 					<div class="uk-text-center">
-						<span class="material-symbols-outlined emoji">sentiment_very_satisfied</span>
-						<!-- 					<span class="material-symbols-outlined emoji">sentiment_satisfied</span> -->
-						<!-- 					<span class="material-symbols-outlined emoji">sentiment_neutral</span> -->
-						<!-- 					<span class="material-symbols-outlined emoji">sentiment_very_dissatisfied</span> -->
-						<!-- 					<span class="material-symbols-outlined emoji">sentiment_extremely_dissatisfied</span> -->
+						<c:choose>
+							<c:when test="${ p.recommendAvg == 5 }">
+								<span class="material-symbols-outlined emoji">sentiment_very_satisfied</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">매우 추천</span>
+								</div>
+							</c:when>
+							<c:when test="${ p.recommendAvg < 5 && p.recommendAvg >= 4 }">
+								<span class="material-symbols-outlined emoji">sentiment_satisfied</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">추천</span>
+								</div>
+							</c:when>
+							<c:when test="${ p.recommendAvg < 4 && p.recommendAvg >= 3 }">
+								<span class="material-symbols-outlined emoji">sentiment_neutral</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">보통</span>
+								</div>
+							</c:when>
+							<c:when test="${ p.recommendAvg < 3 && p.recommendAvg >= 2 }">
+								<span class="material-symbols-outlined emoji">sentiment_very_dissatisfied</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">비추</span>
+								</div>
+							</c:when>
+							<c:when test="${ p.recommendAvg < 2 && p.recommendAvg >= 1 }">
+								<span class="material-symbols-outlined emoji">sentiment_extremely_dissatisfied</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">매우 비추</span>
+								</div>
+							</c:when>
+						</c:choose>
+
+
+
+					</div>
+
+					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+						<div class="uk-width-1-3 uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">매우 추천</p>
+						</div>
+						<div class="uk-padding-remove">
+							<progress class="uk-progress" value="45" max="100"></progress>
+						</div>
+						<div class="uk-width-auto uk-padding-remove">
+							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+						</div>
+					</div>
+
+					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+						<div class="uk-width-1-3 uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">추천</p>
+						</div>
+						<div class="uk-padding-remove">
+							<progress class="uk-progress" value="45" max="100"></progress>
+						</div>
+						<div class="uk-width-auto uk-padding-remove">
+							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+						</div>
+					</div>
+
+					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+						<div class="uk-width-1-3 uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">보통</p>
+						</div>
+						<div class="uk-padding-remove">
+							<progress class="uk-progress" value="45" max="100"></progress>
+						</div>
+						<div class="uk-width-auto uk-padding-remove">
+							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+						</div>
+					</div>
+
+					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+						<div class="uk-width-1-3 uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">비추</p>
+						</div>
+						<div class="uk-padding-remove">
+							<progress class="uk-progress" value="45" max="100"></progress>
+						</div>
+						<div class="uk-width-auto uk-padding-remove">
+							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+						</div>
+					</div>
+
+					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
+						<div class="uk-width-1-3 uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">절대 비추</p>
+						</div>
+						<div class="uk-padding-remove">
+							<progress class="uk-progress" value="45" max="100"></progress>
+						</div>
+						<div class="uk-width-auto uk-padding-remove">
+							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="uk-card">
+					<div class="uk-card-header uk-tile-mute uk-text-center">
+						<span class="uk-label uk-text-bold overview">또 먹을까요?</span>
 					</div>
 					<div class="uk-text-center">
-						<span class="uk-text-primary uk-h5 uk-text-bold">4.5 / 5</span>
+						<c:choose>
+							<c:when test="${ p.reorderAvg == 5 }">
+								<span class="material-symbols-outlined emoji">sentiment_very_satisfied</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">꼭 무조건</span>
+								</div>
+							</c:when>
+							<c:when test="${ p.reorderAvg < 5 && p.reorderAvg >= 4 }">
+								<span class="material-symbols-outlined emoji">sentiment_satisfied</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">먹을래요</span>
+								</div>
+							</c:when>
+							<c:when test="${ p.reorderAvg < 4 && p.reorderAvg >= 3 }">
+								<span class="material-symbols-outlined emoji">sentiment_neutral</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">보통</span>
+								</div>
+							</c:when>
+							<c:when test="${ p.reorderAvg < 3 && p.reorderAvg >= 2 }">
+								<span class="material-symbols-outlined emoji">sentiment_very_dissatisfied</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">안삼</span>
+								</div>
+							</c:when>
+							<c:when test="${ p.reorderAvg < 2 && p.reorderAvg >= 1 }">
+								<span class="material-symbols-outlined emoji">sentiment_extremely_dissatisfied</span>
+								<div class="uk-text-center">
+									<span class="uk-text-primary uk-h5 uk-text-bold">절대 안삼</span>
+								</div>
+							</c:when>
+						</c:choose>
 					</div>
 					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-						<div class="uk-width-auto uk-margin-right">
-							<p class="uk-text-small uk-text-bold">5점</p>
+						<div class="uk-width-1-3 uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">꼭 무조건</p>
 						</div>
 						<div class="uk-padding-remove">
 							<progress class="uk-progress" value="45" max="100"></progress>
@@ -358,8 +728,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					</div>
 
 					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-						<div class="uk-width-auto uk-margin-right">
-							<p class="uk-text-small uk-text-bold">4점</p>
+						<div class="uk-width-1-3  uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">먹을래요</p>
 						</div>
 						<div class="uk-padding-remove">
 							<progress class="uk-progress" value="45" max="100"></progress>
@@ -370,8 +740,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					</div>
 
 					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-						<div class="uk-width-auto uk-margin-right">
-							<p class="uk-text-small uk-text-bold">3점</p>
+						<div class="uk-width-1-3  uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">보통</p>
 						</div>
 						<div class="uk-padding-remove">
 							<progress class="uk-progress" value="45" max="100"></progress>
@@ -382,8 +752,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					</div>
 
 					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-						<div class="uk-width-auto uk-margin-right">
-							<p class="uk-text-small uk-text-bold">2점</p>
+						<div class="uk-width-1-3  uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">안삼</p>
 						</div>
 						<div class="uk-padding-remove">
 							<progress class="uk-progress" value="45" max="100"></progress>
@@ -394,8 +764,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					</div>
 
 					<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-						<div class="uk-width-auto uk-margin-right">
-							<p class="uk-text-small uk-text-bold">1점</p>
+						<div class="uk-width-1-3 uk-margin-right">
+							<p class="uk-text-small uk-text-bold uk-text-right">절대 안삼</p>
 						</div>
 						<div class="uk-padding-remove">
 							<progress class="uk-progress" value="45" max="100"></progress>
@@ -405,171 +775,23 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						</div>
 					</div>
 				</div>
+
+				<div class="uk-card">
+					<div class="uk-card-header uk-text-center uk-margin-remove">
+						<span class="uk-label uk-text-bold overview">무슨맛일까?</span>
+					</div>
+					<!-- 				<div class="uk-card uk-width-auto@s uk-card-body chart4 uk-padding-remove"> -->
+					<div class="uk-margin-small uk-padding-remove" id="chart4"></div>
+					<!-- 				</div> -->
+				</div>
+
 			</div>
 
-
-			<div class="uk-card">
-				<div class="uk-card-header uk-text-center">
-					<span class="uk-label uk-text-bold overview">추천할까요?</span>
-				</div>
-				<div class="uk-text-center">
-					<span class="material-symbols-outlined emoji">sentiment_very_satisfied</span>
-					<!-- 					<span class="material-symbols-outlined emoji">sentiment_satisfied</span> -->
-					<!-- 					<span class="material-symbols-outlined emoji">sentiment_neutral</span> -->
-					<!-- 					<span class="material-symbols-outlined emoji">sentiment_very_dissatisfied</span> -->
-					<!-- 					<span class="material-symbols-outlined emoji">sentiment_extremely_dissatisfied</span> -->
-				</div>
-				<div class="uk-text-center">
-					<span class="uk-text-primary uk-h5 uk-text-bold">매우 추천</span>
-				</div>
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3 uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">매우 추천</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3 uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">추천</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3 uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">보통</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3 uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">비추</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3 uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">절대 비추</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="uk-card">
-				<div class="uk-card-header uk-tile-mute uk-text-center">
-					<span class="uk-label uk-text-bold overview">또 먹을까요?</span>
-				</div>
-				<div class="uk-text-center">
-					<span class="material-symbols-outlined emoji">sentiment_very_satisfied</span> <span class="material-symbols-outlined emoji">sentiment_satisfied</span> <span class="material-symbols-outlined emoji">sentiment_neutral</span> <span class="material-symbols-outlined emoji">sentiment_very_dissatisfied</span> <span class="material-symbols-outlined emoji">sentiment_extremely_dissatisfied</span>
-				</div>
-				<div class="uk-text-center">
-					<span class="uk-text-primary uk-h5 uk-text-bold">꼭 무조건</span>
-				</div>
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3 uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">꼭 무조건</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3  uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">먹을래요</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3  uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">보통</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3  uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">안삼</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-
-				<div class="uk-child-width-expand@m uk-margin-small" uk-grid>
-					<div class="uk-width-1-3 uk-margin-right">
-						<p class="uk-text-small uk-text-bold uk-text-right">절대 안삼</p>
-					</div>
-					<div class="uk-padding-remove">
-						<progress class="uk-progress" value="45" max="100"></progress>
-					</div>
-					<div class="uk-width-auto uk-padding-remove">
-						<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="uk-card">
-				<div class="uk-card-header uk-text-center uk-margin-remove">
-					<span class="uk-label uk-text-bold overview">무슨맛일까?</span>
-				</div>
-				<!-- 				<div class="uk-card uk-width-auto@s uk-card-body chart4 uk-padding-remove"> -->
-				<div class="uk-margin-small uk-padding-remove" id="chart4"></div>
-				<!-- 				</div> -->
-			</div>
 
 		</div>
-
-
-	</div>
 	</c:if>
 	<script src="${ pageContext.servletContext.contextPath }/resources/js/prBoardDetail.js"></script>
-
+	
 
 </body>
 </html>

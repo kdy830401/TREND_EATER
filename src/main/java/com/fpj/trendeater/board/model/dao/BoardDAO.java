@@ -1,6 +1,7 @@
 package com.fpj.trendeater.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,20 +10,56 @@ import org.springframework.stereotype.Repository;
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
+
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+
 
 @Repository("bDAO")
 public class BoardDAO {
 
+	// 리뷰게시판 상세보기
 	public Product selectPrBoard(SqlSessionTemplate sqlSession, int pno) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("boardMapper.selectPrBoard", pno);
 	}
-
+	// 리뷰게시판 상세보기
 	public ArrayList<Image> selectPrImage(SqlSessionTemplate sqlSession, int pno) {
-		return (ArrayList)sqlSession.selectList("boardMapper.selectPrImage", pno);
+		return (ArrayList) sqlSession.selectList("boardMapper.selectPrImage", pno);
 	}
+	// 시식신청
+	public int registerApplyTaste(SqlSessionTemplate sqlSession, ApplyTastePerson applyPerson) {
+		return sqlSession.insert("boardMapper.registerApplyTaste", applyPerson);
+	}
+	// 스크랩 
+	public int scrap(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		System.out.println(map);
+
+		int checkNum = sqlSession.selectOne("boardMapper.checkScrap", map);
+		
+		int result = 0;
+		if(checkNum > 0) {
+			result = sqlSession.delete("boardMapper.deleteScrap", map);
+			if(result > 0) {
+				result = 2;
+			}
+		} else {
+			result = sqlSession.insert("boardMapper.insertScrap", map);
+			
+		}
+		
+		return result; 
+	}
+	// 스크랩 체크
+	public int checkScrap(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.checkScrap", map);
+	}
+
+	
 
 	
 /********************************* notice *********************************/
@@ -101,6 +138,7 @@ public class BoardDAO {
 
 
 	
+
 	
 	
 /***************************   ***************************/ 

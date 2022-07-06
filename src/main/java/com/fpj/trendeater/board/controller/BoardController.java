@@ -1,7 +1,12 @@
 package com.fpj.trendeater.board.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,7 @@ import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.service.BoardService;
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.common.Pagination;
@@ -41,29 +47,57 @@ public class BoardController {
 	
 	//상품 리스트
 	@RequestMapping("prBoardList.bo")
-	public ModelAndView prBoardList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
+	public ModelAndView prBoardList(@RequestParam(value="page", required=false) Integer page,
+									@RequestParam(value="value", required=false) String value,
+									ModelAndView mv, HttpServletRequest request) {
 	
-		ModelAndView boardMv = aController.productList(page, mv);
+		System.out.println(value);
+		
+		boolean boardCheck = true;
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("boardCheck", boardCheck);
+		map.put("value", value);
+		
+		ModelAndView boardMv = aController.productList(page, mv, value, request, map);
 		
 		boardMv.setViewName("prBoardList");
 
 		return boardMv;
 	}
+	
 	//상품상세보기
 	@RequestMapping("prbdetail.bo")
 	public ModelAndView prbBoardDetail(@RequestParam(value = "pno") int pno, 
 									   @RequestParam(value = "page", required = false) Integer page,
+									   HttpServletRequest request,
 									   ModelAndView mv) {
 
+		String emailId = null;
+		int scrapCheckNum = 0;
+		if(request.getSession().getAttribute("loginUser") != null) {
+			emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
+			HashMap<String, Object> map = new HashMap<>();
+			
+			map.put("pNo", pno);
+			map.put("emailId", emailId);
+			
+			scrapCheckNum = bService.checkScrap(map);
+		}
+		
+		System.out.println(scrapCheckNum);
 		System.out.println(pno);
 		Product p = bService.selectPrBoard(pno);
 
 //		System.out.println(p);
 		ArrayList<Image> imgList = bService.selectPrImage(pno);
+		
+		
 
 		if (p != null && imgList != null) {
 			mv.addObject("p", p);
 			mv.addObject("imgList", imgList);
+			mv.addObject("scrapCheckNum", scrapCheckNum);
 			if(page != null) {
 				mv.addObject("page", page);
 			}
@@ -77,11 +111,11 @@ public class BoardController {
 	}
 	
 	// 시식신청 게시판 리스트
-	@RequestMapping("applyTaste.bo")
+	@RequestMapping("applyTasteBoard.bo")
 	public ModelAndView applyTasteBoardList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
 		
-		ModelAndView applyMv = aController.applyTasteList(page, mv);
-		
+		boolean boardCheck = true;
+		ModelAndView applyMv = aController.applyTasteList(page, mv, boardCheck);
 		ArrayList<Image> imgList = aService.getProductImgList();
 		
 		applyMv.addObject("imgList", imgList);
@@ -89,6 +123,55 @@ public class BoardController {
 		
 		return applyMv;
 	}
+	
+	// 시식 신청 등록
+	@RequestMapping("applyTastePerson.bo")
+	public String registerApplyTaste(@ModelAttribute ApplyTastePerson applyPerson,
+								@RequestParam("address1") String address1,
+								@RequestParam("address2") String address2, HttpServletRequest request) {
+		System.out.println(applyPerson);
+		System.out.println(address1);
+		System.out.println(address2);
+		
+		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
+		String address = address1 + " " + address2;
+		System.out.println(address);
+		applyPerson.setAddress(address);
+		if(emailId != null) {
+			applyPerson.setEmailId(emailId);
+		}
+		
+		int result = bService.registerApplyTaste(applyPerson);
+		
+		if(result > 0) {
+			return "redirect:applyTasteBoard.bo";
+		} else {
+			throw new BoardException("시식 신청에 실패하였습니다");
+		}
+		
+	}
+	
+	// 스크랩
+	@RequestMapping("scrap.me")
+	public void scrap(@RequestParam("pNo") Integer pNo, HttpServletRequest request, HttpServletResponse response) {
+		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
+		
+		HashMap<String, Object> map = new HashMap<>();
+		
+		map.put("pNo", pNo);
+		map.put("emailId", emailId);
+		
+		int result = bService.scrap(map);
+		
+		try {
+			PrintWriter pw = response.getWriter();
+			pw.print(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 
 
 	

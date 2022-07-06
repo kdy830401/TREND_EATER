@@ -75,13 +75,13 @@
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">상품명순</a>
+				<a href="productList.ad?value=productName">상품명순</a>
 			</li>
 			<li>
-				<a href="">재고량순</a>
+				<a href="productList.ad?value=productStock">재고량순</a>
 			</li>
 			<li>
-				<a href="">게시일순</a>
+				<a href="productList.ad?value=productNo">게시일순</a>
 			</li>
 		</ul>
 		<table class="table table-hover b-t">
@@ -133,7 +133,42 @@
 							</script>
 
 
-								<a href="" uk-icon="trash"></a>
+								<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }" ></a>
+							<script>
+								let selectNo = ${ p.productNo };
+								var $deleteAdmin = $('#delete'+selectNo);
+								console.log($deleteAdmin);
+								
+									$deleteAdmin.on('click', function(){
+										var pno = $(this).parent().parent().parent().children().eq(0).text();
+										console.log(this);
+										var td = $(this).parent().parent().parent();
+										
+										console.log(td);
+										console.log(pno);
+										if(confirm("해당 게시물 관리자 게시판에서 삭제하시겠습니까?") == true){
+										   $.ajax({
+										      url: 'deleteProductAdmin.ad',
+										      data: {pno:pno},
+										      type:'post',
+										      success:function(data){
+										          console.log(data);
+										          td.hide();
+										      },
+										      error:function(data){
+										          console.log(data);
+										          
+										      }
+										      
+										   });
+								    
+									} 
+								
+								});
+								    
+							</script>
+								
+								
 							</form>
 						</td>
 						<td>
@@ -150,7 +185,8 @@
 								</label>
 							</c:if>
 							<script>
-							var $inputStatus = $('#boardStatus'+${ p.productNo });
+							let selectNo = ${ p.productNo };
+							var $inputStatus = $('#boardStatus'+selectNo);
 							console.log($inputStatus);
 							$inputStatus.on('change', function(){
 								var pno = $(this).parent().parent().parent().children().eq(0).text();
@@ -181,8 +217,8 @@
 							<input type="hidden" name="pno" value="${ p.productNo }">
 							<button class="btn btn-sm white tasteBtn" data-toggle="modal" data-target="#m-a-a_${ p.productNo }" ui-toggle-class="fade-down" ui-target="#animate">등록</button>
 							<!-- .modal -->
-							<div id="m-a-a_${ p.productNo }" class="modal fade animate" data-backdrop="true">
-								<div class="modal-dialog" id="animate">
+							<div id="m-a-a_${ p.productNo }" class="modal fade animate${ p.productNo }" data-backdrop="true">
+								<div class="modal-dialog" id="animate${ p.productNo }">
 									<div class="modal-content">
 										<div class="modal-header">
 											<span class="label label-lg">${ p.productName }</span>
@@ -344,7 +380,8 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 
