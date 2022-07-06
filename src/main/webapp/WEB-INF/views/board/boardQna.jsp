@@ -200,7 +200,20 @@ pageEncoding="UTF-8"%>
 		/* $('#qnaNo').submit(); */
 		/* console.log($('#qnaNo').val(no)); */
 		if(confirm("정말 삭제하시겠습니까?")){
-			location.href="boardQnaDeleteForm.bo";
+			/* location.href="boardQnaDeleteForm.bo"; */
+			$.ajax({
+				url:"boardQnaDeleteForm.bo",
+				date:{qnaNo:no},
+				type:'post',
+				success:function(data){
+					console.log(data);
+					alert('삭제 되었습니다')
+				},
+				error:function(data){
+					console.log(data);
+				}
+			});
+			
 		}
 	});	
 	$('.updateBtn').on('click',function(){

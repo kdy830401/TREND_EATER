@@ -137,6 +137,11 @@ a:hover {
 									</li>
 									<li>
 										<a href="#">
+											<span class="nav-text">공지사항 게시판</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
 											<span class="nav-text">문의사항 게시판</span>
 										</a>
 									</li>
