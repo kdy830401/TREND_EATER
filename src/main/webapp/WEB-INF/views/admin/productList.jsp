@@ -135,7 +135,7 @@
 
 								<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }" ></a>
 							<script>
-								let selectNo = ${ p.productNo };
+								var selectNo = ${ p.productNo };
 								var $deleteAdmin = $('#delete'+selectNo);
 								console.log($deleteAdmin);
 								
@@ -184,8 +184,9 @@
 									<i></i>
 								</label>
 							</c:if>
+							
 							<script>
-							let selectNo = ${ p.productNo };
+							var selectNo = ${ p.productNo };
 							var $inputStatus = $('#boardStatus'+selectNo);
 							console.log($inputStatus);
 							$inputStatus.on('change', function(){

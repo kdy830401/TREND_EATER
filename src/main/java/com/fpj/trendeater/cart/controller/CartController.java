@@ -76,14 +76,15 @@ public class CartController {
 		// 2.1 전체 장바구니 수 구하기
 		int listCount = ctService.getListCount(emailId);
 		
-		// 2.2 현재 페이지 구하기
+		// 2.2 현재 페이지 구하기 및 boardLimit 설정
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
+		int boardLimit = 10;
 		
 		// 2.3 페이징 계산
-		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount);
+		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);
 		
 		
 		// 3. 사용자(loginUser)의 장바구니 리스트 가져오기
