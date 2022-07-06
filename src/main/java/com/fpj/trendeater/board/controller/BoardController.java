@@ -115,7 +115,7 @@ public class BoardController {
 	public ModelAndView applyTasteBoardList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
 		
 		boolean boardCheck = true;
-		ModelAndView applyMv = aController.applyTasteList(page, mv, boardCheck);
+		ModelAndView applyMv = aController.applyTasteList(page, null, mv, boardCheck);
 		ArrayList<Image> imgList = aService.getProductImgList();
 		
 		applyMv.addObject("imgList", imgList);
@@ -188,8 +188,10 @@ public class BoardController {
 		}
 
 		int listCount = bService.getListCount();
+		
+		int boardLimit = 10;
 
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
 		ArrayList<Board> list = bService.getBoardList(pi);
 
@@ -316,7 +318,8 @@ public class BoardController {
 		// 페이징처리1 :총게시물수 가져오기
 		int listCount = bService.getQnaListCount();
 		// 페이징처리2 : 필요한 게시판 가져오기
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		int boardLimit = 10;
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
 		ArrayList<BoardQnA> list = bService.getBoardQnaList(pi, b);
 		System.out.println("pi=" + pi);
