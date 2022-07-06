@@ -69,25 +69,37 @@ public class BoardDAO {
 		return sqlSession.selectOne("boardMapper.getQnaListCount");
 	}
 
-	public ArrayList<BoardQnA> getBoardQnaList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<BoardQnA> getBoardQnaList(SqlSessionTemplate sqlSession, PageInfo pi, BoardQnA b) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("boardMapper.getBoardQnaList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("boardMapper.getBoardQnaList", b, rowBounds);
+//		return (ArrayList)sqlSession.selectList("boardMapper.getBoardQnaList", null, rowBounds);
 	}
 
 	// QnA 쓰기
 	public int insertBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {
 		return sqlSession.insert("boardMapper.insertBoardQna",b);
 	}
+	// 수정을 위한 해당 id의 qna 전체 정보 받아오기
+	public BoardQnA selectBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {
+		return sqlSession.selectOne("boardMapper.selectBoardQna", b); // selectOne : 0 or 1 // selectList : 2개이상
+	}
 	
 	// QnA 수정
 	public int updateBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {
+		int a = sqlSession.update("boardMapper.updateBoardQna",b);
+		System.out.println("dao="+a);
 		return sqlSession.update("boardMapper.updateBoardQna",b);
 	}
+//	public int updateBoardQna(SqlSessionTemplate sqlSession, int qnaNo) {
+//		return sqlSession.update("boardMapper.updateBoardQna",qnaNo);
+//	}
 	// QnA 삭제
 	public int deleteBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {	// delete도 가능.  status='N'으로 변경 
 		return sqlSession.update("boardMapper.deleteBoardQna",b);
 	}
+
+
 	
 	
 	

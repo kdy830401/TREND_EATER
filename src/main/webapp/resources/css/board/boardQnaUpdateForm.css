@@ -1,0 +1,99 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css); 
+
+
+
+body{
+    font-family: "Noto Sans";
+}
+
+h2{
+    border-bottom: 2px solid black;
+    padding: 2%;
+}
+span{
+    width:100px;
+    padding-right: 30px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+
+.head{
+    width:800px;
+    align-items: center;
+    margin-left: 10px;
+    margin: 0 auto;
+    
+}
+
+.main{
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+}
+.QuesType{
+    display: flex;
+    padding:1% 0;
+}
+.innerQuesType{
+    display: flex;  
+}
+.innerQuesTypeLeft{
+    width:100px;
+    text-align: center;
+    padding: 0 13px;
+}
+
+.QuesTitle{
+    display: flex;
+    padding:1% 0;
+}
+.QuesTitle > input{
+    /* width:890px; */
+    width:780px;
+}
+
+.QuesContent{
+    display: flex;
+    height:400px;
+    padding:1% 0;
+    word-break: normal;
+}
+.QuesContent > textarea{
+    /* width:890px; */
+    width:780px;
+    padding:1% 0;
+    resize: none;
+}
+
+
+.submitButton{
+    width:800px;
+    text-align: center;
+    margin:2% auto;
+	padding-left: 6%;    
+}
+.submitButton > button{
+    width:150px;
+    height:35px;
+    background-color: #FE8F8F;
+    border: 1px solid #FF5C58;
+    color:#fff;
+    
+    box-shadow:1px 1px 1px #FE8F8F;
+	transition-duration:0.2s;
+}
+.submitButton > button:hover{
+    cursor : pointer;
+	background-color: #FCD2D1;
+}
+.submitButton > button:active{
+	margin-left:3px;
+	margin-top:3px;
+	box-shadow:none;
+}
+
+
