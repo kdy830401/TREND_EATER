@@ -125,7 +125,7 @@ public class CartController {
 	}	
 	
 	// 장바구니 선택 품목 -> 결제페이지로 이동
-	@RequestMapping("pay.sp")
+	@RequestMapping("order.pa")
 	public ModelAndView paymentForm(@RequestParam("cartList") int[] cartList, 
 			@RequestParam("cartAmountArr") int[] cartAmountArr, ModelAndView mv) {
 		// 1. 장바구니 정보 받아와서 완성하기
@@ -145,7 +145,7 @@ public class CartController {
 		// 4. 보내기
 		mv.addObject("carts", carts);
 		mv.addObject("images", images);
-		mv.setViewName("buyPage");
+		mv.setViewName("order");
 		return mv;
 	}	
 
