@@ -2,6 +2,8 @@ package com.fpj.trendeater.board.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
@@ -25,12 +27,17 @@ public interface BoardService {
 	
 	// 시식신청
 	int registerApplyTaste(ApplyTastePerson applyPerson);
+	// 시식신청 중복 체크
+	int dupCheckApply(HashMap<String, Object> map);
 	
 	//스크랩
 	int scrap(HashMap<String, Object> map);
 	
 	// 스크랩 여부 체크
 	int checkScrap(HashMap<String, Object> map);
+	
+	// 리뷰 평점 점수별 갯수 카운트
+	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
 
 /********************************** notice *********************************/	
@@ -53,6 +60,10 @@ public interface BoardService {
 /********************************** Event Management *********************************/	
 int getEListCount();	//페이징처리 1: 총게시물 수 
 ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
+
+
+
+
 
 
 

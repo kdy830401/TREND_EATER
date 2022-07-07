@@ -59,8 +59,15 @@
 	<!-- 시식신청  -->
 	<insert id="registerApplyTaste">
 		insert into apply_t
-		values(seq_apid.nextval, #{address}, #{phone}, #{emailId}, #{tasteNo}, default)
+		values(seq_apid.nextval, #{address}, #{phone}, default, #{emailId}, #{tasteNo})
 	</insert>
+	
+	<!-- 시식신청 중복체크  -->
+	<select id="dupCheckApply" resultType="_int">
+		select count(*)
+		from apply_t
+		where email_id = #{emailId} and taste_no = #{tasteNo}
+	</select>
 	
 	<!-- 스크랩 여부 체크 -->
 	<select id="checkScrap" resultType="_int">
@@ -68,16 +75,37 @@
 		from scrap
 		where email_id = #{emailId} and product_no = #{pNo}
 	</select>
-
+	<!-- 스크랩 삭제 -->
 	<delete id="deleteScrap">
 		delete scrap
 		where email_id = #{emailId} and product_no = #{pNo}
 	</delete>
-	
+	<!-- 스크랩 추가 -->
 	<insert id="insertScrap">
 		insert into scrap
 		values(seq_sid.nextval, #{emailId}, #{pNo})
 	</insert>
+	
+	
+	<select id="getCountReviewPoint" resultType="_int">
+		<if test="reviewType.equals('review_rating')">
+			select count(*)
+			from review_list
+			where product_no = #{pno} and review_rating = #{arr}
+		</if>
+		<if test="reviewType.equals('recommend')">
+			select count(*)
+			from review_list
+			where product_no = #{pno} and recommend = #{arr}
+		</if>
+		<if test="reviewType.equals('repurcharse')">
+			select count(*)
+			from review_list
+			where product_no = #{pno} and repurcharse = #{arr}
+		</if>
+		
+
+	</select>
 
 
 

@@ -20,7 +20,7 @@ public interface AdminService {
 	int registerImage(ArrayList<Image> imageList, int i);
 	
 	
-	int getListCount(String table);
+	int getListCount(HashMap<String, Object> map);
 
 	ArrayList<Product> getProductList(PageInfo pi, HashMap<String, Object> map);
 
@@ -38,7 +38,7 @@ public interface AdminService {
 	
 	int insertRequestProduct(ProductRequest pr);
 	
-	ArrayList<ProductRequest> selectRequestProductList(PageInfo pi, String value);
+	ArrayList<ProductRequest> selectRequestProductList(PageInfo pi, HashMap<String, Object> map);
 	
 	int updateProduct(Product product);
 
@@ -47,7 +47,7 @@ public interface AdminService {
 	// 사용자 게시물 삭제
 	int deleteUserBoard(HashMap<String, Object> map);
 	// 시식 신청 리스트 불러오기
-	ArrayList<ApplyTastePerson> getApplyPersonList(PageInfo pi, HashMap<String, String> map);
+	ArrayList<ApplyTastePerson> getApplyPersonList(PageInfo pi, HashMap<String, Object> map);
 	// 관리자 게시물 삭제
 	int deleteAdminBoard(HashMap<String, Object> map);
 	

@@ -179,7 +179,9 @@
 								</div>
 								<div>
 									<a class="uk-button uk-button-small uk-button-default" href='prbdetail.bo?pno=${ a.productNo }'>제품보기</a>
-									<button class="uk-button uk-button-small uk-button-default" data-toggle="modal" data-target="#m-a-a_${ a.tasteNo }" ui-toggle-class="fade-down" ui-target="#animate">신청하기</button>
+									<input type="hidden" name="tasteNo" value="${ a.tasteNo }">
+									<button class="uk-button uk-button-small uk-button-default applyBtn" data-toggle="modal" data-target="#m-a-a_${ a.tasteNo }" ui-toggle-class="fade-down" ui-target="#animate">신청하기</button>
+										
 									<!-- .modal -->
 									<div id="m-a-a_${ a.tasteNo }" class=" modal fade animate${ a.tasteNo }" data-backdrop="true">
 										<div class="modal-dialog" id="animate${ a.tasteNo }">
@@ -203,9 +205,6 @@
 														<div class="md-form-group col-sm-12">
 															<input id="${ a.tasteNo }_address" type="text" name="address1" class="md-input address1">
 															<label for="${ a.tasteNo }_address">주소</label>
-															<!-- 															<button class="uk-button uk-button-primary address uk-margin-medium-bottom" type="button" onclick="sample6_execDaumPostcode()"> -->
-															<!-- 																<b>주소검색</b> -->
-															<!-- 															</button> -->
 														</div>
 														<div class="md-form-group float-label col-sm-12">
 															<input id="${ a.tasteNo }_addressDetail" type="text" name="address2" class="md-input addressDetail">
@@ -217,9 +216,38 @@
 														<button type="button" class="btn dark-white p-x-md" data-dismiss="modal">취소</button>
 														<button type="submit" class="btn danger p-x-md">신청</button>
 													</div>
+													
 												</form>
 											</div>
 											<!-- /.modal-content -->
+											<script>
+											$('.applyBtn').on('click', function(){
+											   var tasteNo = $(this).prev().val();
+											   console.log(tasteNo);
+											   $.ajax({
+											      url: "dupCheckApply.bo",
+											      data: {tasteNo:tasteNo},
+											      type: "POST",
+											      success: function(data){
+											          console.log(data);
+											          if(parseInt(data) > 0){
+											              
+											              location.reload();
+											              alert("이미 신청하신 제품입니다.");
+											              return false;
+											             
+											          }
+											   
+											   
+											      }, 
+											      error: function(data){
+											          console.log(data);
+											      }
+											   });
+											   
+											    
+											});
+										</script>
 
 										</div>
 									</div>
@@ -237,18 +265,21 @@
 
 				<!-- 페이징 처리 -->
 		</div>
-		<!-- 페이징 처리 -->
-		<ul class="uk-pagination uk-flex-center uk-margin-medium-top" uk-margin>
+				<!-- 페이징 처리 -->
+		<ul class="uk-pagination uk-flex-right uk-margin-medium-top" uk-margin>
 			<c:if test="${ pi.currentPage <= 1 }">
 				<li>
-					<a href="#">
+					<a href="javascript:void(0);">
 						<span uk-pagination-previous></span>
 					</a>
 				</li>
 			</c:if>
 			<c:if test="${ pi.currentPage > 1 }">
-				<c:url var="before" value="prBoardList.bo">
+				<c:url var="before" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage -1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
 				</c:url>
 				<li>
 					<a href="${ before }">
@@ -264,8 +295,11 @@
 					</li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
-					<c:url var="pagination" value="prBoardList.bo">
+					<c:url var="pagination" value="${ loc }">
 						<c:param name="page" value="${ p }" />
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchValue" value="${ searchValue }"/>
+						</c:if>
 					</c:url>
 					<li>
 						<a href="${ pagination }">${ p }</a>
@@ -281,11 +315,14 @@
 				</li>
 			</c:if>
 			<c:if test="${ pi.currentPage < pi.maxPage }">
-				<c:url var="after" value="prBoardList.bo">
+				<c:url var="after" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
 				</c:url>
 				<li>
-					<a href="#">
+					<a href="javascript:void(0);">
 						<span uk-pagination-next></span>
 					</a>
 				</li>

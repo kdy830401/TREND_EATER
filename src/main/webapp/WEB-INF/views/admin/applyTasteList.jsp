@@ -20,27 +20,38 @@
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">시식게시판 관리</h2>
 		<form class="uk-child-width-auto " uk-grid>
 			<div class="uk-align-center">
+<!-- 				<div class="uk-inline"> -->
+<!-- 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition"> -->
+<!-- 						<option value="" disabled selected>검색조건을 선택하세요</option> -->
+<!-- 						<option value="requestProduct">상품명</option> -->
+<!-- 						<option value="manufacturer">제조사</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
 				<div class="uk-inline">
-					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition">
-						<option value="" disabled selected>검색조건을 선택하세요</option>
-						<option value="requestProduct">제품명</option>
-						<option value="manufacturer">제조사</option>
-					</select>
+					<a class="uk-form-icon uk-form-icon-flip" id="searchBtn" href="javascript:void(0)" uk-icon="icon: search"></a>
+					<input class="uk-input uk-width-medium" id="searchValue" name="searchValue" type="search" placeholder="상품명을 입력하세요">
 				</div>
-				<div class="uk-inline">
-					<a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search"></a>
-					<input class="uk-input uk-width-medium" id="seachValue" type="search" placeholder="검색어 입력">
-				</div>
-				<div class="uk-inline">
-					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button>
-				</div>
+<!-- 				<div class="uk-inline"> -->
+<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
+<!-- 				</div> -->
 			</div>
+			<script>
+			$('#searchBtn').on('click', function(){
+				var searchValue = $('#searchValue').val();
+				
+				location.href="applyTastSearch.ad?searchValue=" + searchValue;
+			    
+			});
+			</script>
 		</form>
 
 
 	</div>
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
+			<li>
+				<a href="applyTaste.ad">전체보기</a>
+			</li>
 			<li>
 				<a href="applyTaste.ad?value=applyCount">신청순</a>
 			</li>
@@ -267,7 +278,7 @@
 
 
 
-		<!-- 페이징 처리 -->
+				<!-- 페이징 처리 -->
 		<ul class="uk-pagination uk-flex-right uk-margin-medium-top" uk-margin>
 			<c:if test="${ pi.currentPage <= 1 }">
 				<li>
@@ -277,8 +288,11 @@
 				</li>
 			</c:if>
 			<c:if test="${ pi.currentPage > 1 }">
-				<c:url var="before" value="productList.ad">
+				<c:url var="before" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage -1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
 				</c:url>
 				<li>
 					<a href="${ before }">
@@ -294,8 +308,11 @@
 					</li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
-					<c:url var="pagination" value="productList.ad">
+					<c:url var="pagination" value="${ loc }">
 						<c:param name="page" value="${ p }" />
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchValue" value="${ searchValue }"/>
+						</c:if>
 					</c:url>
 					<li>
 						<a href="${ pagination }">${ p }</a>
@@ -311,8 +328,11 @@
 				</li>
 			</c:if>
 			<c:if test="${ pi.currentPage < pi.maxPage }">
-				<c:url var="after" value="product;ist.ad">
+				<c:url var="after" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
 				</c:url>
 				<li>
 					<a href="javascript:void(0);">

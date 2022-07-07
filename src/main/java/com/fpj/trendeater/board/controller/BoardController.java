@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +31,7 @@ import com.fpj.trendeater.board.model.service.BoardService;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+import com.fpj.trendeater.common.CountReviewPoint;
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.model.vo.Member;
 
@@ -46,9 +49,10 @@ public class BoardController {
 
 	
 	//상품 리스트
-	@RequestMapping("prBoardList.bo")
+	@RequestMapping(value={"prBoardList.bo", "searchProduct.bo"})
 	public ModelAndView prBoardList(@RequestParam(value="page", required=false) Integer page,
 									@RequestParam(value="value", required=false) String value,
+									@RequestParam(value="searchValue", required=false) String searchValue,
 									ModelAndView mv, HttpServletRequest request) {
 	
 		System.out.println(value);
@@ -59,7 +63,7 @@ public class BoardController {
 		map.put("boardCheck", boardCheck);
 		map.put("value", value);
 		
-		ModelAndView boardMv = aController.productList(page, mv, value, request, map);
+		ModelAndView boardMv = aController.productList(page, mv, value, searchValue, request, map);
 		
 		boardMv.setViewName("prBoardList");
 
@@ -84,11 +88,31 @@ public class BoardController {
 			
 			scrapCheckNum = bService.checkScrap(map);
 		}
+	
 		
 		System.out.println(scrapCheckNum);
 		System.out.println(pno);
 		Product p = bService.selectPrBoard(pno);
 
+		// review rating 점수별 갯수 구하기
+		HashMap<String, Object> countMap = new HashMap<>();
+		countMap.put("pno", pno);
+		countMap.put("reviewType", "review_rating");
+		
+		int[] ratingCountArr = bService.getCountReviewPoint(countMap);
+		
+		// 추천의사 점수별 갯수 구하기
+		countMap.put("reviewType", "recommend");
+		int[] recommendCountArr = bService.getCountReviewPoint(countMap);
+		
+		// 재구매 의사 점수별 갯수 구하기
+		countMap.put("reviewType", "repurcharse");
+		int[] repurcharseCountArr = bService.getCountReviewPoint(countMap);
+		
+		int[] ratingRatioArr = CountReviewPoint.getCountReviewPoint(ratingCountArr, p.getReviewCount());
+		int[] recommendRatioArr = CountReviewPoint.getCountReviewPoint(recommendCountArr, p.getReviewCount());
+		int[] repurcharseRatioArr = CountReviewPoint.getCountReviewPoint(repurcharseCountArr, p.getReviewCount());
+		
 //		System.out.println(p);
 		ArrayList<Image> imgList = bService.selectPrImage(pno);
 		
@@ -98,6 +122,9 @@ public class BoardController {
 			mv.addObject("p", p);
 			mv.addObject("imgList", imgList);
 			mv.addObject("scrapCheckNum", scrapCheckNum);
+			mv.addObject("ratingRatioArr", ratingRatioArr);
+			mv.addObject("recommendRatioArr", recommendRatioArr);
+			mv.addObject("repurcharseRatioArr", repurcharseRatioArr);
 			if(page != null) {
 				mv.addObject("page", page);
 			}
@@ -115,7 +142,7 @@ public class BoardController {
 	public ModelAndView applyTasteBoardList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
 		
 		boolean boardCheck = true;
-		ModelAndView applyMv = aController.applyTasteList(page, null, mv, boardCheck);
+		ModelAndView applyMv = aController.applyTasteList(page, null, null, mv, boardCheck);
 		ArrayList<Image> imgList = aService.getProductImgList();
 		
 		applyMv.addObject("imgList", imgList);
@@ -147,6 +174,27 @@ public class BoardController {
 			return "redirect:applyTasteBoard.bo";
 		} else {
 			throw new BoardException("시식 신청에 실패하였습니다");
+		}
+		
+	}
+	
+	// 시식신청 중복 체크
+	@RequestMapping("dupCheckApply.bo")
+	public void dupCheckApply(@RequestParam("tasteNo") int tasteNo, HttpServletRequest request, HttpServletResponse response) {
+		
+		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("emailId", emailId);
+		map.put("tasteNo", tasteNo);
+		
+		int result = bService.dupCheckApply(map);
+		
+		try {
+			PrintWriter pw = response.getWriter();
+			pw.print(result);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 	}

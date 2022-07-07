@@ -8,12 +8,15 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.member.model.dao.MemberDAO;
 import com.fpj.trendeater.member.model.vo.Member;
 import com.google.gson.JsonElement;
@@ -269,6 +272,12 @@ public void kakaoLogout(String access_Token) {
 	public int deleteMember(Member member) {
 		
 		return mDAO.deleteMember(sqlSession,member);
+	}
+
+	@Override
+	public ArrayList<Scrap> getMyScrapList(PageInfo pi, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return mDAO.getMyScrapList(sqlSession, pi, map);
 	}
 
 	

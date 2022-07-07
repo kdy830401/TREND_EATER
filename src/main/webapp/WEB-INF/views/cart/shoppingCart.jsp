@@ -7,11 +7,9 @@
 <head>
 <meta charset="UTF-8">
     <title>장바구니</title>
-    <script src="resources/js/jquery-3.6.0.min.js"></script>
-    
-    <script src="resources/js/jquery-3.6.0.min.js"></script><!-- .js 넣기 -->
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
+<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+<!-- UIkit CSS -->
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
 
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
@@ -32,9 +30,9 @@
 	<c:import url="../common/menubar.jsp" />
 
 	<%-- <c:import url="../common/menubar.jsp"/>  --%>
-    <div>
-        <h2>장바구니</h2>
- 
+   <div class="uk-container uk-margin-large">
+		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">장바구니</h2>
+	</div>
 		    
 		    <div id="list">
 		    <table class="uk-table uk-table-divider">

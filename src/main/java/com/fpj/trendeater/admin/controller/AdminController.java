@@ -67,28 +67,45 @@ public class AdminController {
 	// ###############김대열
 
 	// 상품 목록 불러오기
-	@RequestMapping(value={"productList.ad" , "prbAdminList.ad"})
+	@RequestMapping(value={"productList.ad" , "prbAdminList.ad", "searchProduct.ad", "searchPrbAdmin.ad"})
 	public ModelAndView productList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv, 
 									@RequestParam(value = "value", required = false) String value,
+									@RequestParam(value = "searchValue", required=false) String searchValue,
 									HttpServletRequest request, HashMap<String, Object> map) {
 
+		/** 페이징 처리 **/
+		// 현재페이지, boardLimit 등 페이지 정보 설정
 		int currentPage = 1;
 
 		if (page != null) {
 			currentPage = page;
 		}
-		
-		String table = "pListAdmin";
 		int boardLimit = 5;
+		
+		// 조회할 게시판 테이블 설정(기본 어드민)
+		String table = "pListAdmin";
+		boolean defaulBoard = false;
+		// 매개변수로 제품게시판에서 받아온 boardCheck 변수를 체크하여 테이블 및 boardLimit 변경
 		if(map.get("boardCheck") != null && (boolean)map.get("boardCheck") == true) {
 			table = "pListBoard";
 			boardLimit = 9;
 		}
+		if(map.get("boardCheck") == null) {
+			map.put("boardCheck", defaulBoard);
+		}
+		
 		if(map.get("value") == null) {
 			map.put("value", value);
 		}
 		
-		int listCount = aService.getListCount(table);
+//		System.out.println("searchValue: "+searchValue);
+//		if(searchValue != null && searchValue.equals("")) {
+//			searchValue = null;
+//		}
+		map.put("searchValue", searchValue);
+		System.out.println("boardCheck: " + map.get("boardCheck"));
+		map.put("table", table);
+		int listCount = aService.getListCount(map);
 		
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
@@ -97,14 +114,17 @@ public class AdminController {
 
 		 
 		ArrayList<Product> list = aService.getProductList(pi, map);
+//		System.out.println(list);
 		ArrayList<Image> imgList = aService.getProductImgList();
 		String url = (String)request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 //		System.out.println(url);
+		
 		if (list != null && imgList != null) {
 			mv.addObject("list", list);
 			mv.addObject("imgList", imgList);
 			mv.addObject("pi", pi);
-			if(url.equals("/productList.ad")){
+			mv.addObject("searchValue", searchValue);
+			if(url.equals("/productList.ad") || url.equals("/searchProduct.ad")){
 				mv.setViewName("productList");
 			} else {
 				mv.setViewName("prbAdminList");
@@ -239,8 +259,9 @@ public class AdminController {
 	}
 
 	// 시식게시판 관리 리스트 불러오기
-	@RequestMapping("applyTaste.ad")
+	@RequestMapping(value={"applyTaste.ad", "applyTastSearch.ad"})
 	public ModelAndView applyTasteList(@RequestParam(value = "page", required = false) Integer page, 
+									   @RequestParam(value = "searchValue", required = false) String searchValue,
 									   @RequestParam(value = "value", required = false) String value, ModelAndView mv, boolean boardCheck) {
 
 		int currentPage = 1;
@@ -259,12 +280,13 @@ public class AdminController {
 		}
 		
 		System.out.println("boardCheck:" + boardCheck);
-		
-		int listCount = aService.getListCount(table);
-		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("value", value);
 		map.put("boardCheck", boardCheck);
+		map.put("searchValue", searchValue);
+		map.put("table", table);
+		
+		int listCount = aService.getListCount(map);
 		
 		System.out.println(map);
 		System.out.println(value);
@@ -273,10 +295,12 @@ public class AdminController {
 		System.out.println(pi);
 
 		ArrayList<ApplyTaste> aList = aService.getTasteList(pi, map);
-//		System.out.println(aList);
+		System.out.println(aList);
 		mv.addObject("pi", pi);
 		mv.addObject("aList", aList);
+		mv.addObject("searchValue", searchValue);
 		mv.setViewName("applyTasteList");
+		
 
 		return mv;
 	}
@@ -396,9 +420,11 @@ public class AdminController {
 	}
 
 	// 상품 요청 리스트 관리자 페이지에 뿌리기
-	@RequestMapping("requestProductList.ad")
+	@RequestMapping(value={"requestProductList.ad", "requestProductSearch.ad"})
 	public ModelAndView requestProductList(@RequestParam(value = "page", required = false) Integer page, 
-										   @RequestParam(value="value", required=false) String value, ModelAndView mv) {
+										   @RequestParam(value = "searchCondition", required = false) String searchCondition,
+										   @RequestParam(value = "searchValue", required = false) String searchValue,
+										   @RequestParam(value = "value", required = false) String value, ModelAndView mv) {
 
 		int currentPage = 1;
 
@@ -407,7 +433,12 @@ public class AdminController {
 		}
 
 		String table = "productRequest";
-		int listCount = aService.getListCount(table);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("value", value);
+		map.put("searchCondition", searchCondition);
+		map.put("searchValue", searchValue);
+		map.put("table", table);
+		int listCount = aService.getListCount(map);
 		int boardLimit = 5;
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
@@ -415,11 +446,15 @@ public class AdminController {
 		System.out.println(pi);
 		System.out.println("value :" + value);
 
-		ArrayList<ProductRequest> prlist = aService.selectRequestProductList(pi, value);
+		ArrayList<ProductRequest> prlist = aService.selectRequestProductList(pi, map);
+		
+//		System.out.println(prlist);
 
 		if (prlist != null) {
 			mv.addObject("prlist", prlist);
 			mv.addObject("pi", pi);
+			mv.addObject("searchCondition", searchCondition);
+			mv.addObject("searchValue", searchValue);
 			mv.setViewName("requestProductList");
 		} else {
 			throw new AdminException("상품등록요청 리스트를 불러오지 못했습니다.");
@@ -561,9 +596,11 @@ public class AdminController {
 	}
 
 	// 시식 신청자 불러오기
-	@RequestMapping("applyPersonList.ad")
-	public ModelAndView getApplyPersonList(@RequestParam(value = "page", required = false) Integer page, 
-										   @RequestParam(value = "value", required = false) String value, ModelAndView mv) {
+	@RequestMapping(value={"applyPersonList.ad","applyPersonSearch.ad"})
+	public ModelAndView getApplyPersonList(@RequestParam(value = "page", required = false) Integer page,
+										   @RequestParam(value = "searchCondition", required = false) String searchCondition,
+										   @RequestParam(value = "searchValue", required = false) String searchValue,
+										   @RequestParam(value = "value", required = false) String value, ModelAndView mv, HashMap<String, Object> map) {
 		int currentPage = 1;
 
 		if (page != null) {
@@ -571,7 +608,12 @@ public class AdminController {
 		}
 
 		String table = "applyTaste";
-		int listCount = aService.getListCount(table);
+		map.put("table", table);
+		map.put("value", value);
+		map.put("searchCondition", searchCondition);
+		map.put("searchValue", searchValue);
+		
+		int listCount = aService.getListCount(map);
 		
 		int boardLimit = 5;
 		
@@ -579,14 +621,14 @@ public class AdminController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
 		System.out.println(pi);
-		HashMap<String, String> map = new HashMap<>();
-		map.put("value", value);
-		
+		System.out.println(map);
 		ArrayList<ApplyTastePerson> applyPersonList = aService.getApplyPersonList(pi, map);
 
 		if (applyPersonList != null) {
 			mv.addObject("list", applyPersonList);
 			mv.addObject("pi", pi);
+			mv.addObject("searchCondition", searchCondition);
+			mv.addObject("searchValue", searchValue);
 			mv.setViewName("applyPersonList");
 
 		} else {
@@ -618,6 +660,8 @@ public class AdminController {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 
 	////###############
@@ -726,7 +770,7 @@ public class AdminController {
 	public String AdminLogout(SessionStatus status) {
 		//세션무효화
 		status.setComplete();
-		return "redirect:admin";
+		return "redirect:../admin";
 	}
 
 	@RequestMapping("exceldownload.ad")

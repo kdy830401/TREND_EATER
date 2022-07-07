@@ -11,10 +11,10 @@
         
        <!-- uikit -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="${ contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
         <link rel="stylesheet" href="${ contextPath }/resources/css/uikit.min.css" />
   		<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
-		<script src="${ contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
         
         
 	<style>

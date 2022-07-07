@@ -139,6 +139,22 @@
   update member
   set member_status = 'N' where email_id = #{email}
   </update>
+  
+  <!-- 내 스크랩 조회 -->
+  <select id="getMyScrapList" resultMap="myScrapResultSet">
+  	select scrap_no, email_id, product_no, product_name, review_count
+	from scrap
+	    join pr_board using(product_no)
+	    join product using(product_no)
+    where email_id = #{emailId}
+  </select>
+  <resultMap type="Scrap" id="myScrapResultSet">
+	  <id column="SCRAP_NO" property="scarpNo"/>
+	  <result column="EMAIL_ID" property="emailId"/>
+	  <result column="PRODUCT_NO" property="productNo"/>
+	  <result column="PRODUCT_NAME" property="productName"/>
+	  <result column="REVIEW_COUNT" property="reviewCount"/>
+  </resultMap>
 
 
 </mapper>

@@ -127,9 +127,9 @@ a:hover {
 					</div>
 					<div class="uk-navbar-right">
 						<div class="uk-navbar-item">
-							<form class="uk-search uk-search-default">
+							<form action="searchProduct.bo" class="uk-search uk-search-default">
 								<span class="uk-search-icon-flip" uk-search-icon style="color: black;"></span>
-								<input class="uk-search-input" style="border-radius: 40px; background-color: #f7f7f7; border: none;" type="search" placeholder="검색어를 입력하세요">
+								<input class="uk-search-input" style="border-radius: 40px; background-color: #f7f7f7; border: none;" name="searchValue" type="search" placeholder="상품명을 입력하세요">
 							</form>
 						</div>
 						<ul class="uk-navbar-nav" uk-navbar>
@@ -143,7 +143,7 @@ a:hover {
 										<li><a href="boardQna.bo">문의사항</a></li>
 									</ul>
 								</div></li>
-							<li><a href="" uk-icon="heart"></a></li>
+							<li><a href="scrapListView.me" uk-icon="heart"></a></li>
 							<li><a href="list.ct" uk-icon="cart"></a></li>
 						</ul>
 					</div>

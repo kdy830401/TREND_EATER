@@ -7,12 +7,27 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
-<!-- UIkit CSS -->
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+
 
 <!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/animate.css/animate.min.css" type="text/css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/glyphicons/glyphicons.css" type="text/css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/material-design-icons/material-design-icons.css" type="text/css" />
+
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+<!-- build:css ../assets/styles/app.min.css  -->
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/app.css" type="text/css" />
+<!-- endbuild -->
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/font.css" type="text/css" />
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
@@ -106,6 +121,9 @@
 	color: #FF5C58;
 }
 
+a:hover{
+	border-color: #FF5C58 !important;
+}
 
 .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even)
 	{
@@ -133,6 +151,8 @@
 .plus, .minus:hover {
 	cursor: pointer;
 }
+
+
 
 .amount {
 	width: 50px;
@@ -338,18 +358,76 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					<label for="amount" class="uk-text-small uk-text-bold">구매수량</label>
 					<div class="uk-margin" id="pdtAmount">
 						<div class="uk-grid-collapse uk-margin-remove" uk-grid>
+						<c:if test="${ p.productType == 1 }">
 							<button class="minus" type="button">
 								<span uk-icon="icon: minus; ratio: 1"></span>
 							</button>
+							
 							<!-- Cart(장바구니)에 추가할 정보 1-->
 							<!-- 구매 상품 수량 -->
 							<!-- <input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount" value="1"> -->
-							<input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount">						
+							<input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount" value="1">						
 							<button class="plus" type="button">
 								<span class=" uk-text-middle" uk-icon="icon: plus; ratio: 1"></span>
 							</button>
+							</c:if>
+							<c:if test="${ p.productType == 2 }">
+							<button class="minus" type="button" disabled="disabled">
+								<span uk-icon="icon: minus; ratio: 1"></span>
+							</button>
+							
+							<!-- Cart(장바구니)에 추가할 정보 1-->
+							<!-- 구매 상품 수량 -->
+							<!-- <input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount" value="1"> -->
+							<input class="uk-input amount uk-text-center" id="amount" type="number" min="1" name="productAmount" value="1" disabled="disabled">						
+							<button class="plus" type="button" disabled="disabled">
+								<span class=" uk-text-middle" uk-icon="icon: plus; ratio: 1"></span>
+							</button>
+							</c:if>
 						</div>
 					</div>
+					<script>
+					// productQuantity
+					 $('.minus').on('click', function() {
+
+								var amount = parseInt($(this).next().val());
+								var price = $('#productPrice').text();
+								price = parseInt(price.replace(/(,|원)/g, ""));
+								console.log(price);
+								if (amount > 0) {
+									amount = parseInt(amount) - 1; 
+									$(this).next().val(amount);
+									var totalPrice = amount * price;
+									$('#totalPrice').val(totalPrice);
+									localeTotal = totalPrice.toLocaleString('ko-KR') + "원";
+									$('#totalPriceText').text(localeTotal);
+								}
+
+							});
+
+							$('.plus').on('click', function() {
+								var amount = parseInt($(this).prev().val());
+							
+								var price = $('#productPrice').text();
+								price = parseInt(price.replace(/(,|원)/g, ""));
+
+								if (amount >= 0) {
+									amount = parseInt(amount) + 1;
+									console.log("amount:" + amount);
+									$(this).prev().val(amount);
+									var totalPrice = amount * price;
+									console.log(totalPrice);
+									$('#totalPrice').val(totalPrice);
+									localeTotal = totalPrice.toLocaleString('ko-KR') + "원";
+									$('#totalPriceText').text(localeTotal);
+								}
+							});
+
+					
+					</script>
+				
+					
+					
 					<div class="uk-width-1-1 uk-text-right ">
 						<span class="uk-text-bold uk-text-small">총 상품금액</span>
 						<h3 class="uk-h3 uk-text-right uk-text-bold uk-margin-remove" id="totalPriceText">
@@ -415,7 +493,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
                             </script>
 							<c:if test="${ p.productType == 1 }">
 
-
 							<!-- 장바구니 -->
 							<button class="uk-button uk-button-default uk-width-auto@m" id="addCart">장바구니</button>
 							<!-- Cart(장바구니)에 추가할 정보 2-->
@@ -469,18 +546,23 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 
 
-	<div class="uk-container uk-margin-large">
-		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">종합 리뷰</h2>
+	<div class="uk-container uk-margin">
+		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center">종합 리뷰</h2>
+		
 	</div>
-
-	<c:if test="${ p.totalAvg == 0  }">
+	
+	<c:if test="${ p.reviewCount == 0  }">
 		<div class="uk-align-center">
 			<div class="uk-placeholder uk-text-center">리뷰가 없습니다. 리뷰를 작성해주세요</div>
 			<br>
 		</div>
 	</c:if>
+		
 
-	<c:if test="${ p.totalAvg != 0  }">
+	<c:if test="${ p.reviewCount != 0  }">
+	<div class="uk-text-center uk-margin-large-bottom">
+	<button class="btn btn-outline rounded p-x-md b-warning text-warning">리뷰 보러 가기</button>
+	</div>
 		<div class="uk-container">
 			<div class="uk-child-width-1-4@s uk-grid" uk-grid uk-height-match="target: > .uk-card-body">
 
@@ -516,10 +598,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<p class="uk-text-small uk-text-bold">5점</p>
 							</div>
 							<div class="uk-padding-remove">
-								<progress class="uk-progress" value="45" max="100"></progress>
+								<progress class="uk-progress" value="${ ratingRatioArr[4] }" max="100"></progress>
 							</div>
 							<div class="uk-width-auto uk-padding-remove">
-								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+								<p class="uk-text-small uk-text-bold uk-text-primary">${ ratingRatioArr[4] }%</p>
 							</div>
 						</div>
 
@@ -528,10 +610,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<p class="uk-text-small uk-text-bold">4점</p>
 							</div>
 							<div class="uk-padding-remove">
-								<progress class="uk-progress" value="45" max="100"></progress>
+								<progress class="uk-progress" value="${ ratingRatioArr[3] }" max="100"></progress>
 							</div>
 							<div class="uk-width-auto uk-padding-remove">
-								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+								<p class="uk-text-small uk-text-bold uk-text-primary">${ ratingRatioArr[3] }%</p>
 							</div>
 						</div>
 
@@ -540,10 +622,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<p class="uk-text-small uk-text-bold">3점</p>
 							</div>
 							<div class="uk-padding-remove">
-								<progress class="uk-progress" value="45" max="100"></progress>
+								<progress class="uk-progress" value="${ ratingRatioArr[2] }" max="100"></progress>
 							</div>
 							<div class="uk-width-auto uk-padding-remove">
-								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+								<p class="uk-text-small uk-text-bold uk-text-primary">${ ratingRatioArr[2] }%</p>
 							</div>
 						</div>
 
@@ -552,10 +634,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<p class="uk-text-small uk-text-bold">2점</p>
 							</div>
 							<div class="uk-padding-remove">
-								<progress class="uk-progress" value="45" max="100"></progress>
+								<progress class="uk-progress" value="${ ratingRatioArr[1] }" max="100"></progress>
 							</div>
 							<div class="uk-width-auto uk-padding-remove">
-								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+								<p class="uk-text-small uk-text-bold uk-text-primary">${ ratingRatioArr[1] }%</p>
 							</div>
 						</div>
 
@@ -564,10 +646,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<p class="uk-text-small uk-text-bold">1점</p>
 							</div>
 							<div class="uk-padding-remove">
-								<progress class="uk-progress" value="45" max="100"></progress>
+								<progress class="uk-progress" value="${ ratingRatioArr[0] }" max="100"></progress>
 							</div>
 							<div class="uk-width-auto uk-padding-remove">
-								<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+								<p class="uk-text-small uk-text-bold uk-text-primary">${ ratingRatioArr[0] }%</p>
 							</div>
 						</div>
 					</div>
@@ -621,10 +703,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">매우 추천</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ recommendRatioArr[4] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ recommendRatioArr[4] }%</p>
 						</div>
 					</div>
 
@@ -633,10 +715,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">추천</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ recommendRatioArr[3] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ recommendRatioArr[3] }%</p>
 						</div>
 					</div>
 
@@ -645,10 +727,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">보통</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ recommendRatioArr[2] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ recommendRatioArr[2] }%</p>
 						</div>
 					</div>
 
@@ -657,10 +739,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">비추</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ recommendRatioArr[1] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ recommendRatioArr[1] }%</p>
 						</div>
 					</div>
 
@@ -669,10 +751,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">절대 비추</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ recommendRatioArr[0] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ recommendRatioArr[0] }%</p>
 						</div>
 					</div>
 				</div>
@@ -720,10 +802,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">꼭 무조건</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ repurcharseRatioArr[4] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ repurcharseRatioArr[4] }%</p>
 						</div>
 					</div>
 
@@ -732,10 +814,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">먹을래요</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ repurcharseRatioArr[3] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ repurcharseRatioArr[3] }%</p>
 						</div>
 					</div>
 
@@ -744,10 +826,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">보통</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ repurcharseRatioArr[2] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ repurcharseRatioArr[2] }%</p>
 						</div>
 					</div>
 
@@ -756,10 +838,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">안삼</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ repurcharseRatioArr[1] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ repurcharseRatioArr[1] }%</p>
 						</div>
 					</div>
 
@@ -768,10 +850,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<p class="uk-text-small uk-text-bold uk-text-right">절대 안삼</p>
 						</div>
 						<div class="uk-padding-remove">
-							<progress class="uk-progress" value="45" max="100"></progress>
+							<progress class="uk-progress" value="${ repurcharseRatioArr[0] }" max="100"></progress>
 						</div>
 						<div class="uk-width-auto uk-padding-remove">
-							<p class="uk-text-small uk-text-bold uk-text-primary">45%</p>
+							<p class="uk-text-small uk-text-bold uk-text-primary">${ repurcharseRatioArr[0] }%</p>
 						</div>
 					</div>
 				</div>
@@ -790,8 +872,191 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 		</div>
 	</c:if>
-	<script src="${ pageContext.servletContext.contextPath }/resources/js/prBoardDetail.js"></script>
+	<script>
+	// highChart 
+ 	var data = [ ${p.spicyAvg}, ${p.sweetAvg}, ${p.bitterAvg}, ${p.saltyAvg}, ${p.sourAvg} ];
+
+			data.forEach(function(element, index) {
+				if (element.value === 0) {
+					data[index] = null;
+				}
+			});
+
+			Highcharts.chart('chart4', {
+				chart : {
+					type : "area",
+					polar : true,
+					// 		    width: 280,
+					height : 280,
+
+				},
+				xAxis : {
+					min : 0.5,
+					max : 5.5,
+					categories : [ '매운맛', '단맛', '쓴맛', '짠맛', '신맛' ],
+					labels : {
+						distance : 2,
+						style : {
+							color : 'red',
+							fontSize : "11px",
+							fontWeight : "bold"
+						}
+
+					},
+					tickmarkPlacement : "on",
+					lineWidth : 0,
+					gridLineColor : "",
+					title : {
+						"style" : {
+							"fontFamily" : "\"Lucida Grande\", \"Lucida Sans Unicode\", Verdana, Arial, Helvetica, sans-serif",
+							"color" : "#666666",
+							"fontSize" : "10px",
+							"fontWeight" : "bold",
+							"fontStyle" : "normal"
+						}
+					}
+				},
+				yAxis : {
+					// 		    plotBands: [{
+					// 		      from: 1,
+					// 		      to: 2,
+					// 		      color: "#f8c4c0",
+					// 		      outerRadius: "105%",
+					// 		      thickness: "50%"
+					// 		    }, {
+					// 		      from: 2,
+					// 		      to: 3,
+					// 		      color: "#f39d96",
+					// 		      outerRadius: "105%",
+					// 		      thickness: "50%"
+					// 		    }, {
+					// 		      from: 3,
+					// 		      to: 4,
+					// 		      color: "#ee766d",
+					// 		      outerRadius: "105%",
+					// 		      thickness: "50%"
+					// 		    }, {
+					// 		      from: 4,
+					// 		      to: 5,
+					// 		      color: "#eb584d",
+					// 		      outerRadius: "105%",
+					// 		      thickness: "50%"
+					// 		    }],
+					plotBands : [ {
+						from : 1,
+						to : 2,
+						color : "rgba(248, 196, 192, 0.9)",
+						outerRadius : "105%",
+						thickness : "50%"
+					}, {
+						from : 2,
+						to : 3,
+						color : "rgba(243, 157, 150, 0.9)",
+						outerRadius : "105%",
+						thickness : "50%"
+					}, {
+						from : 3,
+						to : 4,
+						color : "rgba(238, 118, 109, 0.9)",
+						outerRadius : "105%",
+						thickness : "50%"
+					}, {
+						from : 4,
+						to : 5,
+						color : "rgba(235, 88, 77, 0.9)",
+						outerRadius : "105%",
+						thickness : "50%"
+					} ],
+					reversed : false,
+					min : 0,
+					max : 5,
+					allowDecimals : true,
+					tickInterval : 1,
+					tickAmount : 6,
+					tickLength : 10,
+					gridLineInterpolation : "polygon",
+					gridLineColor : "",
+					lineWidth : 0,
+					tickmarkPlacement : "between",
+					tickPixelInterval : 100,
+					tickPosition : "outside",
+					labels : {
+						enabled : false,
+					}
+				},
+				title : {
+					"text" : ""
+				},
+				series : [ {
+					name : "맛",
+					data : data,
+				} ],
+				responsive : {
+					rules : [ {
+						condition : {
+							maxWidth : 300,
+						}
+					} ]
+				},
+				plotOptions : {
+					series : {
+						animation : true,
+						lineWidth : 1,
+						color : "rgba(255, 237, 211, 0.8)",
+						fillOpacity : 0.6,
+						marker : {
+							radius : 1.2,
+							symbol : "circle"
+						},
+
+						_colorIndex : 0,
+						_symbolIndex : 0
+					}
+				},
+				legend : {
+					enabled : false
+				},
+				exporting : {
+					enabled : false
+				},
+				credits : {
+					enabled : false
+				},
+				colors : [ "#7cb5ec", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1" ]
+			});
+	</script>
 	
+	<!-- build:js scripts/app.html.js -->
+	<!-- jQuery -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery/dist/jquery.js"></script>
+	<!-- Bootstrap -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/tether/dist/js/tether.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- core -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/underscore/underscore-min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/PACE/pace.min.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/config.lazyload.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/palette.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-load.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-jp.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-include.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
+
+	<!-- ajax -->
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
+	<!-- endbuild -->
 
 </body>
 </html>
