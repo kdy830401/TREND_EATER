@@ -344,7 +344,7 @@ public class BoardController {
 	public String deleteBoard(/* @ModelAttribute BoardQnA b, */ @RequestParam("qnaNo") int qnaNo
 							/* ,HttpSession session */) {  
 			
-		
+		// 해당 id가 쓴 글 전체 삭제 가능한 기능
 //		String id = ((Member)session.getAttribute("loginUser")).getEmail();
 //		b.setEmailId(id);
 		
