@@ -63,18 +63,29 @@ label {
 					</button>
 				</div>
 			</form>
+			<c:if test="${null eq search}">
+				<button class="uk-button uk-button-primary uk-box-shadow-small excel" type="submit">엑셀 다운로드</button>
+			</c:if>
+			<c:if test="${null ne search}">
+				<button class="uk-button uk-button-primary uk-box-shadow-small excelsearch" onclick="location.href = 'exceldownload.ad?search=${search}'" type="submit">엑셀 다운로드</button>
+			</c:if>
 		</div>
 	</div>
+	
+		<script>
+					
+		$('.excel').on("click", function(){
+			location.href = "exceldownload.ad";
+			});
+		</script>
+	
 	<div class="uk-container">
 		<div class="uk-align-center">
 
 			<table class=" table table-bordered m-a-0 uk-box-shadow-small">
 				<thead>
 					<tr class="contentTr">
-						<th colspan="9" style="color: black; font-weight: bold;">
-							전체 사용자
-							<span style="color: #FF5C58;"> ${result}</span>
-							명
+						<th colspan="9" style="color: black; font-weight: bold;">전체 사용자 <span style="color: #FF5C58;"> ${result}</span> 명
 						</th>
 					</tr>
 					<tr>
@@ -101,12 +112,8 @@ label {
 							<td>${m.createDate}</td>
 							<td>${m.address}</td>
 							<input class="status" id="status${mv.index}" type="hidden" value="${m.status}">
-							<td>
-								<label for="ch${mv.index}" class="check${mv.index} ui-switch warning m-t-xs m-r">
-									<input type="checkbox" class="has-value input" id="ch${mv.index}" name="inputch">
-									<i></i>
-								</label>
-							</td>
+							<td><label for="ch${mv.index}" class="check${mv.index} ui-switch warning m-t-xs m-r"> <input type="checkbox" class="has-value input" id="ch${mv.index}" name="inputch"> <i></i>
+							</label></td>
 						</tr>
 					</c:forEach>
 
@@ -189,7 +196,7 @@ label {
 	<!-- ############ LAYOUT END-->
 
 	</div>
-	
+
 
 
 	<!-- build:js scripts/app.html.js -->
