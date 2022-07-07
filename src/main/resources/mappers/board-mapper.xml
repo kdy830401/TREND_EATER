@@ -209,9 +209,32 @@
 
 
 
-
-
-
+<!-- EventManagement 읽기(조회) : 페이징처리1 - 총게시물 --> 
+	<select id="getEListCount" resultType="_int">
+ 		select count(*)
+ 		from board
+ 		where BOARD_STATUS = 'Y' AND BOARD_TYPE = 2
+ 	</select>
+ 	
+<!-- EventManagement 읽기(조회) : 페이징처리2 - 필요 게시물 -->
+	<select id="getEBoardList" resultMap="eBoardResultSet">
+ 		select * 
+ 		from board
+ 		where board_status ='Y' and board_type = 2
+ 		order by board_no desc
+ 	
+ 	</select>
+ 	<resultMap type="EventBoard" id="eBoardResultSet">
+ 		<id column="BOARD_NO" property="boardNo"/>
+ 		<result column="BOARD_TITLE" property="boardTitle"/>
+ 		<result column="BOARD_CONTENT" property="boardContent"/>
+ 		<result column="CREATE_DATE" property="createDate"/>
+ 		<result column="MODIFY_DATE" property="modifyDate"/>
+ 		<result column="BOARD_COUNT" property="boardCount"/>
+ 		<result column="BOARD_STATUS" property="boardStatus"/>
+ 		<result column="BOARD_TYPE" property="boardType"/>
+ 		<result column="ADMIN_ID" property="adminId"/>
+ 	</resultMap>
 
 </mapper>
 

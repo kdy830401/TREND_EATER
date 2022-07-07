@@ -18,6 +18,8 @@
 		<typeAlias type="com.fpj.trendeater.board.model.vo.BoardQnA" alias="BoardQnA"/>
 		<typeAlias type="com.fpj.trendeater.board.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.fpj.trendeater.admin.model.vo.Admin" alias="Admin"/>
+		<typeAlias type="com.fpj.trendeater.board.model.vo.EventBoard" alias="EventBoard"/>
+		
 	</typeAliases>
 	
 	<mappers>

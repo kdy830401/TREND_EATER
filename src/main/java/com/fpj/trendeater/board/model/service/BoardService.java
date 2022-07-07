@@ -11,6 +11,7 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+import com.fpj.trendeater.board.model.vo.EventBoard;
 
 
 public interface BoardService {
@@ -47,6 +48,11 @@ public interface BoardService {
 	BoardQnA selectBoardQna(BoardQnA b); // 수정을 위한 해당 id의 qna 전체 정보 받아오기
 	int updateBoardQna(BoardQnA b);
 	int deleteBoardQna(BoardQnA b);
+
+	
+/********************************** Event Management *********************************/	
+int getEListCount();	//페이징처리 1: 총게시물 수 
+ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
 
 
 

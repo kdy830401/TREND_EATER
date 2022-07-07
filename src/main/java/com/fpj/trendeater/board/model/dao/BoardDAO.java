@@ -15,6 +15,7 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+import com.fpj.trendeater.board.model.vo.EventBoard;
 
 
 @Repository("bDAO")
@@ -135,6 +136,7 @@ public class BoardDAO {
 	public int deleteBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {	// delete도 가능.  status='N'으로 변경 
 		return sqlSession.update("boardMapper.deleteBoardQna",b);
 	}
+	
 
 
 	
@@ -144,6 +146,17 @@ public class BoardDAO {
 /***************************   ***************************/ 
 	
 	
+	// EventManageMent 읽기(조회) - 페이징처리1 :총게시물수 가져오기
+	public int getEListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.getEListCount");
+	}
+	
+	
+	public ArrayList<EventBoard> getEBoardList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.getEBoardList", null, rowBounds);
+	}
 	
 	
 }
