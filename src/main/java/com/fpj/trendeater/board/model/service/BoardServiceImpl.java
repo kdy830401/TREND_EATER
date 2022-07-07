@@ -15,6 +15,7 @@ import com.fpj.trendeater.board.model.dao.BoardDAO;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+import com.fpj.trendeater.board.model.vo.EventBoard;
 
 @Service("bSerivce")
 public class BoardServiceImpl implements BoardService{
@@ -150,6 +151,23 @@ public class BoardServiceImpl implements BoardService{
 
 
 
+
 /***********************************************************************/	
+	
+/******************************** Event Management **********************************/	
+	
+	// EventManagement 읽기(조회) - 페이징처리1 :총게시물수 가져오기
+	@Override
+	public int getEListCount() {
+		return bDAO.getEListCount(sqlSession);
+	}
+	
+	// EventManagement 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
+	@Override
+	public ArrayList<EventBoard> getEBoardList(PageInfo pi) {
+		return bDAO.getEBoardList(sqlSession, pi);
+	}
+	
+	
 	
 }

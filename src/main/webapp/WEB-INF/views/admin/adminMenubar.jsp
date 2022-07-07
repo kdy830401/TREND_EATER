@@ -131,7 +131,7 @@ a:hover {
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="eventlist.ad">
 											<span class="nav-text">이벤트 게시판</span>
 										</a>
 									</li>

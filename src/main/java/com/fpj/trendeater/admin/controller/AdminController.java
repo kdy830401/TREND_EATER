@@ -38,6 +38,7 @@ import com.fpj.trendeater.admin.model.vo.ProductRequest;
 import com.fpj.trendeater.board.controller.BoardController;
 import com.fpj.trendeater.board.model.service.BoardService;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+import com.fpj.trendeater.board.model.vo.EventBoard;
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.model.vo.Member;
 
@@ -720,6 +721,38 @@ public class AdminController {
 	}
 	
 	//##########
+	
+	
+	/*****			김인수			******/
+	
+	//이벤트 관리페이지로 이동
+	@RequestMapping("eventlist.ad")
+	public ModelAndView eBoardList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv) {
+		
+		int currentPage = 1;
+		int boardLimit = 10;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = bService.getEListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		ArrayList<EventBoard> list = bService.getEBoardList(pi);
+		
+		
+		if(list !=null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("eventList");
+		} else {
+			throw new AdminException("이벤트 게시판 관리 목록 조회에 실패하였습니다.");
+		}
+		return mv;
+	}
+	
+	
 }
 
 
