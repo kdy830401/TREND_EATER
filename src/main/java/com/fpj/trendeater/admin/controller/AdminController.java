@@ -3,7 +3,10 @@ package com.fpj.trendeater.admin.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -719,7 +728,203 @@ public class AdminController {
 		status.setComplete();
 		return "redirect:admin";
 	}
-	
+
+	@RequestMapping("exceldownload.ad")
+	public String exceldownload(@RequestParam(value = "search",required=false)String search,HttpServletResponse response,Model model){
+		
+		
+		ArrayList<Member> member= new ArrayList<Member>();
+
+		
+		//검색을 했을 때 검색된 회원리스트 뽑기
+		if(search != null) {
+			member = aService.searchMember(search);
+	    
+		//검색 안한 전체 회원 리스트 뽑기
+		}else {
+			member = aService.selectMember();
+		}
+		
+		
+		
+		System.out.println(member);
+		System.out.println(member.size());
+		
+		
+		HSSFWorkbook objWorkBook = new HSSFWorkbook();
+		HSSFSheet objSheet = null;
+		HSSFRow objRow = null;
+		HSSFCell objCell = null;
+		
+		HSSFFont font = objWorkBook.createFont();
+		font.setFontHeightInPoints((short)9);
+		font.setFontName("맑은고딕");
+		
+		HSSFCellStyle styleHd = objWorkBook.createCellStyle();
+		styleHd.setFont(font);
+		
+		
+		objSheet = objWorkBook.createSheet("첫번째 시트");
+		
+		objRow = objSheet.createRow(0);
+		objRow.setHeight((short)0x150);
+		
+
+		objCell = objRow.createCell(0);
+		objCell.setCellValue("이메일");
+		objCell.setCellStyle(styleHd);
+		
+		objCell = objRow.createCell(1);
+		objCell.setCellValue("이름");
+		objCell.setCellStyle(styleHd);
+		
+		objCell = objRow.createCell(2);
+		objCell.setCellValue("닉네임");
+		objCell.setCellStyle(styleHd);
+		
+		objCell = objRow.createCell(3);
+		objCell.setCellValue("휴대폰");
+		objCell.setCellStyle(styleHd);
+		
+		objCell = objRow.createCell(4);
+		objCell.setCellValue("생년월일");
+		objCell.setCellStyle(styleHd);
+		
+		objCell = objRow.createCell(5);
+		objCell.setCellValue("성별");
+		objCell.setCellStyle(styleHd);
+		
+		
+		objCell = objRow.createCell(6);
+		objCell.setCellValue("가입일");
+		objCell.setCellStyle(styleHd);
+		
+		objCell = objRow.createCell(7);
+		objCell.setCellValue("주소");
+		objCell.setCellStyle(styleHd);
+		
+		objCell = objRow.createCell(8);
+		objCell.setCellValue("회원상태");
+		objCell.setCellStyle(styleHd);
+		
+		
+		
+		
+		
+		if(member.size() < 2 ) {
+			objRow = objSheet.createRow(1);
+			objRow.setHeight((short)0x150);
+			
+			objCell = objRow.createCell(0);
+			objCell.setCellValue(member.get(0).getEmail());
+			objCell.setCellStyle(styleHd);
+			
+			objCell = objRow.createCell(1);
+			objCell.setCellValue(member.get(0).getName());
+			objCell.setCellStyle(styleHd);
+			
+			objCell = objRow.createCell(2);
+			objCell.setCellValue(member.get(0).getNickName());
+			objCell.setCellStyle(styleHd);
+			
+			objCell = objRow.createCell(3);
+			objCell.setCellValue(member.get(0).getPhone());
+			objCell.setCellStyle(styleHd);
+			
+			objCell = objRow.createCell(4);
+			objCell.setCellValue(member.get(0).getBirthday());
+			objCell.setCellStyle(styleHd);
+			
+			
+			objCell = objRow.createCell(5);
+			objCell.setCellValue(member.get(0).getGender());
+			objCell.setCellStyle(styleHd);
+			
+			objCell = objRow.createCell(6);
+			objCell.setCellValue(member.get(0).getCreateDate());
+			objCell.setCellStyle(styleHd);
+			
+			objCell = objRow.createCell(7);
+			objCell.setCellValue(member.get(0).getAddress());
+			objCell.setCellStyle(styleHd);
+			
+			objCell = objRow.createCell(8);
+			objCell.setCellValue(member.get(0).getStatus());
+			objCell.setCellStyle(styleHd);
+		
+		} else if(member.size() >= 2){
+				int cellNum = 0;
+				int rowNum = 1;
+			for(int i = 0;i <= member.size()-1 ;i++) {	
+				
+				objRow = objSheet.createRow(rowNum++);
+				objRow.setHeight((short)0x150);
+				
+				
+				objCell = objRow.createCell(0);
+				objCell.setCellValue(member.get(i).getEmail());
+				objCell.setCellStyle(styleHd);
+				
+				objCell = objRow.createCell(1);
+				objCell.setCellValue(member.get(i).getName());
+				objCell.setCellStyle(styleHd);
+				
+				objCell = objRow.createCell(2);
+				objCell.setCellValue(member.get(i).getNickName());
+				objCell.setCellStyle(styleHd);
+				
+				objCell = objRow.createCell(3);
+				objCell.setCellValue(member.get(i).getPhone());
+				objCell.setCellStyle(styleHd);
+				
+				objCell = objRow.createCell(4);
+				objCell.setCellValue(member.get(i).getBirthday());
+				objCell.setCellStyle(styleHd);
+				
+				
+				objCell = objRow.createCell(5);
+				objCell.setCellValue(member.get(i).getGender());
+				objCell.setCellStyle(styleHd);
+				
+				objCell = objRow.createCell(6);
+				objCell.setCellValue(member.get(i).getCreateDate());
+				objCell.setCellStyle(styleHd);
+				
+				objCell = objRow.createCell(7);
+				objCell.setCellValue(member.get(i).getAddress());
+				objCell.setCellStyle(styleHd);
+				
+				objCell = objRow.createCell(8);
+				objCell.setCellValue(member.get(i).getStatus());
+				objCell.setCellStyle(styleHd);
+				
+				}
+				
+			
+		}
+		response.setContentType("Application/Msexcel");
+		try {
+			response.setHeader("Content-Disposition","ATTachment;Filename=" + URLEncoder.encode("Trend_Eater_회원 목록","UTF-8")+".xls");
+			OutputStream fileOut = response.getOutputStream();
+			objWorkBook.write(fileOut);
+			fileOut.close();
+			
+			
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return null;
+	}
 	//##########
 	
 	
