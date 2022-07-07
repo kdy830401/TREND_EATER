@@ -6,10 +6,10 @@
 <head>
 <meta charset="UTF-8">
        <!-- uikit -->
-      <link rel="stylesheet" href="${ contextPath }/resources/css/uikit.min.css" />
+      <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit.min.css" />
       <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
-      <script src="${ contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
+      <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
         
 <style>
 

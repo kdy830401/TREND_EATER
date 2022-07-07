@@ -38,8 +38,8 @@ public class AdminServiceImpl implements AdminService{
 
 
 	@Override
-	public int getListCount(String table) {
-		return aDAO.getListCount(sqlSession, table);
+	public int getListCount(HashMap<String, Object> map) {
+		return aDAO.getListCount(sqlSession, map);
 	}
 
 	@Override
@@ -81,9 +81,9 @@ public class AdminServiceImpl implements AdminService{
 	
 	// 상품요청관리 리스트 불러오기
 	@Override
-	public ArrayList<ProductRequest> selectRequestProductList(PageInfo pi, String value) {
+	public ArrayList<ProductRequest> selectRequestProductList(PageInfo pi, HashMap<String, Object> map) {
 		
-		return aDAO.selectRequestProductList(sqlSession, pi, value);
+		return aDAO.selectRequestProductList(sqlSession, pi, map);
 	}
 	
 	// 이미지 삭제
@@ -106,7 +106,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	//시식신청 리스트 불러오기
 	@Override
-	public ArrayList<ApplyTastePerson> getApplyPersonList(PageInfo pi, HashMap<String, String> map) {
+	public ArrayList<ApplyTastePerson> getApplyPersonList(PageInfo pi, HashMap<String, Object> map) {
 		return aDAO.getApplyPersonList(sqlSession, pi, map);
 	}
 	

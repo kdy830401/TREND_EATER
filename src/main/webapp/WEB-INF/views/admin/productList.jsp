@@ -30,8 +30,8 @@
 	<!-- ############ PAGE START 여기에 내용 넣어주세요 -->
 	<div class="uk-container uk-tile uk-tile-default uk-padding-small">
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">상품관리</h2>
-		<div class="margin uk-width-1-1">
-			<form class="uk-text-center">
+		<div class="margin uk-width-1-1 uk-text-center">
+<!-- 			<form id="searchForm" action="searchProduct.ad" method="get" class="uk-text-center"> -->
 				<!-- 			<div class="inline"> -->
 				<!-- 				<div class="uk-align-center"> -->
 				<!-- 					<div class="uk-inline"> -->
@@ -50,14 +50,20 @@
 				<!-- 					</select> -->
 				<!-- 				</div> -->
 				<div class="uk-inline">
-					<a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search"></a>
-					<input class="uk-input uk-width-medium" id="seachValue" type="search" placeholder="상품명 입력">
+					<input class="uk-input uk-width-medium" id="searchValue" name="seachValue" type="search" placeholder="상품명 입력">
+					<a class="uk-form-icon uk-form-icon-flip" id="search" href="javascript:void(0)" uk-icon="icon: search"></a>
 				</div>
+				<script>
+					$('#search').on('click', function(){
+					    var searchValue = $('#searchValue').val();
+					    location.href="searchProduct.ad?searchValue="+searchValue;
+					});
+				</script>
 				<!-- 				<div class="uk-inline"> -->
 				<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
 				<!-- 				</div> -->
 				<!-- 			</div> -->
-			</form>
+<!-- 			</form> -->
 		</div>
 		<div class="margin uk-width-1-1">
 			<button class="btn btn-outline rounded b-warning text-warning uk-align-center" id="registerProduct">상품등록</button>
@@ -74,6 +80,9 @@
 	</div>
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
+			<li>
+				<a href="productList.ad">전체보기</a>
+			</li>
 			<li>
 				<a href="productList.ad?value=productName">상품명순</a>
 			</li>
@@ -298,8 +307,11 @@
 				</li>
 			</c:if>
 			<c:if test="${ pi.currentPage > 1 }">
-				<c:url var="before" value="productList.ad">
+				<c:url var="before" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage -1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
 				</c:url>
 				<li>
 					<a href="${ before }">
@@ -315,8 +327,11 @@
 					</li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
-					<c:url var="pagination" value="productList.ad">
+					<c:url var="pagination" value="${ loc }">
 						<c:param name="page" value="${ p }" />
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchValue" value="${ searchValue }"/>
+						</c:if>
 					</c:url>
 					<li>
 						<a href="${ pagination }">${ p }</a>
@@ -332,8 +347,11 @@
 				</li>
 			</c:if>
 			<c:if test="${ pi.currentPage < pi.maxPage }">
-				<c:url var="after" value="product;ist.ad">
+				<c:url var="after" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
 				</c:url>
 				<li>
 					<a href="javascript:void(0);">

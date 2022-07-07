@@ -65,7 +65,7 @@
 				<div id="modal-overflow" uk-modal>
 					<div class="uk-modal-dialog">
 					<!-- 	<form action="requestProduct.bo" method="post" class="uk-form-stacked"> -->
-							<button class="uk-modal-close-default" type="button" uk-close></button>
+							<button class="uk-modal-close-default" id="close" type="button" uk-close></button>
 							<div class="uk-modal-header">
 								<h3 class="uk-h3 uk-text-bold">상품 요청</h3>
 							</div>
@@ -127,6 +127,7 @@
 				alert("상품 등록이 요청되었습니다.");
 				$('#productNo_name').val("");
 				$('#productNo_company').val("");
+				$('#close').click();
 			} 
 				
 			},error:function(data){
@@ -154,6 +155,9 @@
 		<div class="uk-container uk-magin-large-top">
 			<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">제품 및 리뷰 게시판</h2>
 			<ul class="uk-breadcrumb uk-align-right">
+				<li>
+					<a href="prBoardList.bo">전체보기</a>
+				</li>
 				<li>
 					<a href="prBoardList.bo?value=productNo">최신순</a>
 				</li>
@@ -229,61 +233,70 @@
 
 
 			</div>
-			<!-- 페이징 처리 -->
-			<ul class="uk-pagination uk-flex-center uk-margin-medium-top" uk-margin>
-				<c:if test="${ pi.currentPage <= 1 }">
-					<li>
-						<a href="#">
-							<span uk-pagination-previous></span>
-						</a>
+					<!-- 페이징 처리 -->
+		<ul class="uk-pagination uk-flex-right uk-margin-medium-top" uk-margin>
+			<c:if test="${ pi.currentPage <= 1 }">
+				<li>
+					<a href="javascript:void(0);">
+						<span uk-pagination-previous></span>
+					</a>
+				</li>
+			</c:if>
+			<c:if test="${ pi.currentPage > 1 }">
+				<c:url var="before" value="${ loc }">
+					<c:param name="page" value="${ pi.currentPage -1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
+				</c:url>
+				<li>
+					<a href="${ before }">
+						<span uk-pagination-previous></span>
+					</a>
+				</li>
+			</c:if>
+
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<li class="uk-active">
+						<span>${ p }</span>
 					</li>
 				</c:if>
-				<c:if test="${ pi.currentPage > 1 }">
-					<c:url var="before" value="prBoardList.bo">
-						<c:param name="page" value="${ pi.currentPage -1 }" />
+				<c:if test="${p ne pi.currentPage }">
+					<c:url var="pagination" value="${ loc }">
+						<c:param name="page" value="${ p }" />
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchValue" value="${ searchValue }"/>
+						</c:if>
 					</c:url>
 					<li>
-						<a href="${ before }">
-							<span uk-pagination-previous></span>
-						</a>
+						<a href="${ pagination }">${ p }</a>
 					</li>
 				</c:if>
+			</c:forEach>
 
-				<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-					<c:if test="${ p eq pi.currentPage }">
-						<li class="uk-active">
-							<span>${ p }</span>
-						</li>
+			<c:if test="${ pi.currentPage >= pi.maxPage }">
+				<li>
+					<a href="#">
+						<span uk-pagination-next></span>
+					</a>
+				</li>
+			</c:if>
+			<c:if test="${ pi.currentPage < pi.maxPage }">
+				<c:url var="after" value="${ loc }">
+					<c:param name="page" value="${ pi.currentPage + 1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
 					</c:if>
-					<c:if test="${p ne pi.currentPage }">
-						<c:url var="pagination" value="prBoardList.bo">
-							<c:param name="page" value="${ p }" />
-						</c:url>
-						<li>
-							<a href="${ pagination }">${ p }</a>
-						</li>
-					</c:if>
-				</c:forEach>
-
-				<c:if test="${ pi.currentPage >= pi.maxPage }">
-					<li>
-						<a href="#">
-							<span uk-pagination-next></span>
-						</a>
-					</li>
-				</c:if>
-				<c:if test="${ pi.currentPage < pi.maxPage }">
-					<c:url var="after" value="prBoardList.bo">
-						<c:param name="page" value="${ pi.currentPage + 1 }" />
-					</c:url>
-					<li>
-						<a href="#">
-							<span uk-pagination-next></span>
-						</a>
-					</li>
-				</c:if>
-			</ul>
-			<!-- 페이징 처리 끝  -->
+				</c:url>
+				<li>
+					<a href="javascript:void(0);">
+						<span uk-pagination-next></span>
+					</a>
+				</li>
+			</c:if>
+		</ul>
+		<!-- 페이징 처리 끝  -->
 		</div>
 
 	</c:if>

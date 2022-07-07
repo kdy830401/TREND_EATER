@@ -1,10 +1,14 @@
 package com.fpj.trendeater.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Repository("mDAO")
@@ -79,6 +83,12 @@ public class MemberDAO {
 	public int deleteMember(SqlSessionTemplate sqlSession, Member member) {
 		
 		return sqlSession.update("memberMapper.deleteMember", member);
+	}
+
+	public ArrayList<Scrap> getMyScrapList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
+		int offset = (pi.getCurrentPage() - 1) * (pi.getBoardLimit());
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.getMyScrapList", map, rowBounds);
 	}
 
 }

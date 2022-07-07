@@ -2,6 +2,8 @@ package com.fpj.trendeater.board.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,17 +43,29 @@ public class BoardServiceImpl implements BoardService{
 	public int registerApplyTaste(ApplyTastePerson applyPerson) {
 		return bDAO.registerApplyTaste(sqlSession, applyPerson);
 	}
+	//시식신청 중복체크
+	@Override
+	public int dupCheckApply(HashMap<String, Object> map) {
+		return bDAO.dupCheckApply(sqlSession, map);
+	}
+
 	
 	// 스크랩
 	@Override
 	public int scrap(HashMap<String, Object> map) {
 		return bDAO.scrap(sqlSession, map) ;
 	}
-	
+	// 스크랩 여부 체크
 	@Override
 	public int checkScrap(HashMap<String, Object> map) {
 		return bDAO.checkScrap(sqlSession, map);
 	}
+	// 리뷰 평점 점수별 갯수 카운트
+	@Override
+	public int[] getCountReviewPoint(HashMap<String, Object> countMap) {
+		return bDAO.getCountReviewPoint(sqlSession, countMap);
+	}
+
 
 
 /********************************* notice *********************************/
@@ -139,7 +153,7 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteBoardQna(BoardQnA b) {
 		return bDAO.deleteBoardQna(sqlSession, b);
 	}
-
+	
 
 
 

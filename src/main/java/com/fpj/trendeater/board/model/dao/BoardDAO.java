@@ -2,6 +2,8 @@ package com.fpj.trendeater.board.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -33,6 +35,11 @@ public class BoardDAO {
 	public int registerApplyTaste(SqlSessionTemplate sqlSession, ApplyTastePerson applyPerson) {
 		return sqlSession.insert("boardMapper.registerApplyTaste", applyPerson);
 	}
+	// 시식신청 중복 체크
+	public int dupCheckApply(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("boardMapper.dupCheckApply", map);
+	}
+	
 	// 스크랩 
 	public int scrap(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		
@@ -58,6 +65,24 @@ public class BoardDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("boardMapper.checkScrap", map);
 	}
+	
+	// 리뷰 평점 점수별 갯수 카운트
+	public int[] getCountReviewPoint(SqlSessionTemplate sqlSession, HashMap<String, Object> countMap) {
+		
+		int[] resultArr = new int[5];
+		int arr = 0;
+		for(int i = 1; i <= 5; i++) {
+			arr = i;
+			System.out.println("arr;"+ arr);
+			countMap.put("arr",arr);
+			resultArr[i-1] = sqlSession.selectOne("boardMapper.getCountReviewPoint", countMap);
+			System.out.println("result:"+resultArr[i-1]);
+		}
+		
+		return resultArr;
+	}
+
+
 
 	
 
