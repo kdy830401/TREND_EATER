@@ -104,20 +104,20 @@
 		<url-pattern>*.ct</url-pattern>
 	</servlet-mapping>
 	
-	<!-- 결제 관련 -->
+	<!-- 주문 결제 관련 -->
 	<servlet>
-		<servlet-name>payServlet</servlet-name>
+		<servlet-name>orderServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-			/WEB-INF/spring/appServlet/pay-context.xml
+			/WEB-INF/spring/appServlet/order-context.xml
 			</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>payServlet</servlet-name>
-		<url-pattern>*.pa</url-pattern>
+		<servlet-name>orderServlet</servlet-name>
+		<url-pattern>*.or</url-pattern>
 	</servlet-mapping>
 	
 	

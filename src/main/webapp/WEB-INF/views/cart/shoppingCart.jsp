@@ -142,7 +142,7 @@
 		    			cartAmountArr.push($(item).parent().siblings('#second').find('#productAmount').val());
 		    		}
 		    	});		    	
-		    	location.href = 'order.pa?cartList='+cartList+"&cartAmountArr="+cartAmountArr; 
+		    	location.href = 'order.or?cartList='+cartList+"&cartAmountArr="+cartAmountArr; 
 		    });
 		    </script>
 		    
