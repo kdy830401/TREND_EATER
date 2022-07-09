@@ -8,7 +8,7 @@ import com.fpj.trendeater.cart.model.vo.Cart;
 
 public interface CartService {
 
-	Cart checkCart(int productNo);
+	Cart checkCart(Cart crt);
 
 	int insertCart(Cart cart);
 

@@ -28,7 +28,7 @@
 	<select id="checkCart" resultMap="cartResultMap">
 		select *
 		from cart
-		where product_no = #{productNo}
+		where product_no = #{productNo} and email_id=#{emailId}
 	</select>	
 	
 	<!-- 장바구니 등록 -->
