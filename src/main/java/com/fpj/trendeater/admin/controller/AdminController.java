@@ -34,8 +34,13 @@ import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
 import com.fpj.trendeater.board.controller.BoardController;
+import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.service.BoardService;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+import com.fpj.trendeater.board.model.vo.UserLike;
 import com.fpj.trendeater.common.Pagination;
+import com.fpj.trendeater.common.ReviewPagination;
 import com.fpj.trendeater.member.model.vo.Member;
 
 @SessionAttributes("adminUser")
@@ -597,6 +602,46 @@ public class AdminController {
 	}
 	
 	
-	//##########
+	//이용준 관리자페이지 리뷰 리스트
+	@RequestMapping("reviewList.ad")
+//	public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv, UserLike like, HttpSession session) {
+		public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv) {
+		
+		int currentPage = 1;
+		int boardLimit = 10;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = bService.reviewCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		ArrayList<Review> reviewList = aService.reviewList(pi);
+		
+		ArrayList<ReviewImage> reviewImageList = aService.reviewImageList();
+		
+//		String loginUser = (String)session.getAttribute("loginUser.email");
+		
+//		UserLike li = new UserLike();
+//		li.setEmailId(loginUser);
+//		li.setReviewNo(reviewNo);
+		
+//		int count = bService.likeCount(li);
+		
+		
+		if(reviewList != null && reviewImageList != null) {
+			mv.addObject("reviewList", reviewList);
+			mv.addObject("pi", pi); 
+			mv.addObject("reviewImageList", reviewImageList);
+//			mv.addObject(count);
+			mv.setViewName("adminReviewList");
+		} else {
+			throw new BoardException("관리자페이지 리뷰 조회에 실패하였습니다");
+		}
+	
+		return mv;
+		}
 }
 

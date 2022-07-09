@@ -11,6 +11,10 @@
 		<typeAlias type="com.fpj.trendeater.admin.model.vo.ApplyTaste" alias="ApplyTaste"/>
 		<typeAlias type="com.fpj.trendeater.admin.model.vo.ProductRequest" alias ="ProductRequest"/>
 		<typeAlias type="com.fpj.trendeater.member.model.vo.Member" alias ="Member"/>
+		<typeAlias type="com.fpj.trendeater.board.model.vo.Review" alias="Review" />
+      	<typeAlias type="com.fpj.trendeater.board.model.vo.ReviewImage" alias="ReviewImage" />
+      	<typeAlias type="com.fpj.trendeater.board.model.vo.Report" alias="Report" />
+      	<typeAlias type="com.fpj.trendeater.board.model.vo.UserLike" alias="Like" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/product-mapper.xml"/>

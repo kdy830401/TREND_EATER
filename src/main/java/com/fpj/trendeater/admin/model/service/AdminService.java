@@ -9,6 +9,8 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.member.model.vo.Member;
 
 public interface AdminService {
@@ -72,6 +74,10 @@ public interface AdminService {
 
 	//아이디 중복확인
 	int adminCount(Admin admin);
+	
+	//관리자 페이지 리뷰 조회
+	ArrayList<Review> reviewList(PageInfo pi);
+	ArrayList<ReviewImage> reviewImageList();
 
 	
 

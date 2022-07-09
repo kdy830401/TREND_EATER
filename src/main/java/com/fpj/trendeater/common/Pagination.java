@@ -4,12 +4,12 @@ import com.fpj.trendeater.admin.model.vo.PageInfo;
 
 public class Pagination {
 
-		public static PageInfo getPageInfo(int currentPage, int listCount) {
+		public static PageInfo getPageInfo(int currentPage, int listCount, int boardLimit) {
 			int pageLimit = 10;
 			int maxPage;
 			int startPage;
 			int endPage;
-			int boardLimit = 5;
+//			int boardLimit;
 			
 			maxPage = (int)Math.ceil((double)listCount/boardLimit);
 			startPage = (currentPage - 1)/pageLimit*pageLimit + 1;

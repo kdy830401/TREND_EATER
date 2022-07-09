@@ -43,7 +43,6 @@
 a {
 	color: rgba(255, 255, 255, 0.87);
 }
-
 a:hover {
 	text-decoration: none;
 	color: white;
@@ -111,8 +110,13 @@ a:hover {
 								</a>
 								<ul class="nav-sub">
 									<li>
-										<a href="#">
+										<a href="prbAdminList.ad">
 											<span class="nav-text">제품/리뷰 게시판</span>
+										</a>
+									</li>
+									<li>
+										<a href="reviewList.ad">
+											<span class="nav-text">리뷰 리스트</span>
 										</a>
 									</li>
 									<li>
@@ -126,17 +130,22 @@ a:hover {
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="applyPersonList.ad">
 											<span class="nav-text">시식 신청 리스트</span>
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="eventlist.ad">
 											<span class="nav-text">이벤트 게시판</span>
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="adminNoticeList.ad">
+											<span class="nav-text">공지사항 게시판</span>
+										</a>
+									</li>
+									<li>
+										<a href="adminQnaList.ad">
 											<span class="nav-text">문의사항 게시판</span>
 										</a>
 									</li>
@@ -190,7 +199,7 @@ a:hover {
 		<div id="content" class="app-content box-shadow-z0" role="main">
 			<div class="app-header white box-shadow">
 				<div class="navbar">
-					<span style="text-align: right; margin-top: auto; margin-bottom: auto;">로그아웃</span>
+					<span onclick = "location.href = 'adminLogout.ad';" style="text-align: right; margin-top: auto; margin-bottom: auto;cursor:pointer;">로그아웃</span>
 				</div>
 
 			</div>
@@ -223,5 +232,18 @@ a:hover {
 
 
 				<!-- ############ PAGE END 끝~ -->
+				
+	
+	<script>
+	//플랜a
+	 $(function(){
+		 var msg = '${msg}';
+		 if(msg != ''){
+			 alert(msg);
+		 }	
+	 });	
+	</script>
+
+				
 </body>
 </html>
