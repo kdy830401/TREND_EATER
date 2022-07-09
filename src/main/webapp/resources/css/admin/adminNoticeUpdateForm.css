@@ -9,8 +9,12 @@ th{
     line-height: 200%;
 }
 
+input{
+	border:none;
+}
+
 .title{
-    width: 1000px;
+    width: 890px;
     text-align: center;
     margin: 0 auto;
 }
@@ -24,7 +28,7 @@ thead{
 
 .tableWhole{
     width:100%;
-    max-width: 1000px;
+    max-width: 890px;
     border-top : 2px solid black;  
     border-bottom: 1px solid lightgray;
     line-height: 180%;
@@ -43,20 +47,8 @@ thead > tr{
     width:450px;
 }
 
-    
-.content{
-    width:1000px;
-    margin: 0 auto;
-    word-break: break-all;
-}
-.content > p{
-    padding: 2%;
-    padding-bottom: 5%;
-    border-bottom: 1px solid  lightgray;
-}
-
 .listButton{
-    width:1000px;
+    width:890px;
     text-align: right;
     margin:2% auto;
     padding-right: 3%;
@@ -76,7 +68,18 @@ thead > tr{
     color:#fff;
 }
 
+/**********************************************************************/
 
-
-
-
+.QuesContent{
+    text-align: center;
+}
+.QuesContent textarea{
+    width:890px;
+    min-height: 150px;
+    padding:1% 0;
+    margin: 0 auto;
+    resize: none;
+}
+ 
+ 
+ 

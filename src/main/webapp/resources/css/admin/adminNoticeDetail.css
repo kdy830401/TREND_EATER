@@ -9,6 +9,8 @@ th{
     line-height: 200%;
 }
 
+
+
 .title{
     width: 1000px;
     text-align: center;
@@ -69,7 +71,7 @@ thead > tr{
     
 }
 .listButton > button{
-    width:150px;
+    width:100px;
     height:35px;
     background-color: #FE8F8F;
     border: 1px solid #FF5C58;

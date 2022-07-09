@@ -97,14 +97,14 @@
 	<update id="updateNotice">
 		update board
 		set board_title = #{boardTitle}, board_content = #{boardContent}
-		where admin_id = #{adminId}
+		where board_no = #{boardId}
 	</update>
 
 <!-- notice 삭제 -->
 	<update id="deleteNotice">
 		update board
 		set board_status = 'N'
-		where admin_id = #{adminId}
+		where board_no = #{boardId}
 	</update>
 	
 <!-- notice 상세보기 -->	
@@ -155,7 +155,7 @@
 	</insert>
 	
 	
-<!-- 수정을 위한 해당 id의 qna 전체 정보 받아오기 -->	
+<!-- QnA 수정1 : select 수정을 위해 해당 게시판번호의 게시판 전체 정보 받아오기 -->		
 	<select id="selectBoardQna" resultMap="boardQnaResultSet">
 		select *
 		from qna
@@ -163,7 +163,7 @@
 	</select>
 
 	
-<!-- QnA 수정 -->
+<!-- QnA 수정2 : update -->
 	<update id="updateBoardQna">
 		update qna
 		set qna_title = #{qnaTitle}, qna_content = #{qnaContent}
@@ -179,9 +179,21 @@
 
 
 
+<!-- adminNotice 수정1 : select 수정을 위해 해당 게시판번호의 게시판 전체 정보 받아오기 -->	
 
+	<select id="adminNoticeSelect" resultMap="boardResultSet">
+		select *
+		from board
+		where board_status = 'Y' and board_no = #{boardId} 
+	</select>
 
-
+<!-- adminQnA 조회  -->
+	<select id="getBoardQnaListAdmin" resultMap="boardQnaResultSet">
+		select *
+		from qna 
+		where qna_status = 'Y'
+		order by qna_no desc
+	</select>
 
 
 

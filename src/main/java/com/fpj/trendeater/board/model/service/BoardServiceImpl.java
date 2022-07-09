@@ -127,6 +127,17 @@ public class BoardServiceImpl implements BoardService{
 
 
 
+/*********************************** admin **********************************/	
+	
+	@Override
+	public Board adminNoticeSelect(Board b) {
+		return bDAO.adminNoticeSelect(sqlSession, b);
+	}
+
+	@Override
+	public ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi) {
+		return bDAO.getBoardQnaListAdmin(sqlSession, pi);
+	}
 
 
 

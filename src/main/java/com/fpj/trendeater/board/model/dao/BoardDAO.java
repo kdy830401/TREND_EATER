@@ -105,6 +105,17 @@ public class BoardDAO {
 //		System.out.println("dao="+a);
 //		return sqlSession.update("boardMapper.deleteBoardQna",b);
 //	}
+	
+	
+/*********************************** admin **********************************/	
+	public Board adminNoticeSelect(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.selectOne("boardMapper.adminNoticeSelect",b);
+	}
+	public ArrayList<BoardQnA> getBoardQnaListAdmin(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());  // 임포트 RowBounds 
+		return (ArrayList)sqlSession.selectList("boardMapper.getBoardQnaListAdmin", null, rowBounds);
+	}
 
 
 	
