@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace ="orderMapper">
+
+	<!--1.ORDER_STATUS TABLE에 insert  -->
+	<insert id="insertOrderStatus">
+		insert into ORDER_STATUS
+		values (seq_oid.nextval, #{orderStatus})
+	</insert>
+
+
+	<!-- 2. ORDER_LIST TABLE에 insert -->
+	<insert id="insertOrderList">
+		insert into ORDER_LIST
+		values(seq_oid.currval, SYSDATE, #{totalPrice}, #{orderRequest}, #{email}, seq_oid.currval)
+	</insert>
+
+	
+	<!-- 3. ORDER_DETAIL TABLE에 insert -->
+	<insert id="insertOrderDetail">
+		insert into ORDER_DETAIL
+		values(seq_odid.nextval, #{productAmount}, #{productNo}, seq_oid.currval)	
+	</insert>
+
+	<!-- 4. 장바구니 비우기  -->
+	<delete id="deleteCartList">
+		delete 
+		from CART
+		where CART_NO = #{cartNo}
+	</delete>
+	
+	<!-- 카트리스트에 따른 이미지 다시 받아오기 -->
+	<select id="selectImgList" resultMap="imageResultMap">
+		select *
+		from image
+		where IDENTIFY_NO = #{productNo} and file_level = 1 and BOARD_TYPE = 1
+	</select>
+	
+	<resultMap type="Image" id="imageResultMap">
+		<id column="IMAGE_NO" property="imageNo"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="UPLOAD_DATE" property="uploadDate"/>
+		<result column="FILE_LEVEL" property="fileLevel"/> 
+		<result column="FILE_TYPE" property="fileType"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="IDENTIFY_NO" property="identifyNo"/>
+	</resultMap>
+		
+</mapper>

@@ -1,6 +1,9 @@
 package com.fpj.trendeater.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,20 +12,80 @@ import org.springframework.stereotype.Repository;
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
+
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+import com.fpj.trendeater.board.model.vo.EventBoard;
+
 
 @Repository("bDAO")
 public class BoardDAO {
 
+	// 리뷰게시판 상세보기
 	public Product selectPrBoard(SqlSessionTemplate sqlSession, int pno) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("boardMapper.selectPrBoard", pno);
 	}
-
+	// 리뷰게시판 상세보기
 	public ArrayList<Image> selectPrImage(SqlSessionTemplate sqlSession, int pno) {
-		return (ArrayList)sqlSession.selectList("boardMapper.selectPrImage", pno);
+		return (ArrayList) sqlSession.selectList("boardMapper.selectPrImage", pno);
 	}
+	// 시식신청
+	public int registerApplyTaste(SqlSessionTemplate sqlSession, ApplyTastePerson applyPerson) {
+		return sqlSession.insert("boardMapper.registerApplyTaste", applyPerson);
+	}
+	// 시식신청 중복 체크
+	public int dupCheckApply(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("boardMapper.dupCheckApply", map);
+	}
+	
+	// 스크랩 
+	public int scrap(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		System.out.println(map);
+
+		int checkNum = sqlSession.selectOne("boardMapper.checkScrap", map);
+		
+		int result = 0;
+		if(checkNum > 0) {
+			result = sqlSession.delete("boardMapper.deleteScrap", map);
+			if(result > 0) {
+				result = 2;
+			}
+		} else {
+			result = sqlSession.insert("boardMapper.insertScrap", map);
+			
+		}
+		
+		return result; 
+	}
+	// 스크랩 체크
+	public int checkScrap(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.checkScrap", map);
+	}
+	
+	// 리뷰 평점 점수별 갯수 카운트
+	public int[] getCountReviewPoint(SqlSessionTemplate sqlSession, HashMap<String, Object> countMap) {
+		
+		int[] resultArr = new int[5];
+		int arr = 0;
+		for(int i = 1; i <= 5; i++) {
+			arr = i;
+			System.out.println("arr;"+ arr);
+			countMap.put("arr",arr);
+			resultArr[i-1] = sqlSession.selectOne("boardMapper.getCountReviewPoint", countMap);
+			System.out.println("result:"+resultArr[i-1]);
+		}
+		
+		return resultArr;
+	}
+
+
+
+	
 
 	
 /********************************* notice *********************************/
@@ -87,8 +150,11 @@ public class BoardDAO {
 	
 	// QnA 수정
 	public int updateBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {
-//		int a = sqlSession.update("boardMapper.updateBoardQna",b);
-//		System.out.println("dao="+a);
+
+
+		int a = sqlSession.update("boardMapper.updateBoardQna",b);
+		System.out.println("dao="+a);
+
 		return sqlSession.update("boardMapper.updateBoardQna",b);
 	}
 //	public int updateBoardQna(SqlSessionTemplate sqlSession, int qnaNo) {
@@ -119,11 +185,26 @@ public class BoardDAO {
 
 
 	
+
+
+	
+
 	
 	
 /***************************   ***************************/ 
 	
 	
+	// EventManageMent 읽기(조회) - 페이징처리1 :총게시물수 가져오기
+	public int getEListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.getEListCount");
+	}
+	
+	
+	public ArrayList<EventBoard> getEBoardList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.getEBoardList", null, rowBounds);
+	}
 	
 	
 }

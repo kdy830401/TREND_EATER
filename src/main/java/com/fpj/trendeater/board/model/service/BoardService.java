@@ -1,18 +1,43 @@
 package com.fpj.trendeater.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
+
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+import com.fpj.trendeater.board.model.vo.EventBoard;
+
 
 public interface BoardService {
 
+	
+	// 리뷰 게시판 상세보기
 	Product selectPrBoard(int pno);
 
+	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
+	
+	// 시식신청
+	int registerApplyTaste(ApplyTastePerson applyPerson);
+	// 시식신청 중복 체크
+	int dupCheckApply(HashMap<String, Object> map);
+	
+	//스크랩
+	int scrap(HashMap<String, Object> map);
+	
+	// 스크랩 여부 체크
+	int checkScrap(HashMap<String, Object> map);
+	
+	// 리뷰 평점 점수별 갯수 카운트
+	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
 
 /*********************************** notice *********************************/	
@@ -29,12 +54,24 @@ public interface BoardService {
 	int insertBoardQna(BoardQnA b);		// 문의사항 게시판 글쓰기
 	BoardQnA selectBoardQna(BoardQnA b); // 수정을 위한 해당 id의 qna 전체 정보 받아오기
 	int updateBoardQna(BoardQnA b);
+
 	int deleteBoardQna(int qnaNo);
 
 /*********************************** admin **********************************/	
 	
 	Board adminNoticeSelect(Board b);
 	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
+
+	int deleteBoardQna(BoardQnA b);
+
+	
+/********************************** Event Management *********************************/	
+int getEListCount();	//페이징처리 1: 총게시물 수 
+ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
+
+
+
+
 
 
 

@@ -30,8 +30,8 @@
 	<!-- ############ PAGE START 여기에 내용 넣어주세요 -->
 	<div class="uk-container uk-tile uk-tile-default uk-padding-small">
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">상품관리</h2>
-		<div class="margin uk-width-1-1">
-			<form class="uk-text-center">
+		<div class="margin uk-width-1-1 uk-text-center">
+<!-- 			<form id="searchForm" action="searchProduct.ad" method="get" class="uk-text-center"> -->
 				<!-- 			<div class="inline"> -->
 				<!-- 				<div class="uk-align-center"> -->
 				<!-- 					<div class="uk-inline"> -->
@@ -50,14 +50,20 @@
 				<!-- 					</select> -->
 				<!-- 				</div> -->
 				<div class="uk-inline">
-					<a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search"></a>
-					<input class="uk-input uk-width-medium" id="seachValue" type="search" placeholder="상품명 입력">
+					<input class="uk-input uk-width-medium" id="searchValue" name="seachValue" type="search" placeholder="상품명 입력">
+					<a class="uk-form-icon uk-form-icon-flip" id="search" href="javascript:void(0)" uk-icon="icon: search"></a>
 				</div>
+				<script>
+					$('#search').on('click', function(){
+					    var searchValue = $('#searchValue').val();
+					    location.href="searchProduct.ad?searchValue="+searchValue;
+					});
+				</script>
 				<!-- 				<div class="uk-inline"> -->
 				<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
 				<!-- 				</div> -->
 				<!-- 			</div> -->
-			</form>
+<!-- 			</form> -->
 		</div>
 		<div class="margin uk-width-1-1">
 			<button class="btn btn-outline rounded b-warning text-warning uk-align-center" id="registerProduct">상품등록</button>
@@ -75,13 +81,16 @@
 	<div class="uk-container uk-tile uk-tile-default uk-margin-medium">
 		<ul class="uk-breadcrumb uk-align-right">
 			<li>
-				<a href="">상품명순</a>
+				<a href="productList.ad">전체보기</a>
 			</li>
 			<li>
-				<a href="">재고량순</a>
+				<a href="productList.ad?value=productName">상품명순</a>
 			</li>
 			<li>
-				<a href="">게시일순</a>
+				<a href="productList.ad?value=productStock">재고량순</a>
+			</li>
+			<li>
+				<a href="productList.ad?value=productNo">게시일순</a>
 			</li>
 		</ul>
 		<table class="table table-hover b-t">
@@ -133,7 +142,42 @@
 							</script>
 
 
-								<a href="" uk-icon="trash"></a>
+								<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }" ></a>
+							<script>
+								var selectNo = ${ p.productNo };
+								var $deleteAdmin = $('#delete'+selectNo);
+								console.log($deleteAdmin);
+								
+									$deleteAdmin.on('click', function(){
+										var pno = $(this).parent().parent().parent().children().eq(0).text();
+										console.log(this);
+										var td = $(this).parent().parent().parent();
+										
+										console.log(td);
+										console.log(pno);
+										if(confirm("해당 게시물 관리자 게시판에서 삭제하시겠습니까?") == true){
+										   $.ajax({
+										      url: 'deleteProductAdmin.ad',
+										      data: {pno:pno},
+										      type:'post',
+										      success:function(data){
+										          console.log(data);
+										          td.hide();
+										      },
+										      error:function(data){
+										          console.log(data);
+										          
+										      }
+										      
+										   });
+								    
+									} 
+								
+								});
+								    
+							</script>
+								
+								
 							</form>
 						</td>
 						<td>
@@ -149,8 +193,10 @@
 									<i></i>
 								</label>
 							</c:if>
+							
 							<script>
-							var $inputStatus = $('#boardStatus'+${ p.productNo });
+							var selectNo = ${ p.productNo };
+							var $inputStatus = $('#boardStatus'+selectNo);
 							console.log($inputStatus);
 							$inputStatus.on('change', function(){
 								var pno = $(this).parent().parent().parent().children().eq(0).text();
@@ -181,8 +227,8 @@
 							<input type="hidden" name="pno" value="${ p.productNo }">
 							<button class="btn btn-sm white tasteBtn" data-toggle="modal" data-target="#m-a-a_${ p.productNo }" ui-toggle-class="fade-down" ui-target="#animate">등록</button>
 							<!-- .modal -->
-							<div id="m-a-a_${ p.productNo }" class="modal fade animate" data-backdrop="true">
-								<div class="modal-dialog" id="animate">
+							<div id="m-a-a_${ p.productNo }" class="modal fade animate${ p.productNo }" data-backdrop="true">
+								<div class="modal-dialog" id="animate${ p.productNo }">
 									<div class="modal-content">
 										<div class="modal-header">
 											<span class="label label-lg">${ p.productName }</span>
@@ -261,8 +307,11 @@
 				</li>
 			</c:if>
 			<c:if test="${ pi.currentPage > 1 }">
-				<c:url var="before" value="productList.ad">
+				<c:url var="before" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage -1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
 				</c:url>
 				<li>
 					<a href="${ before }">
@@ -278,8 +327,11 @@
 					</li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
-					<c:url var="pagination" value="productList.ad">
+					<c:url var="pagination" value="${ loc }">
 						<c:param name="page" value="${ p }" />
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchValue" value="${ searchValue }"/>
+						</c:if>
 					</c:url>
 					<li>
 						<a href="${ pagination }">${ p }</a>
@@ -295,8 +347,11 @@
 				</li>
 			</c:if>
 			<c:if test="${ pi.currentPage < pi.maxPage }">
-				<c:url var="after" value="product;ist.ad">
+				<c:url var="after" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }"/>
+					</c:if>
 				</c:url>
 				<li>
 					<a href="javascript:void(0);">
@@ -344,7 +399,8 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 

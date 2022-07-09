@@ -1,6 +1,9 @@
 package com.fpj.trendeater.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,10 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.dao.BoardDAO;
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+import com.fpj.trendeater.board.model.vo.EventBoard;
 
 @Service("bSerivce")
 public class BoardServiceImpl implements BoardService{
@@ -23,15 +28,45 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	
+	// 리뷰게시판 상세보기
 	@Override
 	public Product selectPrBoard(int pno) {
 		return bDAO.selectPrBoard(sqlSession, pno);
 	}
-
+	// 리뷰게시판 상세보기
 	@Override
 	public ArrayList<Image> selectPrImage(int pno) {
 		return bDAO.selectPrImage(sqlSession, pno);
 	}
+	// 시식신청
+	@Override
+	public int registerApplyTaste(ApplyTastePerson applyPerson) {
+		return bDAO.registerApplyTaste(sqlSession, applyPerson);
+	}
+	//시식신청 중복체크
+	@Override
+	public int dupCheckApply(HashMap<String, Object> map) {
+		return bDAO.dupCheckApply(sqlSession, map);
+	}
+
+	
+	// 스크랩
+	@Override
+	public int scrap(HashMap<String, Object> map) {
+		return bDAO.scrap(sqlSession, map) ;
+	}
+	// 스크랩 여부 체크
+	@Override
+	public int checkScrap(HashMap<String, Object> map) {
+		return bDAO.checkScrap(sqlSession, map);
+	}
+	// 리뷰 평점 점수별 갯수 카운트
+	@Override
+	public int[] getCountReviewPoint(HashMap<String, Object> countMap) {
+		return bDAO.getCountReviewPoint(sqlSession, countMap);
+	}
+
 
 
 /********************************* notice *********************************/
@@ -119,10 +154,17 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteBoardQna(int qnaNo) {
 		return bDAO.deleteBoardQna(sqlSession, qnaNo);
 	}
+
 //	@Override
 //	public int deleteBoardQna(BoardQnA b) {
 //		return bDAO.deleteBoardQna(sqlSession, b);
 //	}
+
+	
+
+
+
+
 
 
 
@@ -145,5 +187,21 @@ public class BoardServiceImpl implements BoardService{
 
 
 /***********************************************************************/	
+	
+/******************************** Event Management **********************************/	
+	
+	// EventManagement 읽기(조회) - 페이징처리1 :총게시물수 가져오기
+	@Override
+	public int getEListCount() {
+		return bDAO.getEListCount(sqlSession);
+	}
+	
+	// EventManagement 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
+	@Override
+	public ArrayList<EventBoard> getEBoardList(PageInfo pi) {
+		return bDAO.getEBoardList(sqlSession, pi);
+	}
+	
+	
 	
 }

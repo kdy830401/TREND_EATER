@@ -2,6 +2,7 @@
 
 
 
+
 th{
     width: 130px;
     background-color: #f7f5f8;
@@ -69,12 +70,15 @@ thead > tr{
     
 }
 .listButton > button{
+
     width:150px;
     height:35px;
     background-color: #FE8F8F;
     border: 1px solid #FF5C58;
     color:#fff;
+
 }
+
 
 
 

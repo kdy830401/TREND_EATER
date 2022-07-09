@@ -71,8 +71,10 @@
 	
 	    <div class="submitButton">
 	        <button>수정 완료</button>
+
 	        <button type="button" onclick="location.href='boardQna.bo'">목록으로</button> 
  	        <!--<button onclick="location.href='boardQna.bo'">수정 완료</button> -->
+
 <!-- 	        <button onclick="location.href='boardQna.bo'">목록으로</button> 3번페이지면 3번으로 돌아갈 수 있게 page -->
 	<!--         <button onclick="location.href='boardQna.bo?page'">목록으로</button> 3번페이지면 3번으로 돌아갈 수 있게 page -->
 	    </div>

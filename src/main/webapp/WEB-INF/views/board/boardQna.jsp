@@ -87,6 +87,7 @@ pageEncoding="UTF-8"%>
 		                        <li>
 		                            <div>
 		                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_q-solid.svg" style="width: 15px;">
+
 		                                <p>${ b.qnaContent }</p>
 	                                  <%--  <c:set var="newLineChar" value="1"/> --%>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
 	                                   <c:set var="newLineChar" value="ᚘ"/>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
@@ -94,6 +95,9 @@ pageEncoding="UTF-8"%>
 	                                  	 ${fn:replace(b.qnaContent, newLineChar, "<br>") }
 	                                   <input type="hidden" name="qnaContent" value="${b.qnaContent}">
 		                                   
+
+		                                
+
 		                                   <%-- <input type="hidden" name="qnaContent" value="${b.qnaContent}">${b.qnaContent} --%>
 		                                   <!--타이틀도. 전체를 폼으로 감싸야함. href를 안주고 액션에 주소값 주는 것. 버튼을 누르면 폼에 감싸져있음. 서브밋 필요없이 버튼 누르면 제출됨. vo에 세터값이랑이랑 일치하니   -->
 		                            </div><br>
@@ -109,7 +113,11 @@ pageEncoding="UTF-8"%>
 	                    </ul>
 	                    <div class="QnaToggleOpen_Button">
 	                        <button type="button" name="page" id="updateBtn${ vs.index }" class="updateBtn">수정</button> <!-- { vs.index } == 위의 varStatus -->
+
 	                        <button type="button" name="page" id="deleteBtn${ vs.index }" class="deleteBtn">삭제</button>
+
+	                
+
 	                        		
 <%-- 	                        <button type="submit" name="page" value="${pi.currentPage}" id="boardQnaDelete"
 	                        		onclick="boardQnaDelete()">삭제</button>
@@ -190,6 +198,7 @@ pageEncoding="UTF-8"%>
 
 <script>
 
+
 	$('.deleteBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		$('#qnaNo').val(qnaNo); // value(qnaNo)의 값을 id="qnaNo"에 넣겠다는 의미
@@ -201,14 +210,34 @@ pageEncoding="UTF-8"%>
 	});	
 	$('.updateBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
+
+	/* function boardQnaDelete(){
+		if(confirm("정말 삭제하시겠습니까?")){
+			location.href="boardQnaDeleteForm.bo" */
+			/* <c:url var="bdelete" value="bdelete.bo">
+				 <c:param name="bId" value="${ board.boardId }"/>
+				 <c:param name="renameFileName" value="${ board.renameFileName }"/>
+			</c:url> */
+	/* 	}
+		
+	} */
+	$('.deleteBtn${').on('click',function(){
+		var no = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
+		$('#qnaNo').val(no); 
+		$('#boardQnaUpdateViewForm').submit();
+		
+	$('.updateBtn').on('click',function(){
+		var no = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
+
 		// parent() : 상위태그로 // prev() : 동급의 이전태그(같은 띄어쓰기 단계의 바로 앞에 쓰인 태그) // children() : 하위태그로 // eq(0) : 해당 태그의 0번째있는 태그 // text() : 텍스트만 끌어오는 태그
 		
 //		 ▶   ${b.qnaNo }만 따로 가져와서 <input type="hidden">에 넣어주기 ◀
 		// class="updateBtn"이 있는 button태그에서 .parent()는 div태그 그 위 parent는 <div class="QnaToggleOpen">태그
 		// 여기서 prev()하면  summary태그로 가서 children5번하면  table아래 tr태그가 나오고 eq(0)해서 tr태그 아래 첫번째 태그인 td가 선택됨
 		// 이 td태그에서 text()해서 텍스트만 가져오므로써  ${ b.qnaNo } 획득
+
 		$('#qnaNo').val(qnaNo); // 위에서 ${ b.qnaNo }만 가져다 변수 no에 넣은 걸, id='qnaNo'에 val(no)으로 넣어준다
-		
+
 		$('#boardQnaUpdateViewForm').submit(); // 맨 위 form태그의 id="boardQnaUpdateViewForm"를 submit 시키겠다는 의미
 	});
 </script>

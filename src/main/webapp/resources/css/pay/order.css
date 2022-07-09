@@ -1,0 +1,513 @@
+ /* common style */
+ #main {
+    border-bottom: 1px solid #f7f7f7;
+}
+.user_form * {
+font-family: 'Noto Sans';
+font-weight: 400;
+letter-spacing: -0.3px;
+}
+.page_aticle button, .page_aticle input, .page_aticle select, .page_aticle * {
+  font-family: noto sans;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+div, th, td, li, dt, dd, p {
+  word-break: break-all;
+}
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
+ol, ul {
+  list-style-type: none !important;
+  padding: 0;
+
+}
+
+ul {
+  list-style-type: disc;
+}
+.user_form {
+  width: 1050px;
+  margin: 0 auto;
+  font-family: noto sans;
+  font-weight: 400;
+}
+body, input, select, textarea, button {
+  font-family: noto sans,malgun gothic,AppleGothic,dotum;
+  line-height: 1;
+  letter-spacing: -.05em;
+  color: #4c4c4c;
+  font-size: 12px;
+  max-width: 100%;
+}
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+img, video, canvas {
+max-width: 100%;
+}
+/* 주문서 */
+.tit_page h2.tit {
+font-weight: 700;
+font-size: 28px;
+color: #333;
+line-height: 35px;
+text-align: center;
+letter-spacing: -1px;
+}
+
+/* 주문상품 요약 */
+.order_goodslist .info_product {
+position: relative;
+}
+.order_goodslist .info_product .short_info {
+height: 80px;
+padding-top: 29px;
+border-bottom: 1px solid #f4f4f4;
+font-weight: 700;
+font-size: 16px;
+color: #333;
+line-height: 24px;
+letter-spacing: -.35px;
+text-align: center;
+}
+.order_goodslist .info_product .short_info .num {
+font-weight: 700;
+color: #FF5C58;
+}
+/*주문상품 리스트  */
+.order_goodslist li {
+overflow: hidden;
+height: 128px;
+border-bottom: 1px solid #f4f4f4;
+}
+
+.order_goodslist .thumb {
+overflow: hidden;
+float: left;
+width: 60px;
+height: 78px;
+margin: 25px 20px 0 0;
+background-color: #f4f4f4;
+background-repeat: no-repeat;
+background-position: 50% 50%;
+background-size: cover;
+}
+.order_goodslist .thumb img {
+width: 60px;
+height: 78px;
+}
+.order_goodslist .name {
+display: table;
+float: left;
+width: 739px;
+height: 100%;
+padding-right: 20px;
+}
+.order_goodslist .name .inner_name {
+display: table-cell;
+font-weight: 700;
+font-size: 16px;
+color: #000;
+line-height: 24px;
+vertical-align: middle;
+}
+.order_goodslist .ea {
+float: left;
+width: 100px;
+height: 100%;
+padding-top: 52px;
+font-size: 14px;
+color: #333;
+line-height: 24px;
+text-align: center;
+letter-spacing: -.22px;
+}
+.order_goodslist .info_price {
+display: table;
+float: right;
+width: 120px;
+height: 100%;
+padding-right: 4px;
+}
+.order_goodslist .info_price .num {
+display: table-cell;
+vertical-align: middle;
+text-align: right;
+}
+.order_goodslist .info_price .price {
+display: block;
+font-weight: 700;
+font-size: 16px;
+color: #000;
+line-height: 24px;
+white-space: nowrap;
+}
+.order_goodslist .info_price .cost {
+display: block;
+padding-top: 1px;
+font-size: 14px;
+color: #999;
+line-height: 24px;
+text-decoration: line-through;
+white-space: nowrap;
+}
+/* 주문서 전용 딤드처리 */
+.bg_order{display:block !important}
+.hide{display:none}
+/* 주문서_공통 */
+#gnb.gnb_stop{position:static}
+.user_form *{font-family: 'Noto Sans';font-weight:400;letter-spacing:-0.3px}
+.user_form input[type="text"]{width:332px;height:44px;padding:12px 16px;border:1px solid #ddd;border-radius:3px;background-color:#fff;font-size:14px;color:#333;letter-spacing:-0.5px;outline:none}
+.user_form input[type="text"]:focus{border:1px solid #333}
+.user_form input[type="radio"]{position:relative;z-index:-1;vertical-align:0}
+.user_form .bar{display:inline-block;position:relative;width:13px;height:33px;vertical-align:top}
+.user_form .bar span{position:absolute;left:3px;top:17px;width:8px;height:1px;background-color:#d8d8d8}
+.user_form .txt_guide .txt{display:block;font-size:12px;line-height:21px;color:#666}
+/* 공통_라디오버튼 */
+.user_form .label_radio{display:inline-block;padding:0 18px 0 9px;background:#fff url(https://res.kurly.com/pc/service/order/1908/ico_radio_off_x2.png) no-repeat 0 2px;background-size:16px 17px;font-size:14px;color:#333;line-height:22px;cursor:pointer;white-space:nowrap}
+.user_form .label_radio.checked{background:#fff url(https://res.kurly.com/pc/service/order/1908/ico_radio_on_x2.png) no-repeat 0 2px;background-size:16px 17px}
+.user_form .label_radio.disabled{background:#fff url(https://res.kurly.com/pc/service/order/1908/ico_radio_disabled_x2.png) no-repeat 0 2px;background-size:16px 17px}
+.user_form .label_radio .info{display:none;width:543px;margin:11px 0 0 -7px;color:#666;font-size:12px;line-height:18px;white-space:normal}
+.user_form .label_radio .bubble{margin-left:7px}
+.user_form .label_radio.checked .info{ display: block;}
+    
+/* 공통_테이블 */
+.goodsinfo_table{border-top:1px solid #333;border-bottom:none; width: 100%;}
+.goodsinfo_table th{width:190px;padding:8px 0 0;font-weight:bold;font-size:14px;color:#333;line-height:24px;letter-spacing:-0.32px;vertical-align:top; text-align: left;}
+.goodsinfo_table td{position:relative;padding:8px 0;font-size:14px;color:#333;line-height:24px;vertical-align:top}
+.tbl_left{float:left;width:742px}
+    
+/* 공통적용 */
+.tit_section{padding:74px 0 16px;font-weight:bold;font-size:20px;color:#333;line-height:29px;clear:both}
+.tit_section.fst{padding-top:14px}
+.tit_section .desc{padding-left:13px;font-size:14px;color:#666;vertical-align:3px}
+.order_section{overflow:hidden;letter-spacing:-0.3px}
+.order_section .btn{overflow:hidden;height:30px;padding-bottom:3px;border:1px solid #FF5C58;border-radius:3px;background-color:#fff;font-weight:bold;font-size:12px;color:#FF5C58;line-height:18px;text-align:center}
+.order_section .btn.normal{border:1px solid #999}
+.order_section .btn.default{border:1px solid #ddd;color:#333}
+.order_section .address .default{display:none;width:74px;height:22px;margin:1px 0 7px;border-radius:11px;background-color:#f4f4f4;font-weight:700;font-size:12px;color:#666;line-height:20px;text-align:center;}
+.order_section .address .default.on{display:block}
+.order_section .badge{display:inline-block;font-size:14px;line-height:24px}
+.order_section .information{font-size:12px;padding-left:6px;color: #666}
+.order_section .badge.default{display:none}
+.order_section .badge.star{color:#FF5C58}
+.order_section .badge.regular{color:#999}
+.order_section .badge.none{color:#f03f40}
+.order_section .section_crux{float:left;width:190px;padding-top:19px;font-weight:bold;font-size:14px;color:#333;line-height:24px;letter-spacing:-0.32px}
+.order_section .section_full{overflow:hidden;padding:19px 20px 20px 0}
+/* 레이어타입_리스트타입 */
+.layer_selectbox{display:none;position:absolute;z-index:1;left:0;top:63px;width:100%;background-color:#fff;border:1px solid #999}
+.layer_selectbox .open {display: block;}
+.layer_selectbox li{padding:13px 30px 14px 37px;border-top:1px solid #999;font-size:12px;line-height:18px;letter-spacing:-0.2px}
+.layer_selectbox li.fst{border-top:0 none}
+.layer_selectbox li.checked{background:url(https://res.kurly.com/pc/service/order/1908/ico_check_32x20.png) no-repeat 10px 18px;background-size:16px 10px}
+.layer_selectbox li:hover{background-color:#f7f7f7;cursor:pointer}
+/* 공통 셀렉박스 레이어 타입 */
+.select_box{position:relative;height:44px;padding:0 54px 0 15px;border:1px solid #ddd;background-color:#fff;font-size:14px;color:#333;line-height:40px;letter-spacing:-0.5px;vertical-align:top}
+.select_box:after{content:"";position:absolute;right:16px;top:50%;width:12px;height:8px;margin-top: -4px;background:url(https://res.kurly.com/pc/ico/2011/ico_selectbox_arrow.svg) no-repeat 50% 50%;background-size:12px 8px}
+.select_box.off{background-color:#fafafa;color:#ccc}
+.select_box.off:after{background:#fafafa url(https://res.kurly.com/pc/ico/2011/ico_selectbox_arrow_off.svg) no-repeat 50% 50%;background-size:12px 8px}
+    
+/* 주문자정보 */
+.data_orderer .goodsinfo_table .fst th{padding-top:19px; text-align: left;}
+.data_orderer .goodsinfo_table .fst td{padding-top:19px}
+.data_orderer .txt_guide{padding:16px 0 8px}
+.data_orderer .no_orderer{margin-bottom:10px}
+.data_orderer .no_orderer th{padding-top:18px}
+.data_orderer .no_orderer .fst th{padding-top:28px}
+.data_orderer .no_orderer td{padding:10px 0}
+.data_orderer .no_orderer .fst td{padding-top:20px}
+    
+/* 배송정보_배송정보안내레이어 */
+.address_info{position:relative;}
+.address_info .desc{position:absolute;right:0;top:-42px;font-weight:700;font-size:14px;color:#999;line-height:24px;text-align:right;}
+.address_info .desc:after{content:"";display:inline-block;width:24px;height:24px;background:url(https://res.kurly.com/pc/service/order/2011/ico_question.svg?v=1) no-repeat 50% 50%;background-size:24px 24px;vertical-align:top}
+.address_info .layer_info{position:absolute;right:0;top:-7px;width:188px;height:60px;padding:14px 36px 14px 14px;border-radius:6px;background-color:#b277fe;font-size:12px;color:#fff;line-height: 17px;opacity:0;
+transition: opacity 0.3s;
+-webkit-transition: opacity 0.3s;
+-moz-transition: opacity 0.3s;
+-ms-transition: opacity 0.3s;
+-o-transition: opacity 0.3s;
+}
+.address_info .layer_info.on{opacity:1}
+.address_info .layer_info:before {content:"";position:absolute;right:54px;top:-9px;width:18px;height:16px;background:url(https://res.kurly.com/pc/service/order/2011/ico_location_picker.svg) no-repeat 100% 50%;background-size:18px 16px}
+.address_info .layer_info:after {content:"";position:absolute;right:14px;top:13px;width:16px;height:17px;background:url(https://res.kurly.com/pc/service/order/2011/ico_tooltip_close.svg) no-repeat 100% 50%;background-size:16px 17px}
+.address_info .layer_info .emph{font-weight:700;color:#fff}
+/* 배송정보_배송지 */
+.order_address{border-top:1px solid #333;border-bottom:1px solid #f4f4f4}
+.order_address .address.off{display:block;padding-top:1px;font-size:14px;color:#ccc;line-height:20px}
+.order_address.invalid .address.off{color:#f03f40}
+.order_address .addr{display:block;font-size:14px;color:#333;line-height:24px}
+.order_address .num{white-space:nowrap}
+.order_address .receiving{display:block;padding-top:6px;font-size:14px;color:#666;line-height:20px}
+.order_address .btn{display:block;width:60px;margin-top:13px}
+/* 배송정보_수령장소 */
+.order_reception .receiving{font-size:14px;color:#333;line-height:24px}
+.order_reception .receiving.off{color:#ccc}
+.order_reception .way{padding-top:9px}
+.order_reception .way .place{font-size:14px;color:#666;line-height:24px}
+.order_reception .way .txt{font-size:14px;color:#666;line-height:24px}
+.order_reception .way .txt:before{content:"";display:inline-block;width:1px;height:14px;margin:0 6px 0 9px;background-color:#ddd;vertical-align:-3px}
+.order_reception .way .txt.off:before{display:none}
+.order_reception .way .no_before:before{display:none}
+.order_reception .way .off{color:#ccc}
+/* .order_reception .way .should_update_details{color:#f03f40} */
+.order_reception .btn{display:block;width:60px;margin-top:20px}
+.order_reception.invalid .receiving.off,
+.order_reception.invalid .way .off{color:#f03f40}
+
+    
+/* 쿠폰 / 적립금 */
+.data_payment{float:left}
+.data_payment .goodsinfo_table{border-bottom:0 none}
+.data_payment th{padding-top:29px}
+.data_payment th.no_emoney{padding-top:20px}
+.data_payment td{padding:20px 0}
+/* 쿠폰적용 */
+.data_payment .txt_couponinfo{padding:4px 0 0 1px;color:#f00}
+.data_payment .txt_inquiry{padding-top:17px}
+.data_payment .txt_inquiry .link{padding-right:11px;background:url(https://res.kurly.com/pc/ico/2011/ico_outlink.svg) no-repeat 100% 50%;background-size:6px 9px;font-size:12px;color:#FF5C58;line-height:22px;}
+#addpopSelList .txt_apr,#addpopSelList .txt_is_dc{display:inline-block;font-weight:700;font-size:14px;line-height:1.43px;color:#333}
+#addpopSelList .txt_apr.coupon_na,#addpopSelList .txt_is_dc.coupon_na,#addpopSelList .txt_tit.coupon_na,#addpopSelList .txt_desc.coupon_na,#addpopSelList .txt_expire.coupon_na{color:#777}
+#addpopSelList .inner_item{display:table;font-size:14px}
+#addpopSelList .item_row{display:table-row}
+#addpopSelList .item_td.left{display:table-cell;width:110px}
+#addpopSelList .item_td{display:table-cell}
+#addpopSelList .txt_tit{padding-bottom:6px;font-weight:700}
+#addpopSelList .txt_desc,#addpopSelList .txt_expire{font-size:12px}
+#addpopSelList span{display:block}
+#addpopSelList .inner_item.disabled{color:#777}
+/* 적립금적용 */
+.data_payment .emoney_use{border-top: 1px solid #f4f4f4}
+.data_payment .emoney_use .emoney_reg{overflow:hidden}
+.data_payment .emoney_use input[name="using_point"]{float:left;width:168px;margin-right:8px}
+.data_payment .emoney_use input[type="checkbox"]{position:absolute;opacity:0}
+.data_payment .emoney_use .emoney_chkbox{float:left;width:100px;height:44px;padding:10px 0 0;border:1px solid #ddd;border-radius:3px;background:#fff;font-weight:bold;font-size:14px;color:#333;line-height:20px;text-align:center;letter-spacing:0;cursor:pointer}
+.data_payment .emoney_use .possess{padding-top:10px;font-size:14px;color:#666;line-height:20px}
+.data_payment .emoney_use .possess .emph{font-weight:bold;color:#333}
+.data_payment .emoney_use .list_notice{padding-top:16px}
+.data_payment .emoney_use .list_notice li{padding-top:4px;font-size:12px;color:#666;line-height:18px;letter-spacing:-0.2px}
+    
+/* 결제금액_sticky */
+.tax_absolute{position:relative;float:right;width:284px;height:0}
+.tax_absolute .inner_sticky{position:absolute;right:0;top:0;width:100%}
+#orderitem_money_info{width:100%;padding:17px 16px 18px 18px;background:#fafafa;border:1px solid #f2f2f2}
+#orderitem_money_info .amount{overflow:hidden;padding-top:12px;letter-spacing:-0.5px}
+#orderitem_money_info .fst{padding-top:0;padding-bottom:4px}
+#orderitem_money_info .lst{margin:17px 0 0 0;padding-top:15px;border-top:1px solid #eee}
+#orderitem_money_info .lst .tit{padding-top:2px}
+#orderitem_money_info .tit,
+#orderitem_money_info .lst .price .won,
+#orderitem_money_info .price{font:normal 16px/24px 'Noto Sans';vertical-align:top}
+#orderitem_money_info .lst .price .won{vertical-align:2px}
+#orderitem_money_info .tit{float:left;width:96px}
+#orderitem_money_info .price{float:right;width:144px;text-align:right}
+#orderitem_money_info .price .emph{color:#FF5C58}
+#orderitem_money_info .price .small{font-size:12px}
+#orderitem_money_info .sub{padding-top:8px}
+#orderitem_money_info .sub .tit,
+#orderitem_money_info .price .normal,
+#orderitem_money_info .sub .price{font-weight:normal;font-size:14px;color:#999;line-height:20px}
+#orderitem_money_info .sub .tit{padding-left:16px;background:url(https://res.kurly.com/pc/service/order/2011/ico_sub_price_dot.svg) no-repeat 0 0;background-size:16px 20px}
+#orderitem_money_info .lst .price{font-weight:bold;font-size:22px;line-height:28px}
+#order_notice_section{
+        display: none;
+        width: 284px;
+        padding: 22px 0;
+        text-align: center;
+        border: solid 1px #f2f2f2;
+        border-top: none;
+        background-color: #fff;
+        color: #333;
+        letter-spacing: -0.5px;
+}
+#order_notice_section .emph{
+        font-weight: 600;
+        color: #f03f40;
+        letter-spacing: -0.5px;
+}
+#order_notice_section .courier_notice{
+        display: block;
+        margin-top: 2px;
+        font-size: 12px;
+        line-height: 18px;
+        letter-spacing: -0.5px;
+        color: #999;
+}
+.tax_absolute .reserve{display:none;padding:16px 3px 0 0;font-size:12px;color:#666;line-height:16px;letter-spacing:0;text-align:right}
+.tax_absolute .reserve .ico{display:inline-block;width:30px;height:18px;margin-right:5px;border:1px solid #ffbf01;border-radius:9px;background-color:#ffbf00;font-size:10px;color:#fff;line-height:15px;text-align:center;vertical-align:top}
+.tax_absolute .reserve .emph,
+.tax_absolute .reserve .emph span{font-weight:700;color:#666}
+.pm_sign{display:none;margin-right:4px}
+    
+/* 포장방법 */
+.reusable_packaging .tit_section{border-bottom: 1px solid #333}
+.reusable_packaging .label_radio{display:block;}
+.reusable_packaging .label_radio + .label_radio{margin-top:20px}
+    
+/* 결제수단 */
+.data_method{float:left}
+.data_method .goodsinfo_table th{padding:29px 0 10px}
+.data_method .goodsinfo_table td{padding:20px 0 0}
+.data_method .goodsinfo_table .txt_notice{padding:26px 0 0}
+.data_method .goodsinfo_table .txt_notice ul{margin-bottom:-2px}
+.data_method .goodsinfo_table .txt_notice li{font-size:12px;color:#666;line-height:22px;letter-spacing:-0.2px}
+.data_method .goodsinfo_table .txt_notice li a{padding-right:11px;background:url(https://res.kurly.com/pc/ico/2011/ico_outlink.svg) no-repeat 100% 50%;background-size:6px 9px;color:#FF5C58}
+.data_method .goodsinfo_table .credit_montly_wrap {padding-top: 9px;}
+.data_method .goodsinfo_table .credit_montly_wrap .title {font-size: 14px; font-weight: 500;font-stretch: normal;}
+.data_method .goodsinfo_table .credit_montly_wrap .guide {margin-top: 8px;font-size: 13px;color:#808080;}
+.data_method .goodsinfo_table #only_kakao {display: none;}
+.data_method .goodsinfo_table #only_kakao .kakaopay_benefit_icon {display: none;margin-left: 4px;font-size: 13px;font-weight: 600;color: #fa622f;}
+/* 결제수단저장 */
+.data_method .type_form{display:none;position:relative}
+.data_method .type_form label{position:absolute;right:1px;top:-41px;color:#333;}
+.data_method .type_form input[type="checkbox"] + .ico{margin-right:5px}
+/* 결제메뉴선택-카카오페이,정기결제 */
+.data_method .payment_first label,
+.data_method .menu_payment label{position:relative;cursor:pointer}
+.data_method .payment_first input[type="radio"],
+.data_method .menu_payment input[type="radio"]{position:absolute;opacity:0}
+.data_method .icon_benefit{display:none;position:absolute;left:10px;top:-8px;padding:0 6px 1px 6px;border-radius:9px;border:1px solid #fa622f;background-color:#fff;font-weight:bold;font-size:10px;color:#fa622f;line-height:14px}
+.data_method .payment_first .icon_benefit{top:-9px}
+.data_method .on .icon_benefit{left:12px;top:-7px}
+.data_method .simple.on .icon_benefit{left:11px}
+.data_method .payment_first.on .icon_benefit{left:11px;top:-8px}
+.data_method .logo_kakao{display:block;width:50px;margin:0 auto 0;}
+.data_method .payment_first .card,
+.data_method .payment_first .kakaopay{display:block;width:414px;height:48px;padding-top:13px;border-radius:3px;border:1px solid #ddd}
+.data_method .payment_first.on .kakaopay{padding-top:14px;border:none;background-color:#f6e500;}
+.data_method .payment_first.on .card{padding-top:15px;border:none;background-color:#FF5C58;font-size:14px;color:#fff;line-height:18px;letter-spacing:0;text-align:center;}
+.data_method .payment_first .notice_card{padding-top:13px;font-size:13px;color:#FF5C58;line-height:16px;letter-spacing:-0.32px}
+.data_method .payment_first .notice_card.kakao{display:none}
+/* 결제메뉴 */
+.data_method .menu_payment {height:48px;margin-top:12px}
+.data_method .menu_payment:after{content:"";display:block;overflow:hidden;width:100%;height:0;clear:both}
+.data_method .menu_payment li{position:relative;float:left;width:138px;height:48px;border: 1px solid #ddd}
+.data_method .menu_payment .card{border-radius:3px 0 0 3px}
+.data_method .menu_payment .card label{border-radius:3px 0 0 3px}
+.data_method .menu_payment .simple{border-left: none;border-radius:0 0 0 0}
+.data_method .menu_payment .phone{border-left: none;border-radius:0 3px 3px 0}
+.data_method .menu_payment .phone label{border-radius:0 3px 3px 0}
+.data_method .menu_payment label{position:absolute;left:-1px;top:-1px;width:100%;height:48px;padding:11px 0 0;text-align:center}
+.data_method .menu_payment .on{padding:0;}
+.data_method .menu_payment .on label{width:139px;margin-left:-1px;background-color:#FF5C58;color:#fff}
+.data_method .menu_payment .card.on label{width:139px;margin-right:-1px}
+.data_method input[type="checkbox"] {opacity: 0}
+/* 카드혜택 */
+.data_method .benefit_event .benefit.on{position:relative;padding-bottom:14px}
+.data_method .benefit_event .benefit.on:after{content:"";position:absolute;right:0;bottom:-10px;width:742px;height:1px;background-color:#f4f4f4}
+.data_method .benefit_event .tit_benefit{display:block;padding-top:18px}
+.data_method .benefit_event .tit_benefit span,
+.data_method .benefit_event .tit_benefit{font-weight:700;font-size:12px;color:#333;line-height:17px;letter-spacing:-0.26px}
+.data_method .benefit_event .sub_benefit{margin-bottom:-2px;padding-top:4px;font-weight:700;font-size:12px;color:#4c4c4c;line-height:18px;letter-spacing:-0.3px}
+.data_method .benefit_event .info_benefit{padding-top:3px}
+.data_method .benefit_event .info_benefit .info{display:block;font-size:12px;color:#666;line-height:20px;letter-spacing:-0.3px;word-break: break-all}
+.data_method .benefit_event .kakao .tit_benefit{padding-top:23px}
+.data_method .benefit_event .kakao .info_benefit{padding-top:1px}
+/* 신용카드카드선택 */
+#cardSelect{padding-top:14px}
+#cardSelect .card_select:after{content:"";display:block;overflow:hidden;height:0;clear:both}
+#cardSelect .select_box{height: auto;padding: 0;border: none;margin-top:10px;}
+#cardSelect .select_box:after {display: none;}
+#cardSelect .select_box .tit{display:block;overflow:hidden;width:276px;height:44px;padding:0 30px 0 15px;border:1px solid #ddd;background:#fff  url(https://res.kurly.com/pc/ico/2011/ico_selectbox_arrow.svg) no-repeat 248px 50%;background-size:12px 8px;font-weight:400;font-size:14px;color:#333;line-height:40px;letter-spacing:-0.5px}
+#cardSelect .select_box .tit.off{border:1px solid #ddd;background:#fff  url(https://res.kurly.com/pc/ico/2011/ico_selectbox_arrow_off.svg) no-repeat 248px 50%;background-size:12px 8px;color:#999}
+#cardSelect .select_box .list{display:none;position:absolute;left:0;top:43px;width:276px;padding:12px 0;border:1px solid #999;background-color:#fff;}
+#cardSelect .select_box .list.on{display:block;z-index:1}
+#cardSelect .select_box .list.off{display:none}
+#cardSelect .select_box a{display:block;padding:2px 0 2px 15px;font-size:13px;color:#808080;line-height:20px;letter-spacing:-0.19px;cursor:pointer}
+#cardSelect .select_box a.on{font-weight:700;color:#570080}
+#cardSelect .select_box a:hover{background-color:#f5f5f5;font-weight:700;color:#570080}
+#cardSelect .card_point{padding-top:12px}
+#cardSelect .card_noti{padding:4px 0 3px;font-size:12px;color:#808080;line-height:22px;letter-spacing:-0.23px}
+/* 간편결제 */
+.data_method .payments{display:flex;flex-wrap:wrap;padding:9px 0 10px}
+.data_method .payments li{width:280px;padding-top:20px}
+.data_method .payments li:nth-child(even){width:268px}
+.data_method .payments .txt_benefit{display:none;padding-left:2px;font-size:13px;color:#fa622f;line-height:20px;letter-spacing:0;vertical-align:1px}
+    
+/* 개인정보수집및제공 */
+.reg_agree .desc{overflow:auto;height:110px;padding:20px;margin-bottom:10px;background-color:#fff;border:1px solid #bfbfbf;line-height:20px}
+/* 개인정보처리방침 */
+.user_form .txt_guide .txt .txt_desc{font-weight:500}
+.user_form .btn_payment{display:block;width:240px;height:56px;margin:40px auto 0;padding-bottom:2px;border:0 none;border-radius:3px;background-color:#FF5C58;font-weight:700;font-size:16px;color:#fff}
+.user_form .reg_agree{position:static}
+.user_form .goodsinfo_table .reg_agree{padding:19px 0 18px;border-bottom:1px solid #f4f4f4}
+.user_form .goodsinfo_table .agree_check{font-weight:700;font-size:18px;color:#333;line-height:24px}
+.user_form .goodsinfo_table .agree_check .ico{margin-right:9px;vertical-align:-6px}
+.user_form .goodsinfo_table .list_agree{overflow:hidden;width:100%;padding-top:5px;clear:both}
+.user_form .goodsinfo_table .list_agree li{padding-top:4px}
+.user_form .goodsinfo_table .list_agree .subject{display:inline-block;width:310px;padding-left:36px;font-size:13px;color:#333;line-height:20px;letter-spacing:-0.4px;vertical-align:0}
+.user_form .goodsinfo_table .list_agree .subject .emph{color:#999}
+.user_form .goodsinfo_table .list_agree .link_terms{padding-right:11px;background:url(https://res.kurly.com/pc/ico/2011/ico_outlink.svg) no-repeat 100% 50%;background-size:6px 9px;color:#FF5C58}
+/* 팝업 */
+.user_form .goodsinfo_table .inner_layer .tit_layer,
+.user_form .goodsinfo_table .inner_layer button{display:none}
+.user_form .goodsinfo_table .layer{position: relative;z-index: 9999}
+.user_form .goodsinfo_table .layer .choice_agree{position: fixed;left: 50%;top: 50%;width: 440px;height:600px;margin:-300px 0 0 -220px;border-radius: 6px;background-color: #fff}
+.user_form .goodsinfo_table .layer .view_terms .box_tbl{height:388px;padding-bottom:10px}
+.user_form .goodsinfo_table .layer .view_pg .box_tbl{height:388px}
+.user_form .goodsinfo_table .layer .tit_layer{display:block;height:132px;font-size:30px;font-weight: 700;padding:30px 50px 0 30px;line-height:40px;color:#333}
+.user_form .goodsinfo_table .layer .tit_layer .emph{color:#999}
+.user_form .goodsinfo_table .layer .box_tbl{overflow:hidden;overflow-y:auto;padding: 0 30px;color:#333}
+.user_form .goodsinfo_table .layer .btn_ok{margin-top:0;font-weight:bold}
+.user_form .goodsinfo_table .layer .box_tbl th{padding:5px;background-color: #f7f5f8;border:1px solid #dddfe1;text-align: center}
+.user_form .goodsinfo_table .layer .box_tbl th.emph{text-decoration:underline}
+.user_form .goodsinfo_table .layer .box_tbl thead th{border-bottom:0 none;vertical-align:middle}
+.user_form .goodsinfo_table .layer .box_tbl td{padding:5px}
+.user_form .goodsinfo_table .layer .box_tbl .less_emph{color:#666;}
+.user_form .goodsinfo_table .layer .tbl_desc{color:#999}
+.user_form .goodsinfo_table .layer .box_tbl .narrow_emph{line-height:16px; margin-top:8px; font-weight:700;}
+.user_form .goodsinfo_table .layer .txt_service{padding:0;color:#999}
+.user_form .goodsinfo_table .layer .btn_close{position: absolute;right:26px;top:36px;width: 32px;height: 32px;border: 0 none;background: url(https://res.kurly.com/pc/ico/1908/ico_layer_close.png) no-repeat 0 0}
+.user_form .goodsinfo_table .terms_view{margin-top:20px;font-size:14px;color:#514859;line-height:20px}
+.user_form .goodsinfo_table .terms_view .tit_main{font-weight:700;font-size:18px}
+.user_form .goodsinfo_table .terms_view .tit_sub{display:block;padding:20px 0 10px}
+.user_form .goodsinfo_table .terms_view .normal{font-weight:normal}
+.user_form .goodsinfo_table .terms_view:last-child .tit_sub{font-weight:normal}
+.user_form .goodsinfo_table .terms_view:last-child .tit_sub.emph{font-weight:bold}
+    
+/* 주문서 - 확인사항 */
+.notice_order{padding-top:30px;}
+.notice_order li{font-size:14px;color:#666;line-height:20px;text-align:center}
+.notice_order li.emph{color:#333}
+.notice_order .emph{font-weight:700}
+
+/* 주문서 히든영역 */
+.screen_out {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}
