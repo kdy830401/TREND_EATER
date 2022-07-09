@@ -195,6 +195,7 @@ public class AdminController {
 //			nutInfoupload.setIdentifyNo(product.getProductNo());
 			imageList.add(nutInfoupload);
 		}
+		
 		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
 		String adminName = ((Admin) request.getSession().getAttribute("adminUser")).getName();
 		product.setAdminId(adminId);
@@ -209,8 +210,9 @@ public class AdminController {
 		} else {
 
 			for (int i = 0; i < imageList.size(); i++) {
-				File failFile = new File(savePath + "/" + imageList.get(i).getChangeName());
-				failFile.delete();
+//				File failFile = new File(savePath + "/" + imageList.get(i).getChangeName());
+//				failFile.delete();
+				deleteFile(imageList.get(i).getChangeName(), request);
 			}
 
 			throw new AdminException("상품등록에 실패하였습니다.");
@@ -586,8 +588,9 @@ public class AdminController {
 			return "redirect:productList.ad";
 		} else {
 			for (int i = 0; i < imgList.size(); i++) {
-				File failFile = new File(savePath + "/" + imgList.get(i).getChangeName());
-				failFile.delete();
+//				File failFile = new File(savePath + "/" + imgList.get(i).getChangeName());
+//				failFile.delete();
+				deleteFile(imgList.get(i).getChangeName(), request);
 			}
 			throw new AdminException("상품 정보 수정에 실패하였습니다.");
 		}
@@ -621,7 +624,7 @@ public class AdminController {
 		}
 		
 		int result = aService.deleteUserBoard(map);
-
+	
 		try {
 			PrintWriter pw = response.getWriter();
 			pw.print(result);
