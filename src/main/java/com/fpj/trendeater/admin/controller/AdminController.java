@@ -888,23 +888,23 @@ public class AdminController {
 	
 	
 		
-	@RequestMapping("addReply.bo")
-	@ResponseBody
-	public String addReply(@ModelAttribute Reply r, HttpSession session) {
-			// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
-		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
-		r.set(id);
-		
-		int result = bService.insertReply(r);
-		
-		if(result > 0) {
-			return "success";	// "success"를 str으로 넘기고 있기에 view이름이 아니라는걸 알려주기 위하여 @ResponseBody 어노테이션 필요
-		}else {
-			throw new BoardException("댓글 등록에 실패하였습니다.");
-		}
-	}
-	
-	
+//	@RequestMapping("addReply.bo")
+//	@ResponseBody
+//	public String addReply(@ModelAttribute Reply r, HttpSession session) {
+//			// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
+//		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
+//		r.set(id);
+//		
+//		int result = bService.insertReply(r);
+//		
+//		if(result > 0) {
+//			return "success";	// "success"를 str으로 넘기고 있기에 view이름이 아니라는걸 알려주기 위하여 @ResponseBody 어노테이션 필요
+//		}else {
+//			throw new BoardException("댓글 등록에 실패하였습니다.");
+//		}
+//	}
+//	
+//	
 	
 	
 	
