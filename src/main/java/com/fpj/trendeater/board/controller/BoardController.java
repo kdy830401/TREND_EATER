@@ -41,7 +41,7 @@ import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.service.BoardService;
 
-import com.fpj.trendeater.board.model.vo.PageInfo;
+//import com.fpj.trendeater.board.model.vo.PageInfo;
 import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;

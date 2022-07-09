@@ -551,7 +551,8 @@
 		<result column="ORIGIN_NAME" property="originName"/>
 		<result column="FILE_PATH" property="filePath"/>
 		<result column="REVIEW_NO" property="reviewNo"/>
-
+		</resultMap>
+		
 	<resultMap type="ApplyPerson" id="applyTastePersonResultSet">
 		<id column="APPLY_NO" property="applyNo" />
 		<result column="ADDRESS" property="address" />

@@ -55,7 +55,6 @@
 		<result column="FILE_TYPE" property="fileType"/>
 		<result column="IDENTIFY_NO" property="identifyNo"/>
 	</resultMap>
-	
 
 <!-- 	이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	 <select id="reviewCount" resultType="_int">
