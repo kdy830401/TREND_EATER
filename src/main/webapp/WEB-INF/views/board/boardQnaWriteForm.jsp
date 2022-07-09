@@ -60,7 +60,7 @@
 	    </div>
 	    <div class="QuesContent">
 	        <span>내용</span>
-	        <textarea class="uk-textarea" name="qnaContent" style="resize: none;"
+	        <textarea id="textarea"class="uk-textarea" name="qnaContent" style="resize: none;"
 	            placeholder=
 	            "  1:1 문의 작성 전 확인해주세요
   
@@ -83,20 +83,26 @@
   ※ 전화번호, 이메일, 주소, 계좌번호 등의 상세 개인정보가 문의 내용에 저장되지 않도록 주의바랍니다.
 
 "></textarea>
-
         
 	    </div>
-	
 	    <div class="submitButton">
-	        <button type="submit">등록</button>
+	        <button type="button" onclick="test();">등록</button>
 	        <!-- <button type="submit" onclick="location.href='boardQnaWriteForm.bo'">등록</button> -->
 	    </div>
 	</form>
 	
 	
 	<script>
-	
-	
+		function test(){
+// 			console.log($('input[name=qnaContent]').val());
+// 			$('#tt').text($('input[name=qnaContent]').val());
+			var v=document.getElementById('textarea').value
+			console.log(v);
+			v = v.replace('\n', 'ᚘ');
+//			v = v.replace('\n', '1');
+		}
+	// 텍스트 애리어 부분의 개행 데이터를 잘 안쓰는 특수기호로 바꾸고 이를 db 보내고 다시 db에서 뷰로 뿌릴 때 특수기호를 개행문자로 변환
+	// qna에서 내보낼 때도 한번 치환해서 내보내야함.
 	</script>
 
 </div>

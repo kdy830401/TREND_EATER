@@ -136,7 +136,12 @@ a:hover {
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="adminNoticeList.ad">
+											<span class="nav-text">공지사항 게시판</span>
+										</a>
+									</li>
+									<li>
+										<a href="adminQnaList.ad">
 											<span class="nav-text">문의사항 게시판</span>
 										</a>
 									</li>

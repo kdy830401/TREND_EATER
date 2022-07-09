@@ -150,17 +150,40 @@ public class BoardDAO {
 	
 	// QnA 수정
 	public int updateBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {
+
+
 		int a = sqlSession.update("boardMapper.updateBoardQna",b);
 		System.out.println("dao="+a);
+
 		return sqlSession.update("boardMapper.updateBoardQna",b);
 	}
 //	public int updateBoardQna(SqlSessionTemplate sqlSession, int qnaNo) {
 //		return sqlSession.update("boardMapper.updateBoardQna",qnaNo);
 //	}
 	// QnA 삭제
-	public int deleteBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {	// delete도 가능.  status='N'으로 변경 
-		return sqlSession.update("boardMapper.deleteBoardQna",b);
+	public int deleteBoardQna(SqlSessionTemplate sqlSession, int qnaNo) {	// delete도 가능.  status='N'으로 변경 
+		int a = sqlSession.update("boardMapper.deleteBoardQna",qnaNo);
+		System.out.println("dao="+a);
+		return sqlSession.update("boardMapper.deleteBoardQna",qnaNo);
 	}
+//	public int deleteBoardQna(SqlSessionTemplate sqlSession, BoardQnA b) {	// delete도 가능.  status='N'으로 변경 
+//		int a = sqlSession.update("boardMapper.deleteBoardQna",b);
+//		System.out.println("dao="+a);
+//		return sqlSession.update("boardMapper.deleteBoardQna",b);
+//	}
+	
+	
+/*********************************** admin **********************************/	
+	public Board adminNoticeSelect(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.selectOne("boardMapper.adminNoticeSelect",b);
+	}
+	public ArrayList<BoardQnA> getBoardQnaListAdmin(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());  // 임포트 RowBounds 
+		return (ArrayList)sqlSession.selectList("boardMapper.getBoardQnaListAdmin", null, rowBounds);
+	}
+
+
 	
 
 

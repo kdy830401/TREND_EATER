@@ -475,16 +475,28 @@ public class BoardController {
 	
 	// QnA : 삭제
 	@RequestMapping("boardQnaDeleteForm.bo")
-	public String deleteBoard(@ModelAttribute BoardQnA b, HttpSession session) {  
+	public String deleteBoard(/* @ModelAttribute BoardQnA b, */ @RequestParam("qnaNo") int qnaNo
+							/* ,HttpSession session */) {  
 			
+		// 해당 id가 쓴 글 전체 삭제 가능한 기능
+//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
+//		b.setEmailId(id);
 		
-		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-		b.setEmailId(id);
+//		System.out.println("삭제 id="+id);
+//		System.out.println("삭제 b="+b);
+		System.out.println("삭제 qnaNo="+qnaNo);
 		
+		int result = bService.deleteBoardQna(qnaNo);
+//		int result = bService.deleteBoardQna(b);
+		
+
+		System.out.println("삭제 result="+result);
+
 		System.out.println("삭제 id="+id);
 		System.out.println("삭제 b="+b);
 		
 		int result = bService.deleteBoardQna(b);
+
 		
 		System.out.println("삭제 result="+result);
 		
@@ -497,7 +509,49 @@ public class BoardController {
 	
 	
 
-/*********************************** 댓글 ***********************************/	
+/*********************************** 관리자 공지사항 ***********************************/	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/*********************************** 관리자 문의사항 ***********************************/	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 /*********************************** 댓글 ***********************************/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

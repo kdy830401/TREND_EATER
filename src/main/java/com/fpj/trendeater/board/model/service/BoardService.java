@@ -40,7 +40,7 @@ public interface BoardService {
 	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
 
-/********************************** notice *********************************/	
+/*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
 	ArrayList<Board> getBoardList(PageInfo pi);	// 페이징처리2 : 필요한 게시판 가져오기
 	Board selectBoard(int bId);
@@ -48,12 +48,20 @@ public interface BoardService {
 	int updateNotice(Board b);	// notice(공지사항) 수정
 	int deleteNotice(Board b);	// notice(공지사항) 삭제
 	
-/********************************** QnA *********************************/	
+/*********************************** QnA ***********************************/	
 	int getQnaListCount();
 	ArrayList<BoardQnA> getBoardQnaList(PageInfo pi, BoardQnA b);
 	int insertBoardQna(BoardQnA b);		// 문의사항 게시판 글쓰기
 	BoardQnA selectBoardQna(BoardQnA b); // 수정을 위한 해당 id의 qna 전체 정보 받아오기
 	int updateBoardQna(BoardQnA b);
+
+	int deleteBoardQna(int qnaNo);
+
+/*********************************** admin **********************************/	
+	
+	Board adminNoticeSelect(Board b);
+	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
+
 	int deleteBoardQna(BoardQnA b);
 
 	
@@ -67,10 +75,10 @@ ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트
 
 
 
+
 	
 	
 	
-/***********************************************************************/	
 	
 	
 }

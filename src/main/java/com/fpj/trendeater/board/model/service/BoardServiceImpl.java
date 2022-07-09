@@ -151,15 +151,35 @@ public class BoardServiceImpl implements BoardService{
 
 	// QnA 삭제 
 	@Override
-	public int deleteBoardQna(BoardQnA b) {
-		return bDAO.deleteBoardQna(sqlSession, b);
+	public int deleteBoardQna(int qnaNo) {
+		return bDAO.deleteBoardQna(sqlSession, qnaNo);
 	}
+
+//	@Override
+//	public int deleteBoardQna(BoardQnA b) {
+//		return bDAO.deleteBoardQna(sqlSession, b);
+//	}
+
 	
 
 
 
 
 
+
+
+
+/*********************************** admin **********************************/	
+	
+	@Override
+	public Board adminNoticeSelect(Board b) {
+		return bDAO.adminNoticeSelect(sqlSession, b);
+	}
+
+	@Override
+	public ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi) {
+		return bDAO.getBoardQnaListAdmin(sqlSession, pi);
+	}
 
 
 
