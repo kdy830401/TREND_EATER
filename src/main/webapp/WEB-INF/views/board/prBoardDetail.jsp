@@ -182,12 +182,12 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			</a>
 		</div>
 		<div class="uk-margin uk-border-circle floating-button addCart" uk-tooltip="장바구니">
-			<a href="#">
+			<a href="javascript:void(0)" id="addCartSide">
 				<span class="material-symbols-outlined icon">shopping_cart</span>
 			</a>
 		</div>
 		<div class="uk-margin uk-border-circle floating-button buy" uk-tooltip="구매하기">
-			<a href="#">
+			<a href="javascript:void(0)">
 				<span class="material-symbols-outlined icon changColor">credit_card</span>
 			</a>
 		</div>
@@ -202,6 +202,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			</a>
 		</div>
 	</div>
+
 
 
 
@@ -491,6 +492,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
                                         });
                                     });
                             </script>
+                            
+                         
 							<c:if test="${ p.productType == 1 }">
 
 							<!-- 장바구니 -->
@@ -543,6 +546,13 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			});
 		});
 	</script>
+	<script type="text/javascript">
+		$('#addCartSide').on('click', function(){
+		   $('#addCart').click(); 
+		});
+	</script>
+	
+	
 
 
 
@@ -874,6 +884,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	</c:if>
 	<script>
 	// highChart 
+	
  	var data = [ ${p.spicyAvg}, ${p.sweetAvg}, ${p.bitterAvg}, ${p.saltyAvg}, ${p.sourAvg} ];
 
 			data.forEach(function(element, index) {

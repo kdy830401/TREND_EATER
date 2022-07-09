@@ -111,88 +111,86 @@
 	<div class="uk-container uk-margin-large">
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">시식신청 게시판</h2>
 	</div>
-	
+
 	<c:if test="${ empty aList}">
 		<div class="uk-align-center">
 			<div class="uk-placeholder uk-text-center">시식신청 준비중입니다.</div>
 		</div>
 	</c:if>
-	
-	<c:if test="${ !empty aList }">
-	<div class="uk-container uk-margin-large">
-		<div class="uk-child-width-1-3@m" uk-grid uk-height-match="target: > div > .uk-card">
-			
-				<c:forEach var="a" items="${ aList }">
-				<c:if test="${ a.tasteIng == 1 }">
-					<div>
-						<div class="uk-card uk-card-default">
-							<div class="uk-card-body">
-								<div class="uk-text-right">
-									<span class="uk-badge uk-text-bold">${ a.applyCount }명 신청</span>
-								</div>
-								<p class="uk-text-large uk-text-bold uk-text-secondary productName">${ a.productName }</p>
 
-								<!-- 					</div> -->
-								<div class="uk-card-media">
-									<div class="uk-transition-toggle" tabindex="0">
-										<c:forEach var="img" items="${ imgList }">
-											<c:if test="${ a.productNo == img.identifyNo && img.fileType == 1}">
-												<img class="uk-transition-scale-up uk-transition-opaque" src="${ contextPath }/resources/productImgUploadFiles/${ img.changeName }" width="800" height="600" alt="상품사진">
-											</c:if>
-										</c:forEach>
+	<c:if test="${ !empty aList }">
+		<div class="uk-container uk-margin-large">
+			<div class="uk-child-width-1-3@m" uk-grid uk-height-match="target: > div > .uk-card">
+
+				<c:forEach var="a" items="${ aList }">
+					<c:if test="${ a.tasteIng == 1 }">
+						<div>
+							<div class="uk-card uk-card-default">
+								<div class="uk-card-body">
+									<div class="uk-text-right">
+										<span class="uk-badge uk-text-bold">${ a.applyCount }명 신청</span>
 									</div>
-								</div>
-								<span class="uk-label uk-text-bold labelName">마감</span>
-								<span class="uk-label uk-text-bold">${ a.endDate } 10:00</span>
-								<hr class="uk-margin-remove-bottom">
-								<!-- 						<div class="uk-card-body uk-padding-small"> -->
-								<input type="hidden" value="${ a.tasteIng }" name="tasteIng">
-								<input type="hidden" value="${ a.endDate }" name="dDay">
-								<div class="countdown">
-									<ul class="uk-padding-remove uk-text-center">
-										<li class="li uk-text-small uk-text-light uk-text-muted uk-margin-remove uk-padding-remove">
-											days
-											<span class="days uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
-										</li>
-										<li class="li uk-margin-remove uk-padding-remove">
-											<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
-										</li>
-										<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
-											Hours
-											<span class="hours uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
-										</li>
-										<li class="li uk-margin-remove uk-padding-remove">
-											<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
-										</li>
-										<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
-											Minutes
-											<span class="minutes uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
-										</li>
-										<li class="li uk-margin-remove uk-padding-remove">
-											<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
-										</li>
-										<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
-											Seconds
-											<span class="seconds uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
-										</li>
-									</ul>
-								</div>
-								<div>
-									<a class="uk-button uk-button-small uk-button-default" href='prbdetail.bo?pno=${ a.productNo }'>제품보기</a>
-									<input type="hidden" name="tasteNo" value="${ a.tasteNo }">
-									<button class="uk-button uk-button-small uk-button-default applyBtn" data-toggle="modal" data-target="#m-a-a_${ a.tasteNo }" ui-toggle-class="fade-down" ui-target="#animate">신청하기</button>
-										
-									<!-- .modal -->
-									<div id="m-a-a_${ a.tasteNo }" class=" modal fade animate${ a.tasteNo }" data-backdrop="true">
-										<div class="modal-dialog" id="animate${ a.tasteNo }">
-											<div class="modal-content">
-												<div class="modal-header">
+									<p class="uk-text-large uk-text-bold uk-text-secondary productName">${ a.productName }</p>
+
+									<!-- 					</div> -->
+									<div class="uk-card-media">
+										<div class="uk-transition-toggle" tabindex="0">
+											<c:forEach var="img" items="${ imgList }">
+												<c:if test="${ a.productNo == img.identifyNo && img.fileType == 1}">
+													<img class="uk-transition-scale-up uk-transition-opaque" src="${ contextPath }/resources/productImgUploadFiles/${ img.changeName }" width="800" height="600" alt="상품사진">
+												</c:if>
+											</c:forEach>
+										</div>
+									</div>
+									<span class="uk-label uk-text-bold labelName">마감</span>
+									<span class="uk-label uk-text-bold">${ a.endDate } 10:00</span>
+									<hr class="uk-margin-remove-bottom">
+									<!-- 						<div class="uk-card-body uk-padding-small"> -->
+									<input type="hidden" value="${ a.tasteIng }" name="tasteIng">
+									<input type="hidden" value="${ a.endDate }" name="dDay">
+									<div class="countdown">
+										<ul class="uk-padding-remove uk-text-center">
+											<li class="li uk-text-small uk-text-light uk-text-muted uk-margin-remove uk-padding-remove">
+												days
+												<span class="days uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
+											</li>
+											<li class="li uk-margin-remove uk-padding-remove">
+												<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
+											</li>
+											<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
+												Hours
+												<span class="hours uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
+											</li>
+											<li class="li uk-margin-remove uk-padding-remove">
+												<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
+											</li>
+											<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
+												Minutes
+												<span class="minutes uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
+											</li>
+											<li class="li uk-margin-remove uk-padding-remove">
+												<span class="uk-text-large uk-text-bold uk-text-secondary uk-text-center">:</span>
+											</li>
+											<li class="li uk-text-small uk-text-muted uk-text-light uk-margin-remove uk-padding-remove">
+												Seconds
+												<span class="seconds uk-text-large uk-text-bold uk-text-secondary uk-text-center"></span>
+											</li>
+										</ul>
+									</div>
+									<div>
+										<a class="uk-button uk-button-small uk-button-default" href='prbdetail.bo?pno=${ a.productNo }'>제품보기</a>
+										<input type="hidden" name="tasteNo" value="${ a.tasteNo }">
+										<%-- 										<button class="uk-button uk-button-small uk-button-default applyBtn" data-toggle="modal" data-target="#m-a-a_${ a.tasteNo }" ui-toggle-class="fade-down" ui-target="#animate">신청하기</button> --%>
+										<a id="requestmodal" class="uk-button uk-button-small uk-button-default applyBtn" href="#modal-overflow_${ a.tasteNo }" uk-toggle>신청하기</a>
+										<div id="modal-overflow_${ a.tasteNo }" uk-modal>
+											<div class="uk-modal-dialog">
+												<button class="uk-modal-close-default" id="close${ a.tasteNo }" type="button" uk-close></button>
+												<div class="uk-modal-header">
 													<span class="label label-lg">${ a.productName }</span>
 													<h6 class="modal-title uk-text-bold">시식신청</h6>
 												</div>
 												<form action="applyTastePerson.bo" method="post">
-													<div class="modal-body text-center p-lg">
-
+													<div class="uk-modal-body" uk-overflow-auto>
 														<input type="hidden" name="tasteNo" value="${ a.tasteNo }">
 														<div class="md-form-group float-label col-sm-12">
 															<input id="${ a.tasteNo }_name" type="text" name="name" class="md-input">
@@ -212,42 +210,35 @@
 														</div>
 
 													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn dark-white p-x-md" data-dismiss="modal">취소</button>
+													<div class="uk-modal-footer">
+														<button type="button" class="btn white p-x-md" data-dismiss="modal">취소</button>
 														<button type="submit" class="btn danger p-x-md">신청</button>
 													</div>
-													
+
 												</form>
-											</div>
-											<!-- /.modal-content -->
 											<script>
-											$('.applyBtn').on('click', function(){
-											   var tasteNo = $(this).prev().val();
-											   console.log(tasteNo);
-											   $.ajax({
-											      url: "dupCheckApply.bo",
-											      data: {tasteNo:tasteNo},
-											      type: "POST",
-											      success: function(data){
-											          console.log(data);
-											          if(parseInt(data) > 0){
-											              
-											              location.reload();
-											              alert("이미 신청하신 제품입니다.");
-											              return false;
-											             
-											          }
-											   
-											   
-											      }, 
-											      error: function(data){
-											          console.log(data);
-											      }
-											   });
-											   
-											    
-											});
-										</script>
+                                                $('.applyBtn').on('click', function() {
+                                                    var tasteNo = $(this).prev().val();
+                                                    console.log(tasteNo);
+                                                    $.ajax({ url : "dupCheckApply.bo",
+                                                    data : { tasteNo : tasteNo },
+                                                    type : "POST",
+                                                    success : function(data) {
+                                                        console.log(data);
+                                                        if (parseInt(data) > 0) {
+                                                            alert("이미 신청하신 제품입니다.");
+                                                            $('#close'+tasteNo).click();
+                                                            return false;
+
+                                                        }
+
+                                                    },
+                                                    error : function(data) {
+                                                        console.log(data);
+                                                    } });
+
+                                                });
+                                            </script>
 
 										</div>
 									</div>
@@ -259,77 +250,87 @@
 
 							</div>
 						</div>
-					</div>
-					</c:if>
-				</c:forEach>
+			</div>
+	</c:if>
+	</c:forEach>
 
-				<!-- 페이징 처리 -->
-		</div>
-				<!-- 페이징 처리 -->
-		<ul class="uk-pagination uk-flex-right uk-margin-medium-top" uk-margin>
-			<c:if test="${ pi.currentPage <= 1 }">
-				<li>
-					<a href="javascript:void(0);">
-						<span uk-pagination-previous></span>
-					</a>
-				</li>
-			</c:if>
-			<c:if test="${ pi.currentPage > 1 }">
-				<c:url var="before" value="${ loc }">
-					<c:param name="page" value="${ pi.currentPage -1 }" />
-					<c:if test="${ searchValue ne null }">
-						<c:param name="searchValue" value="${ searchValue }"/>
-					</c:if>
-				</c:url>
-				<li>
-					<a href="${ before }">
-						<span uk-pagination-previous></span>
-					</a>
-				</li>
-			</c:if>
-
-			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-				<c:if test="${ p eq pi.currentPage }">
-					<li class="uk-active">
-						<span>${ p }</span>
-					</li>
-				</c:if>
-				<c:if test="${p ne pi.currentPage }">
-					<c:url var="pagination" value="${ loc }">
-						<c:param name="page" value="${ p }" />
-						<c:if test="${ searchValue ne null }">
-							<c:param name="searchValue" value="${ searchValue }"/>
-						</c:if>
-					</c:url>
-					<li>
-						<a href="${ pagination }">${ p }</a>
-					</li>
-				</c:if>
-			</c:forEach>
-
-			<c:if test="${ pi.currentPage >= pi.maxPage }">
-				<li>
-					<a href="#">
-						<span uk-pagination-next></span>
-					</a>
-				</li>
-			</c:if>
-			<c:if test="${ pi.currentPage < pi.maxPage }">
-				<c:url var="after" value="${ loc }">
-					<c:param name="page" value="${ pi.currentPage + 1 }" />
-					<c:if test="${ searchValue ne null }">
-						<c:param name="searchValue" value="${ searchValue }"/>
-					</c:if>
-				</c:url>
-				<li>
-					<a href="javascript:void(0);">
-						<span uk-pagination-next></span>
-					</a>
-				</li>
-			</c:if>
-		</ul>
-		<!-- 페이징 처리 끝  -->
+	<!-- 페이징 처리 -->
 	</div>
+	<!-- 페이징 처리 -->
+	<ul class="uk-pagination uk-flex-center uk-margin-medium" uk-margin>
+		<c:if test="${ pi.currentPage <= 1 }">
+			<li>
+				<a href="javascript:void(0);">
+					<span uk-pagination-previous></span>
+				</a>
+			</li>
+		</c:if>
+		<c:if test="${ pi.currentPage > 1 }">
+			<c:url var="before" value="${ loc }">
+				<c:param name="page" value="${ pi.currentPage -1 }" />
+				<c:if test="${ searchValue ne null }">
+					<c:param name="searchValue" value="${ searchValue }" />
+				</c:if>
+				<c:if test="${ value ne null }">
+					<c:param name="value" value="${ value }" />
+				</c:if>
+			</c:url>
+			<li>
+				<a href="${ before }">
+					<span uk-pagination-previous></span>
+				</a>
+			</li>
+		</c:if>
+
+		<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+			<c:if test="${ p eq pi.currentPage }">
+				<li class="uk-active">
+					<span>${ p }</span>
+				</li>
+			</c:if>
+			<c:if test="${p ne pi.currentPage }">
+				<c:url var="pagination" value="${ loc }">
+					<c:param name="page" value="${ p }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
+					</c:if>
+				</c:url>
+				<li>
+					<a href="${ pagination }">${ p }</a>
+				</li>
+			</c:if>
+		</c:forEach>
+
+		<c:if test="${ pi.currentPage >= pi.maxPage }">
+			<li>
+				<a href="#">
+					<span uk-pagination-next></span>
+				</a>
+			</li>
+		</c:if>
+		<c:if test="${ pi.currentPage < pi.maxPage }">
+			<c:url var="after" value="${ loc }">
+				<c:param name="page" value="${ pi.currentPage + 1 }" />
+				<c:if test="${ searchValue ne null }">
+					<c:param name="searchValue" value="${ searchValue }" />
+				</c:if>
+				<c:if test="${ value ne null }">
+					<c:param name="value" value="${ value }" />
+				</c:if>
+			</c:url>
+			<li>
+				<a href="javascript:void(0);">
+					<span uk-pagination-next></span>
+				</a>
+			</li>
+		</c:if>
+	</ul>
+	<!-- 페이징 처리 끝  -->
+	</div>
+	<br>
 
 	</c:if>
 
@@ -351,13 +352,11 @@
 
             console.log(this);
             var $this = $(this);
-            new daum.Postcode({
-                oncomplete : function(data) { //선택시 입력값 세팅
+            new daum.Postcode({ oncomplete : function(data) { //선택시 입력값 세팅
 
-                    $this.val(data.address); // 주소 넣기
-                    $(".addressDetail").focus(); //상세입력 포커싱
-                }
-            }).open();
+                $this.val(data.address); // 주소 넣기
+                $(".addressDetail").focus(); //상세입력 포커싱
+            } }).open();
         });
     </script>
 

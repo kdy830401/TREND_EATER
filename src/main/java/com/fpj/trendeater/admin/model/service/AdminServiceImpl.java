@@ -88,8 +88,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	// 이미지 삭제
 	@Override
-	public int delImage(int imgNo) {
-		return aDAO.delImage(sqlSession, imgNo);
+	public int delImage(HashMap<String, Object> imgMap) {
+		return aDAO.delImage(sqlSession, imgMap);
 	}
 	
 	// 상품 정보 업데이트

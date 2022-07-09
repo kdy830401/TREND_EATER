@@ -132,6 +132,7 @@ public class AdminController {
 			mv.addObject("imgList", imgList);
 			mv.addObject("pi", pi);
 			mv.addObject("searchValue", searchValue);
+			mv.addObject("value", value);
 			if(url.equals("/productList.ad") || url.equals("/searchProduct.ad")){
 				mv.setViewName("productList");
 			} else {
@@ -306,6 +307,7 @@ public class AdminController {
 		System.out.println(aList);
 		mv.addObject("pi", pi);
 		mv.addObject("aList", aList);
+		mv.addObject("value", value);
 		mv.addObject("searchValue", searchValue);
 		mv.setViewName("applyTasteList");
 		
@@ -461,6 +463,7 @@ public class AdminController {
 		if (prlist != null) {
 			mv.addObject("prlist", prlist);
 			mv.addObject("pi", pi);
+			mv.addObject("value", value);
 			mv.addObject("searchCondition", searchCondition);
 			mv.addObject("searchValue", searchValue);
 			mv.setViewName("requestProductList");
@@ -472,29 +475,48 @@ public class AdminController {
 
 	// 상품 수정 페이지 이동
 	@RequestMapping("updateProductForm.ad")
-	public ModelAndView updateProductView(@RequestParam("productNo") int productNo, ModelAndView mv) {
+	public ModelAndView updateProductView(@RequestParam("productNo") int productNo,
+										  @RequestParam(value = "page", required = false) Integer page,ModelAndView mv) {
 
-		ModelAndView updateMv = bController.prbBoardDetail(productNo, 1, null, mv);
-		updateMv.setViewName("updateProductForm");
+		
+		Product p = bService.selectPrBoard(productNo);
+		ArrayList<Image> imgList = bService.selectPrImage(productNo);
+//		ModelAndView updateMv = bController.prbBoardDetail(productNo, 1, null, mv);
+		
+		if(p != null && imgList != null) {
+			mv.addObject("p", p);
+			mv.addObject("imgList", imgList);
+			mv.addObject("page", page);
+			mv.setViewName("updateProductForm");
+		} else{
+			throw new AdminException("상품수정 페이지 이동에 실패하였습니다.");
+		}
 
-		return updateMv;
+		return mv;
 	}
 
 	// 상품 정보 수정
 	@RequestMapping("updateProduct.ad")
-	public String updateProduct(@ModelAttribute Product product, @RequestParam(value = "delProductImgNo", required = false) Integer delProductImgNo, @RequestParam(value = "delProductImgName", required = false) String delProductImgName, @RequestParam(value = "delNutInfoImgNo", required = false) Integer delNutInfoImgNo, @RequestParam(value = "delNutInfoImgName", required = false) String delNutInfoImgName, @RequestParam(value = "productImg", required = false) MultipartFile productImg, @RequestParam(value = "nutInfoImg", required = false) MultipartFile nutInfoImg, HttpServletRequest request) {
+	public String updateProduct(@ModelAttribute Product product, 
+								@RequestParam(value = "delProductImgNo", required = false) Integer delProductImgNo, 
+								@RequestParam(value = "delProductImgName", required = false) String delProductImgName, 
+								@RequestParam(value = "delNutInfoImgNo", required = false) Integer delNutInfoImgNo, 
+								@RequestParam(value = "delNutInfoImgName", required = false) String delNutInfoImgName, 
+								@RequestParam(value = "productImg", required = false) MultipartFile productImg, 
+								@RequestParam(value = "nutInfoImg", required = false) MultipartFile nutInfoImg, HttpServletRequest request) {
 
 //		System.out.println(product);
 //		System.out.println(delProductImgNo);
-//		System.out.println(delProductImgName);
+		System.out.println(delProductImgName);
 //		System.out.println(delNutInfoImgNo);
-//		System.out.println(delNutInfoImgName);
+		System.out.println(delNutInfoImgName);
 //		System.out.println(productImg);
 //		System.out.println(nutInfoImg);
 
 		String savePath = null;
 		ArrayList<Image> imgList = new ArrayList<>();
 		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> imgMap = new HashMap<>();
 		Image updateProductImage = new Image();
 		Image updateNutInfoImage = new Image();
 
@@ -514,8 +536,9 @@ public class AdminController {
 			updateProductImage.setIdentifyNo(product.getProductNo());
 			imgList.add(updateProductImage);
 			if (delProductImgName != null) {
-				count += 1;
-				result1 = aService.delImage(delProductImgNo);
+				count += 2;
+				imgMap.put("imgNo", delProductImgNo);
+				result1 = aService.delImage(imgMap);
 				deleteFile(delProductImgName, request);
 			}
 		}
@@ -534,8 +557,9 @@ public class AdminController {
 			updateNutInfoImage.setOriginName(originName);
 			imgList.add(updateNutInfoImage);
 			if (delNutInfoImgName != null) {
-				count += 1;
-				result2 = aService.delImage(delNutInfoImgNo);
+				count += 2;
+				imgMap.put("imgNo", delNutInfoImgNo);
+				result2 = aService.delImage(imgMap);
 				deleteFile(delNutInfoImgName, request);
 
 			}
@@ -547,15 +571,17 @@ public class AdminController {
 		product.setAdminId(adminId);
 		product.setAdminName(adminName);
 
-		int result3 = aService.updateProduct(product);
 
-		int result4 = 0;
+		int result3 = 0;
 		if (!imgList.isEmpty()) {
-			count += 2;
-			result4 = aService.registerImage(imgList, product.getProductNo());
-			System.out.println("imgresult2 : " + result4);
+			result3 = aService.registerImage(imgList, product.getProductNo());
+			System.out.println("imgresult2 : " + result3);
 		}
 		
+		
+		int result4 = aService.updateProduct(product);
+		System.out.println("결과: "+ result1 + result2 + result3 + result4);
+		System.out.println("비교: " + count);
 		if (result1 + result2 + result3 + result4 > count + 1) {
 			return "redirect:productList.ad";
 		} else {
@@ -571,7 +597,8 @@ public class AdminController {
 	public void deleteFile(String fileName, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/productImgUploadFiles";
-
+		System.out.println(savePath);
+		System.out.println("fileName: "+ fileName);
 		File f = new File(savePath + "/" + fileName);
 		if (f.exists()) {
 			f.delete();
@@ -635,6 +662,7 @@ public class AdminController {
 		if (applyPersonList != null) {
 			mv.addObject("list", applyPersonList);
 			mv.addObject("pi", pi);
+			mv.addObject("value", value);
 			mv.addObject("searchCondition", searchCondition);
 			mv.addObject("searchValue", searchValue);
 			mv.setViewName("applyPersonList");
@@ -646,24 +674,57 @@ public class AdminController {
 		return mv;
 	}
 	
-	// 관리자 게시글 삭제
+	// 관리자 페이지 게시글 삭제
 	@RequestMapping(value={"deleteTasteAdmin.ad" ,"deleteProductAdmin.ad"})
-	public void deleteAdminBoard(@RequestParam("pno") int pno, HttpServletResponse response,  HttpServletRequest request) {
-		String url = (String)request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+	public void deleteAdminBoard(@RequestParam("pno") int pno, 
+								 @RequestParam(value = "imgName[]", required=false) String[] imgNameArr,
+								 @RequestParam(value = "imgNo[]", required=false) int[] imgNoArr,
+								 HttpServletResponse response,  HttpServletRequest request) {
+		
+	
+		
+		
 		HashMap<String, Object> map = new HashMap<>();
+		
+		map.put("imgNo", imgNoArr);
+		map.put("arr", "arr");
+		
+	
+		
+		String url = (String)request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		map.put("pno", pno);
 		System.out.println(url);
+		
+		int count = 0;
 		if(url.equals("/deleteProductAdmin.ad")) {
 			map.put("type", "product");
+			count +=1;
 		} else if(url.equals("/deleteTasteAdmin.ad")) {
 			map.put("type", "taste");
 		}
+		int result1 = 0;
+		if(imgNoArr != null) {
+			count = imgNoArr.length;
+			result1 = aService.delImage(map);
+		}
+		int result2 = aService.deleteAdminBoard(map);
 		
-		int result = aService.deleteAdminBoard(map);
+		System.out.println("result1: " + result1);
+		System.out.println("result2: " + result2);
+		System.out.println("count:" + count);
+		
+		
+		String data = null;
+		if(result1 + result2 > count) {
+			data = "true";
+		} else {
+			data = "false";
+		}
+		
 
 		try {
 			PrintWriter pw = response.getWriter();
-			pw.print(result);
+			pw.print(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

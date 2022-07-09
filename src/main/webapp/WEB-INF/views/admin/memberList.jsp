@@ -219,8 +219,9 @@ label {
 	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-nav.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-screenfull.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-scroll-to.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+		<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-toggle-class.js"></script>
 
 	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/app.js"></script>
