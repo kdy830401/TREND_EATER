@@ -16,9 +16,9 @@
 		<typeAlias type="com.fpj.trendeater.member.model.vo.Member" alias ="Member"/>
 
 		<typeAlias type="com.fpj.trendeater.board.model.vo.Review" alias="Review" />
-      	<typeAlias type="com.fpj.trendeater.board.model.vo.ReviewImage" alias="ReviewImage" />
-      	<typeAlias type="com.fpj.trendeater.board.model.vo.Report" alias="Report" />
-      	<typeAlias type="com.fpj.trendeater.board.model.vo.UserLike" alias="Like" />
+    <typeAlias type="com.fpj.trendeater.board.model.vo.ReviewImage" alias="ReviewImage" />
+    <typeAlias type="com.fpj.trendeater.board.model.vo.Report" alias="Report" />
+    <typeAlias type="com.fpj.trendeater.board.model.vo.UserLike" alias="Like" />
 
 		<typeAlias type="com.fpj.trendeater.cart.model.vo.Cart" alias ="Cart"/>
 		<typeAlias type="com.fpj.trendeater.board.model.vo.Board" alias="Board"/>
