@@ -1,7 +1,10 @@
 package com.fpj.trendeater.member.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.member.model.vo.Member;
 
 public interface MemberService {
@@ -38,6 +41,10 @@ public interface MemberService {
 	void kakaoLogout(String access_Token);
 
 	void unlink(String attribute);
+
+	int deleteMember(Member member);
+
+	ArrayList<Scrap> getMyScrapList(PageInfo pi, HashMap<String, Object> map);
 
 
 	

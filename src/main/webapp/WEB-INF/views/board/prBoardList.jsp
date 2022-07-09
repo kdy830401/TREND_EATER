@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,8 +46,6 @@
 	fill: white !important;
 	transition: all ease 0.5s !important;
 }
-
-
 </style>
 <body>
 
@@ -60,63 +59,89 @@
 				<h4 class="uk-h4 uk-text-center@s" id="requestEat">
 					TREND EATER는 언제나 EATER님들의 의견을 기다리고 있습니다.<br> 도무지 찾을 수 없는, 경험해 보고 싶은 TREND FOODS<br> TREND EATER에게 맡겨보세요
 				</h4>
-				<a class="uk-button uk-button-default" href="#modal-overflow" uk-toggle>상품 요청</a>
+				<a id="requestmodal" class="uk-button uk-button-default" onclick="requestEat();" href="#modal-overflow" uk-toggle>상품 요청</a>
 				<div id="modal-overflow" uk-modal>
 					<div class="uk-modal-dialog">
-					<!-- 	<form action="requestProduct.bo" method="post" class="uk-form-stacked"> -->
-							<button class="uk-modal-close-default" type="button" uk-close></button>
-							<div class="uk-modal-header">
-								<h3 class="uk-h3 uk-text-bold">상품 요청</h3>
-							</div>
-							<div class="uk-modal-body" uk-overflow-auto>
-								<div class="col-sm-12">
-									<div class="md-form-group float-label">
-										<input id="productNo_name" name = "productName" type="text" class="md-input">
-										<label for="productNo_name">상품명</label>
-									</div>
-									<div class="md-form-group float-label">
-										<input id="productNo_company" name = "manufacturer" type="text" class="md-input">
-										<label for="prodctNo_company">제조사</label>
-									</div>
+						<!-- 	<form action="requestProduct.bo" method="post" class="uk-form-stacked"> -->
+						<button class="uk-modal-close-default" id="close" type="button" uk-close></button>
+						<div class="uk-modal-header">
+							<h3 class="uk-h3 uk-text-bold">상품 요청</h3>
+						</div>
+						<div class="uk-modal-body" uk-overflow-auto>
+							<div class="col-sm-12">
+								<div class="md-form-group float-label">
+									<input id="productNo_name" name="productName" type="text" class="md-input">
+									<label for="productNo_name">상품명</label>
+								</div>
+								<div class="md-form-group float-label">
+									<input id="productNo_company" name="manufacturer" type="text" class="md-input">
+									<label for="prodctNo_company">제조사</label>
 								</div>
 							</div>
-							<div class="uk-modal-footer">
-								<button class="uk-button uk-button-default uk-modal-close" type="button">취소</button>
-								<button class="request uk-button uk-button-primary" type="submit">요청</button>
-							</div>
+						</div>
+						<div class="uk-modal-footer">
+							<button class="uk-button uk-button-default uk-modal-close" type="button">취소</button>
+							<button class="request uk-button uk-button-primary" type="submit">요청</button>
+						</div>
 						<!-- </form> -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<!-- 상품 등록 요청 -->
-	<script type="text/javascript">	
-	$('.request').on("click",function(){
-		$.ajax({
-			url:"requestProduct.bo",
-			type:"post",
-			data:{productName:$('#productNo_name').val(),manufacturer:$('#productNo_company').val()},
-			success:function(data){
-				
-			if(data == '1'){
-				alert("상품 등록이 요청되었습니다.");
-			} 
-				
-			},error:function(data){
-				alert("상품 등록 요청에 실패하였습니다.");
-				console.log(data);
-				
-			}
-			
-			
-		});
-		
-	});
-	
-	</script>
+
+	<!-- 로그인 안하고 상품요청 버튼 클릭 시 이벤트 발생 -->
+	<script>
+        function requestEat() {
+            var loginUser = '${loginUser}';
+            console.log(loginUser);
+            if (loginUser == '') {
+                $('#requestmodal').attr("href", "loginform.me");
+                alert("로그인 후 이용해주세요.");
+                return false;
+            } else {
+
+                return true;
+            }
+        }
+    </script>
+
+
+
+
+
+	<script type="text/javascript">
+        $('.request').on("click", function() {
+            $.ajax({
+                url : "requestProduct.bo",
+                type : "post",
+                data : {
+                    productName : $('#productNo_name').val(),
+                    manufacturer : $('#productNo_company').val()
+                },
+                success : function(data) {
+
+                    if (data == '1') {
+                        alert("상품 등록이 요청되었습니다.");
+                        $('#productNo_name').val("");
+                        $('#productNo_company').val("");
+                        $('#close').click();
+                    }
+
+                },
+                error : function(data) {
+                    alert("상품 등록 요청에 실패하였습니다.");
+                    console.log(data);
+
+                }
+
+            });
+
+        });
+    </script>
 
 	<c:if test="${ empty list }">
 		<div class="uk-align-center">
@@ -131,13 +156,16 @@
 			<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-large">제품 및 리뷰 게시판</h2>
 			<ul class="uk-breadcrumb uk-align-right">
 				<li>
-					<a href="">최신순</a>
+					<a href="prBoardList.bo">전체보기</a>
 				</li>
 				<li>
-					<a href="">리뷰순</a>
+					<a href="prBoardList.bo?value=productNo">최신순</a>
 				</li>
 				<li>
-					<a href="">스크랩순</a>
+					<a href="prBoardList.bo?value=reviewCount">리뷰순</a>
+				</li>
+				<li>
+					<a href="prBoardList.bo?value=scrapCount">스크랩순</a>
 				</li>
 			</ul>
 		</div>
@@ -153,8 +181,20 @@
 						<div class="uk-card uk-card-default">
 							<div class="uk-card-header">
 								<div class="uk-width-expand">
-									<h4 class="uk-card-title uk-text-bold uk-margin-top uk-margin-remove-bottom">${ b.productName }</h4>
-									<div class="uk-card-badge">N</div>
+
+									<jsp:useBean id="now" class="java.util.Date" />
+									<fmt:formatDate value="${ now }" pattern="yyyyMMdd" var="now2" />
+									<fmt:parseNumber value="${ now.time / (1000*60*60*24) }" var="nowDate" integerOnly="true" />
+
+									<fmt:parseDate value="${ b.createDate }" var="viewDate" pattern="yyyy-MM-dd" />
+									<fmt:parseNumber value="${ viewDate.time / (1000*60*60*24) }" var="enrollDate" integerOnly="true" />
+									<c:if test="${ nowDate - enrollDate < 7 }">
+<!-- 										<div class="uk-card-badge">N</div> -->
+										<div class="label label-sm pink inline uk-align-left uk-margin-remove">N</div>
+									</c:if>
+								</div>
+								<div class="uk-width-expand">
+									<h6 class="uk-h4 uk-text-bold uk-margin-top uk-margin-remove-bottom">${ b.productName }</h6>
 								</div>
 							</div>
 							<div class="uk-card-media">
@@ -169,26 +209,24 @@
 							<hr class="uk-margin-remove-bottom">
 							<div class="uk-card-body uk-padding-small">
 								<P class="uk-text-meta uk-margin-remove-top">${ b.productOneLine }</P>
-								<i class="fa-regular fa-heart"></i>
 								<i class="fa-regular fa-comments"></i>
-								<span class="uk-badge uk-text-top">100</span>
+								<span class="uk-badge uk-text-top">${ b.reviewCount }</span>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
 
 				<script type="text/javascript">
-					$('.productContent').mouseenter(function() {
-						$(this).css({
-							'cursor' : 'pointer'
-						});
-					}).click(
-							function() {
-								var pno = $(this).children('input').val();
-								console.log(pno);
-								location.href = 'prbdetail.bo?pno=' + pno + "&page=" + ${ pi.currentPage };
-							})
-				</script>
+                    $('.productContent').mouseenter(function() {
+                        $(this).css({
+                            'cursor' : 'pointer'
+                        });
+                    }).click(function() {
+                        var pno = $(this).children('input').val();
+                        console.log(pno);
+                        location.href = 'prbdetail.bo?pno=' + pno + "&page=" + ${ pi.currentPage };
+                    });
+                </script>
 
 
 
@@ -198,17 +236,23 @@
 
 			</div>
 			<!-- 페이징 처리 -->
-			<ul class="uk-pagination uk-flex-center uk-margin-medium-top" uk-margin>
+			<ul class="uk-pagination uk-flex-center uk-margin-medium" uk-margin>
 				<c:if test="${ pi.currentPage <= 1 }">
 					<li>
-						<a href="#">
+						<a href="javascript:void(0);">
 							<span uk-pagination-previous></span>
 						</a>
 					</li>
 				</c:if>
 				<c:if test="${ pi.currentPage > 1 }">
-					<c:url var="before" value="prBoardList.bo">
+					<c:url var="before" value="${ loc }">
 						<c:param name="page" value="${ pi.currentPage -1 }" />
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchValue" value="${ searchValue }" />
+						</c:if>
+						<c:if test="${ value ne null }">
+							<c:param name="value" value="${ value }" />
+						</c:if>
 					</c:url>
 					<li>
 						<a href="${ before }">
@@ -224,8 +268,14 @@
 						</li>
 					</c:if>
 					<c:if test="${p ne pi.currentPage }">
-						<c:url var="pagination" value="prBoardList.bo">
+						<c:url var="pagination" value="${ loc }">
 							<c:param name="page" value="${ p }" />
+							<c:if test="${ searchValue ne null }">
+								<c:param name="searchValue" value="${ searchValue }" />
+							</c:if>
+							<c:if test="${ value ne null }">
+								<c:param name="value" value="${ value }" />
+							</c:if>
 						</c:url>
 						<li>
 							<a href="${ pagination }">${ p }</a>
@@ -241,11 +291,17 @@
 					</li>
 				</c:if>
 				<c:if test="${ pi.currentPage < pi.maxPage }">
-					<c:url var="after" value="prBoardList.bo">
+					<c:url var="after" value="${ loc }">
 						<c:param name="page" value="${ pi.currentPage + 1 }" />
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchValue" value="${ searchValue }" />
+						</c:if>
+						<c:if test="${ value ne null }">
+							<c:param name="value" value="${ value }" />
+						</c:if>
 					</c:url>
 					<li>
-						<a href="#">
+						<a href="javascript:void(0);">
 							<span uk-pagination-next></span>
 						</a>
 					</li>
@@ -253,6 +309,7 @@
 			</ul>
 			<!-- 페이징 처리 끝  -->
 		</div>
+		<br>
 
 	</c:if>
 
@@ -276,14 +333,15 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
 
 	<!-- ajax -->
-<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
 	<!-- endbuild -->
 

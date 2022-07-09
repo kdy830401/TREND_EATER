@@ -112,11 +112,9 @@
 
 	<!-- insert all (함수를 생성해서 불러와야하는데 실패. 시간날때 재도전) -->
 	<!-- <insert id="registerProductImage" statementType="CALLABLE"> -->
-	<!-- <foreach item="item" collection="list" index="index" open="INSERT ALL" 
-		close="select * from dual"> -->
+	<!-- <foreach item="item" collection="list" index="index" open="INSERT ALL" close="select * from dual"> -->
 	<!-- into image values -->
-	<!-- (get_seq_ino('seq_ino'), #{item.changeName}, #{item.originName}, #{item.filePath}, 
-		default, #{item.fileLevel}, #{item.fileType}, #{item.boardType}, #{item.identifyNo}) -->
+	<!-- (get_seq_ino('seq_ino'), #{item.changeName}, #{item.originName}, #{item.filePath}, default, #{item.fileLevel}, #{item.fileType}, #{item.boardType}, #{item.identifyNo}) -->
 	<!-- </foreach> -->
 
 	<!-- </insert> -->
@@ -128,8 +126,7 @@
 		<choose>
 			<when test='identifyNo == 0'>
 				select seq_ino.nextval, A.*, seq_pid.currval from(
-				<foreach item="item" collection="list" index="index"
-					separator="union all">
+				<foreach item="item" collection="list" index="index" separator="union all">
 					select #{item.changeName} as CHANGE_NAME,
 					#{item.originName} as ORIGIN_NAME,
 					#{item.filePath} as FILE_PATH,
@@ -143,8 +140,7 @@
 			</when>
 			<otherwise>
 				select seq_ino.nextval, A.* from(
-				<foreach item="item" collection="list" index="index"
-					separator="union all">
+				<foreach item="item" collection="list" index="index" separator="union all">
 					select #{item.changeName} as CHANGE_NAME,
 					#{item.originName} as ORIGIN_NAME,
 					#{item.filePath} as FILE_PATH,
@@ -159,45 +155,137 @@
 			</otherwise>
 		</choose>
 	</insert>
-	
-	<!-- 상품리스트 전체 수량 조회  -->
+
+	<!-- 상품리스트 전체 수량 조회 -->
 	<select id="getListCount" resultType="_int">
-		select count(*)
-		from pList
-		order by product_no desc
+		<choose>
+			<when test="table.equals('applyTaste')">
+				select count(*)
+				from apply_t
+					join member using(email_id)
+					join Taste_board using(taste_no)
+					join product using(product_no)
+				<if test="emailId != null">
+					where email_id = #{emailId}
+				</if>
+				<if test="searchCondition == 'productName'">
+					where product_name like '%' || #{searchValue} || '%'
+				</if>
+				<if test="searchCondition == 'userName'">
+					where user_name like '%' || #{searchValue} || '%'
+				</if>
+				<if test="searchCondition == 'emailId'">
+					where email_id like '%' || #{searchValue} || '%'
+				</if>
+			</when>
+			<when test="table.equals('tasteBoardAdmin')">
+				select count(*)
+				from taste_board
+					join product using(product_no)
+				where admin_status = 'Y'
+				<if test="searchValue != null">
+					and product_name like '%'||#{searchValue}||'%'
+				</if>
+			</when>
+			<when test="table.equals('tasteBoard')">
+				select count(*)
+				from taste_board
+				where board_status = 'Y'
+			</when>
+			<when test="table.equals('pListAdmin')">
+				select count(*)
+				from pList
+				where product_status = 'Y'
+				<if test="searchValue != null">
+					and product_name like '%'||#{searchValue}||'%'
+				</if>
+			</when>
+			<when test="table.equals('pListBoard')">
+				select count(*)
+				from pList
+				where board_status = 'Y'
+				<if test="searchValue != null">
+					and product_name like '%'||#{searchValue}||'%'
+				</if>
+			</when>
+			<when test="table.equals('productRequest')">
+				select count(*)
+				from product_request
+				<if test='searchCondition != null and searchCondition == "productName"'>
+					where request_product like '%'||#{searchValue}||'%'
+				</if>
+				<if test='searchCondition != null and searchCondition == "manufacturer"'>
+					where manufacturer like '%'||#{searchValue}||'%'
+				</if>
+			</when>
+			<when test="table.equals('myScrap')">
+				select count(*)
+				from scrap
+				    join pr_board using(product_no)
+				    join product using(product_no)
+				where email_id=#{emailId}
+			</when>
+		</choose>
 	</select>
-	
+
 	<!-- 상품 리스트 조회 -->
 	<select id="getProductList" resultMap="productResultSet">
-		select *
-		from pList
-		order by
-		product_no desc
+	
+			select *
+			from plist
+			<if test='boardCheck == false'>
+			where product_status = 'Y'
+			</if>
+			<if test='boardCheck == true'>
+			where board_status = 'Y'
+			</if>
+			<if test="searchValue != null">
+				and product_name like '%'||#{searchValue}||'%'
+			</if>
+			
+			<if test='value == null or value.equals("productNo")'>
+			order by product_no desc
+			</if>
+			<if test='value != null and value.equals("productName")'>
+			order by product_name asc
+			</if>
+			<if test='value != null and value.equals("productStock")'>
+			order by product_Stock desc
+			</if>
+			<if test='value != null and value.equals("reviewCount")'>
+			order by review_count desc
+			</if>
+			<if test='value != null and value.equals("scrapCount")'>
+			order by scrap_count desc
+			</if>
 	</select>
 
-	<resultMap type="product" id="productResultSet">
-		<id column="PRODUCT_NO" property="productNo" />
-		<result column="PRODUCT_NAME" property="productName" />
-		<result column="PRODUCT_PRICE" property="productPrice" />
-		<result column="PRODUCT_STOCK" property="productStock" />
-		<result column="PRODUCT_ONELINE" property="productOneLine" />
-		<result column="PRODUCT_TYPE" property="productType" />
-		<result column="BOARD_CONTENT" property="boardContent" />
-		<result column="CREATE_DATE" property="createDate" />
-		<result column="MODIFY_DATE" property="modifyDate" />
-		<result column="BOARD_COUNT" property="boardCount" />
-		<result column="BOARD_STATUS" property="boardStatus" />
-		<result column="ADMIN_ID" property="adminId" />
-		<result column="ADMIN_NAME" property="adminName" />
-
-		<result column="TOTAL_AVG" property="totalAvg" />
-		<result column="RECOMMEND_AVG" property="recommendAvg" />
-		<result column="REORDER_AVG" property="reorderAvg" />
-		<result column="SPICY_AVG" property="spicyAvg" />
-		<result column="SWEET_AVG" property="sweetAvg" />
-		<result column="BITTER_AVG" property="bitterAvg" />
-		<result column="SALTY_AVG" property="saltyAvg" />
-		<result column="SOUR_AVG" property="sourAvg" />
+	<resultMap type="Product" id="productResultSet">
+		<id column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="PRODUCT_STOCK" property="productStock"/>
+		<result column="PRODUCT_ONELINE" property="productOneLine"/>
+		<result column="PRODUCT_TYPE" property="productType"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="REVIEW_COUNT" property="reviewCount"/>
+		<result column="SCRAP_COUNT" property="scrapCount"/>
+		<result column="BOARD_STATUS" property="boardStatus"/>
+		<result column="ADMIN_ID" property="adminId"/>
+		<result column="ADMIN_NAME" property="adminName"/>
+		
+		<result column="TOTAL_AVG" property="totalAvg"/>
+		<result column="RECOMMEND_AVG" property="recommendAvg"/>
+		<result column="REORDER_AVG" property="reorderAvg"/>
+		<result column="SPICY_AVG" property="spicyAvg"/>
+		<result column="SWEET_AVG" property="sweetAvg"/>
+		<result column="BITTER_AVG" property="bitterAvg"/>
+		<result column="SALTY_AVG" property="saltyAvg"/>
+		<result column="SOUR_AVG" property="sourAvg"/>
 
 	</resultMap>
 
@@ -208,7 +296,7 @@
 		where board_type = 1
 	</select>
 
-	<resultMap type="image" id="imageResultSet">
+	<resultMap type="Image" id="imageResultSet">
 		<id column="IMAGE_NO" property="imageNo" />
 		<result column="CHANGE_NAME" property="changeName" />
 		<result column="FILE_PATH" property="filePath" />
@@ -220,18 +308,35 @@
 	<!-- 시식 신청 게시판 등록 -->
 	<insert id="registerTaste">
 		insert into taste_board
-		values(seq_tid.nextval,
-		default, #{endDate}, default, default, #{productNo}, #{adminId})
+		values(seq_tid.nextval, default, #{endDate}, default, default, default, default, #{productNo}, #{adminId})
 	</insert>
 
 	<!-- 시식 신청 게시글 리스트 조회 -->
 	<select id="selectTaste" resultMap="tasteResultSet">
 		select *
 		from taste_board
-		join
-		product using(product_no)
+		join product using(product_no)
+		<if test='boardCheck == false'>
+		where admin_status='Y'
+		</if>
+		<if test='boardCheck == true'>
 		where board_status='Y'
-		order by taste_no desc
+		</if>
+		<if test="searchValue != null">
+			and product_name like '%'||#{searchValue}||'%'
+		</if>
+		<if test='value == null or value.equals("tasteNo")'>
+		order by taste_ing desc, taste_no
+		</if>
+		<if test='value != null and value.equals("applyCount")'>
+		order by apply_count desc
+		</if>
+		<if test='value != null and value.equals("productName")'>
+		order by product_name asc
+		</if>
+		<if test='value != null and value.equals("endDate")'>
+		order by end_date desc
+		</if>
 	</select>
 
 	<resultMap type="ApplyTaste" id="tasteResultSet">
@@ -243,14 +348,14 @@
 		<result column="PRODUCT_NO" property="productNo" />
 		<result column="ADMIN_ID" property="adminId" />
 		<result column="PRODUCT_NAME" property="productName" />
+		<result column="APPLY_COUNT" property="applyCount" />
 
 	</resultMap>
 
 	<!-- 시식 신청 게시글 진행상황 조회 -->
 	<select id="checkTasteIng" resultType="_int">
 		select count(*)
-		from
-		taste_board
+		from taste_board
 		where product_no=#{productNo} and board_status = 'Y' and
 		taste_ing = 1
 	</select>
@@ -259,8 +364,7 @@
 	<update id="endApplyTaste">
 		update taste_board
 		set taste_ing = 2
-		where taste_no =
-		#{tasteNo}
+		where taste_no = #{tasteNo}
 
 	</update>
 
@@ -287,16 +391,38 @@
 	</insert>
 
 	<!-- 상품요청 리스트 불러오기 -->
-	<select id="selectRequestProductList"
-		resultMap="requestProductResultSet">
-		select * from
-		product_request
+	<select id="selectRequestProductList" resultMap="requestProductResultSet">
+		select * 
+		from product_request
+		<if test='searchCondition != null and searchCondition == "productName"'>
+			where request_product like '%'||#{searchValue}||'%'
+		</if>
+		<if test='searchCondition != null and searchCondition == "manufacturer"'>
+			where manufacturer like '%'||#{searchValue}||'%'
+		</if>
+		<if test='value == null or value.equals("requestNo")'>
+			order by request_no asc
+		</if>
+		<if test='value != null and value.equals("productName")'>
+			order by request_product asc
+		</if>
+		<if test='value != null and value.equals("createDate")'>
+			order by create_date desc
+		</if>
 	</select>
 
 	<!-- 상품 이미지 삭제 -->
 	<delete id="delImage">
 		delete image
-		where image_no = #{delProductImgNo}
+		<if test="arr == null">
+		where image_no = #{imgNo}
+		</if>
+		<if test="arr != null">
+		where image_no in
+		<foreach collection="imgNo" item="arr" open="(" close=")" separator=",">
+		#{arr}
+		</foreach>
+		</if>
 	</delete>
 
 	<!-- 상품 테이블 및 상품 게시판 테이블 수정 -->
@@ -307,17 +433,81 @@
 		#{product.productStock}, #{product.productOneLine},
 		#{product.productType}, #{product.boardContent}, #{product.adminId})}
 	</update>
-	
-	<update id="deleteProductBoard">
-		update pr_board
-		<if test="bool.equals('true')">
-		set board_status = 'Y'
-		</if>
-		<if test="bool.equals('false')">
-		set board_status = 'N'
-		</if>
-		where product_no = #{pno}
+
+	<!-- 사용자 게시판 게시물 삭제 -->
+	<update id="deleteUserBoard">
+		<choose>
+			<when test="type.equals('product')">
+				update pr_board
+				<if test="bool.equals('true')">
+					set board_status = 'Y'
+				</if>
+				<if test="bool.equals('false')">
+					set board_status = 'N'
+				</if>
+				where product_no = #{pno}
+			</when>
+			<when test="type.equals('taste')">
+				update taste_board
+				<if test="bool.equals('true')">
+					set board_status = 'Y'
+				</if>
+				<if test="bool.equals('false')">
+					set board_status = 'N'
+				</if>
+				where taste_no = #{pno}
+			</when>
+		</choose>
 	</update>
+	
+	<!--관리자 게시판 게시물 삭제 -->
+	<update id="deleteAdminBoard" statementType="CALLABLE">
+		<choose>
+			<when test="type.equals('product')">
+				{#{result, mode=OUT, jdbcType=INTEGER} = call deleteproductadminfn(#{pno})}
+			</when>
+			<when test="type.equals('taste')">
+				update taste_board
+				set admin_status = 'N',
+					board_status = 'N'
+				where taste_no = #{pno}
+			</when>
+		</choose>
+	</update>
+
+
+
+
+	<select id="getApplyPersonList" resultMap="applyTastePersonResultSet">
+		select *
+		from apply_t
+		join member using(email_id)
+		join Taste_board using(taste_no)
+		join product using(product_no)
+		<if test="searchCondition == 'productName'">
+			where product_name like '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'userName'">
+			where user_name like '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'emailId'">
+			where email_id like '%' || #{searchValue} || '%'
+		</if>
+		
+		<if test="myApply != null">
+		where email_id = #{emailId}
+		</if>
+		<if test="value == null or value.equals('applyNo')">
+		order by apply_no desc
+		</if>
+		<if test="value != null and value.equals('applyDate')">
+		order by apply_date desc
+		</if>
+		<if test="value != null and value.equals('productName')">
+		order by product_name asc
+		</if>
+	</select>
+
 
 <!-- 	이용준 리뷰 리스트 보기 -->
 	<select id="reviewList" resultMap="reviewResultSet">
@@ -361,5 +551,16 @@
 		<result column="ORIGIN_NAME" property="originName"/>
 		<result column="FILE_PATH" property="filePath"/>
 		<result column="REVIEW_NO" property="reviewNo"/>
+
+	<resultMap type="ApplyPerson" id="applyTastePersonResultSet">
+		<id column="APPLY_NO" property="applyNo" />
+		<result column="ADDRESS" property="address" />
+		<result column="PHONE" property="phone" />
+		<result column="EMAIL_ID" property="emailId" />
+		<result column="TASTE_NO" property="tasteNo" />
+		<result column="APPLY_DATE" property="applyDate" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="USER_NAME" property="name" />
+
 	</resultMap>
 </mapper>

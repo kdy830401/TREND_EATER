@@ -1,0 +1,85 @@
+
+
+
+
+th{
+    width: 130px;
+    background-color: #f7f5f8;
+    font-weight: 600;
+    line-height: 200%;
+}
+
+input{
+	border:none;
+}
+
+.title{
+    width: 890px;
+    text-align: center;
+    margin: 0 auto;
+}
+.title > p{
+    color:rgb(149, 146, 146);
+    margin-bottom: 3%;
+}
+thead{
+    border-bottom: rgb(149, 146, 146);
+}
+
+.tableWhole{
+    width:100%;
+    max-width: 890px;
+    border-top : 2px solid black;  
+    border-bottom: 1px solid lightgray;
+    line-height: 180%;
+    margin: 0 auto;
+}
+.tableWhole > thead > tr > td{
+	padding-left:10px;	
+	padding-top:5px;
+	padding-bottom:5px;
+	
+}
+thead > tr{
+    border-bottom : 1px solid rgb(149, 146, 146);  
+}
+.tableTop td{
+    width:450px;
+}
+
+.listButton{
+    width:890px;
+    text-align: right;
+    margin:2% auto;
+    padding-right: 3%;
+    
+}
+.listButton > button:hover{
+    background-color:#f7b7b5;
+    color:#fff;
+    border:1px solid #FE8F8F;
+    
+}
+.listButton > button{
+    width:150px;
+    height:35px;
+    background-color: #FE8F8F;
+    border: 1px solid #FF5C58;
+    color:#fff;
+}
+
+/**********************************************************************/
+
+.QuesContent{
+    text-align: center;
+}
+.QuesContent textarea{
+    width:890px;
+    min-height: 150px;
+    padding:1% 0;
+    margin: 0 auto;
+    resize: none;
+}
+ 
+ 
+ 

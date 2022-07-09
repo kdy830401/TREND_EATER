@@ -212,10 +212,6 @@ h5 {
 	font-size: 18px;
 	cursor: pointer;
 }
-
-
-
-
 }
 </style>
 </head>
@@ -223,48 +219,48 @@ h5 {
 
 
 
-				<c:import url="myPageMenu.jsp"/>
+	<c:import url="myPageMenu.jsp" />
 
-					<!-- ------------------------------------------------여기까지 넣어야함------------------------------------------------------------------->
+	<!-- ------------------------------------------------여기까지 넣어야함------------------------------------------------------------------->
 
-					<div class="uk-align-center" style="margin-left: 125px;">
-						<!-- margin-left로 중간으로 오게 만듬 -->
-						<div class="uk-width-auto uk-align-center">
-					
-							<h3 class="uk-heading-bullet">개인 정보 수정</h3>
-							
-							<br>
-							<form action="updateinfo.me" method="post" enctype="Multipart/form-data" onsubmit="return insertValidate();">
+	<div class="uk-align-center" style="margin-left: 125px;">
+		<!-- margin-left로 중간으로 오게 만듬 -->
+		<div class="uk-width-auto uk-align-center">
 
-								<div class="uk-margin-small" style="margin-left: 230px;">
-									<div class="uk-inline">
+			<h3 class="uk-heading-bullet">개인 정보 수정</h3>
 
-										<!-- 널일 경우  -->
-										<div class="myProfile" id="myProfile" style="background: gray; width: 70px; height: 70px; margin: 0 auto; border-radius: 50px; cursor: pointer;">
-											<c:if test="${empty loginUser.changeName}">
-												<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/images/profile.png" style="background: gray; width: 70px; height: 70px; border-radius: 50px;">
-											</c:if>
-											<!-- 널이 아닐경우 -->
-											<c:if test="${!empty loginUser.changeName}">
-												<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/uploadFiled/${loginUser.changeName}" style="background: gray; width: 70px; height: 70px; border-radius: 50px;">
-											</c:if>
+			<br>
+			<form action="updateinfo.me" method="post" enctype="Multipart/form-data" onsubmit="return insertValidate();">
 
-										</div>
-										<!-- 파일 업로드 하는 부분 -->
-										<div id="profileArea">
-											<input type="file" id="profileImg" multiple="multiple" name="profileImg" style="display: none">
-										</div>
-										<div class="container">
-											<div class="row no-gutters" id="profileLayout"></div>
-										</div>
+				<div class="uk-margin-small" style="margin-left: 230px;">
+					<div class="uk-inline">
 
+						<!-- 널일 경우  -->
+						<div class="myProfile" id="myProfile" style="background: gray; width: 70px; height: 70px; margin: 0 auto; border-radius: 50px; cursor: pointer;">
+							<c:if test="${empty loginUser.changeName}">
+								<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/images/profile.png" style="background: gray; width: 70px; height: 70px; border-radius: 50px;">
+							</c:if>
+							<!-- 널이 아닐경우 -->
+							<c:if test="${!empty loginUser.changeName}">
+								<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/uploadFiled/${loginUser.changeName}" style="background: gray; width: 70px; height: 70px; border-radius: 50px;">
+							</c:if>
 
-									</div>
-
-								</div>
+						</div>
+						<!-- 파일 업로드 하는 부분 -->
+						<div id="profileArea">
+							<input type="file" id="profileImg" multiple="multiple" name="profileImg" style="display: none">
+						</div>
+						<div class="container">
+							<div class="row no-gutters" id="profileLayout"></div>
+						</div>
 
 
-								<script>
+					</div>
+
+				</div>
+
+
+				<script>
 								// 내용 작성 부분의 공간을 클릭할 때 파일 첨부 창이 뜨도록 설정하는 함수
 								$(function(){
 									$("#profileArea").hide();
@@ -315,557 +311,398 @@ h5 {
 
 
 
-								<br>
-								<div class="uk-margin uk-margin-small">
-									<div class="uk-inline">
-										<div class="uk-margin">
-											<div class="uk-inline">
-												<h5 class="uk-text-bold ">
-													이메일
-													<span class="star" style="color: #FF5C58;">*</span>
-												</h5>
-												<input class="uk-input" id="email" name="email" type="text" value="${loginUser.email}" placeholder="이메일 형식으로 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" readonly>
-
-
-												<button class="uk-button uk-button-primary email" type="button">이메일 인증</button>
-											</div>
-
-											<div class="checkemail3" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="uk-margin uk-margin-small" id="emailin"></div>
-
-								<div class="uk-margin-small">
-									<div class="uk-inline">
-										<h5 class="uk-text-bold">
-											현재 비밀번호
-											<span class="star" style="color: #FF5C58;">*</span>
-										</h5>
-										<input class="uk-input" id="pwd2" name="oldpwd" type="password" placeholder="현재 비밀번호를 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" required>
-										<div class="pwd4" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
-									</div>
-								</div>
-
-								<div class="uk-margin-small">
-									<div class="uk-inline">
-										<h5 class="uk-text-bold">
-											변경 비밀번호
-											<span class="star" style="color: #FF5C58;">*</span>
-										</h5>
-										<input class="uk-input pwd" id="pwd" name="newpwd" value="" type="password" placeholder="변경할 비밀번호를 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;">
-										<div class="pwd2" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
-										<div class="pwd3" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
-									</div>
-								</div>
-
-
-
-
-								<div class="uk-margin-small">
-									<div class="uk-inline">
-										<h5 class="uk-text-bold">
-											이름
-											<span class="star" style="color: #FF5C58;">*</span>
-										</h5>
-										<input class="uk-input name" name="name" value="${loginUser.name}" }type="text" placeholder="이름을 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" required>
-									</div>
-								</div>
-
-
-								<div class="uk-margin-small">
-									<div class="uk-inline">
-										<h5 class="uk-text-bold">
-											닉네임
-											<span class="star" style="color: #FF5C58;">*</span>
-										</h5>
-										<input class="uk-input nickname" name="nickName" value="${loginUser.nickName}" type="text" placeholder="닉네임을 입력해주세요" style="height: 44px; width: 300px; text-align: left;" required>
-									</div>
-								</div>
-
-								<div class="uk-margin-small">
-									<div class="uk-inline">
-										<h5 class="uk-text-bold">
-											휴대폰
-											<span class="star" style="color: #FF5C58;">*</span>
-										</h5>
-										<input class="uk-input phone" id="phone" name="phone" value="${loginUser.phone}" type="text" placeholder="숫자만 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" required>
-									</div>
-								</div>
-
-
-
-								<!--------------------------------- 생년월일------------------------------------------------>
-								<h5 class="uk-text-bold uk-margin-small ">
-									생년월일
-									<span class="star" style="color: #FF5C58;">*</span>
+				<br>
+				<div class="uk-margin uk-margin-small">
+					<div class="uk-inline">
+						<div class="uk-margin">
+							<div class="uk-inline">
+								<h5 class="uk-text-bold ">
+									이메일 <span class="star" style="color: #FF5C58;">*</span>
 								</h5>
-								<div class="uk-margin-small uk-inline uk-margin-small">
-									<div class="birthdaydiv">
-										<c:forTokens var="b" items="${loginUser.birthday}" delims="-" varStatus="bs">
-											<c:if test="${Integer.parseInt(bs.count) == 1}">
-												<input class=" birthday" name="year" type="text" value="${b}" placeholder="YYYY" maxlength='4'>
-											</c:if>
-										</c:forTokens>
-										<c:forTokens var="b" items="${loginUser.birthday}" delims="-" varStatus="bs">
-											<c:if test="${Integer.parseInt(bs.count) == 2}">
-												<input class=" birthday" name="month" type="text" value="${b}" placeholder="MM" maxlength='2'>
-											</c:if>
-										</c:forTokens>
-										<c:forTokens var="b" items="${loginUser.birthday}" delims="-" varStatus="bs">
-											<c:if test="${Integer.parseInt(bs.count) == 3}">
-												<input class=" birthday" name="date" type="text" value="${b}" placeholder="DD" maxlength='2'>
-											</c:if>
-										</c:forTokens>
-									</div>
-								</div>
+								<input class="uk-input" id="email" name="email" type="text" value="${loginUser.email}" placeholder="이메일 형식으로 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" readonly>
 
 
+								<button class="uk-button uk-button-primary email" type="button">이메일 인증</button>
+							</div>
 
-
-
-
-
-								<!--------------------------------- 성별 ------------------------------------------------>
-								<div class="uk-margin ">
-									<h5 class="uk-text-bold">
-										성별
-										<span class="star" style="color: #FF5C58;">*</span>
-									</h5>
-									<div class="uk-margin uk-grid-small uk-inline">
-										<c:if test="${loginUser.gender == 'M'}">
-											<label>
-												<input class="uk-radio gender" name="gender" value='M' type="radio" name="radio2" checked>
-												남자
-											</label>
-											<label>
-												<input class="uk-radio gender" name="gender" value='F' type="radio" name="radio2">
-												여자
-											</label>
-										</c:if>
-										<c:if test="${loginUser.gender == 'F'}">
-											<label>
-												<input class="uk-radio gender" name="gender" value='M' type="radio" name="radio2" checked>
-												남자
-											</label>
-											<label>
-												<input class="uk-radio gender" name="gender" value='F' type="radio" name="radio2">
-												여자
-											</label>
-										</c:if>
-									</div>
-								</div>
-
-
-								<!--------------------------------- 주소검색 ------------------------------------------------>
-								<div>
-									<h5 class="uk-text-bold uk-margin-small">
-										주소
-										<span class="star" style="color: #FF5C58;">*</span>
-									</h5>
-
-
-									<!-- for문을 돌려서 varStatus로 .count변수를 가지고오게 (/로 나눈 것의 1번째) 만 가지고오게 하기 -->
-									<!-- for문을 전체로 돌릴 경우 br과 버튼도 반복되어 2번 출력되게됨 -->
-									<c:forTokens var="a" items="${ loginUser.address}" delims="/" varStatus="vs">
-										<c:if test="${Integer.parseInt(vs.count) == 1}">
-											<input class="uk-input" type="text" id="sample6_address" value="${a}" name="address1" placeholder="주소" required>
-										</c:if>
-
-									</c:forTokens>
-									<button class="uk-inline address uk-button uk-button-primary" type="button" onclick="sample6_execDaumPostcode()">주소검색</button>
-									<br>
-									<c:forTokens var="a" items="${ loginUser.address}" delims="/" varStatus="as">
-										<c:if test="${Integer.parseInt(as.count) == 2}">
-											<input class=" uk-input" type="text" id="sample6_detailAddress" value="${a}" name="address2" placeholder="상세주소" style="margin-left: 154px; margin-top: 5px;" required>
-										</c:if>
-									</c:forTokens>
-
-								</div>
-
-
-								<!--------------------------------- 선호입맛 ------------------------------------------------>
-								<div class="uk-margin">
-									<h5 class="uk-text-bold ">
-										선호입맛(1순위)
-										<span class="star" style="color: #FF5C58;">*</span>
-									</h5>
-
-									<div class="uk-margin uk-grid-small uk-inline">
-
-										<c:if test="${loginUser.radio3 == '단맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="단맛" checked>
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio3 == '짠맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="짠맛" checked>
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio3 == '신맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="신맛" checked>
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio3 == '매운맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="매운맛" checked>
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio3 == '쓴맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio3" value="쓴맛" checked>
-												쓴맛
-											</label>
-										</c:if>
-
-									</div>
-									<br>
-
-									<h5 class="uk-text-bold ">
-										선호입맛(2순위)
-										<span class="star" style="color: #FF5C58;">*</span>
-									</h5>
-									<div class="uk-margin uk-grid-small uk-inline">
-
-										<c:if test="${loginUser.radio4 == '단맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="단맛" checked>
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio4 == '짠맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="짠맛" checked>
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio4 == '신맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="신맛" checked>
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio4 == '매운맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="매운맛" checked>
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio4 == '쓴맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio4" value="쓴맛" checked>
-												쓴맛
-											</label>
-										</c:if>
-
-									</div>
-									<br>
-									<h5 class="uk-text-bold ">
-										선호입맛(3순위)
-										<span class="star" style="color: #FF5C58;">*</span>
-									</h5>
-									<div class="uk-margin uk-grid-small uk-inline">
-
-										<c:if test="${loginUser.radio5== '단맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="단맛" checked>
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio5 == '짠맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="짠맛" checked>
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio5 == '신맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="신맛" checked>
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio5 == '매운맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="매운맛" checked>
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="쓴맛">
-												쓴맛
-											</label>
-										</c:if>
-										<c:if test="${loginUser.radio5 == '쓴맛'}">
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="단맛">
-												단맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="짠맛">
-												짠맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="신맛">
-												신맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="매운맛">
-												매운맛
-											</label>
-											<label>
-												<input class="uk-radio eat" type="radio" name="radio5" value="쓴맛" checked>
-												쓴맛
-											</label>
-										</c:if>
-
-									</div>
-									<br>
-								</div>
-
-
-								<div>
-									<button class="join" type="submit" style = "margin-left:155px;">수정하기</button>
-								</div>
-
-							</form>
-
+							<div class="checkemail3" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
 						</div>
-						<!-- 유케이 얼라인 센터 -->
 					</div>
-					<!-- 그리드 닫기 -->
+				</div>
+
+				<div class="uk-margin uk-margin-small" id="emailin"></div>
+
+				<div class="uk-margin-small">
+					<div class="uk-inline">
+						<h5 class="uk-text-bold">
+							현재 비밀번호 <span class="star" style="color: #FF5C58;">*</span>
+						</h5>
+						<input class="uk-input" id="pwd2" name="oldpwd" type="password" placeholder="현재 비밀번호를 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" required>
+						<div class="pwd4" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
+					</div>
+				</div>
+
+				<div class="uk-margin-small">
+					<div class="uk-inline">
+						<h5 class="uk-text-bold">
+							변경 비밀번호 <span class="star" style="color: #FF5C58;">*</span>
+						</h5>
+						<input class="uk-input pwd" id="pwd" name="newpwd" value="" type="password" placeholder="변경할 비밀번호를 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;">
+						<div class="pwd2" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
+						<div class="pwd3" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
+					</div>
 				</div>
 
 
 
-				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-				<script>
+				<div class="uk-margin-small">
+					<div class="uk-inline">
+						<h5 class="uk-text-bold">
+							이름 <span class="star" style="color: #FF5C58;">*</span>
+						</h5>
+						<input class="uk-input name" name="name" value="${loginUser.name}" }type="text" placeholder="이름을 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" required>
+					</div>
+				</div>
+
+
+				<div class="uk-margin-small">
+					<div class="uk-inline">
+						<h5 class="uk-text-bold">
+							닉네임 <span class="star" style="color: #FF5C58;">*</span>
+						</h5>
+						<input class="uk-input nickname" name="nickName" value="${loginUser.nickName}" type="text" placeholder="닉네임을 입력해주세요" style="height: 44px; width: 300px; text-align: left;" required>
+					</div>
+				</div>
+
+				<div class="uk-margin-small">
+					<div class="uk-inline">
+						<h5 class="uk-text-bold">
+							휴대폰 <span class="star" style="color: #FF5C58;">*</span>
+						</h5>
+						<input class="uk-input phone" id="phone" name="phone" value="${loginUser.phone}" type="text" placeholder="숫자만 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" required>
+					</div>
+				</div>
+
+
+
+				<!--------------------------------- 생년월일------------------------------------------------>
+				<h5 class="uk-text-bold uk-margin-small ">
+					생년월일 <span class="star" style="color: #FF5C58;">*</span>
+				</h5>
+				<div class="uk-margin-small uk-inline uk-margin-small">
+					<div class="birthdaydiv">
+						<c:forTokens var="b" items="${loginUser.birthday}" delims="-" varStatus="bs">
+							<c:if test="${Integer.parseInt(bs.count) == 1}">
+								<input class=" birthday" name="year" type="text" value="${b}" placeholder="YYYY" maxlength='4'>
+							</c:if>
+						</c:forTokens>
+						<c:forTokens var="b" items="${loginUser.birthday}" delims="-" varStatus="bs">
+							<c:if test="${Integer.parseInt(bs.count) == 2}">
+								<input class=" birthday" name="month" type="text" value="${b}" placeholder="MM" maxlength='2'>
+							</c:if>
+						</c:forTokens>
+						<c:forTokens var="b" items="${loginUser.birthday}" delims="-" varStatus="bs">
+							<c:if test="${Integer.parseInt(bs.count) == 3}">
+								<input class=" birthday" name="date" type="text" value="${b}" placeholder="DD" maxlength='2'>
+							</c:if>
+						</c:forTokens>
+					</div>
+				</div>
+
+
+
+
+
+
+
+				<!--------------------------------- 성별 ------------------------------------------------>
+				<div class="uk-margin ">
+					<h5 class="uk-text-bold">
+						성별 <span class="star" style="color: #FF5C58;">*</span>
+					</h5>
+					<div class="uk-margin uk-grid-small uk-inline">
+						<c:if test="${loginUser.gender == 'M'}">
+							<label> <input class="uk-radio gender" name="gender" value='M' type="radio" name="radio2" checked> 남자
+							</label>
+							<label> <input class="uk-radio gender" name="gender" value='F' type="radio" name="radio2"> 여자
+							</label>
+						</c:if>
+						<c:if test="${loginUser.gender == 'F'}">
+							<label> <input class="uk-radio gender" name="gender" value='M' type="radio" name="radio2" checked> 남자
+							</label>
+							<label> <input class="uk-radio gender" name="gender" value='F' type="radio" name="radio2"> 여자
+							</label>
+						</c:if>
+					</div>
+				</div>
+
+
+				<!--------------------------------- 주소검색 ------------------------------------------------>
+				<div>
+					<h5 class="uk-text-bold uk-margin-small">
+						주소 <span class="star" style="color: #FF5C58;">*</span>
+					</h5>
+
+
+					<!-- for문을 돌려서 varStatus로 .count변수를 가지고오게 (/로 나눈 것의 1번째) 만 가지고오게 하기 -->
+					<!-- for문을 전체로 돌릴 경우 br과 버튼도 반복되어 2번 출력되게됨 -->
+					<c:forTokens var="a" items="${ loginUser.address}" delims="/" varStatus="vs">
+						<c:if test="${Integer.parseInt(vs.count) == 1}">
+							<input class="uk-input" type="text" id="sample6_address" value="${a}" name="address1" placeholder="주소" required>
+						</c:if>
+
+					</c:forTokens>
+					<button class="uk-inline address uk-button uk-button-primary" type="button" onclick="sample6_execDaumPostcode()">주소검색</button>
+					<br>
+					<c:forTokens var="a" items="${ loginUser.address}" delims="/" varStatus="as">
+						<c:if test="${Integer.parseInt(as.count) == 2}">
+							<input class=" uk-input" type="text" id="sample6_detailAddress" value="${a}" name="address2" placeholder="상세주소" style="margin-left: 154px; margin-top: 5px;" required>
+						</c:if>
+					</c:forTokens>
+
+				</div>
+
+
+				<!--------------------------------- 선호입맛 ------------------------------------------------>
+				<div class="uk-margin">
+					<h5 class="uk-text-bold ">
+						선호입맛(1순위) <span class="star" style="color: #FF5C58;">*</span>
+					</h5>
+
+					<div class="uk-margin uk-grid-small uk-inline">
+
+						<c:if test="${loginUser.radio3 == '단맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="단맛" checked> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio3 == '짠맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="짠맛" checked> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio3 == '신맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="신맛" checked> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio3 == '매운맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="매운맛" checked> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio3 == '쓴맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio3" value="쓴맛" checked> 쓴맛
+							</label>
+						</c:if>
+
+					</div>
+					<br>
+
+					<h5 class="uk-text-bold ">
+						선호입맛(2순위) <span class="star" style="color: #FF5C58;">*</span>
+					</h5>
+					<div class="uk-margin uk-grid-small uk-inline">
+
+						<c:if test="${loginUser.radio4 == '단맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="단맛" checked> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio4 == '짠맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="짠맛" checked> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio4 == '신맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="신맛" checked> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio4 == '매운맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="매운맛" checked> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio4 == '쓴맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio4" value="쓴맛" checked> 쓴맛
+							</label>
+						</c:if>
+
+					</div>
+					<br>
+					<h5 class="uk-text-bold ">
+						선호입맛(3순위) <span class="star" style="color: #FF5C58;">*</span>
+					</h5>
+					<div class="uk-margin uk-grid-small uk-inline">
+
+						<c:if test="${loginUser.radio5== '단맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="단맛" checked> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio5 == '짠맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="짠맛" checked> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio5 == '신맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="신맛" checked> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio5 == '매운맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="매운맛" checked> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="쓴맛"> 쓴맛
+							</label>
+						</c:if>
+						<c:if test="${loginUser.radio5 == '쓴맛'}">
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="단맛"> 단맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="짠맛"> 짠맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="신맛"> 신맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="매운맛"> 매운맛
+							</label>
+							<label> <input class="uk-radio eat" type="radio" name="radio5" value="쓴맛" checked> 쓴맛
+							</label>
+						</c:if>
+
+					</div>
+					<br>
+				</div>
+
+
+				<div>
+					<button class="join" type="submit" style="margin-left: 155px;">수정하기</button>
+				</div>
+
+			</form>
+			<br>
+			<div>
+				<a onclick="deleteMember();" class="uk-align-center" style="cursor: pointer;margin-left: 294px;">회원 탈퇴</a>
+			</div>
+		</div>
+		<!-- 유케이 얼라인 센터 -->
+	</div>
+	<!-- 그리드 닫기 -->
+	</div>
+
+	<!-- 회원 탈퇴 -->
+	<script>
+	 function deleteMember(){
+		var bool = confirm('정말 탈퇴하시겠습니까?');
+		if(bool){
+			location.href = 'deleteMember.me'; 
+			}
+		}
+	  </script>
+
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+	<script>
 	   		//개인정보 동의 체크박스 전체선택 이벤트
 		   	const agreeChkAll = document.querySelector('input[name=agree_all]');
 		    agreeChkAll.addEventListener('change', (e) => {
@@ -878,7 +715,7 @@ h5 {
 	   	</script>
 
 
-				<script>   	
+	<script>   	
  	   	//이메일 인풋 창 클릭 시 
 	 	 $(function(){
 	 		$("#email").on("focus",function(){
@@ -1100,8 +937,8 @@ h5 {
 	    
 	   	</script>
 
-			</div>
-		</div>
+	</div>
+	</div>
 	</div>
 
 

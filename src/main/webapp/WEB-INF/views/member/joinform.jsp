@@ -11,10 +11,10 @@
         
        <!-- uikit -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="${ contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
         <link rel="stylesheet" href="${ contextPath }/resources/css/uikit.min.css" />
   		<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
-		<script src="${ contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
         
         
 	<style>
@@ -619,17 +619,18 @@
 		 			type : 'GET',
 	 				url:"emailcheck2.me?email=" + $('#email').val(),
 					success:function(data){
+						console.log(data);
+
 						if(data == '1'){
 							$(".checkemail2").css("color",'red');
 								 isUsable = false;
-						} else{
-							
+						} else{							
+
 							$(".checkemail2").css("color",'green');
 								 isUsable = true;
 						}
-						
-					},error:function(){
-						
+					},
+					error:function(data){						
 						console.log(data);
 					}
 
@@ -641,7 +642,7 @@
 		//이메일 인증
 		 var emailChecked = false; //이메일 인증
 		
-	 	var code = "";
+	/*  	var code = "";
  	   $(".email").on("click",function(){
 				var email = $('#email').val();
 				 $("#emailin").append(
@@ -669,7 +670,7 @@
  			
  			});
  			$(".email").off("click");
- 	   });
+ 	   }); */
  	   
  	   
 
@@ -717,10 +718,11 @@
 	 		$('#pwd2').keyup(function(){
 	 			if($('#pwd2').val() == $('#pwd').val()){
 	 				$(".pwd4").css("color",'green');
-	 				 var pwdChecked = true;
+	 			
+	 				  pwdChecked = true;
 	 			}else{
 	 				$(".pwd4").css("color",'red');
-	 				 var pwdChecked = false;
+	 				  pwdChecked = false;
 	 			}
 	 		});
 	 	}); 
@@ -808,19 +810,19 @@
 	    console.log(pwdChecked2);
 	    console.log(emailChecked);
 	    
-    function insertValidate(){
-			 if(isUsable && isIdChecked){
-				 return true;
-			 } else if(pwdChecked && pwdChecked2) {
-				 return true;
-			 } else if(!emailChecked){
-				 alert("이메일을 인증해주세요.");
+/*     function insertValidate(){
+			 if(!isUsable  || !isIdChecked || !emailChecked){
+				 alert("이메일을 확인해 주세요.");
+				 return false;
+			 } else if(!pwdChecked || !pwdChecked2) {
+				 alert("비밀번호를 확인해주세요.");
 				 return false;
 			 } else{
+				 alert("회원가입이 완료되었습니다.");
 				 return true;
 				 
 			 }
-		 } 
+		 }   */
 	    
 	   	</script> 
 	   	  

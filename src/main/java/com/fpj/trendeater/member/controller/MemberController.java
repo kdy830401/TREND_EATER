@@ -1,14 +1,11 @@
 package com.fpj.trendeater.member.controller;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Random;
@@ -32,7 +29,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.fpj.trendeater.admin.controller.AdminController;
+import com.fpj.trendeater.admin.model.service.AdminService;
+import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Scrap;
+import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.exception.MemberException;
 import com.fpj.trendeater.member.model.service.MemberService;
 import com.fpj.trendeater.member.model.vo.Member;
@@ -51,6 +54,12 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
 	
+	@Autowired
+	private AdminController aController;
+	
+	@Autowired
+	private AdminService aService;
+	
 	
 	//로그인폼
 	@RequestMapping("loginform.me")
@@ -68,7 +77,7 @@ public class MemberController {
 	
 		Member loginMember = mService.login(m);
 
-		
+		System.out.println(bcrypt.encode(m.getPwd()));
 		
 		
 		//로그인입력창에 입력한 비밀번호와 아이디로 검색한 회원의 암호화된 비밀번호 비교
@@ -367,7 +376,7 @@ public class MemberController {
 			
 		System.out.println(checkNum);
 		
-		String setFrom = "trendeater2@naver.com";
+		String setFrom = "kdkj12345@naver.com";
 		String toMail = email;
 		String title = "회원가입 이메일 인증입니다.";
 		String content = "홈페이지를 방문해주셔서 감사합니다." + 
@@ -526,9 +535,19 @@ public class MemberController {
 		 
 		//*****김대열*****//
 	@RequestMapping("myApplyTaste.me")
-	public String myApplyTasteView() {
+	public ModelAndView myApplyTasteView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, HttpServletRequest request) {
+		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
 		
-		return "myApplyTasteList";
+		HashMap<String, Object> map = new HashMap<>();
+		
+		map.put("emailId", emailId);
+		map.put("myApply", "myApply");
+		mv = aController.getApplyPersonList(page, null, null, null, mv, map);
+		
+		mv.setViewName("myApplyTasteList");
+		
+		
+		return mv;
 	}
 		 
 	
@@ -536,11 +555,56 @@ public class MemberController {
 	//*****박미리*****//
 	
 	@RequestMapping("scrapListView.me")
-	public String scrapListView() {
-		return "scrapListView";
+	public ModelAndView myScrapListView(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv, HttpServletRequest request) {
+		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
+		
+		int currentPage = 1;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		int boardLimit = 5;
+		HashMap<String, Object> map = new HashMap<>();
+		String table = "myScrap";
+		map.put("emailId", emailId);
+		map.put("myScrap", "myScrap");
+		map.put("table", table);
+		
+		
+		int listCount = aService.getListCount(map);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		
+		ArrayList<Scrap> list = mService.getMyScrapList(pi, map);
+		
+		System.out.println(pi);
+		System.out.println(list);
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("scrapListView");
+		} else {
+			throw new MemberException("회원님의 스크랩 목록을 불러오는데 실패하였습니다.");
+		}
+		
+		return mv;
 		
 	}
+	
+	//***김주희*****//
+	//회원 탈퇴
+	 @RequestMapping("deleteMember.me")
+	 public String deleteMember(HttpSession session,Model model) {
+		 Member member = (Member)session.getAttribute("loginUser");
+		System.out.println(member);
+		 int result = mService.deleteMember(member);
+		 if(result > 0) {
+		 return "redirect:home.do";
+		 }else {
+				throw new MemberException("회원 탈퇴에 실패하였습니다.");
+		}
 		 
+	 }
 //클래스 끝마침		
 }
 

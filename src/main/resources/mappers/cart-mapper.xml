@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cartMapper">
+	<resultMap type="Cart" id="cartResultMap">
+		<id column="CART_NO" property="cartNo"/>
+		
+		<result column="PRODUCT_AMOUNT" property="productAmount"/>
+		<result column="EMAIL_ID" property="emailId"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+	</resultMap>
+
+	<resultMap type="Image" id="imageResultMap">
+		<id column="IMAGE_NO" property="imageNo"/>
+		
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="UPLOAD_DATE" property="uploadDate"/>
+		<result column="FILE_LEVEL" property="fileLevel"/> 
+		<result column="FILE_TYPE" property="fileType"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="IDENTIFY_NO" property="identifyNo"/>
+	</resultMap>
+	
+	<!-- 장바구니 등록 전 동일 상품 존재 여부 확인(productList.jsp의 ajax) -->
+	<select id="checkCart" resultMap="cartResultMap">
+		select *
+		from cart
+		where product_no = #{productNo} and email_id=#{emailId}
+	</select>	
+	
+	<!-- 장바구니 등록 -->
+	<insert id="insertCart">
+		insert into cart
+		values(seq_carid.nextval, #{productAmount}, #{emailId}, #{productNo}, #{productName}, #{productPrice})		
+	</insert>	
+	
+	<!-- 장바구니 페이징 -->
+	<!-- 사용자의 총 장바구니 갯수-->
+	<select id="getListCount" resultType="_int">
+ 		select count(*)	  	
+ 		from cart	
+ 		where email_id=#{emailId}	
+	</select>
+	
+	<!-- 특정 페이지의 장바구니 리스트 받아오기 -->
+	<select id="selectCartList" resultMap="cartResultMap">
+		select *
+		from cart
+		where email_id=#{emailId}
+	</select>
+	
+	<!-- 상품 썸네일 리스트 가져오기 -->
+	<select id="selectThmbList" resultMap="imageResultMap">
+		select *
+		from image
+		where file_level = 0
+	</select>	
+	
+	<!-- 장바구니 품목 삭제 -->
+	<delete id="deleteCart">
+		delete from cart
+		where cart_no = #{cartNo}
+	</delete>	
+	
+	<!-- 장바구니에서 결제 페이지로 이동 -->
+	<!-- 1. 선택 장바구니 정보 가져오기 -->
+	<select id="cartsForPay" resultMap="cartResultMap">
+		select * 
+		from cart
+		where cart_no = #{cartNo}
+	</select>
+	
+	<!-- 2. 선택 장바구니 이미지 가져오기 -->
+	<select id="imgForCartPay" resultMap="imageResultMap">
+		select *
+		from image
+		where IDENTIFY_NO = #{productNo} and file_level = 1 and BOARD_TYPE = 1
+	</select>		
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

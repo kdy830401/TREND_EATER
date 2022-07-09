@@ -13,8 +13,12 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
+
 import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
+
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Repository("aDAO")
@@ -31,7 +35,7 @@ public class AdminDAO {
 		
 		System.out.println("result: " + result);
 				
-		return result;//sqlSession.insert("productMapper.registerProduct", product);
+		return result;//sqlSession.insert("adminMapper.registerProduct", product);
 	}
 	
 	public int registerProductImage(SqlSessionTemplate sqlSession, ArrayList<Image> imageList, int i) {
@@ -42,29 +46,34 @@ public class AdminDAO {
 		return sqlSession.insert("adminMapper.registerProductImage", map);
 	}
 
-	public int getListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("adminMapper.getListCount");
+	public int getListCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("adminMapper.getListCount", map);
 	}
 
-	public ArrayList<Product> getProductList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Product> getProductList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
 		
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+			int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+			RowBounds rowBounds =new RowBounds(offset, pi.getBoardLimit());
 		
-		RowBounds rowBounds =new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("productMapper.getProductList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("adminMapper.getProductList", map, rowBounds);
 	}
 
 	public ArrayList<Image> getProductImgList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("productMapper.getProductImgList");
+		return (ArrayList)sqlSession.selectList("adminMapper.getProductImgList");
 	}
 	
 	public int registerTaste(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		return sqlSession.insert("adminMapper.registerTaste", map);
 	}
 
-	public ArrayList<ApplyTaste> getTasteList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("adminMapper.selectTaste");
+	public ArrayList<ApplyTaste> getTasteList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		System.out.println(map);
+		return (ArrayList)sqlSession.selectList("adminMapper.selectTaste", map, rowBounds);
 	}
 
 	public int checkTasteIng(SqlSessionTemplate sqlSession, int productNo) {
@@ -84,14 +93,17 @@ public class AdminDAO {
 		return sqlSession.insert("adminMapper.insertRequestProduct",pr);
 	}
 
-	public ArrayList<ProductRequest> selectRequestProductList(SqlSessionTemplate sqlSession) {
-
-		return (ArrayList)sqlSession.selectList("adminMapper.selectRequestProductList");
+	public ArrayList<ProductRequest> selectRequestProductList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
+		
+		int offset = (pi.getCurrentPage() - 1) * (pi.getBoardLimit());
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.selectRequestProductList",map , rowBounds);
 	}
 	
 	// 이미지 삭제
-	public int delImage(SqlSessionTemplate sqlSession, int imgNo) {
-		return sqlSession.delete("adminMapper.delImage", imgNo);
+	public int delImage(SqlSessionTemplate sqlSession, HashMap<String, Object> imgMap) {
+		return sqlSession.delete("adminMapper.delImage", imgMap);
 	}	
 	
 	// 상품 업데이트
@@ -108,10 +120,35 @@ public class AdminDAO {
 		return result;
 	}
 	
-	// 상품 게시물 삭제
-	public int deleteProductBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		return sqlSession.update("adminMapper.deleteProductBoard", map);
+	// 사용자 게시물 삭제
+	public int deleteUserBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.update("adminMapper.deleteUserBoard", map);
 	}
+
+	// 시식신청 리스트 불러오기
+	public ArrayList<ApplyTastePerson> getApplyPersonList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
+		
+		int offset = (pi.getCurrentPage() - 1) * (pi.getBoardLimit());
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.getApplyPersonList", map, rowBounds);
+	}
+	
+	// 관리자 게시글 삭제
+	public int deleteAdminBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		System.out.println(map);
+		result = sqlSession.update("adminMapper.deleteAdminBoard", map);
+		System.out.println(result);
+		if(map.get("result") != null) {
+			result = (int) map.get("result");
+		}
+		
+		return result;
+	}
+
+
 
 
 
@@ -162,6 +199,8 @@ public class AdminDAO {
 	
 		return sqlSession.selectOne("adminMapper.adminCount",admin);
 	}
+	
+
 
 	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();

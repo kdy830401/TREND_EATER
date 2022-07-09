@@ -2,9 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
 	
+	
+	<!-- 리뷰 게시판 상세보기 -->
 	<select id="selectPrBoard" resultMap="productResultSet">
 		select *
-		from pList
+		from plist
 		where product_no = #{pno} and board_status = 'Y'
 		
 	</select>
@@ -19,7 +21,10 @@
 		<result column="BOARD_CONTENT" property="boardContent"/>
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
 		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="REVIEW_COUNT" property="reviewCount"/>
+		<result column="SCRAP_COUNT" property="scrapCount"/>
 		<result column="BOARD_STATUS" property="boardStatus"/>
 		<result column="ADMIN_ID" property="adminId"/>
 		<result column="ADMIN_NAME" property="adminName"/>
@@ -35,6 +40,7 @@
 	
 	</resultMap>
 	
+	<!-- 리뷰게시판 상세보기 -->
 	<select id="selectPrImage" resultMap="imageResultSet">
 		select * 
 		from image
@@ -50,6 +56,7 @@
 		<result column="IDENTIFY_NO" property="identifyNo"/>
 	</resultMap>
 	
+
 <!-- 	이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	 <select id="reviewCount" resultType="_int">
      select count(*)
@@ -125,6 +132,242 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
     
  <!-- boardLike -->
 
+	<!-- 시식신청  -->
+	<insert id="registerApplyTaste">
+		insert into apply_t
+		values(seq_apid.nextval, #{address}, #{phone}, default, #{emailId}, #{tasteNo})
+	</insert>
+	
+	<!-- 시식신청 중복체크  -->
+	<select id="dupCheckApply" resultType="_int">
+		select count(*)
+		from apply_t
+		where email_id = #{emailId} and taste_no = #{tasteNo}
+	</select>
+	
+	<!-- 스크랩 여부 체크 -->
+	<select id="checkScrap" resultType="_int">
+		select count(*)
+		from scrap
+		where email_id = #{emailId} and product_no = #{pNo}
+	</select>
+	<!-- 스크랩 삭제 -->
+	<delete id="deleteScrap">
+		delete scrap
+		where email_id = #{emailId} and product_no = #{pNo}
+	</delete>
+	<!-- 스크랩 추가 -->
+	<insert id="insertScrap">
+		insert into scrap
+		values(seq_sid.nextval, #{emailId}, #{pNo})
+	</insert>
+	
+	
+	<select id="getCountReviewPoint" resultType="_int">
+		<if test="reviewType.equals('review_rating')">
+			select count(*)
+			from review_list
+			where product_no = #{pno} and review_rating = #{arr}
+		</if>
+		<if test="reviewType.equals('recommend')">
+			select count(*)
+			from review_list
+			where product_no = #{pno} and recommend = #{arr}
+		</if>
+		<if test="reviewType.equals('repurcharse')">
+			select count(*)
+			from review_list
+			where product_no = #{pno} and repurcharse = #{arr}
+		</if>
+		
+
+	</select>
+
+
+
+
+
+
+
+
+
+<!-- notice 읽기(조회) - 페이징처리1 :총게시물수 가져오기 -->
+	<select id="getListCount" resultType="_int"> <!-- resultType,resultMap 무조건 있어야함. 리절셋하고 나서 뭘로 받을지 정해줘야하기에 -->
+		select count(*)
+		from board
+		where board_status = 'Y'
+	</select>
+	
+	
+<!-- notice 읽기(조회) - 페이징처리2 : 원하는 게시판 번호 조회 -->
+	<select id="getBoardList" resultMap="boardResultSet">
+		select *
+		from board 
+		where board_status = 'Y'
+		order by board_no desc
+	</select>
+	<resultMap type="Board" id="boardResultSet">	<!-- type="" 속성 별칭 설정하면 Board도 가능 -->
+		<id column="BOARD_NO" property="boardId"/> 					<!-- PK(기본키) -->
+		<result column="BOARD_TITLE" property="boardTitle"/>		<!-- 일반 컬럼 -->
+		<result column="BOARD_CONTENT" property="boardContent"/>  <!-- 위의 select태그에서 join해서 가져온 멤버테이블의 컬럼 nickname  -->
+		<result column="CREATE_DATE" property="boardCreateDate"/>
+		<result column="MODIFY_DATE" property="boardModifyDate"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="BOARD_STATUS" property="boardStatus"/>
+		<!-- <result column="BOARD_TYPE" property="boardStatus"/>  --> <!-- ??? -->
+		<result column="ADMIN_ID" property="adminId"/>
+	</resultMap>
+	
+
+<!-- notice 쓰기  -->
+	<insert id="insertBoard">
+		insert into board
+		values(seq_bid.nextval,#{boardTitle},#{boardContent},sysdate, default, default, 'Y', 1, default)
+	</insert>
+	
+<!-- notice 수정  -->
+	<update id="updateNotice">
+		update board
+		set board_title = #{boardTitle}, board_content = #{boardContent}
+		where board_no = #{boardId}
+	</update>
+
+<!-- notice 삭제 -->
+	<update id="deleteNotice">
+		update board
+		set board_status = 'N'
+		where board_no = #{boardId}
+	</update>
+	
+<!-- notice 상세보기 -->	
+	<update id="addReadCount">
+		update board
+		set board_count = board_count + 1
+		where board_no = #{bId}
+	</update>
+	
+
+	<select id="selectBoard" resultMap="boardResultSet">
+		select *
+		from board
+			<!-- join member on (board_writer = id) -->
+		where board_no = #{bId} and board_status = 'Y'
+	</select>
+ 
+ 
+<!-- QnA 읽기(조회) : 페이징처리1 - 총게시물 --> 
+	<select id="getQnaListCount" resultType="_int"> <!-- resultType,resultMap 무조건 있어야함. 리절셋하고 나서 뭘로 받을지 정해줘야하기에 -->
+		select count(*)
+		from qna
+		where qna_status = 'Y'
+	</select>
+	
+<!-- QnA 읽기(조회) : 페이징처리2 - 필요 게시물 --> 
+	<select id="getBoardQnaList" resultMap="boardQnaResultSet">
+		select *
+		from qna 
+		where qna_status = 'Y' and email_id = #{emailId}
+		order by qna_no desc
+	</select>
+	<resultMap type="BoardQnA" id="boardQnaResultSet">	<!-- type="" 속성 별칭 설정하면 Board도 가능 -->
+		<id column="QNA_NO" property="qnaNo"/> 					<!-- PK(기본키) -->
+		<result column="QNA_TITLE" property="qnaTitle"/>		<!-- 일반 컬럼 -->
+		<result column="QNA_CONTENT" property="qnaContent"/>  <!-- 위의 select태그에서 join해서 가져온 멤버테이블의 컬럼 nickname  -->
+		<result column="QNA_CREATE_DATE" property="qnaCreateDate"/>
+		<result column="QNA_MODIFY_DATE" property="qnaModifyDate"/>
+		<result column="QNA_STATUS" property="qnaStatus"/>
+		<result column="QNA_ANS_STATUS" property="qnaAnsStatus"/>
+		<result column="EMAIL_ID" property="emailId"/>
+	</resultMap>
+
+
+<!-- QnA 쓰기 -->
+	<insert id="insertBoardQna"> 
+		insert into qna
+		values(seq_qnaid.nextval, #{qnaTitle}, #{qnaContent}, sysdate, default, default, default, #{emailId})
+	</insert>
+	
+	
+
+<!-- QnA 수정1 : select 수정을 위해 해당 게시판번호의 게시판 전체 정보 받아오기 -->		
+
+<!-- 수정을 위한 해당 id의 qna 전체 정보 받아오기 -->	
+
+	<select id="selectBoardQna" resultMap="boardQnaResultSet">
+		select *
+		from qna
+		where qna_status = 'Y' and qna_no = #{qnaNo} 
+	</select>
+
+	
+
+<!-- QnA 수정2 : update -->
+
+<!-- QnA 수정 -->
+
+	<update id="updateBoardQna">
+		update qna
+		set qna_title = #{qnaTitle}, qna_content = #{qnaContent}
+		where qna_status = 'Y' and qna_No = #{qnaNo}  
+	</update>
+ 	
+<!-- QnA 삭제 -->
+	<update id="deleteBoardQna">
+		update qna
+		set qna_status = 'N'
+		where qna_No = #{qnaNo}
+	</update>
+
+
+
+<!-- adminNotice 수정1 : select 수정을 위해 해당 게시판번호의 게시판 전체 정보 받아오기 -->	
+
+	<select id="adminNoticeSelect" resultMap="boardResultSet">
+		select *
+		from board
+		where board_status = 'Y' and board_no = #{boardId} 
+	</select>
+
+
+<!-- adminQnA 조회  -->
+	<select id="getBoardQnaListAdmin" resultMap="boardQnaResultSet">
+		select *
+		from qna 
+		where qna_status = 'Y'
+		order by qna_no desc
+	</select>
+
+
+
+<!-- EventManagement 읽기(조회) : 페이징처리1 - 총게시물 --> 
+	<select id="getEListCount" resultType="_int">
+ 		select count(*)
+ 		from board
+ 		where BOARD_STATUS = 'Y' AND BOARD_TYPE = 2
+ 	</select>
+ 	
+<!-- EventManagement 읽기(조회) : 페이징처리2 - 필요 게시물 -->
+	<select id="getEBoardList" resultMap="eBoardResultSet">
+ 		select * 
+ 		from board
+ 		where board_status ='Y' and board_type = 2
+ 		order by board_no desc
+ 	
+ 	</select>
+ 	<resultMap type="EventBoard" id="eBoardResultSet">
+ 		<id column="BOARD_NO" property="boardNo"/>
+ 		<result column="BOARD_TITLE" property="boardTitle"/>
+ 		<result column="BOARD_CONTENT" property="boardContent"/>
+ 		<result column="CREATE_DATE" property="createDate"/>
+ 		<result column="MODIFY_DATE" property="modifyDate"/>
+ 		<result column="BOARD_COUNT" property="boardCount"/>
+ 		<result column="BOARD_STATUS" property="boardStatus"/>
+ 		<result column="BOARD_TYPE" property="boardType"/>
+ 		<result column="ADMIN_ID" property="adminId"/>
+ 	</resultMap>
+
+
+
        <!-- 좋아요 카운트 -->
 	<select id="likeCount" resultType = "_int">
 		select count(*) 
@@ -169,3 +412,11 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	</select>
 	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 </mapper>
+
+
+
+
+
+
+
+
