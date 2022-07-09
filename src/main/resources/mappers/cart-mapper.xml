@@ -77,7 +77,7 @@
 	<select id="imgForCartPay" resultMap="imageResultMap">
 		select *
 		from image
-		where IDENTIFY_NO = #{productNo} and file_level = 0 and BOARD_TYPE = 1
+		where IDENTIFY_NO = #{productNo} and file_level = 1 and BOARD_TYPE = 1
 	</select>		
 	
 </mapper>

@@ -125,9 +125,9 @@ public class CartController {
 	}	
 	
 	// 장바구니 선택 품목 -> 결제페이지로 이동
-	@RequestMapping("order.pa")
+	@RequestMapping("order.or")
 	public ModelAndView paymentForm(@RequestParam("cartList") int[] cartList, 
-			@RequestParam("cartAmountArr") int[] cartAmountArr, ModelAndView mv) {
+			@RequestParam("cartAmountArr") int[] cartAmountArr, ModelAndView mv, HttpSession session) {
 		// 1. 장바구니 정보 받아와서 완성하기
 		// 1.1 db에서 cartNo에 따른 cart 객체 리스트 받아오기
 		ArrayList<Cart> carts = ctService.cartsForPay(cartList);
@@ -141,12 +141,16 @@ public class CartController {
 	
 		// 3. 이미지 리스트 받기
 		ArrayList<Image> images = ctService.imgForCartPay(carts);
+		int cartsize = carts.size()-1;
 		
 		// 4. 보내기
 		mv.addObject("carts", carts);
 		mv.addObject("images", images);
+		mv.addObject("cSize", cartsize);
 		mv.setViewName("order");
+		
 		return mv;
+		
 	}	
 
 }
