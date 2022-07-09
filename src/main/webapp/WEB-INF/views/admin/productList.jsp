@@ -247,6 +247,11 @@
                                     type : 'post',
                                     success : function(data) {
                                         console.log(data);
+                                        if(data > 0){
+                                        	alert('해당 게시글을 삭제하였습니다.')
+                                        } else{
+                                        	alert('게시글 삭제에 실패 하였습니다.')
+                                        }
                                     },
                                     error : function(data) {
                                         console.log(data);
