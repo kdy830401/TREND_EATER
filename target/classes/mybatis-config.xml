@@ -14,6 +14,12 @@
 		<typeAlias type="com.fpj.trendeater.board.model.vo.ApplyTastePerson" alias ="ApplyPerson"/>
 		<typeAlias type="com.fpj.trendeater.board.model.vo.Scrap" alias ="Scrap"/>
 		<typeAlias type="com.fpj.trendeater.member.model.vo.Member" alias ="Member"/>
+
+		<typeAlias type="com.fpj.trendeater.board.model.vo.Review" alias="Review" />
+      	<typeAlias type="com.fpj.trendeater.board.model.vo.ReviewImage" alias="ReviewImage" />
+      	<typeAlias type="com.fpj.trendeater.board.model.vo.Report" alias="Report" />
+      	<typeAlias type="com.fpj.trendeater.board.model.vo.UserLike" alias="Like" />
+
 		<typeAlias type="com.fpj.trendeater.cart.model.vo.Cart" alias ="Cart"/>
 		<typeAlias type="com.fpj.trendeater.board.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.fpj.trendeater.board.model.vo.BoardQnA" alias="BoardQnA"/>
@@ -21,6 +27,7 @@
 		<typeAlias type="com.fpj.trendeater.admin.model.vo.Admin" alias="Admin"/>
 		<typeAlias type="com.fpj.trendeater.board.model.vo.EventBoard" alias="EventBoard"/>
 		<typeAlias type="com.fpj.trendeater.order.model.vo.Order" alias="Order"/>
+
 	</typeAliases>
 	
 	<mappers>

@@ -14,7 +14,12 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
+
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Service("aService")
@@ -182,6 +187,17 @@ public class AdminServiceImpl implements AdminService{
 	public int adminCount(Admin admin) {
 		
 		return aDAO.adminCount(sqlSession,admin);
+	}
+	
+	//이용준 관리자페이지 리뷰 리스트
+	@Override
+	public ArrayList<Review> reviewList(PageInfo pi) {
+		return aDAO.reviewList(sqlSession,pi);
+	}
+
+	@Override
+	public ArrayList<ReviewImage> reviewImageList() {
+		return aDAO.reviewImageList(sqlSession);
 	}
 
 

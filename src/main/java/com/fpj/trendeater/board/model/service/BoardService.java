@@ -8,6 +8,11 @@ import java.util.Map;
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
+import com.fpj.trendeater.board.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Report;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+import com.fpj.trendeater.board.model.vo.UserLike;
 
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 
@@ -25,6 +30,32 @@ public interface BoardService {
 	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
 	
+
+	//이용준
+	int reviewCount();
+
+	ArrayList<Review> getReviewList(PageInfo pi);
+
+	ArrayList<ReviewImage> getReviewImageList();
+
+	int insertReview(Review r);
+
+//	int insertReviewImage(ArrayList<ReviewImage> imageList, int reviewNo);
+	int insertReviewImage(ArrayList<ReviewImage> imageList);
+
+	int reportReview(Report rep);
+
+		// 게시글 좋아요 여부 카운트
+		int likeCount(UserLike li);
+		// 게시글 좋아요
+		int insertLike(UserLike like);
+		
+		// 게시글 좋아요 취소
+		int deleteLike(UserLike like);
+		
+		// 전체 좋아요 개수
+		ArrayList<UserLike> selectLikeCount(int ReviewNo);
+
 	// 시식신청
 	int registerApplyTaste(ApplyTastePerson applyPerson);
 	// 시식신청 중복 체크
@@ -68,6 +99,7 @@ public interface BoardService {
 /********************************** Event Management *********************************/	
 int getEListCount();	//페이징처리 1: 총게시물 수 
 ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
+
 
 
 

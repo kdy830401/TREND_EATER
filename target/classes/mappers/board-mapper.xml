@@ -56,6 +56,82 @@
 		<result column="IDENTIFY_NO" property="identifyNo"/>
 	</resultMap>
 	
+
+<!-- 	이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	 <select id="reviewCount" resultType="_int">
+     select count(*)
+     from review_list
+     where REVIEW_STATUS = 'Y'
+  </select>
+  
+  <select id="getReviewList" resultMap="reviewResultSet">
+<!--      select * -->
+<!--      from review_list rl -->
+<!--          join member m on (rl.email_id = m.email_id)     -->
+<!--      where review_status  = 'Y' -->
+<!--      order by review_no desc -->
+select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3
+     from review_list rl
+         join member m on (rl.email_id = m.email_id)    
+     where review_status  = 'Y'
+     order by review_no desc
+  </select>
+  <resultMap type="Review" id="reviewResultSet">
+       <id column="REVIEW_NO" property="reviewNo"/>
+       <result column="REVIEW_RATING" property="reviewRating"/>
+       <result column="RECOMMEND" property="recommend"/>
+       <result column="REPURCHARSE" property="repurcharse"/>
+       <result column="SPICY" property="spicy"/>
+       <result column="SWEET" property="sweet"/>
+       <result column="BITTER" property="bitter"/>
+       <result column="SALTY" property="salty"/>
+       <result column="SOUR" property="sour"/>
+       <result column="GOOD" property="good"/>
+       <result column="BAD" property="bad"/>
+       <result column="CREATE_DATE" property="createDate"/>
+       <result column="MODIFY_DATE" property="modifyDate"/>
+       <result column="LIKE_COUNT" property="likeCount"/>
+       <result column="REVIEW_STATUS" property="reviewStatus"/>
+       <result column="PRODUCT_NO" property="productNo"/>
+       <result column="EMAIL_ID" property="emailId"/>
+       <result column="NICKNAME" property="nickName"/>
+    </resultMap>
+    
+
+
+<select id="getReviewImageList" resultMap="reviewImageResultSet">
+		select *
+		from review_img
+		where review_no=#{reviewNo}
+	</select>
+	
+	<resultMap type="ReviewImage" id="reviewImageResultSet">
+		<id column="IMAGE_NO" property="imageNo"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="REVIEW_NO" property="reviewNo"/>
+	</resultMap>
+	
+	 <insert id="insertReview" >
+       insert into review_list
+       values (seq_rid.nextval, #{reviewRating}, #{recommend}, #{repurcharse}, #{spicy}, #{sweet}, #{bitter}, #{salty}, #{sour}, #{good},
+       			#{bad}, sysdate, sysdate, default,	'Y', #{emailId}, 1)
+<!--        			 productNo가 패런트가 없다고 안돼서 임시번호 .... -->
+    </insert>
+    
+    <insert id="insertReviewImage">
+    	insert into review_img
+    	values (seq_ino.nextval, #{changeName}, #{originName}, #{filePath}, sysdate, seq_rid.currval)
+    </insert>
+    
+    <insert id="reportReview">
+    	insert into report
+    	values (seq_repid.nextval, #{reportType}, #{reportContent}, 'N', sysdate, #{emailId}, #{reviewNo})
+    </insert>
+    
+ <!-- boardLike -->
+
 	<!-- 시식신청  -->
 	<insert id="registerApplyTaste">
 		insert into apply_t
@@ -291,6 +367,50 @@
  	</resultMap>
 
 
+
+       <!-- 좋아요 카운트 -->
+	<select id="likeCount" resultType = "_int">
+		select count(*) 
+		  from user_like
+		 where review_no = #{reviewNo}
+		   and email_Id = #{emailId}
+	
+	</select>
+	
+	<!-- 게시글 좋아요 -->
+	<insert id="insertLike">
+		insert
+		  into user_like
+		  (
+		  	review_no
+		  , email_id
+		  )
+		  values
+		  (
+		  	#{reviewNo}
+		  , #{emailId}
+		  )
+	</insert>
+	
+	<!-- 게시글 좋아요 취소 -->
+	<delete id="deleteLike">
+		delete
+		  from user_like
+		 where review_no = #{reviewNo}
+		   and email_id = #{emailId}
+	</delete>
+	
+	
+	<!-- 좋아요 전체 카운트 -->
+	<select id="selectLikeCount" resultType = "_int">
+		select 
+			   review_no
+			 , email_id
+		  from
+		       user_like
+		 where review_no = #{reviewNo}
+	</select>
+	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 </mapper>
 
 

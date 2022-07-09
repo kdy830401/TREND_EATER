@@ -508,6 +508,50 @@
 		</if>
 	</select>
 
+
+<!-- 	이용준 리뷰 리스트 보기 -->
+	<select id="reviewList" resultMap="reviewResultSet">
+     select *
+     from review_list rl
+         join member m on (rl.email_id = m.email_id)    
+     where review_status  = 'Y'
+     order by review_no desc
+  </select>
+  <resultMap type="Review" id="reviewResultSet">
+       <id column="REVIEW_NO" property="reviewNo"/>
+       <result column="REVIEW_RATING" property="reviewRating"/>
+       <result column="RECOMMEND" property="recommend"/>
+       <result column="REPURCHARSE" property="repurcharse"/>
+       <result column="SPICY" property="spicy"/>
+       <result column="SWEET" property="sweet"/>
+       <result column="BITTER" property="bitter"/>
+       <result column="SALTY" property="salty"/>
+       <result column="SOUR" property="sour"/>
+       <result column="GOOD" property="good"/>
+       <result column="BAD" property="bad"/>
+       <result column="CREATE_DATE" property="createDate"/>
+       <result column="MODIFY_DATE" property="modifyDate"/>
+       <result column="LIKE_COUNT" property="likeCount"/>
+       <result column="REVIEW_STATUS" property="reviewStatus"/>
+       <result column="PRODUCT_NO" property="productNo"/>
+       <result column="EMAIL_ID" property="emailId"/>
+       <result column="NICKNAME" property="nickName"/>
+    </resultMap>
+    
+
+
+<select id="reviewImageList" resultMap="reviewImageResultSet">
+		select *
+		from review_img
+	</select>
+	
+		<resultMap type="ReviewImage" id="reviewImageResultSet">
+		<id column="IMAGE_NO" property="imageNo"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="REVIEW_NO" property="reviewNo"/>
+
 	<resultMap type="ApplyPerson" id="applyTastePersonResultSet">
 		<id column="APPLY_NO" property="applyNo" />
 		<result column="ADDRESS" property="address" />
@@ -517,5 +561,6 @@
 		<result column="APPLY_DATE" property="applyDate" />
 		<result column="PRODUCT_NAME" property="productName" />
 		<result column="USER_NAME" property="name" />
+
 	</resultMap>
 </mapper>

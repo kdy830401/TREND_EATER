@@ -13,7 +13,12 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
+
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Repository("aDAO")
@@ -196,6 +201,16 @@ public class AdminDAO {
 	}
 	
 
+
+	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.reviewList", null, rowBounds);
+	}
+
+	public ArrayList<ReviewImage> reviewImageList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.reviewImageList");
+	}
 
 
 
