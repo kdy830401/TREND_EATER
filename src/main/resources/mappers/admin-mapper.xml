@@ -326,7 +326,7 @@
 			and product_name like '%'||#{searchValue}||'%'
 		</if>
 		<if test='value == null or value.equals("tasteNo")'>
-		order by taste_no
+		order by taste_ing desc, taste_no
 		</if>
 		<if test='value != null and value.equals("applyCount")'>
 		order by apply_count desc
@@ -414,7 +414,15 @@
 	<!-- 상품 이미지 삭제 -->
 	<delete id="delImage">
 		delete image
-		where image_no = #{delProductImgNo}
+		<if test="arr == null">
+		where image_no = #{imgNo}
+		</if>
+		<if test="arr != null">
+		where image_no in
+		<foreach collection="imgNo" item="arr" open="(" close=")" separator=",">
+		#{arr}
+		</foreach>
+		</if>
 	</delete>
 
 	<!-- 상품 테이블 및 상품 게시판 테이블 수정 -->
@@ -447,23 +455,22 @@
 				<if test="bool.equals('false')">
 					set board_status = 'N'
 				</if>
-				where product_no = #{pno}
+				where taste_no = #{pno}
 			</when>
 		</choose>
 	</update>
 	
 	<!--관리자 게시판 게시물 삭제 -->
-	<update id="deleteAdminBoard">
+	<update id="deleteAdminBoard" statementType="CALLABLE">
 		<choose>
 			<when test="type.equals('product')">
-				update product
-				set product_status = 'N'
-				where product_no = #{pno}
+				{#{result, mode=OUT, jdbcType=INTEGER} = call deleteproductadminfn(#{pno})}
 			</when>
 			<when test="type.equals('taste')">
 				update taste_board
-				set admin_status = 'N'
-				where product_no = #{pno}
+				set admin_status = 'N',
+					board_status = 'N'
+				where taste_no = #{pno}
 			</when>
 		</choose>
 	</update>

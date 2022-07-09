@@ -42,7 +42,7 @@ public interface AdminService {
 	
 	int updateProduct(Product product);
 
-	int delImage(int imgNo);
+	int delImage(HashMap<String, Object> imgMap);
 	
 	// 사용자 게시물 삭제
 	int deleteUserBoard(HashMap<String, Object> map);

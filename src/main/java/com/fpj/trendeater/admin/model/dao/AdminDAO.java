@@ -97,8 +97,8 @@ public class AdminDAO {
 	}
 	
 	// 이미지 삭제
-	public int delImage(SqlSessionTemplate sqlSession, int imgNo) {
-		return sqlSession.delete("adminMapper.delImage", imgNo);
+	public int delImage(SqlSessionTemplate sqlSession, HashMap<String, Object> imgMap) {
+		return sqlSession.delete("adminMapper.delImage", imgMap);
 	}	
 	
 	// 상품 업데이트
@@ -132,7 +132,15 @@ public class AdminDAO {
 	// 관리자 게시글 삭제
 	public int deleteAdminBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("adminMapper.deleteAdminBoard", map);
+		int result = 0;
+		System.out.println(map);
+		result = sqlSession.update("adminMapper.deleteAdminBoard", map);
+		System.out.println(result);
+		if(map.get("result") != null) {
+			result = (int) map.get("result");
+		}
+		
+		return result;
 	}
 
 
