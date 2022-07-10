@@ -331,6 +331,7 @@ public class BoardController {
 		return mv;
 	}
 	
+	
 	@RequestMapping("rinsertView.bo")
 	public String reviewInsertForm() {
 		return "reviewInsertForm";
@@ -500,6 +501,7 @@ public class BoardController {
 	}
 
 	
+		
 /********************************** Notice(공지사항) : 수정  *************************************/	
 	// Notice 수정
 	@RequestMapping(value="noticeUpdate.bo", method=RequestMethod.GET)

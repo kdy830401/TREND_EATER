@@ -105,7 +105,7 @@
 	font-size: 12px;
 }
 
-#chart-button {
+#delete-button {
 	margin-left: 700px;
 	/* 	color: rgb(255,99,132); */
 	border-radius: 35%;
@@ -221,8 +221,30 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 						<span class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">${ rev.nickName }</a></span>
 					</div>
 				</div>
+
+								<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }"></a>
+								<c:forEach var="img" items="${ imgList }">
+								<c:if test="${ p.productNo == img.identifyNo and img.fileType == 1}">
+								<input type="hidden" name="imgName" value="${ img.changeName }">
+								<input type="hidden" name="imgNo" value="${ img.imageNo }">
+								</c:if>
+								<c:if test="${ p.productNo == img.identifyNo and img.fileType == 2}">
+								<input type="hidden" name="imgName" value="${ img.changeName }">
+								<input type="hidden" name="imgNo" value="${ img.imageNo }">
+								</c:if>
+								</c:forEach>
+								
+
+							</form>
 							<button class="uk-button uk-button-default uk-button-small"
-								type="button" id="chart-button">리뷰 삭제</button>
+								type="button" id="delete-button" onclick="deleteReview();">리뷰 삭제</button>
+								  <script>
+		function deleteReview(){
+			if(confirm('정말 삭제하시겠습니까?')){
+				location.href="<%= request.getContextPath()%>/delete.ad?reviewNo=" + ${ rev.reviewNo };
+			}
+		}
+</script>
 						<ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
 							<li>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</li>
 						</ul>
@@ -325,6 +347,7 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
   <!-- theme switcher -->
 
 <!-- ############ LAYOUT END-->
+
 
   </div>
 <!-- build:js scripts/app.html.js -->

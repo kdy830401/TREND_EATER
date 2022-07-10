@@ -361,6 +361,7 @@ border-radius:10px 10px 0 0;
         </ul>
         <hr>
 		<input type="hidden" class="review" name="emailId" value="${ loginUser.email }">
+		<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
         <div class="review-title">별점을 매겨주세요</div>
 		<div name="reviewRating" id="myform" method="post" action="./save" name="reviewRating">
         <input type="radio" name="reviewRating" value="5" id="rate1" ><label for="rate1">⭐</label>
