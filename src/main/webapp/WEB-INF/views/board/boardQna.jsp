@@ -201,34 +201,32 @@ pageEncoding="UTF-8"%>
 
 	$('.deleteBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
-		$('#qnaNo').val(qnaNo); // value(qnaNo)의 값을 id="qnaNo"에 넣겠다는 의미
+		$('#qnaNo').val(qnaNo); // #qnaNo의 value="" 속성값에  var qnaNo의 값을 넣겠다는 의미
 		console.log(qnaNo);
 		if(confirm("정말로 삭제하시겠습니까?")){
 //			location.href="boardQnaDeleteForm.bo"; // 단순 url 변경이라 데이터 변경이 안됐던 것. 폼태그 안에 있는 데이터 내용을 같이 보내줘야하는데 url 변경만 해서 작동을 안한 것
 			location.href="boardQnaDeleteForm.bo?qnaNo="+qnaNo; 
 		}
 	});	
-	$('.updateBtn').on('click',function(){
+/* 	$('.updateBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
-
-	/* function boardQnaDelete(){
+	
+		function boardQnaDelete(){
 		if(confirm("정말 삭제하시겠습니까?")){
 			location.href="boardQnaDeleteForm.bo" */
 			/* <c:url var="bdelete" value="bdelete.bo">
 				 <c:param name="bId" value="${ board.boardId }"/>
 				 <c:param name="renameFileName" value="${ board.renameFileName }"/>
-			</c:url> */
-	/* 	}
-		
-	} */
-	$('.deleteBtn${').on('click',function(){
-		var no = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
-		$('#qnaNo').val(no); 
+			</c:url> 
+		}
+	}); */
+	$('.deleteBtn').on('click',function(){
+		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
+		$('#qnaNo').val(qnaNo); 
 		$('#boardQnaUpdateViewForm').submit();
-		
+	});	
 	$('.updateBtn').on('click',function(){
-		var no = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
-
+		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		// parent() : 상위태그로 // prev() : 동급의 이전태그(같은 띄어쓰기 단계의 바로 앞에 쓰인 태그) // children() : 하위태그로 // eq(0) : 해당 태그의 0번째있는 태그 // text() : 텍스트만 끌어오는 태그
 		
 //		 ▶   ${b.qnaNo }만 따로 가져와서 <input type="hidden">에 넣어주기 ◀
@@ -236,7 +234,7 @@ pageEncoding="UTF-8"%>
 		// 여기서 prev()하면  summary태그로 가서 children5번하면  table아래 tr태그가 나오고 eq(0)해서 tr태그 아래 첫번째 태그인 td가 선택됨
 		// 이 td태그에서 text()해서 텍스트만 가져오므로써  ${ b.qnaNo } 획득
 
-		$('#qnaNo').val(qnaNo); // 위에서 ${ b.qnaNo }만 가져다 변수 no에 넣은 걸, id='qnaNo'에 val(no)으로 넣어준다
+		$('#qnaNo').val(qnaNo); //  #qnaNo의 value="" 속성값에  var qnaNo의 값을 넣겠다는 의미
 
 		$('#boardQnaUpdateViewForm').submit(); // 맨 위 form태그의 id="boardQnaUpdateViewForm"를 submit 시키겠다는 의미
 	});

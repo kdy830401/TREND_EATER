@@ -72,12 +72,8 @@
                                     <td class="tbodyTd5" width="50">${ b.boardCount }</td>
                                 </tr>
                             </c:forEach>
-                     
-
     
                         </tbody>
-                            
-
 
                     </table>
                 </div>
@@ -154,8 +150,8 @@
 		}).mouseout(function(){
 			$(this).parent().css({'background':'none', "color":"black"});
 		}).click(function() {
-			var bId = $(this).parent().children('td').eq(0).text();
-			location.href = 'noticeDetail.bo?bId=' + bId + "&page=" + ${pi.currentPage};
+			var boardId = $(this).parent().children('td').eq(0).text();
+			location.href = 'noticeDetail.bo?boardId=' + boardId + "&page=" + ${pi.currentPage};
 		});	
 	</script> 
 

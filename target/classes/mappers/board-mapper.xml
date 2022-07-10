@@ -144,9 +144,9 @@
 	
 
 <!-- notice 쓰기  -->
-	<insert id="insertBoard">
+	<insert id="insertNotice">
 		insert into board
-		values(seq_bid.nextval,#{boardTitle},#{boardContent},sysdate, default, default, 'Y', 1, default)
+		values(seq_bid.nextval,#{boardTitle},#{boardContent}, sysdate, default, default, 'Y', 1, #{adminId})
 	</insert>
 	
 <!-- notice 수정  -->
@@ -167,7 +167,7 @@
 	<update id="addReadCount">
 		update board
 		set board_count = board_count + 1
-		where board_no = #{bId}
+		where board_no = #{boardId}
 	</update>
 	
 
@@ -175,7 +175,7 @@
 		select *
 		from board
 			<!-- join member on (board_writer = id) -->
-		where board_no = #{bId} and board_status = 'Y'
+		where board_no = #{boardId} and board_status = 'Y'
 	</select>
  
  
@@ -214,6 +214,8 @@
 	
 
 <!-- QnA 수정1 : select 수정을 위해 해당 게시판번호의 게시판 전체 정보 받아오기 -->		
+
+<!-- 수정을 위한 해당 id의 qna 전체 정보 받아오기 -->	
 
 	<select id="selectBoardQna" resultMap="boardQnaResultSet">
 		select *

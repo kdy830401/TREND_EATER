@@ -21,7 +21,7 @@
         <h2>공지사항</h2>   
         <p>TRENT EATER의 소식들과 유용한 정보들을 한곳에서 확인하세요.</p>
     </div>    
-
+<form action="noticeList.bo" method="post">
     <table class="tableWhole">
             <thead>
                 <tr>
@@ -53,6 +53,9 @@
 		</c:url>
         <button onclick="location.href='${ blist }'">목록</button> <!-- url 지정하기 -->
     </div>
+    
+    	<input type="hidden" name="boardId" value="${board.boardId}">
+</form>
 
 <!-- 
     <script>

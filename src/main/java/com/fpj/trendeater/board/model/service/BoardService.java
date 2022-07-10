@@ -43,7 +43,7 @@ public interface BoardService {
 /*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
 	ArrayList<Board> getBoardList(PageInfo pi);	// 페이징처리2 : 필요한 게시판 가져오기
-	Board selectBoard(int bId);
+	Board selectBoard(Board b);
 	int insertNotice(Board b);	// notice(공지사항) 쓰기
 	int updateNotice(Board b);	// notice(공지사항) 수정
 	int deleteNotice(Board b);	// notice(공지사항) 삭제
@@ -68,7 +68,6 @@ public interface BoardService {
 /********************************** Event Management *********************************/	
 int getEListCount();	//페이징처리 1: 총게시물 수 
 ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
-
 
 
 

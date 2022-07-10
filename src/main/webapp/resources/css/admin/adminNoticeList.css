@@ -136,14 +136,26 @@ tbody td:nth-last-child(2){
 } 
 /* 뒤에서부터 4번째가 tr태그면 적용  // 태그 우선 */
 
+/***********************************/
 
-/* UIKit 코드로 대체
-.pagination{
-	margin: 2% auto;
-	text-align:center;
-	
+.listButton{
+    width:890px;
+    text-align: right;
+    margin:2% auto;
+    padding-right: 3%;
+    
 }
-
- */
-
+.listButton button:hover{
+    background-color:#f7b7b5;
+    color:#fff;
+    border:1px solid #FE8F8F;
+    
+}
+.listButton button{
+    width:150px;
+    height:35px;
+    background-color: #FE8F8F;
+    border: 1px solid #FF5C58;
+    color:#fff;
+}
 

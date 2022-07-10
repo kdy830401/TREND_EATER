@@ -48,14 +48,10 @@ import com.fpj.trendeater.admin.model.vo.ProductRequest;
 import com.fpj.trendeater.board.controller.BoardController;
 import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.service.BoardService;
-
+import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
-import com.fpj.trendeater.board.model.vo.Reply;
-
-import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.EventBoard;
-
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.model.vo.Member;
 
@@ -1022,17 +1018,16 @@ public class AdminController {
 	@RequestMapping("adminNoticeList.ad")
 	public ModelAndView adminNoticeList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv) {
 		
-		/* @ModelAttribute("") Board b, */
-		
 		int currentPage = 1; 
 
 		if (page != null) { 
 			currentPage = page;
 		}
+		int boardLimit = 5;
 
 		int listCount = bService.getListCount();
 
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount,boardLimit);
 
 		ArrayList<Board> list = bService.getBoardList(pi);
 
@@ -1050,13 +1045,26 @@ public class AdminController {
 /***********************************  admin notice : 상세보기 **************************************************/
 
 	@RequestMapping("adminNoticeDetail.ad")
-	public ModelAndView adminNoticeDetail(@RequestParam(value="boardId", required=false) int boardId, 
+	public ModelAndView adminNoticeDetail(@ModelAttribute Board b, HttpSession session,
+			/* @RequestParam(value="boardId", required=false) int boardId, */
 										  @RequestParam("page") int page, ModelAndView mv) {
 
-		System.out.println("ad상세_boardId="+boardId);
-		Board board = bService.selectBoard(boardId);
+//		public String adminNoticeWriteView(@ModelAttribute Board b, Model model, HttpSession session) {
+//		
+//		String adId = ((Admin)session.getAttribute("adminUser")).getId();
+//		b.setAdminId(adId);
+//		model.addAttribute("b",b);
+//		return "adminNoticeWriteView";
 		
-		System.out.println("ad상세_board="+board);
+		String adId = ((Admin)session.getAttribute("adminUser")).getId();
+		b.setAdminId(adId);
+		System.out.println("ad상세_b"+b);
+		
+		Board board = bService.selectBoard(b);
+//		System.out.println("ad상세_boardId="+boardId);
+//		Board board = bService.selectBoard(boardId);
+		
+//		System.out.println("ad상세_board="+board);
 		
 		if (board != null) {
 			mv.addObject("board", board).addObject("page", page).setViewName("adminNoticeDetailView");
@@ -1069,23 +1077,30 @@ public class AdminController {
 	
 
 
-///**********************************  admin notice : 쓰기  *************************************/	
-//
-//	@RequestMapping("adminNoticeWriteView.ad")
-//	public String adminNoticeWriteView() {
-//		return "adminNoticeWriteView";
-//	}
-//	@RequestMapping("adminNoticeWriteForm.ad")
-//	public String insertNotice(@ModelAttribute Board b) {
-//
-//		int result = bService.insertNotice(b);
-// 
-//		if (result > 0) {
-//			return "redirect:noticeList.bo"; // 관리자 게시판으로 돌아가야함!
-//		} else {
-//			throw new BoardException("공지사항 등록에 실패하였습니다.");
-//		}
-//	}
+/**********************************  admin notice : 쓰기  *************************************/	
+
+	@RequestMapping("adminNoticeWriteView.ad")
+	public String adminNoticeWriteView(@ModelAttribute Board b, Model model, HttpSession session) {
+		
+		String adId = ((Admin)session.getAttribute("adminUser")).getId();
+		b.setAdminId(adId);
+		model.addAttribute("b",b);
+//		System.out.println("ad공지사항 쓰기_b라이트뷰="+b);
+		
+		return "adminNoticeWriteView";
+	}
+	@RequestMapping("adminNoticeWriteForm.ad")
+	public String insertNotice(@ModelAttribute Board b) {
+		
+//		System.out.println("ad공지사항 쓰기_b="+b);
+		int result = bService.insertNotice(b);
+
+		if (result > 0) {
+			return "redirect:adminNoticeList.ad"; 
+		} else {
+			throw new BoardException("공지사항 등록에 실패하였습니다.");
+		}
+	}
 
 	
 /**********************************  admin notice : 수정  *************************************/	
@@ -1153,12 +1168,13 @@ public class AdminController {
 		if (page != null) {
 			currentPage = page;
 		}
-
+		int boardLimit = 5;
+		
 		// 페이징처리1 :총게시물수 가져오기
 		int listCount = bService.getQnaListCount();
 		System.out.println(listCount);
-		// 페이징처리2 : 필요한 게시판 가져오기 		// 관리자라  모든 QnA 게시물 다봐야하므로 필요x
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		// 페이징처리2 : 필요한 게시판 가져오기 		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount,boardLimit);
 
 		ArrayList<BoardQnA> list = bService.getBoardQnaListAdmin(pi);
 		System.out.println("adQnA조회_pi=" + pi);
@@ -1266,7 +1282,7 @@ public class AdminController {
 /********************************************** admin QnA : 삭제  *******************************************************/
 	
 	// QnA : 삭제
-	@RequestMapping("adminQnaAnsDeleteForm.bo")
+	@RequestMapping("adminQnaAnsDeleteForm.ad")
 	public String deleteBoard(/* @ModelAttribute BoardQnA b, */ @RequestParam("qnaNo") int qnaNo
 							/* ,HttpSession session */) {  
 			

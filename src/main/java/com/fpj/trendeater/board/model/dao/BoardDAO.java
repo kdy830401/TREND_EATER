@@ -104,11 +104,11 @@ public class BoardDAO {
 	}
 	
 	// Notice 상세보기
-	public int addReadCount(SqlSessionTemplate sqlSession, int bId) {
-		return sqlSession.update("boardMapper.addReadCount",bId);
+	public int addReadCount(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.addReadCount",b);
 	}
-	public Board selectBoard(SqlSessionTemplate sqlSession, int bId) {
-		return sqlSession.selectOne("boardMapper.selectBoard",bId);
+	public Board selectBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.selectOne("boardMapper.selectBoard",b);
 	}
 	
 	// Notice 쓰기
