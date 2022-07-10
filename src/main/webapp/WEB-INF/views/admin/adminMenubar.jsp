@@ -43,7 +43,6 @@
 a {
 	color: rgba(255, 255, 255, 0.87);
 }
-
 a:hover {
 	text-decoration: none;
 	color: white;
@@ -113,6 +112,11 @@ a:hover {
 									<li>
 										<a href="prbAdminList.ad">
 											<span class="nav-text">제품/리뷰 게시판</span>
+										</a>
+									</li>
+									<li>
+										<a href="reviewList.ad">
+											<span class="nav-text">리뷰 리스트</span>
 										</a>
 									</li>
 									<li>

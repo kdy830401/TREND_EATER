@@ -30,8 +30,16 @@ public class CartController {
 	
 	// 상품페이지에서 장바구니에 상품 추가 전 장바구니에 같은 상품 존재 여부 확인
 	@RequestMapping("checkCart.ct")
-	public void checkCart(@RequestParam("productNo") int productNo, HttpServletResponse response) {
-		Cart cart = ctService.checkCart(productNo);
+	public void checkCart(@RequestParam("productNo") int productNo, HttpServletResponse response, HttpSession session) {
+		// 1. session에서 loginUser의 emailId 받아오기
+				String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
+				
+		// 2. cart 객체에 emailId와 productNo 넣어주기
+		Cart crt = new Cart();
+		crt.setEmailId(emailId);
+		crt.setProductNo(productNo);
+				
+		Cart cart = ctService.checkCart(crt);
 		
 		boolean tf = false;
 		if(cart != null) {
@@ -84,7 +92,7 @@ public class CartController {
 		int boardLimit = 10;
 		
 		// 2.3 페이징 계산
-		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
 		
 		// 3. 사용자(loginUser)의 장바구니 리스트 가져오기

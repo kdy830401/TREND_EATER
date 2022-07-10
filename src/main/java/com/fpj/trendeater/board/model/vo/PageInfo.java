@@ -1,3 +1,4 @@
+
 package com.fpj.trendeater.board.model.vo;
 
 public class PageInfo {
@@ -109,3 +110,4 @@ public class PageInfo {
 	
 	
 }
+
