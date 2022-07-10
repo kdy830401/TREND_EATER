@@ -286,11 +286,18 @@ public class BoardController {
 	@RequestMapping("noticeWriteForm.bo")
 	public String insertNotice(@ModelAttribute Board b) {
 
+		int result = bService.insertNotice(b);
+		 
+		if (result > 0) {
+			return "redirect:noticeList.bo"; // 관리자 게시판으로 돌아가야함!
+		} else {
+			throw new BoardException("공지사항 등록에 실패하였습니다.");
+		}
+	}
 
 	// test test2
 	// test3 test4 test5
 	// test3
-	
 	//이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("rlist.bo")
 	public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv, UserLike like, HttpSession session) {
@@ -303,7 +310,8 @@ public class BoardController {
 		
 		int listCount = bService.reviewCount();
 		
-		PageInfo pi = ReviewPagination.getPageInfo(currentPage, listCount);
+		int boardLimit = 10;
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
 		ArrayList<Review> reviewList = bService.getReviewList(pi);
 		
@@ -490,14 +498,6 @@ public class BoardController {
 		}
 		
 
-		int result = bService.insertNotice(b);
- 
-		if (result > 0) {
-			return "redirect:noticeList.bo"; // 관리자 게시판으로 돌아가야함!
-		} else {
-			throw new BoardException("공지사항 등록에 실패하였습니다.");
-		}
-	}
 
 	
 /********************************** Notice(공지사항) : 수정  *************************************/	
