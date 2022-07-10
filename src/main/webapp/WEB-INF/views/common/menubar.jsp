@@ -137,7 +137,7 @@ a:hover {
 								<div class="uk-navbar-dropdown">
 									<ul class="uk-nav uk-navbar-dropdown-nav">
 				                    	<c:if test = "${loginUser != null}"> 
-				                        <li><a href="myPageMenu.me">마이페이지</a></li>
+				                        <li><a href="myPageform.me">마이페이지</a></li>
 				                        </c:if>										
 				                        <li><a href="noticeList.bo">공지사항</a></li>
 										<li><a href="boardQna.bo">문의사항</a></li>
