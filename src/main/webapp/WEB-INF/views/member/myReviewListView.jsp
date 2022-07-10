@@ -95,7 +95,13 @@
 		        	<c:if test="${ ! empty list }">
 		        	<c:forEach var="r" items="${ list }">
 					<tr class="contentTr">
-						<td><img class="uk-preserve-width" src="${ contextPath }\resources\images\product\팔도 극한체험 불비빔면.jpg" width="200" height="200" alt=""></td>
+						<td>
+							<c:forEach var="img" items="${ reviewImageList }" begin="0" end="1">
+							<c:if test="${ img.reviewNo eq r.reviewNo }">
+								<img class="uk-preserve-width" src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="200" height="200" alt="리뷰이미지">
+							</c:if>
+							</c:forEach>
+						</td>
 						<td>
 							<h4>${ r.productName }</h4>
 							<div>${ r.nickName }</div>

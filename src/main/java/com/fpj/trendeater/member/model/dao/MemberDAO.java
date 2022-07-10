@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.member.model.vo.LikeScrapList;
 import com.fpj.trendeater.member.model.vo.Member;
@@ -164,5 +165,11 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.attendCheckTest", email);
 	}
 
+	public ArrayList<ReviewImage> getReviewImageList(SqlSessionTemplate sqlSession, String email) {
+		return (ArrayList)sqlSession.selectList("memberMapper.getReviewImageList", email);
+	}
 
+	public ArrayList<ReviewImage> getScrapReviewImageList(SqlSessionTemplate sqlSession, String email) {
+		return (ArrayList)sqlSession.selectList("memberMapper.getScrapReviewImageList", email);
+	}
 }
