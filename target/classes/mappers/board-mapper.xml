@@ -445,7 +445,6 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	set BOARD_STATUS = 'N'
 	where BOARD_NO =#{eno}
 	</update>	 	 	
-</mapper>
 
 
 
@@ -493,7 +492,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 		 where review_no = #{reviewNo}
 	</select>
 	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-</mapper>
+
 
 
 <!-- 이벤트 게시판 글수정 -->
