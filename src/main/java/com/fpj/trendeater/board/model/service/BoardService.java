@@ -74,7 +74,7 @@ public interface BoardService {
 /*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
 	ArrayList<Board> getBoardList(PageInfo pi);	// 페이징처리2 : 필요한 게시판 가져오기
-	Board selectBoard(int bId);
+	Board selectBoard(Board b);
 	int insertNotice(Board b);	// notice(공지사항) 쓰기
 	int updateNotice(Board b);	// notice(공지사항) 수정
 	int deleteNotice(Board b);	// notice(공지사항) 삭제
@@ -97,10 +97,24 @@ public interface BoardService {
 
 	
 /********************************** Event Management *********************************/	
-int getEListCount();	//페이징처리 1: 총게시물 수 
-ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
+	int getEListCount();	//페이징처리 1: 총게시물 수 
+	ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
+	
+	int insertEBoard(EventBoard b);// 이벤트 게시판 삽입 1 글내용 삽입
+	int insertEImgList(ArrayList<Image> imageList); // 이벤트 게시판 삽입2 그림 내용 삽입
+	int insertEcategory(Integer category);// 이벤트 게시판 삽입 3 :카테고리 삽입
+	
+	EventBoard selectEBoard(int eNo);//이벤트게시판 상세보기 1 : 글
+	ArrayList<Image> selectEFiles(int eNo);//이벤트게시판 상세보기 2: 그림
 
+	int updateEBoard(EventBoard b);//이벤트 게시판 수정하기 1 : 글
+	int deleteEOriginImage(EventBoard b);//이벤트 게시판 수정하기 2: 새로운 이미지 삽입 시 원본이미지 삭제
+	int reuploadEImage(ArrayList<Image> imageList);// 이벤트게시판 수정하기 3 : 새로운 이미지 삽입
 
+	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
+	
+	
+	
 
 
 

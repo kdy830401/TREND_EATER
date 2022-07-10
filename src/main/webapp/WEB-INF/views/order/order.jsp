@@ -9,12 +9,18 @@
     <meta charset="UTF-8">
     <title>Trend Eater</title>
 <!-- CSS Link  -->
-<link href=""${ pageContext.servletContext.contextPath }/resources/css/pay/order.css" rel="stylesheet">
+<link href=""${ pageContext.servletContext.contextPath }/resources/css/pay/order.css" rel="stylesheet"/>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
 
 <!-- JQuery 최신버젼 CDN 링크  -->
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
+
+
 
 
 <style type="text/css">

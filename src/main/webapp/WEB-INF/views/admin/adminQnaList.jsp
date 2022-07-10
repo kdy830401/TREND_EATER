@@ -208,6 +208,50 @@ pageEncoding="UTF-8"%>
 	});
 </script>
 
+
+<!-- ############ PAGE END 끝~ -->
+
+</div>
+</div>
+<!-- / -->
+
+<!-- theme switcher -->
+
+<!-- ############ LAYOUT END-->
+
+</div>
+<!-- build:js scripts/app.html.js -->
+<!-- jQuery -->
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery/dist/jquery.js"></script>
+<!-- Bootstrap -->
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/tether/dist/js/tether.min.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+<!-- core -->
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/underscore/underscore-min.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/PACE/pace.min.js"></script>
+
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/config.lazyload.js"></script>
+
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/palette.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-load.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-jp.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-include.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
+
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
+
+<!-- ajax -->
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
+<!-- endbuild -->
+
+
 </body>
 </html>
 
