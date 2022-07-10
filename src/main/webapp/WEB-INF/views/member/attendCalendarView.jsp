@@ -186,8 +186,14 @@
 		let today = new Date();   
 		let year = today.getFullYear(); // 년도
 		let month = today.getMonth() + 1;  // 월
+		if (month < 10) {
+			month = String(0)+month;
+		}
 		let date = today.getDate();  // 날짜
-		var today2 = String(year)+String(0)+String(month)+String(0)+String(date);
+		if (date < 10) {
+			date = String(0)+date;
+		}
+		var today2 = String(year)+String(month)+String(date);
 
 		$('#check').click(function() {
 			var list = ${ list };
