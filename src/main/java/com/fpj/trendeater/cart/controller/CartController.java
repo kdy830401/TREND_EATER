@@ -92,7 +92,7 @@ public class CartController {
 		int boardLimit = 10;
 		
 		// 2.3 페이징 계산
-		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
 		
 		// 3. 사용자(loginUser)의 장바구니 리스트 가져오기
