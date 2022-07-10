@@ -13,7 +13,12 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
+
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Repository("aDAO")
@@ -97,8 +102,8 @@ public class AdminDAO {
 	}
 	
 	// 이미지 삭제
-	public int delImage(SqlSessionTemplate sqlSession, int imgNo) {
-		return sqlSession.delete("adminMapper.delImage", imgNo);
+	public int delImage(SqlSessionTemplate sqlSession, HashMap<String, Object> imgMap) {
+		return sqlSession.delete("adminMapper.delImage", imgMap);
 	}	
 	
 	// 상품 업데이트
@@ -132,7 +137,15 @@ public class AdminDAO {
 	// 관리자 게시글 삭제
 	public int deleteAdminBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("adminMapper.deleteAdminBoard", map);
+		int result = 0;
+		System.out.println(map);
+		result = sqlSession.update("adminMapper.deleteAdminBoard", map);
+		System.out.println(result);
+		if(map.get("result") != null) {
+			result = (int) map.get("result");
+		}
+		
+		return result;
 	}
 
 
@@ -188,6 +201,16 @@ public class AdminDAO {
 	}
 	
 
+
+	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.reviewList", null, rowBounds);
+	}
+
+	public ArrayList<ReviewImage> reviewImageList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.reviewImageList");
+	}
 
 
 

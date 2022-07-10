@@ -14,10 +14,18 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.dao.BoardDAO;
+
+//import com.fpj.trendeater.board.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Report;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+import com.fpj.trendeater.board.model.vo.UserLike;
+
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+
 
 @Service("bSerivce")
 public class BoardServiceImpl implements BoardService{
@@ -75,6 +83,37 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int getListCount() {
 		return bDAO.getListCount(sqlSession);
+	}
+
+	//이용준
+	@Override
+	public int reviewCount() {
+		return bDAO.reviewCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Review> getReviewList(PageInfo pi) {
+		return bDAO.getReviewList(sqlSession, pi);
+	}
+
+	@Override
+	public ArrayList<ReviewImage> getReviewImageList() {
+		return bDAO.getReviewImageList(sqlSession);
+	}
+
+	@Override
+	public int insertReview(Review r) {
+		return bDAO.insertReview(sqlSession, r);
+	}
+
+	@Override
+	public int insertReviewImage(ArrayList<ReviewImage> imageList) {
+		return bDAO.insertReviewImage(sqlSession, imageList);
+	}
+
+	@Override
+	public int reportReview(Report rep) {
+		return bDAO.reportReview(sqlSession, rep);
 	}
 
 	// Notice 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
@@ -151,15 +190,35 @@ public class BoardServiceImpl implements BoardService{
 
 	// QnA 삭제 
 	@Override
-	public int deleteBoardQna(BoardQnA b) {
-		return bDAO.deleteBoardQna(sqlSession, b);
+	public int deleteBoardQna(int qnaNo) {
+		return bDAO.deleteBoardQna(sqlSession, qnaNo);
 	}
+
+//	@Override
+//	public int deleteBoardQna(BoardQnA b) {
+//		return bDAO.deleteBoardQna(sqlSession, b);
+//	}
+
 	
 
 
 
 
 
+
+
+
+/*********************************** admin **********************************/	
+	
+	@Override
+	public Board adminNoticeSelect(Board b) {
+		return bDAO.adminNoticeSelect(sqlSession, b);
+	}
+
+	@Override
+	public ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi) {
+		return bDAO.getBoardQnaListAdmin(sqlSession, pi);
+	}
 
 
 
@@ -182,6 +241,7 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.getEBoardList(sqlSession, pi);
 	}
 	
+
 	// 이벤트 게시판 삽입 1 글내용 삽입
 	@Override
 	public int insertEBoard(EventBoard b) {
@@ -246,6 +306,31 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
+/***********************************************************************/
+
 	
-	
+	//좋아요
+	// 게시글 좋아요 count
+		@Override
+		public int likeCount(UserLike li) {
+			return bDAO.likeCount(sqlSession, li);
+		}
+		
+		// 게시글 좋아요
+		@Override
+		public int insertLike(UserLike like) {
+			return bDAO.insertLike(sqlSession, like);
+		}
+		
+		// 게시글 좋아요 취소
+		@Override
+		public int deleteLike(UserLike like) {
+			return bDAO.deleteLike(sqlSession, like);
+		}
+		
+		// 게시글 전체 좋아요 count
+		@Override
+		public ArrayList<UserLike>selectLikeCount(int reviewNo) {
+			return bDAO.selectLikeCount(sqlSession, reviewNo);
+		}
 }

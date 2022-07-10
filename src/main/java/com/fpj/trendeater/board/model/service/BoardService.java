@@ -8,6 +8,11 @@ import java.util.Map;
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
+//import com.fpj.trendeater.board.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Report;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+import com.fpj.trendeater.board.model.vo.UserLike;
 
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 
@@ -25,6 +30,32 @@ public interface BoardService {
 	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
 	
+
+	//이용준
+	int reviewCount();
+
+	ArrayList<Review> getReviewList(PageInfo pi);
+
+	ArrayList<ReviewImage> getReviewImageList();
+
+	int insertReview(Review r);
+
+//	int insertReviewImage(ArrayList<ReviewImage> imageList, int reviewNo);
+	int insertReviewImage(ArrayList<ReviewImage> imageList);
+
+	int reportReview(Report rep);
+
+		// 게시글 좋아요 여부 카운트
+		int likeCount(UserLike li);
+		// 게시글 좋아요
+		int insertLike(UserLike like);
+		
+		// 게시글 좋아요 취소
+		int deleteLike(UserLike like);
+		
+		// 전체 좋아요 개수
+		ArrayList<UserLike> selectLikeCount(int ReviewNo);
+
 	// 시식신청
 	int registerApplyTaste(ApplyTastePerson applyPerson);
 	// 시식신청 중복 체크
@@ -40,7 +71,7 @@ public interface BoardService {
 	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
 
-/********************************** notice *********************************/	
+/*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
 	ArrayList<Board> getBoardList(PageInfo pi);	// 페이징처리2 : 필요한 게시판 가져오기
 	Board selectBoard(int bId);
@@ -48,12 +79,20 @@ public interface BoardService {
 	int updateNotice(Board b);	// notice(공지사항) 수정
 	int deleteNotice(Board b);	// notice(공지사항) 삭제
 	
-/********************************** QnA *********************************/	
+/*********************************** QnA ***********************************/	
 	int getQnaListCount();
 	ArrayList<BoardQnA> getBoardQnaList(PageInfo pi, BoardQnA b);
 	int insertBoardQna(BoardQnA b);		// 문의사항 게시판 글쓰기
 	BoardQnA selectBoardQna(BoardQnA b); // 수정을 위한 해당 id의 qna 전체 정보 받아오기
 	int updateBoardQna(BoardQnA b);
+
+	int deleteBoardQna(int qnaNo);
+
+/*********************************** admin **********************************/	
+	
+	Board adminNoticeSelect(Board b);
+	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
+
 	int deleteBoardQna(BoardQnA b);
 
 	
@@ -82,10 +121,11 @@ public interface BoardService {
 
 
 
+
+
 	
 	
 	
-/***********************************************************************/	
 	
 	
 }
