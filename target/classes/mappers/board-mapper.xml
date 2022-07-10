@@ -445,7 +445,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	set BOARD_STATUS = 'N'
 	where BOARD_NO =#{eno}
 	</update>	 	 	
-</mapper>
+
 
 
 
@@ -496,35 +496,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 </mapper>
 
 
-<!-- 이벤트 게시판 글수정 -->
-	<update id="updateEBoard">
-	 	update board
-	 	set BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent}, 
-	 	MODIFY_DATE=SYSDATE, ADMIN_ID=#{adminId}
-	 	where BOARD_NO=#{boardNo}
- 	</update>
 
-<!-- 이벤트게시판 이미지 삭제  -->
-	<delete id="deleteEOriginImage">
- 		delete 
- 		from IMAGE
- 		where IDENTIFY_NO=#{boardNo} and board_type = 2
- 	</delete>
-<!-- 이벤트게시판 수정이미지 업로드 -->
-	<insert id="reuploadEImage">
- 	insert into IMAGE
- 	values(seq_ino.nextval, #{changeName}, #{originName}, #{filePath}, SYSDATE, #{fileLevel}, 
- 			NULL, #{boardType}, #{identifyNo})
- 	</insert> 
-
-
-<!--이벤트 게시판 글 삭제  -->
-	<update id="eDeleteBoard">
-	update board
-	set BOARD_STATUS = 'N'
-	where BOARD_NO =#{eno}
-	</update>	 	 	
-</mapper>
 
 
 
