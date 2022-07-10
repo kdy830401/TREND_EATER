@@ -9,7 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.board.model.vo.Scrap;
+import com.fpj.trendeater.member.model.vo.LikeScrapList;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.PointList;
+import com.fpj.trendeater.member.model.vo.ReviewList;
+import com.fpj.trendeater.member.model.vo.ScrapList;
 
 @Repository("mDAO")
 public class MemberDAO {
@@ -90,5 +94,75 @@ public class MemberDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.getMyScrapList", map, rowBounds);
 	}
+	
+	public int getReviewListCount(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.getReviewListCount", email);
+	}
+
+	public ArrayList<ReviewList> getReviewList(SqlSessionTemplate sqlSession, PageInfo pi, String email) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList)sqlSession.selectList("memberMapper.getReviewList", email, rowBounds);
+	}
+
+	public int getReviewScrapListCount(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.getReviewScrapListCount", email);
+	}
+
+	public ArrayList<LikeScrapList> getReviewScrapList(SqlSessionTemplate sqlSession, PageInfo pi, String email) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList)sqlSession.selectList("memberMapper.getReviewScrapList", email, rowBounds);
+	}
+
+	public int getScrapListCount(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.getScrapListCount", email);
+	}
+
+	public ArrayList<ScrapList> getScrapList(SqlSessionTemplate sqlSession, PageInfo pi, String email) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList)sqlSession.selectList("memberMapper.getScrapList", email, rowBounds);
+	}
+
+	public ArrayList getAttendCheck(SqlSessionTemplate sqlSession, String email) {
+		return (ArrayList)sqlSession.selectList("memberMapper.getAttendCheck", email);
+	}
+
+	public int insertAttendCheck(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.insert("memberMapper.insertAttendCheck", email);
+	}
+
+	public int insertAttendPoint(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.insert("memberMapper.insertAttendPoint", email);
+	}
+
+	public int deleteMyReview(SqlSessionTemplate sqlSession, int rNo) {
+		return sqlSession.update("memberMapper.deleteMyReview", rNo);
+	}
+
+	public ArrayList<PointList> getPointList(SqlSessionTemplate sqlSession, String email) {
+		return (ArrayList)sqlSession.selectList("memberMapper.getPointList", email);
+	}
+
+	public int deleteLikeScrap(SqlSessionTemplate sqlSession, int lNo) {
+		return sqlSession.delete("memberMapper.deleteLikeScrap", lNo);
+	}
+
+	public int getPlusPoint(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.getPlusPoint", email);
+	}
+
+	public int getMinusPoint(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.getMinusPoint", email);
+	}
+
+	public String attendCheckTest(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.attendCheckTest", email);
+	}
+
 
 }
