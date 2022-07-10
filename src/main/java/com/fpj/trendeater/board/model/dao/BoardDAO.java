@@ -254,7 +254,7 @@ public class BoardDAO {
 
 	
 	
-/***************************   ***************************/ 
+/*************************** EventBoard   ***************************/ 
 	
 	
 	// EventManageMent 읽기(조회) - 페이징처리1 :총게시물수 가져오기
@@ -262,13 +262,75 @@ public class BoardDAO {
 		return sqlSession.selectOne("boardMapper.getEListCount");
 	}
 	
-	
+	//페이징처리 2 : 이벤트관리목록 불러오기
 	public ArrayList<EventBoard> getEBoardList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.getEBoardList", null, rowBounds);
 	}
 
+	
+	// 이벤트 게시판 삽입 1 글내용 삽입
+	public int insertEBoard(SqlSessionTemplate sqlSession, EventBoard b) {
+		
+		return sqlSession.insert("boardMapper.insertEBoard", b);
+	}
+	
+	// 이벤트 게시판 삽입2 그림 내용 삽입 
+	public int insertEImgList(SqlSessionTemplate sqlSession, ArrayList<Image> imageList) {
+		int imgResult = 0;
+		for(int i = 0; i < imageList.size(); i ++) {
+			 sqlSession.insert("boardMapper.insertEImgList", imageList.get(i));
+			 imgResult++;
+		}
+		return imgResult;
+	}
+	
+	//이벤트 게시판 삽입 3 카테고리 삽입
+	public int insertEcategory(SqlSessionTemplate sqlSession, Integer category) {
+		
+		return sqlSession.insert("boardMapper.insertECategory", category);
+	}
+	
+	//이벤트게시판 1 상세보기시  조회수 증가
+	public int addEReadCount(SqlSessionTemplate sqlSession, int eNo) {
+		return sqlSession.update("boardMapper.addEReadCount", eNo);
+		
+	}
+	//이벤트게시판 2 상세보기 글내용
+	public EventBoard selectEBoard(SqlSessionTemplate sqlSession, int eNo) {
+		
+		return sqlSession.selectOne("boardMapper.selectEBoard", eNo);
+	}
+	//이벤트게시판 3 상세보기 그림내용
+	public ArrayList<Image> selectEFiles(SqlSessionTemplate sqlSession, int eNo) {
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.selectEFiles", eNo);
+	}
+	//이벤트게시판 수정 1 :글내용
+	public int updateEBoard(SqlSessionTemplate sqlSession, EventBoard b) {
+		return sqlSession.update("boardMapper.updateEBoard", b);
+	}
+	//이벤트게시판 수정 2: 원본이미지 삭제
+	public int deleteEOriginImage(SqlSessionTemplate sqlSession, EventBoard b) {
+		return sqlSession.delete("boardMapper.deleteEOriginImage", b);
+	}
+	//이벤트게시판 수정 3: 새로운 이미지 삽입
+	public int reuploadEImage(SqlSessionTemplate sqlSession, ArrayList<Image> imageList) {
+		 int imgResult =0; 
+		 for(int i = 0; i<imageList.size(); i++) {
+		  sqlSession.insert("boardMapper.reuploadEImage", imageList.get(i));
+		  imgResult++; 
+		  }
+		 return imgResult;
+		 
+	}
+	public int eDeleteBoard(SqlSessionTemplate sqlSession, int eno) {
+		return sqlSession.update("boardMapper.eDeleteBoard", eno);
+	}
+	
+	
+	
 	
 	
 }

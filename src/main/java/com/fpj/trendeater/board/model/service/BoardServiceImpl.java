@@ -242,6 +242,72 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 
+	// 이벤트 게시판 삽입 1 글내용 삽입
+	@Override
+	public int insertEBoard(EventBoard b) {
+		return bDAO.insertEBoard(sqlSession, b);
+	}
+	
+	// 이벤트 게시판 삽입2 그림 내용 삽입 
+	@Override
+	public int insertEImgList(ArrayList<Image> imageList) {
+		return bDAO.insertEImgList(sqlSession, imageList);
+	}
+	
+	//이벤트 게시판 삽입 3 카테고리 삽입
+	@Override
+	public int insertEcategory(Integer category) {
+		return bDAO.insertEcategory(sqlSession, category);
+	}
+	
+	//이벤트게시판 상세보기 1 : 글
+	@Override
+	public EventBoard selectEBoard(int eNo) {
+		//조회수증가 
+		int result = bDAO.addEReadCount(sqlSession, eNo);
+		EventBoard b = null;
+		if(result >0 ) {
+			b = bDAO.selectEBoard(sqlSession, eNo);// 글내용 불러오기
+		}
+		return b;
+	}
+	
+	//이벤트게시판 상세보기 2 : 그림
+	@Override
+	public ArrayList<Image> selectEFiles(int eNo) {
+		return bDAO.selectEFiles(sqlSession, eNo);
+	}
+	
+	//이벤트 게시판 수정하기 1 : 글
+	@Override
+	public int updateEBoard(EventBoard b) {
+		return bDAO.updateEBoard(sqlSession, b);
+	}
+	
+	//이벤트 게시판 수정하기 2: 새로운 이미지 삽입 시 원본이미지 삭제
+	@Override
+	public int deleteEOriginImage(EventBoard b) {
+		return bDAO.deleteEOriginImage(sqlSession, b);
+		
+	}
+	
+	// 이벤트게시판 수정하기 3 : 새로운 이미지 삽입
+	@Override
+	public int reuploadEImage(ArrayList<Image> imageList) {
+		return bDAO.reuploadEImage(sqlSession, imageList);
+		
+	}
+	
+	//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
+	@Override
+	public int eDeleteBoard(int eno) {
+		return bDAO.eDeleteBoard(sqlSession, eno);
+	}
+	
+	
+	
+/***********************************************************************/
+
 	
 	//좋아요
 	// 게시글 좋아요 count

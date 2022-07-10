@@ -1078,7 +1078,247 @@ public class AdminController {
 		}
 		return mv;
 	}
+	// 이벤트작성뷰로 이동
+	@RequestMapping("einsertView.ad")
+	public String eBoardInsertForm() {
+		return "eBoardInsertForm";
+	}
 	
+	//이벤트 게시판 게시글 작성
+	@RequestMapping("einsert.ad")
+	public String insertEBoard(@RequestParam("category") Integer category, @ModelAttribute EventBoard b, @RequestParam("file[]")  ArrayList<MultipartFile> uploadFiles, 
+			HttpServletRequest request, HttpSession session) {
+		System.out.println(category);
+		System.out.println(b);
+		System.out.println(uploadFiles);
+		System.out.println(uploadFiles.size());
+		
+		ArrayList<Image> imageList = new ArrayList<>();
+		String filePath =null;
+		if(uploadFiles !=null && !uploadFiles.isEmpty()) {
+			
+			ArrayList<String> r2nameFileNames =saveFiles(uploadFiles, request);//변경파일명
+			ArrayList<String> originFiles = new ArrayList<String>();//원본파일명
+			filePath = request.getSession().getServletContext().getRealPath("resources")+ "\\buploadFiles";
+			//원본파일명 집어넣을 for문
+			for(int i=0; i<uploadFiles.size(); i++ ) {
+				originFiles.add(uploadFiles.get(i).getOriginalFilename());
+				//System.out.println("원본파일명"+originFiles);// 원본파일 제대로 뜨나 확인
+			}
+			// 세션에서 운영자 아이디 받아오기
+			String adminId = ((Admin)session.getAttribute("adminUser")).getId();
+			b.setAdminId(adminId);//운영자 아이디 집어넣기
+			b.setBoardType(2);//이벤트 보드타입 =2
+			
+			
+			for(int i = 0; i<uploadFiles.size(); i++ ) {
+				Image img = new Image();
+				img.setOriginName(originFiles.get(i));
+				img.setChangeName(r2nameFileNames.get(i));
+				img.setFilePath(filePath);
+				img.setBoardType(2);
+				if(i == 0) {
+					img.setFileLevel(1);
+				}else {
+					img.setFileLevel(2);
+				}
+				imageList.add(img);
+			}
+			
+		}
+		int result1 = bService.insertEBoard(b);//이벤트 게시판 글삽입
+		int result2 = bService.insertEImgList(imageList);//이벤트 게시판 그림 삽입
+		int result3 = bService.insertEcategory(category);//이벤트 게시판 카테고리 삽입
+		
+		if( result1 + result2 + result3 >3) {
+			return "redirect:eventlist.ad";
+		} else {
+			for(int i = 0; i < imageList.size(); i++) {
+				File failFile = new File(filePath + "/" + imageList.get(i).getChangeName());
+				failFile.delete();
+			}
+			
+			throw new AdminException("이벤트 등록에 실패하였습니다.");
+		}
+		
+		
+	}
+	
+	public ArrayList<String> saveFiles(ArrayList<MultipartFile> files, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		//System.out.println(root);
+		String savePath = root + "\\buploadFiles";
+		
+		//폴더생성
+		File folder = new File(savePath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		//이름바꿔서 파일넣어주기
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSSS");
+		
+		ArrayList<String> r2nameFileNames = new ArrayList<String>();
+		for(int i = 0; i < files.size(); i++) {
+			//파일 원래이름 가져오기
+			String originFileName = files.get(i).getOriginalFilename();
+			//파일이름 바꿔주기
+			String renameFileName = sdf.format(new Date(System.currentTimeMillis())) +originFileName;
+			
+			//System.out.println(originFileName);
+			//System.out.println(renameFileName);
+			
+			//새로만든 이름으로 저장소에 저장
+			String renamePath = folder + "\\" + renameFileName;
+			  
+			  try {
+				files.get(i).transferTo(new File(renamePath));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			
+			r2nameFileNames.add(renameFileName);
+			System.out.println(r2nameFileNames.toString());
+			
+			
+		}
+		return r2nameFileNames;
+	}
+	
+	//이벤트 게시판 상세보기 
+	@RequestMapping("edetail.ad")
+	public ModelAndView eBoardDetail(@RequestParam("eNo") int eNo, @RequestParam(value = "page", required = false) int page, ModelAndView mv) {
+		EventBoard board = bService.selectEBoard(eNo);
+		ArrayList<Image> imageList = bService.selectEFiles(eNo);
+		
+		if(board !=null) {
+			mv.addObject("board", board).addObject("imageList", imageList).addObject("page", page).setViewName("eBoardDetailView");
+		} else {
+			throw new BoardException("이벤트 게시글 상세보기에 실패하였습니다.");
+		}
+		return mv;
+	}
+	
+	//이벤트 게시판 수정뷰로 이동
+	@RequestMapping("eViewup.ad")
+	public String eBoardUpdateForm(@ModelAttribute EventBoard b, @RequestParam(value = "page", required = false) int page, @RequestParam("boardNo") int eNo, Model model) {
+		System.out.println(b);
+		System.out.println(page);
+		System.out.println(eNo);
+		EventBoard board = bService.selectEBoard(eNo);
+		ArrayList<Image> imageList = bService.selectEFiles(eNo);
+		model.addAttribute("board", board).addAttribute("page", page).addAttribute("imageList", imageList);
+		return "eBoardUpdateForm";
+		
+	}
+	
+	//이벤트 게시판 수정하기
+	@RequestMapping("eupdate.ad")
+	public String updateEBoard(@ModelAttribute EventBoard b, @RequestParam("page" )int page, @RequestParam(value = "reloadFile", required = false)ArrayList<MultipartFile> reloadFile, 
+							@RequestParam("category") Integer category, HttpServletRequest request, @RequestParam("changeName") 
+							ArrayList<String> changeName, @RequestParam("originName") ArrayList<String> originName, HttpSession session, Model model) {
+		// 세션에서 운영자 아이디 받아오기
+		String adminId = ((Admin)session.getAttribute("adminUser")).getId();
+		b.setAdminId(adminId);
+		
+		ArrayList<Image> imageList = new ArrayList<>();
+		String filePath = null;
+		System.out.println(reloadFile);
+		if(reloadFile != null && !reloadFile.isEmpty() && !reloadFile.get(0).getOriginalFilename().isEmpty()) {
+			System.out.println("오리지날파일네임"+reloadFile.get(0).getOriginalFilename());
+			System.out.println("체인지"+changeName);
+			if(!changeName.isEmpty()) {
+			deleteFile(changeName, request);//기존 업로드파일 삭제	
+			}
+			
+			ArrayList<String> r2nameFileNames =saveFiles(reloadFile, request);
+			ArrayList<String> originFiles = new ArrayList<String>();//원본파일명
+			filePath = request.getSession().getServletContext().getRealPath("resources")+ "\\buploadFiles";
+			//원본파일명 집어넣을 for문
+			for(int i=0; i<reloadFile.size(); i++ ) {
+				originFiles.add(reloadFile.get(i).getOriginalFilename());
+			
+			}
+			for(int i = 0; i<reloadFile.size(); i++ ) {
+				Image img = new Image();
+				img.setOriginName(originFiles.get(i));
+				img.setChangeName(r2nameFileNames.get(i));
+				img.setFilePath(filePath);
+				img.setBoardType(2);
+				img.setIdentifyNo(b.getBoardNo());
+				if(i == 0) {
+					img.setFileLevel(1);
+				}else {
+					img.setFileLevel(2);
+				}
+				imageList.add(img);
+			}
+		}else {
+			filePath = request.getSession().getServletContext().getRealPath("resources")+ "\\buploadFiles";
+			for(int i = 0; i <originName.size(); i++) {
+				Image img = new Image();
+				img.setOriginName(originName.get(i));
+				img.setChangeName(changeName.get(i));
+				img.setFilePath(filePath);
+				img.setBoardType(2);
+				img.setIdentifyNo(b.getBoardNo());
+				if(i == 0) {
+					img.setFileLevel(1);
+				}else {
+					img.setFileLevel(2);
+				}
+				//System.out.println("elseOriginName" + originName.get(i));
+				imageList.add(img);
+			}
+			
+		}
+		System.out.println(originName);
+		System.out.println(imageList);
+		int result1 = bService.updateEBoard(b);
+		int result2 = bService.deleteEOriginImage(b);
+		int result3 = bService.reuploadEImage(imageList);
+		
+		if( result1 + result2 + result3 >3) {
+			model.addAttribute("eNo", b.getBoardNo());
+			model.addAttribute("page", page);
+			return "redirect:eventlist.ad";
+		}else {
+			throw new AdminException("이벤트 게시판 수정에 실패하였습니다.");
+		}
+		
+	}
+	
+	public void deleteFile(ArrayList<String>fileName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/buploadFiles";
+//		System.out.println(savePath);
+		
+		for(int i=0; i< fileName.size(); i++) {
+			File f = new File(savePath + "/" + fileName.get(i));
+			
+			if(f.exists()) {
+				f.delete();
+			}
+		}
+	}
+	
+	
+	//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
+	@RequestMapping("edelete.ad")
+	public String eDeleteBoard(@RequestParam("boardNo") int eno) {
+		
+		//System.out.println(eno);
+		int result = bService.eDeleteBoard(eno);
+		
+		if(result>0) {
+			return "redirect:eventlist.ad";
+		}else {
+			throw new AdminException("이벤트게시판 삭제에 실패하였습니다.");
+		}
+		
+	}
 	
 
 	//이용준 관리자페이지 리뷰 리스트

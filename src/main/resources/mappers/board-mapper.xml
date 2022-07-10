@@ -366,6 +366,89 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
  	</resultMap>
 
 
+<!-- EventManagement 글쓰기  1 : 글내용 삽입 -->
+	<insert id="insertEBoard" >
+ 	insert into board 
+ 	values (seq_bid.nextval, #{boardTitle}, #{boardContent}, SYSDATE, NULL, DEFAULT, DEFAULT, #{boardType}, #{adminId})
+ 	</insert>
+
+
+<!-- EventManagement 글쓰기  2 .그림 삽입 -->
+	<insert id="insertEImgList">
+ 	insert into IMAGE
+ 	values(seq_ino.nextval, #{changeName}, #{originName}, #{filePath}, SYSDATE, #{fileLevel}, 
+ 			NULL, #{boardType}, seq_bid.currval)
+ 	</insert>
+
+<!-- EventManagement 글쓰기  3  카테고리 삽입 -->
+	<insert id="insertECategory">
+	insert into EVENT_BOARD
+	values(seq_bid.currval, #{category})
+	</insert>
+
+<!-- EventBoard 상세보기  조회수 증가  -->
+	<update id="addEReadCount">
+ 	update board
+ 	set board_count = board_count +1
+ 	where board_no = #{eNo}
+ 	</update>
+ 	
+<!-- EventBoard 상세조회 글내용-->
+	<select id="selectEBoard" resultMap="eBoardResultSet">
+ 	select * from board
+ 	where board_no = #{eNo} AND BOARD_STATUS ='Y'
+ 	</select>
+ 	
+<!-- 이벤트 게시판 상세조회 파일리스트 -->
+ 	<select id="selectEFiles" resultMap="eBoardImages">
+ 	select * from IMAGE
+ 	join BOARD ON (IDENTIFY_NO = BOARD_NO )
+ 	where IDENTIFY_NO = #{eNO} and BOARD_STATUS = 'Y' and IMAGE.BOARD_TYPE = 2
+ 	</select>
+ 	<resultMap type="Image" id="eBoardImages">
+ 	<id column="IMAGE_NO" property="imageNo"/>
+ 	<result column="CHANGE_NAME" property="changeName"/>
+ 	<result column="ORIGIN_NAME" property="originName"/>
+ 	<result column="FILE_PATH" property="filePath"/>
+ 	<result column="UPLOAD_DATE" property="uploadDate"/>
+ 	<result column="FILE_LEVEL" property="fileLevel"/>
+ 	<result column="FILE_TYPE" property="fileType"/>
+ 	<result column="BOARD_TYPE" property="boardType"/>
+ 	<result column="IDENTIFY_NO" property="identifyNo"/>
+ 	</resultMap>
+  
+  <!-- 이벤트 게시판 글수정 -->
+	<update id="updateEBoard">
+	 	update board
+	 	set BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent}, 
+	 	MODIFY_DATE=SYSDATE, ADMIN_ID=#{adminId}
+	 	where BOARD_NO=#{boardNo}
+ 	</update>
+
+<!-- 이벤트게시판 이미지 삭제  -->
+	<delete id="deleteEOriginImage">
+ 		delete 
+ 		from IMAGE
+ 		where IDENTIFY_NO=#{boardNo} and board_type = 2
+ 	</delete>
+<!-- 이벤트게시판 수정이미지 업로드 -->
+	<insert id="reuploadEImage">
+ 	insert into IMAGE
+ 	values(seq_ino.nextval, #{changeName}, #{originName}, #{filePath}, SYSDATE, #{fileLevel}, 
+ 			NULL, #{boardType}, #{identifyNo})
+ 	</insert> 
+
+
+<!--이벤트 게시판 글 삭제  -->
+	<update id="eDeleteBoard">
+	update board
+	set BOARD_STATUS = 'N'
+	where BOARD_NO =#{eno}
+	</update>	 	 	
+</mapper>
+
+
+
 
        <!-- 좋아요 카운트 -->
 	<select id="likeCount" resultType = "_int">
@@ -412,6 +495,36 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 </mapper>
 
+
+<!-- 이벤트 게시판 글수정 -->
+	<update id="updateEBoard">
+	 	update board
+	 	set BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent}, 
+	 	MODIFY_DATE=SYSDATE, ADMIN_ID=#{adminId}
+	 	where BOARD_NO=#{boardNo}
+ 	</update>
+
+<!-- 이벤트게시판 이미지 삭제  -->
+	<delete id="deleteEOriginImage">
+ 		delete 
+ 		from IMAGE
+ 		where IDENTIFY_NO=#{boardNo} and board_type = 2
+ 	</delete>
+<!-- 이벤트게시판 수정이미지 업로드 -->
+	<insert id="reuploadEImage">
+ 	insert into IMAGE
+ 	values(seq_ino.nextval, #{changeName}, #{originName}, #{filePath}, SYSDATE, #{fileLevel}, 
+ 			NULL, #{boardType}, #{identifyNo})
+ 	</insert> 
+
+
+<!--이벤트 게시판 글 삭제  -->
+	<update id="eDeleteBoard">
+	update board
+	set BOARD_STATUS = 'N'
+	where BOARD_NO =#{eno}
+	</update>	 	 	
+</mapper>
 
 
 
