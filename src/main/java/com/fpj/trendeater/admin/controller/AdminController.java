@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,18 +52,12 @@ import com.fpj.trendeater.board.controller.BoardController;
 import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.service.BoardService;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
-
-import com.fpj.trendeater.board.model.vo.Review;
-import com.fpj.trendeater.board.model.vo.ReviewImage;
-import com.fpj.trendeater.board.model.vo.UserLike;
-
-
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
-
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.common.Pagination;
-import com.fpj.trendeater.common.ReviewPagination;
 import com.fpj.trendeater.member.model.vo.Member;
 
 @SessionAttributes("adminUser")
@@ -170,47 +167,66 @@ public class AdminController {
 
 	// 상품등록 ver1
 	@RequestMapping("registerProduct.ad")
-	public String registerProduct(@ModelAttribute Product product, @RequestParam(value = "productImg", required = false) MultipartFile productImg, @RequestParam(value = "nutInfoImg", required = false) MultipartFile nutInfoImg, HttpServletRequest request) {
+	public String registerProduct(@ModelAttribute Product product, 
+								  MultipartHttpServletRequest mRequest, 
+								  HttpServletRequest request) {
 
-//		System.out.println(product);
-//		System.out.println(productImg);
-//		System.out.println(nutInfoImg);
-		ArrayList<Image> imageList = new ArrayList<Image>();
+		Map<String, MultipartFile> fileMap = mRequest.getFileMap();
+		System.out.println(fileMap);
+		ArrayList<MultipartFile> fileList = new ArrayList<>();
+		HashMap<String, String> map = null;
 		String savePath = null;
 		Image productupload = new Image();
+		String originName = null;
+		ArrayList<Image> imageList = new ArrayList<Image>();
+		
+		if(fileMap != null && !fileMap.isEmpty()) {
+			// fileMap에 담긴 MultipartFile 객체를 list에 담는다
+			for(String key: fileMap.keySet()) {
+				fileList.add(fileMap.get(key));
+			}
+			
+			for(MultipartFile mf : fileList) {
+				String fieldName = mf.getName();
+				System.out.println(fieldName);
+				Image nutInfoupload = new Image();
+				
+				switch(fieldName) {
+					case("productImg"):
+						
+						map = saveFile(mf, request);
+						originName = mf.getOriginalFilename();
+						savePath = map.get("savePath");
+						productupload.setOriginName(originName);
+						productupload.setChangeName(map.get("changeName"));
+						productupload.setFilePath(map.get("savePath"));
+						productupload.setFileLevel(1);
+						productupload.setFileType(1);
+						productupload.setBoardType(1);
+		//				productupload.setIdentifyNo(product.getProductNo());
+						imageList.add(productupload);
+						break;
+									
+					case("nutInfoImg"):
+						map = saveFile(mf, request);
+						originName = mf.getOriginalFilename();
+						savePath = map.get("savePath");
+						nutInfoupload.setOriginName(originName);
+						nutInfoupload.setChangeName(map.get("changeName"));
+						nutInfoupload.setFilePath(map.get("savePath"));
+						nutInfoupload.setFileLevel(2);
+						nutInfoupload.setFileType(2);
+						nutInfoupload.setBoardType(1);
+	//					nutInfoupload.setIdentifyNo(product.getProductNo());
+						imageList.add(nutInfoupload);
+				}
+			}
+		}
+		
+		
 		
 		// 상품사진 이미지 정보 설정
-		if (productImg != null && !productImg.isEmpty()) {
-
-			HashMap<String, String> map = saveFile(productImg, request);
-			String originName = productImg.getOriginalFilename();
-
-			savePath = map.get("savePath");
-			productupload.setOriginName(originName);
-			productupload.setChangeName(map.get("changeName"));
-			productupload.setFilePath(map.get("savePath"));
-			productupload.setFileLevel(1);
-			productupload.setFileType(1);
-			productupload.setBoardType(1);
-//			productupload.setIdentifyNo(product.getProductNo());
-			imageList.add(productupload);
-		}
 		
-		Image nutInfoupload = new Image();
-		// 상세정보 사진 이미지 정보 설정
-		if (nutInfoImg != null && !nutInfoImg.isEmpty()) {
-			HashMap<String, String> map = saveFile(nutInfoImg, request);
-			String originName = nutInfoImg.getOriginalFilename();
-			savePath = map.get("savePath");
-			nutInfoupload.setOriginName(originName);
-			nutInfoupload.setChangeName(map.get("changeName"));
-			nutInfoupload.setFilePath(map.get("savePath"));
-			nutInfoupload.setFileLevel(2);
-			nutInfoupload.setFileType(2);
-			nutInfoupload.setBoardType(1);
-//			nutInfoupload.setIdentifyNo(product.getProductNo());
-			imageList.add(nutInfoupload);
-		}
 		
 		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
 		String adminName = ((Admin) request.getSession().getAttribute("adminUser")).getName();
@@ -596,11 +612,14 @@ public class AdminController {
 										  @RequestParam(value = "page", required = false) Integer page,ModelAndView mv) {
 
 		
+		System.out.println(productNo);
 		// 상품 번호로 상품 정보 받아오기
 		Product p = bService.selectPrBoard(productNo);
+		System.out.println(p);
 		// 상품 이미지 정보 받아오기
 		ArrayList<Image> imgList = bService.selectPrImage(productNo);
 //		ModelAndView updateMv = bController.prbBoardDetail(productNo, 1, null, mv);
+		System.out.println(imgList);
 		
 		if(p != null && imgList != null) {
 			mv.addObject("p", p);
