@@ -125,12 +125,11 @@ public class BoardServiceImpl implements BoardService{
 	// Notice 상세보기
    @Override
    @Transactional
-   public Board selectBoard(int bId) {
-      int result = bDAO.addReadCount(sqlSession, bId);
-      
-      Board b = null;
+   public Board selectBoard(Board b) {
+      int result = bDAO.addReadCount(sqlSession, b);
+
       if(result > 0 ) {
-         b = bDAO.selectBoard(sqlSession,bId);
+         b = bDAO.selectBoard(sqlSession, b);
       }
       return b;
    }
@@ -193,12 +192,15 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteBoardQna(int qnaNo) {
 		return bDAO.deleteBoardQna(sqlSession, qnaNo);
 	}
+	@Override
+	public int deleteBoardQna(BoardQnA b) {
+		return 0;
+	}
 
 //	@Override
 //	public int deleteBoardQna(BoardQnA b) {
 //		return bDAO.deleteBoardQna(sqlSession, b);
 //	}
-
 	
 
 
@@ -241,7 +243,6 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.getEBoardList(sqlSession, pi);
 	}
 	
-
 	// 이벤트 게시판 삽입 1 글내용 삽입
 	@Override
 	public int insertEBoard(EventBoard b) {

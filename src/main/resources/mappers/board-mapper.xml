@@ -219,9 +219,9 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	
 
 <!-- notice 쓰기  -->
-	<insert id="insertBoard">
+	<insert id="insertNotice">
 		insert into board
-		values(seq_bid.nextval,#{boardTitle},#{boardContent},sysdate, default, default, 'Y', 1, default)
+		values(seq_bid.nextval,#{boardTitle},#{boardContent}, sysdate, default, default, 'Y', 1, #{adminId})
 	</insert>
 	
 <!-- notice 수정  -->
@@ -242,7 +242,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	<update id="addReadCount">
 		update board
 		set board_count = board_count + 1
-		where board_no = #{bId}
+		where board_no = #{boardId}
 	</update>
 	
 
@@ -250,7 +250,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 		select *
 		from board
 			<!-- join member on (board_writer = id) -->
-		where board_no = #{bId} and board_status = 'Y'
+		where board_no = #{boardId} and board_status = 'Y'
 	</select>
  
  

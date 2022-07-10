@@ -74,7 +74,7 @@ public interface BoardService {
 /*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
 	ArrayList<Board> getBoardList(PageInfo pi);	// 페이징처리2 : 필요한 게시판 가져오기
-	Board selectBoard(int bId);
+	Board selectBoard(Board b);
 	int insertNotice(Board b);	// notice(공지사항) 쓰기
 	int updateNotice(Board b);	// notice(공지사항) 수정
 	int deleteNotice(Board b);	// notice(공지사항) 삭제
@@ -115,7 +115,6 @@ public interface BoardService {
 	
 	
 	
-
 
 
 
