@@ -93,15 +93,17 @@ public class AdminController {
 		// 조회할 게시판 테이블 설정(기본 어드민)
 		String table = "pListAdmin";
 		boolean defaulBoard = false;
-		// 매개변수로 제품게시판에서 받아온 boardCheck 변수를 체크하여 테이블 및 boardLimit 변경
+		
+		// 제품게시판에서 받아온 boardCheck 변수를 체크하여 테이블 및 boardLimit 설정 boardCheck가 true값이면 제품 게시판 
 		if(map.get("boardCheck") != null && (boolean)map.get("boardCheck") == true) {
 			table = "pListBoard";
 			boardLimit = 9;
 		}
+		// 받아온 boardCheck 값이 없으면 false 저장
 		if(map.get("boardCheck") == null) {
 			map.put("boardCheck", defaulBoard);
 		}
-		
+		// 받아온 게시글 정렬 값이 없으면 null 저장
 		if(map.get("value") == null) {
 			map.put("value", value);
 		}
@@ -110,20 +112,27 @@ public class AdminController {
 //		if(searchValue != null && searchValue.equals("")) {
 //			searchValue = null;
 //		}
+		
 		map.put("searchValue", searchValue);
 		System.out.println("boardCheck: " + map.get("boardCheck"));
 		map.put("table", table);
+		
+		// 전체 게시글 숫자 조회
 		int listCount = aService.getListCount(map);
 		
-
+		// 페이지 정보 받아오기
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
 		System.out.println(pi);
 
-		 
+		 // 상품 리스트 받아오기
 		ArrayList<Product> list = aService.getProductList(pi, map);
 //		System.out.println(list);
+		
+		// 상품 이미지 리스트 받아오기
 		ArrayList<Image> imgList = aService.getProductImgList();
+		
+		// 요청을 보낸 url 위치 확인
 		String url = (String)request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 //		System.out.println(url);
 		
@@ -133,6 +142,8 @@ public class AdminController {
 			mv.addObject("pi", pi);
 			mv.addObject("searchValue", searchValue);
 			mv.addObject("value", value);
+			
+			// 요청을 보낸 url에 따라 반환하는 viewname 설정
 			if(url.equals("/productList.ad") || url.equals("/searchProduct.ad")){
 				mv.setViewName("productList");
 			} else {
@@ -153,7 +164,7 @@ public class AdminController {
 		return "productRegistrationForm";
 	}
 
-	// 상품등록
+	// 상품등록 ver1
 	@RequestMapping("registerProduct.ad")
 	public String registerProduct(@ModelAttribute Product product, @RequestParam(value = "productImg", required = false) MultipartFile productImg, @RequestParam(value = "nutInfoImg", required = false) MultipartFile nutInfoImg, HttpServletRequest request) {
 
@@ -161,9 +172,10 @@ public class AdminController {
 //		System.out.println(productImg);
 //		System.out.println(nutInfoImg);
 		ArrayList<Image> imageList = new ArrayList<Image>();
-
 		String savePath = null;
 		Image productupload = new Image();
+		
+		// 상품사진 이미지 정보 설정
 		if (productImg != null && !productImg.isEmpty()) {
 
 			HashMap<String, String> map = saveFile(productImg, request);
@@ -179,10 +191,10 @@ public class AdminController {
 //			productupload.setIdentifyNo(product.getProductNo());
 			imageList.add(productupload);
 		}
-
+		
 		Image nutInfoupload = new Image();
+		// 상세정보 사진 이미지 정보 설정
 		if (nutInfoImg != null && !nutInfoImg.isEmpty()) {
-
 			HashMap<String, String> map = saveFile(nutInfoImg, request);
 			String originName = nutInfoImg.getOriginalFilename();
 			savePath = map.get("savePath");
@@ -201,14 +213,16 @@ public class AdminController {
 		product.setAdminId(adminId);
 		product.setAdminName(adminName);
 
+		// 상품 정보 등록(게시글 정보도 포함)
 		int result1 = aService.registerProduct(product);
+		// 상품 이미지 등록
 		int result2 = aService.registerImage(imageList, product.getProductNo());
 
 		System.out.println("imgresult : " + result2);
 		if (result1 + result2 > 2) {
 			return "redirect:productList.ad";
 		} else {
-
+			// 상품 등록 실패시 저장소 파일 삭제
 			for (int i = 0; i < imageList.size(); i++) {
 //				File failFile = new File(savePath + "/" + imageList.get(i).getChangeName());
 //				failFile.delete();
@@ -220,13 +234,85 @@ public class AdminController {
 		}
 
 	}
+//	// 상품등록 ver1
+//	@RequestMapping("registerProduct.ad")
+//	public String registerProduct(@ModelAttribute Product product, @RequestParam(value = "productImg", required = false) MultipartFile productImg, @RequestParam(value = "nutInfoImg", required = false) MultipartFile nutInfoImg, HttpServletRequest request) {
+//		
+////		System.out.println(product);
+////		System.out.println(productImg);
+////		System.out.println(nutInfoImg);
+//		ArrayList<Image> imageList = new ArrayList<Image>();
+//		String savePath = null;
+//		Image productupload = new Image();
+//		
+//		// 상품사진 이미지 정보 설정
+//		if (productImg != null && !productImg.isEmpty()) {
+//			
+//			HashMap<String, String> map = saveFile(productImg, request);
+//			String originName = productImg.getOriginalFilename();
+//			
+//			savePath = map.get("savePath");
+//			productupload.setOriginName(originName);
+//			productupload.setChangeName(map.get("changeName"));
+//			productupload.setFilePath(map.get("savePath"));
+//			productupload.setFileLevel(1);
+//			productupload.setFileType(1);
+//			productupload.setBoardType(1);
+////			productupload.setIdentifyNo(product.getProductNo());
+//			imageList.add(productupload);
+//		}
+//		
+//		Image nutInfoupload = new Image();
+//		// 상세정보 사진 이미지 정보 설정
+//		if (nutInfoImg != null && !nutInfoImg.isEmpty()) {
+//			HashMap<String, String> map = saveFile(nutInfoImg, request);
+//			String originName = nutInfoImg.getOriginalFilename();
+//			savePath = map.get("savePath");
+//			nutInfoupload.setOriginName(originName);
+//			nutInfoupload.setChangeName(map.get("changeName"));
+//			nutInfoupload.setFilePath(map.get("savePath"));
+//			nutInfoupload.setFileLevel(2);
+//			nutInfoupload.setFileType(2);
+//			nutInfoupload.setBoardType(1);
+////			nutInfoupload.setIdentifyNo(product.getProductNo());
+//			imageList.add(nutInfoupload);
+//		}
+//		
+//		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
+//		String adminName = ((Admin) request.getSession().getAttribute("adminUser")).getName();
+//		product.setAdminId(adminId);
+//		product.setAdminName(adminName);
+//		
+//		// 상품 정보 등록(게시글 정보도 포함)
+//		int result1 = aService.registerProduct(product);
+//		// 상품 이미지 등록
+//		int result2 = aService.registerImage(imageList, product.getProductNo());
+//		
+//		System.out.println("imgresult : " + result2);
+//		if (result1 + result2 > 2) {
+//			return "redirect:productList.ad";
+//		} else {
+//			// 상품 등록 실패시 저장소 파일 삭제
+//			for (int i = 0; i < imageList.size(); i++) {
+////				File failFile = new File(savePath + "/" + imageList.get(i).getChangeName());
+////				failFile.delete();
+//				deleteFile(imageList.get(i).getChangeName(), request);
+//			}
+//			
+//			throw new AdminException("상품등록에 실패하였습니다.");
+//			
+//		}
+//		
+//	}
 
 	// 파일 저장
 	private HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
-
+		
+		// 저장 경로 설정
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/productImgUploadFiles";
-
+		
+		// 저장 디렉토리 생성
 		File folder = new File(savePath);
 		if (!folder.exists()) {
 			folder.mkdirs();
@@ -234,6 +320,7 @@ public class AdminController {
 
 		// 랜덤번호 생성
 		int ranNum = (int) (Math.random() * 1000000);
+		
 		// 날짜 + 시간정보 저장
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
@@ -274,7 +361,7 @@ public class AdminController {
 	public ModelAndView applyTasteList(@RequestParam(value = "page", required = false) Integer page, 
 									   @RequestParam(value = "searchValue", required = false) String searchValue,
 									   @RequestParam(value = "value", required = false) String value, ModelAndView mv, boolean boardCheck) {
-
+		
 		int currentPage = 1;
 
 		if (page != null) {
@@ -282,31 +369,42 @@ public class AdminController {
 		}
 
 		int boardLimit = 5;
+		
+		// 기본 테이블(관리자 페이지) 정보 설정
 		String table = "tasteBoardAdmin";
 		
+		// 회원 페이지 여부 체크에 따라 table 값 설정
 		if(boardCheck == true) {
 			table = "tasteBoard";
 			boardLimit = 9;
 			
 		}
 		
-		System.out.println("boardCheck:" + boardCheck);
+//		System.out.println("boardCheck:" + boardCheck);
+		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("value", value);
 		map.put("boardCheck", boardCheck);
 		map.put("searchValue", searchValue);
 		map.put("table", table);
 		
+		// 시식게시판 게시글 숫자 조회
 		int listCount = aService.getListCount(map);
 		
-		System.out.println(map);
-		System.out.println(value);
+//		System.out.println(map);
+//		System.out.println(value);
+		
+		// 페이지 정보 받아오기
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
-		System.out.println(pi);
+//		System.out.println(pi);
 
+		
+		// 시식게시판 리스트 받아오기
 		ArrayList<ApplyTaste> aList = aService.getTasteList(pi, map);
-		System.out.println(aList);
+		
+//		System.out.println(aList);
+		
 		mv.addObject("pi", pi);
 		mv.addObject("aList", aList);
 		mv.addObject("value", value);
@@ -324,20 +422,22 @@ public class AdminController {
 //		System.out.println(productNo);
 //		System.out.println(endDate);
 		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
-
+		
+		// 시식 신청 마감일 설정
 		Date date = null;
 		String[] endDateArr = endDate.split("-");
 		int year = Integer.parseInt(endDateArr[0]);
 		int month = Integer.parseInt(endDateArr[1]) - 1;
 		int day = Integer.parseInt(endDateArr[2]);
-
 		date = new Date(new GregorianCalendar(year, month, day).getTimeInMillis());
 
+		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("productNo", productNo);
 		map.put("endDate", date);
 		map.put("adminId", adminId); // adminId 넣기
-
+		
+		// 시식 게시판 등록
 		int result = aService.registerTaste(map);
 
 		if (result > 0) {
@@ -352,7 +452,8 @@ public class AdminController {
 	@RequestMapping("checkTasteIng.ad")
 	public void checkTasteIng(@RequestParam(value = "productNo") int productNo, HttpServletResponse response) {
 //		System.out.println(productNo);
-
+		
+		// 시식게시판 등록여부 체크
 		int result = aService.checkTasteIng(productNo);
 
 		try {
@@ -367,7 +468,8 @@ public class AdminController {
 	@RequestMapping("endApplyTaste.ad")
 	public void endApplyTaste(@RequestParam(value = "tasteNo") int tasteNo, HttpServletResponse response) {
 //		System.out.println(tasteNo);
-
+		
+		// 시식 종료(마강)
 		int result = aService.endApplyTaste(tasteNo);
 
 		try {
@@ -388,8 +490,9 @@ public class AdminController {
 //		
 		System.out.println(endDate);
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		// 시식 마감일 설정
 		if(endDate != null) {
-			
 			Date date = null;
 			String endDateArr[] = endDate.split("-");
 			int year = Integer.parseInt(endDateArr[0]);
@@ -403,6 +506,7 @@ public class AdminController {
 		map.put("tasteNo", tasteNo);
 		map.put("tasteIng", tasteIng);
 
+		// 시식 정보 수정하기
 		int result = aService.updateTaste(map);
 
 		if (result > 0) {
@@ -420,9 +524,10 @@ public class AdminController {
 	public String requestProduct(@ModelAttribute("ProductRequest") ProductRequest pr, HttpSession session) {
 
 		Member member = (Member) session.getAttribute("loginUser");
-
+		
 		pr.setEmail(member.getEmail());
-
+		
+		// 상품 등록 요청 정보 저장
 		int result = aService.insertRequestProduct(pr);
 
 		String res = Integer.toString(result);
@@ -443,21 +548,27 @@ public class AdminController {
 		if (page != null) {
 			currentPage = page;
 		}
-
+		
+		// 테이블 정보 설정
 		String table = "productRequest";
+		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("value", value);
 		map.put("searchCondition", searchCondition);
 		map.put("searchValue", searchValue);
 		map.put("table", table);
+		
+		// 게시글 수량 조회
 		int listCount = aService.getListCount(map);
 		int boardLimit = 5;
 		
+		// 페이지 정보 받아오기
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 
-		System.out.println(pi);
-		System.out.println("value :" + value);
+//		System.out.println(pi);
+//		System.out.println("value :" + value);
 
+		// 상품 요청 리스트 받아오기
 		ArrayList<ProductRequest> prlist = aService.selectRequestProductList(pi, map);
 		
 //		System.out.println(prlist);
@@ -481,7 +592,9 @@ public class AdminController {
 										  @RequestParam(value = "page", required = false) Integer page,ModelAndView mv) {
 
 		
+		// 상품 번호로 상품 정보 받아오기
 		Product p = bService.selectPrBoard(productNo);
+		// 상품 이미지 정보 받아오기
 		ArrayList<Image> imgList = bService.selectPrImage(productNo);
 //		ModelAndView updateMv = bController.prbBoardDetail(productNo, 1, null, mv);
 		
@@ -509,9 +622,9 @@ public class AdminController {
 
 //		System.out.println(product);
 //		System.out.println(delProductImgNo);
-		System.out.println(delProductImgName);
+//		System.out.println(delProductImgName);
 //		System.out.println(delNutInfoImgNo);
-		System.out.println(delNutInfoImgName);
+//		System.out.println(delNutInfoImgName);
 //		System.out.println(productImg);
 //		System.out.println(nutInfoImg);
 
@@ -524,6 +637,7 @@ public class AdminController {
 
 		int count = 0;
 		int result1 = 0;
+		// 상품 사진 수정이 존재 할시 상품 사진 수정정보 설정 및 db와 저장소에서 기존 이미지 정보 삭제
 		if (productImg != null && !productImg.isEmpty()) {
 
 			map = saveFile(productImg, request);
@@ -546,6 +660,7 @@ public class AdminController {
 		}
 
 		int result2 = 0;
+		// 상세정보 사진 수정이 존재 할시 상세정보 사진 수정정보 설정 및 db와 저장소에서 기존 이미지 정보 삭제
 		if (nutInfoImg != null && !nutInfoImg.isEmpty()) {
 			map = saveFile(nutInfoImg, request);
 			savePath = map.get("savePath");
@@ -575,18 +690,21 @@ public class AdminController {
 
 
 		int result3 = 0;
+		// 사진 수정정보가 존재할시 사진 정보 db 등록
 		if (!imgList.isEmpty()) {
 			result3 = aService.registerImage(imgList, product.getProductNo());
 			System.out.println("imgresult2 : " + result3);
 		}
 		
-		
+		// 게시글 정보 수정 등록
 		int result4 = aService.updateProduct(product);
-		System.out.println("결과: "+ result1 + result2 + result3 + result4);
-		System.out.println("비교: " + count);
+//		System.out.println("결과: "+ result1 + result2 + result3 + result4);
+//		System.out.println("비교: " + count);
+		
 		if (result1 + result2 + result3 + result4 > count + 1) {
 			return "redirect:productList.ad";
 		} else {
+			// 등록 실패시 저장소 사진 파일 삭제
 			for (int i = 0; i < imgList.size(); i++) {
 //				File failFile = new File(savePath + "/" + imgList.get(i).getChangeName());
 //				failFile.delete();

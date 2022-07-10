@@ -181,13 +181,13 @@
 										<a class="uk-button uk-button-small uk-button-default" href='prbdetail.bo?pno=${ a.productNo }'>제품보기</a>
 										<input type="hidden" name="tasteNo" value="${ a.tasteNo }">
 										<%-- 										<button class="uk-button uk-button-small uk-button-default applyBtn" data-toggle="modal" data-target="#m-a-a_${ a.tasteNo }" ui-toggle-class="fade-down" ui-target="#animate">신청하기</button> --%>
-										<a id="requestmodal" class="uk-button uk-button-small uk-button-default applyBtn" href="#modal-overflow_${ a.tasteNo }" uk-toggle>신청하기</a>
+										<a id="requestmodal${ a.tasteNo }" class="uk-button uk-button-small uk-button-default applyBtn" href="#modal-overflow_${ a.tasteNo }" uk-toggle>신청하기</a>
 										<div id="modal-overflow_${ a.tasteNo }" uk-modal>
 											<div class="uk-modal-dialog">
 												<button class="uk-modal-close-default" id="close${ a.tasteNo }" type="button" uk-close></button>
 												<div class="uk-modal-header">
-													<span class="label label-lg">${ a.productName }</span>
-													<h6 class="modal-title uk-text-bold">시식신청</h6>
+													<span class="label label-lg warning rounded">${ a.productName }</span>
+													<h6 class="modal-title uk-text-bold label">시식신청</h6>
 												</div>
 												<form action="applyTastePerson.bo" method="post">
 													<div class="uk-modal-body" uk-overflow-auto>
@@ -209,9 +209,41 @@
 															<label for="${ a.tasteNo }_addressDetail">상세주소</label>
 														</div>
 
+													
+													
+														<div class="box">
+															<div class="box-header p-b-sm">
+																<h6 class="modal-title uk-text-bold uk-label">시식안내</h6>
+															</div>
+															<div class="uk-tile uk-tile-muted p-a">
+																<div class="p-a">
+																	<div class="streamline b-l m-b">
+																		<div class="sl-item b-warning">
+																			<div class="sl-content">
+																				<div class="sl-date text-danger uk-text-bold"> STEP 1</div>
+																				<dl>
+																					<dt>제품 수령 & 시식</dt>
+																					<dd>배송받은 제품을 시식해 보세요</dd>
+																				</dl>
+																			</div>
+																		</div>
+																		<div class="sl-item b-warning">
+																			<div class="sl-content">
+																				<div class="sl-date text-danger uk-text-bold"> STEP 2</div>
+																				<dl>
+																				<dt>제품 리뷰 작성</dt>
+																				<dd>세심하게 맛보고 관찰한 느낌을 솔직하게 작성해 주세요</dd>
+																				</dl>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
+										
 													<div class="uk-modal-footer">
-														<button type="button" class="btn white p-x-md" data-dismiss="modal">취소</button>
+														<button class="btn white p-x-md uk-modal-close" type="button">취소</button>
 														<button type="submit" class="btn danger p-x-md">신청</button>
 													</div>
 
