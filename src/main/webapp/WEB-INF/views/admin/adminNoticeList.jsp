@@ -75,11 +75,12 @@ pageEncoding="UTF-8"%>
 				</table>
 			</div>
 			<br>
-			<form action="adminNoticeWriteView.ad" method="post">
-				<button >공지사항 작성</button>
-				
-			</form>
 			
+			<div class="listButton">	
+				<form action="adminNoticeWriteView.ad" method="post">
+					<button type="submit">공지사항 작성</button>
+				</form>
+			</div>
 				   
 
 	<!--UI kit pagination -->
@@ -154,6 +155,7 @@ pageEncoding="UTF-8"%>
 		location.href = 'adminNoticeDetail.ad?boardId=' + boardId + "&page=" + ${pi.currentPage};
 	});	
 </script> 
+
 
 <!-- ############ PAGE END 끝~ -->
 

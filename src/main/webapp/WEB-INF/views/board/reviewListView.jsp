@@ -183,11 +183,12 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 		<ul
 			class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"
 			id="total-arrange">
-			<li class="arrange"><a href="">최신순</a></li>
-			<li class="arrange"><a href="">추천순</a></li>
-			<li class="arrange"><a href="">높은 평점순</a></li>
-			<li class="arrange"><a href="">낮은 평점순</a></li>
+			<li class="arrange"><a href="rlist.bo">최신순</a></li>
+<!-- 			<li class="arrange"><a href="rlist.bo?value=reviewNo">추천순</a></li> -->
+			<li class="arrange"><a href="rlist.bo?value=reviewRating">높은 평점순</a></li>
+			<li class="arrange"><a href="rlist.bo?value=reviewRating">낮은 평점순</a></li>
 		</ul>
+				
 			<hr class="first-hr">
 			
 <!-- 		<div style="margin-right:1px;"> -->
@@ -199,10 +200,10 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
 					<div>
-						<a href=""><img class="uk-border-circle" width="40" height="40" src="" alt="프로필사진"></a>
+						<img class="uk-border-circle" width="40" height="40" src="" alt="프로필사진">
 					</div>
 					<div class="uk-width-expand">
-						<span class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">${ rev.nickName }</a></span>
+						<span class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="someReviewList.bo">${ rev.nickName }</a></span>
 <!--  						 <a><i class="fa-regular fa-thumbs-up" id="thumb"></i></a>  -->
 <%--  							<span class="thumb-like">${ rev.likeCount }명이 좋아합니다.</span>  --%>
 							<c:choose>

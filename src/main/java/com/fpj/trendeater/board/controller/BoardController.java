@@ -277,6 +277,77 @@ public class BoardController {
 	}
 	
 
+
+///********************************** Notice(공지사항) : 쓰기  *************************************/	
+//	// Notice 쓰기 by admin 
+//	@RequestMapping("noticeWriteView.bo")
+//	public String noticeWriteForm() {
+//		return "noticeWriteForm";
+//	}
+//	@RequestMapping("noticeWriteForm.bo")
+//	public String insertNotice(@ModelAttribute Board b) {
+//
+//		int result = bService.insertNotice(b);
+// 
+//		if (result > 0) {
+//			return "redirect:noticeList.bo"; // 관리자 게시판으로 돌아가야함!
+//		} else {
+//			throw new BoardException("공지사항 등록에 실패하였습니다.");
+//		}
+//	}
+//
+//	
+///********************************** Notice(공지사항) : 수정  *************************************/	
+//	// Notice 수정
+//	@RequestMapping(value="noticeUpdate.bo", method=RequestMethod.GET)
+//	public String noticeUpdateForm() {
+//		return "noticeUpdateForm";
+//	}
+//	
+//	@RequestMapping(value="noticeUpdate.bo", method = RequestMethod.POST) 
+//	public String updateNotice(@ModelAttribute Board b, @RequestParam("page") int page,
+//									HttpSession session) {  
+//		
+//		String id = ((Admin)session.getAttribute("loginUser")).getId();
+//		b.setAdminId(id);
+//		
+//		int result = bService.updateNotice(b); 
+//
+//		if(result > 0) {
+//			//model.addAttribute("board", b)...;
+//			// 보드 보낼 필요없음. 화면 상세보기 페이지로 가기 때문에 상세보기 페이지로 가는 bdetail.bo 이용하면 됨
+//			//return "redirect:bdetail.bo?bId=" + b.getBoardId() + "&page=" + page;
+//			
+//			// 리다이렉트인데 데이터보존됨
+////			model.addAttribute("bId",b.getBoardId());
+////			model.addAttribute("page",page);
+//			return "redirect:boardQna.bo";
+//			
+//		} else {
+//			throw new BoardException("공지사항 수정에 실패하였습니다.");
+//		}
+//	}
+//	
+//	
+//	
+///********************************** Notice(공지사항) : 삭제  *************************************/	
+//	// Notice 삭제
+//	@RequestMapping(value="noticeDelete.bo", method=RequestMethod.POST)
+//	public String deleteNotice(@ModelAttribute Board b, HttpSession session) {  
+//			
+//		
+//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
+//		b.setAdminId(id);
+//		
+//		int result = bService.deleteNotice(b);
+//		
+//		if(result > 0) {
+//			return "redirect:boardQna.bo";	// 관리자 게시판으로 돌아가야함!
+//		}else {
+//			throw new BoardException("공지사항 삭제에 실패하였습니다.");
+//		}
+//	}
+
 /********************************** Notice(공지사항) : 쓰기  *************************************/	
 	// Notice 쓰기 by admin 
 	@RequestMapping("noticeWriteView.bo")
@@ -287,9 +358,256 @@ public class BoardController {
 	public String insertNotice(@ModelAttribute Board b) {
 
 
-	// test test2
-	// test3 test4 test5
-	// test3
+		int result = bService.insertNotice(b);
+		 
+		if (result > 0) {
+			return "redirect:noticeList.bo"; // 관리자 게시판으로 돌아가야함!
+		} else {
+			throw new BoardException("공지사항 등록에 실패하였습니다.");
+		}
+	}
+
+
+
+	
+		
+/********************************** Notice(공지사항) : 수정  *************************************/	
+	// Notice 수정
+	@RequestMapping(value="noticeUpdate.bo", method=RequestMethod.GET)
+	public String noticeUpdateForm() {
+		return "noticeUpdateForm";
+	}
+	
+	@RequestMapping(value="noticeUpdate.bo", method = RequestMethod.POST) 
+	public String updateNotice(@ModelAttribute Board b, @RequestParam("page") int page,
+									HttpSession session) {  
+		
+		String id = ((Admin)session.getAttribute("loginUser")).getId();
+		b.setAdminId(id);
+		
+		int result = bService.updateNotice(b); 
+
+		if(result > 0) {
+			//model.addAttribute("board", b)...;
+			// 보드 보낼 필요없음. 화면 상세보기 페이지로 가기 때문에 상세보기 페이지로 가는 bdetail.bo 이용하면 됨
+			//return "redirect:bdetail.bo?bId=" + b.getBoardId() + "&page=" + page;
+			
+			// 리다이렉트인데 데이터보존됨
+//			model.addAttribute("bId",b.getBoardId());
+//			model.addAttribute("page",page);
+			return "redirect:boardQna.bo";
+			
+		} else {
+			throw new BoardException("공지사항 수정에 실패하였습니다.");
+		}
+	}
+	
+	
+	
+/********************************** Notice(공지사항) : 삭제  *************************************/	
+	// Notice 삭제
+	@RequestMapping(value="noticeDelete.bo", method=RequestMethod.POST)
+	public String deleteNotice(@ModelAttribute Board b, HttpSession session) {  
+			
+		
+		String id = ((Member)session.getAttribute("loginUser")).getEmail();
+		b.setAdminId(id);
+		
+		int result = bService.deleteNotice(b);
+		
+		if(result > 0) {
+			return "redirect:boardQna.bo";	// 관리자 게시판으로 돌아가야함!
+		}else {
+			throw new BoardException("공지사항 삭제에 실패하였습니다.");
+		}
+	}
+	
+
+	
+	
+/*********************************** Notice(공지사항) : 상세보기 **************************************************/
+
+	@RequestMapping("noticeDetail.bo")
+	public ModelAndView boardDetail(@ModelAttribute Board b, @RequestParam("page") int page, ModelAndView mv) { 
+			
+//		String adId = ((Admin)session.getAttribute("adminUser")).getId();
+//		b.setAdminId(adId);
+		
+		System.out.println("공지사항 상세보기_page="+page);
+		System.out.println("공지사항 상세보기_b="+b);
+		Board board = bService.selectBoard(b);
+		
+		System.out.println("공지사항 상세보기_board="+board);
+		
+		if (board != null) {
+			mv.addObject("board", board).addObject("page", page).setViewName("boardDetailView");
+		} else {
+			throw new BoardException("게시글 상세보기에 실패하였습니다.");
+		}
+		return mv;
+	}
+
+	
+	
+
+/********************************************** QnA : 조회  *******************************************************/
+	// QnA : 조회 
+	@RequestMapping("boardQna.bo")
+	public ModelAndView qnaList(@ModelAttribute BoardQnA b, @RequestParam(value = "page", required = false) Integer page, 
+												ModelAndView mv, HttpSession session) {
+
+		String id = ((Member)session.getAttribute("loginUser")).getEmail();
+		b.setEmailId(id);
+		
+		System.out.println("QnA조회_b="+b);
+		
+		int currentPage = 1;
+
+		if (page != null) {
+			currentPage = page;
+		}
+
+		// 페이징처리1 :총게시물수 가져오기
+		int listCount = bService.getQnaListCount();
+		// 페이징처리2 : 필요한 게시판 가져오기
+		int boardLimit = 10;
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+
+		ArrayList<BoardQnA> list = bService.getBoardQnaList(pi, b);
+		System.out.println("pi=" + pi);
+		System.out.println("list=" + list); // 항상 디버깅 찍어보기
+
+		if (list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("boardQna");
+		} else {
+			throw new BoardException("문의사항 전체 조회에 실패했습니다");
+		}
+		return mv;
+	}
+
+/********************************************** QnA : 쓰기  *******************************************************/
+
+	// QnA : 쓰기
+	@RequestMapping("boardQnaWriteView.bo")
+	public String boardQnaWriteForm() {
+		return "boardQnaWriteForm";
+	}
+	
+	@RequestMapping("boardQnaWriteForm.bo")
+	public String insertBoardQna(@ModelAttribute BoardQnA b, HttpSession session) {
+
+		String id = ((Member)session.getAttribute("loginUser")).getEmail();
+		b.setEmailId(id);
+		
+		int result = bService.insertBoardQna(b);
+ 
+		if (result > 0) {
+			return "redirect:boardQna.bo";
+		} else {
+			throw new BoardException("문의사항 등록에 실패하였습니다.");
+		}
+	}
+	
+	
+/********************************************** QnA : 수정  *******************************************************/
+	
+	// QnA : 수정
+	@RequestMapping("boardQnaUpdateView.bo")
+	public String boardUpdateForm(@RequestParam("qnaNo") int qnaNo,  // qnaNo 하나만 받아옴
+																Model model) {
+		BoardQnA b = new BoardQnA();
+		b.setQnaNo(qnaNo);
+		BoardQnA qna = bService.selectBoardQna(b); // select one
+		
+//		System.out.println("qna="+qna);
+		model.addAttribute("qna", qna);
+		
+		return "boardQnaUpdateForm";
+		// 뷰에서 데이터를 받아와야함 파라미터 데이터 가져오기 데이터를 다시 폼으로 뿌려줘야함 
+		// 포스트방식, 인풋히든 밸류값, 
+		
+		
+		// 인풋 히든,네임, 폼태그감싸고, 파람 으로 컨트롤에서 받아서 다시 뷰로보내서 모델앤뷰 뿌려주고
+		// 업데이트폼에서 el로 받음. 수저
+		
+		// 강사님이 위험하다는거는 보드아이디를 보내서 보드아이디를 가지고 서비스
+		// 디테일 불러온거 그냥 뿌려주는거
+		// 방법1
+		// 해당 피케이값 받아오는 로직필요 번호를 받아와서 db에서 값 가져와서 객체를 다시 뿌려주는 방법
+		// 방법2
+		// 인풋 히든 방법
+		// 폼태그에 보드아이디를 가지는 인풋히든창 하나 만들고 보드 아이디를 가지고 서비스를 dao,db가지고
+		// 폼으로 감싸서 보내 파람으로 데이터 받아와 (디테일 상세보기 불러오는것처럼) 메소드에 bid보내서 보드 객체를 가져와서 뿌려주면 됨. 주소창 보내는 곳 리턴만 바뀌는 것
+		
+	}
+	
+	@RequestMapping("boardQnaUpdateForm.bo") 
+	public String updateBoardQna(@ModelAttribute BoardQnA b, /* @RequestParam("page") int page, */
+								/* @RequestParam("qnaNo") int qnaNo, */
+								 Model model/* , HttpSession session */) { 
+
+//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
+//		b.setEmailId(id);
+//		System.out.println("id="+id); 			// id=1@a.com
+//		System.out.println("b1="+b);			    // b=BoardQnA [qnaNo=0, qnaTitle=null, qnaContent=null, qnaCreateDate=null, qnaModifyDate=null, qnaStatus=null, qnaAnsStatus=null, emailId=1@a.com]
+
+		
+		int result = bService.updateBoardQna(b); 
+//		System.out.println("b2="+b);			  // b=BoardQnA [qnaNo=0, qnaTitle=null, qnaContent=null, qnaCreateDate=null, qnaModifyDate=null, qnaStatus=null, qnaAnsStatus=null, emailId=1@a.com]
+//		System.out.println("result333="+result); // 0
+		
+		if(result > 0) {
+			//model.addAttribute("board", b)...;
+			// 보드 보낼 필요없음. 화면 상세보기 페이지로 가기 때문에 상세보기 페이지로 가는 bdetail.bo 이용하면 됨
+			//return "redirect:bdetail.bo?bId=" + b.getBoardId() + "&page=" + page;
+			
+			// 리다이렉트인데 데이터보존됨
+//			model.addAttribute("qna",qnaNo);
+//			model.addAttribute("qna",b.getQnaTitle());
+//			model.addAttribute("qna",b.getQnaContent());
+//			model.addAttribute("qna",b.getQnaAnsStatus());
+			return "redirect:boardQna.bo";
+		} else {
+			throw new BoardException("문의사항 수정에 실패하였습니다.");
+		}
+	}
+	
+	
+/********************************************** QnA : 삭제  *******************************************************/
+	
+	// QnA : 삭제
+	@RequestMapping("boardQnaDeleteForm.bo")
+	public String deleteBoard(/* @ModelAttribute BoardQnA b, */ @RequestParam("qnaNo") int qnaNo
+							/* ,HttpSession session */) {  
+			
+		// 해당 id가 쓴 글 전체 삭제 가능한 기능
+//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
+//		b.setEmailId(id);
+		
+//		System.out.println("삭제 id="+id);
+//		System.out.println("삭제 b="+b);
+		System.out.println("삭제 qnaNo="+qnaNo);
+		
+		int result = bService.deleteBoardQna(qnaNo);
+//		int result = bService.deleteBoardQna(b);
+		
+
+		System.out.println("삭제 result="+result);
+
+		
+		if(result > 0) {
+			return "redirect:boardQna.bo";
+		}else {
+			throw new BoardException("QnA 삭제에 실패하였습니다.");
+		}
+	}
+	
+	
+
+/**********************************************************************/	
+	
 	
 	//이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("rlist.bo")
@@ -303,7 +621,8 @@ public class BoardController {
 		
 		int listCount = bService.reviewCount();
 		
-		PageInfo pi = ReviewPagination.getPageInfo(currentPage, listCount);
+		int boardLimit = 10;
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
 		ArrayList<Review> reviewList = bService.getReviewList(pi);
 		
@@ -490,253 +809,6 @@ public class BoardController {
 		}
 		
 
-		int result = bService.insertNotice(b);
- 
-		if (result > 0) {
-			return "redirect:noticeList.bo"; // 관리자 게시판으로 돌아가야함!
-		} else {
-			throw new BoardException("공지사항 등록에 실패하였습니다.");
-		}
-	}
-
-	
-/********************************** Notice(공지사항) : 수정  *************************************/	
-	// Notice 수정
-	@RequestMapping(value="noticeUpdate.bo", method=RequestMethod.GET)
-	public String noticeUpdateForm() {
-		return "noticeUpdateForm";
-	}
-	
-	@RequestMapping(value="noticeUpdate.bo", method = RequestMethod.POST) 
-	public String updateNotice(@ModelAttribute Board b, @RequestParam("page") int page,
-									HttpSession session) {  
-		
-		String id = ((Admin)session.getAttribute("loginUser")).getId();
-		b.setAdminId(id);
-		
-		int result = bService.updateNotice(b); 
-
-		if(result > 0) {
-			//model.addAttribute("board", b)...;
-			// 보드 보낼 필요없음. 화면 상세보기 페이지로 가기 때문에 상세보기 페이지로 가는 bdetail.bo 이용하면 됨
-			//return "redirect:bdetail.bo?bId=" + b.getBoardId() + "&page=" + page;
-			
-			// 리다이렉트인데 데이터보존됨
-//			model.addAttribute("bId",b.getBoardId());
-//			model.addAttribute("page",page);
-			return "redirect:boardQna.bo";
-			
-		} else {
-			throw new BoardException("공지사항 수정에 실패하였습니다.");
-		}
-	}
-	
-	
-	
-/********************************** Notice(공지사항) : 삭제  *************************************/	
-	// Notice 삭제
-	@RequestMapping(value="noticeDelete.bo", method=RequestMethod.POST)
-	public String deleteNotice(@ModelAttribute Board b, HttpSession session) {  
-			
-		
-		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-		b.setAdminId(id);
-		
-		int result = bService.deleteNotice(b);
-		
-		if(result > 0) {
-			return "redirect:boardQna.bo";	// 관리자 게시판으로 돌아가야함!
-		}else {
-			throw new BoardException("공지사항 삭제에 실패하였습니다.");
-		}
-	}
-	
-	
-	
-	
-	
-/*********************************** Notice(공지사항) : 상세보기 **************************************************/
-
-	@RequestMapping("noticeDetail.bo")
-	public ModelAndView boardDetail(@RequestParam("bId") int bId, @RequestParam("page") int page, ModelAndView mv) {
-
-		Board board = bService.selectBoard(bId);
-		
-		System.out.println("board="+board);
-		
-		if (board != null) {
-			mv.addObject("board", board).addObject("page", page).setViewName("boardDetailView");
-		} else {
-			throw new BoardException("게시글 상세보기에 실패하였습니다.");
-		}
-		return mv;
-	}
-
-	
-	
-
-/********************************************** QnA : 조회  *******************************************************/
-	// QnA : 조회 
-	@RequestMapping("boardQna.bo")
-	public ModelAndView qnaList(@ModelAttribute BoardQnA b, @RequestParam(value = "page", required = false) Integer page, 
-												ModelAndView mv, HttpSession session) {
-
-		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-		b.setEmailId(id);
-		
-		int currentPage = 1;
-
-		if (page != null) {
-			currentPage = page;
-		}
-
-		// 페이징처리1 :총게시물수 가져오기
-		int listCount = bService.getQnaListCount();
-		// 페이징처리2 : 필요한 게시판 가져오기
-		int boardLimit = 10;
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
-
-		ArrayList<BoardQnA> list = bService.getBoardQnaList(pi, b);
-		System.out.println("pi=" + pi);
-		System.out.println("list=" + list); // 항상 디버깅 찍어보기
-
-		if (list != null) {
-			mv.addObject("list", list);
-			mv.addObject("pi", pi);
-			mv.setViewName("boardQna");
-		} else {
-			throw new BoardException("문의사항 전체 조회에 실패했습니다");
-		}
-		return mv;
-	}
-
-/********************************************** QnA : 쓰기  *******************************************************/
-
-	// QnA : 쓰기
-	@RequestMapping("boardQnaWriteView.bo")
-	public String boardQnaWriteForm() {
-		return "boardQnaWriteForm";
-	}
-	
-	@RequestMapping("boardQnaWriteForm.bo")
-	public String insertBoardQna(@ModelAttribute BoardQnA b, HttpSession session) {
-
-		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-		b.setEmailId(id);
-		
-		int result = bService.insertBoardQna(b);
- 
-		if (result > 0) {
-			return "redirect:boardQna.bo";
-		} else {
-			throw new BoardException("문의사항 등록에 실패하였습니다.");
-		}
-	}
-	
-	
-/********************************************** QnA : 수정  *******************************************************/
-	
-	// QnA : 수정
-	@RequestMapping("boardQnaUpdateView.bo")
-	public String boardUpdateForm(@RequestParam("qnaNo") int qnaNo,  // qnaNo 하나만 받아옴
-																Model model) {
-		BoardQnA b = new BoardQnA();
-		b.setQnaNo(qnaNo);
-		BoardQnA qna = bService.selectBoardQna(b); // select one
-		
-//		System.out.println("qna="+qna);
-		model.addAttribute("qna", qna);
-		
-		return "boardQnaUpdateForm";
-		// 뷰에서 데이터를 받아와야함 파라미터 데이터 가져오기 데이터를 다시 폼으로 뿌려줘야함 
-		// 포스트방식, 인풋히든 밸류값, 
-		
-		
-		// 인풋 히든,네임, 폼태그감싸고, 파람 으로 컨트롤에서 받아서 다시 뷰로보내서 모델앤뷰 뿌려주고
-		// 업데이트폼에서 el로 받음. 수저
-		
-		// 강사님이 위험하다는거는 보드아이디를 보내서 보드아이디를 가지고 서비스
-		// 디테일 불러온거 그냥 뿌려주는거
-		// 방법1
-		// 해당 피케이값 받아오는 로직필요 번호를 받아와서 db에서 값 가져와서 객체를 다시 뿌려주는 방법
-		// 방법2
-		// 인풋 히든 방법
-		// 폼태그에 보드아이디를 가지는 인풋히든창 하나 만들고 보드 아이디를 가지고 서비스를 dao,db가지고
-		// 폼으로 감싸서 보내 파람으로 데이터 받아와 (디테일 상세보기 불러오는것처럼) 메소드에 bid보내서 보드 객체를 가져와서 뿌려주면 됨. 주소창 보내는 곳 리턴만 바뀌는 것
-		
-	}
-	
-	@RequestMapping("boardQnaUpdateForm.bo") 
-	public String updateBoardQna(@ModelAttribute BoardQnA b, /* @RequestParam("page") int page, */
-								/* @RequestParam("qnaNo") int qnaNo, */
-								 Model model/* , HttpSession session */) { 
-
-//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-//		b.setEmailId(id);
-//		System.out.println("id="+id); 			// id=1@a.com
-//		System.out.println("b1="+b);			    // b=BoardQnA [qnaNo=0, qnaTitle=null, qnaContent=null, qnaCreateDate=null, qnaModifyDate=null, qnaStatus=null, qnaAnsStatus=null, emailId=1@a.com]
-
-		
-		int result = bService.updateBoardQna(b); 
-//		System.out.println("b2="+b);			  // b=BoardQnA [qnaNo=0, qnaTitle=null, qnaContent=null, qnaCreateDate=null, qnaModifyDate=null, qnaStatus=null, qnaAnsStatus=null, emailId=1@a.com]
-//		System.out.println("result333="+result); // 0
-		
-		if(result > 0) {
-			//model.addAttribute("board", b)...;
-			// 보드 보낼 필요없음. 화면 상세보기 페이지로 가기 때문에 상세보기 페이지로 가는 bdetail.bo 이용하면 됨
-			//return "redirect:bdetail.bo?bId=" + b.getBoardId() + "&page=" + page;
-			
-			// 리다이렉트인데 데이터보존됨
-//			model.addAttribute("qna",qnaNo);
-//			model.addAttribute("qna",b.getQnaTitle());
-//			model.addAttribute("qna",b.getQnaContent());
-//			model.addAttribute("qna",b.getQnaAnsStatus());
-			return "redirect:boardQna.bo";
-		} else {
-			throw new BoardException("문의사항 수정에 실패하였습니다.");
-		}
-	}
-	
-	
-/********************************************** QnA : 삭제  *******************************************************/
-	
-	// QnA : 삭제
-	@RequestMapping("boardQnaDeleteForm.bo")
-	public String deleteBoard(/* @ModelAttribute BoardQnA b, */ @RequestParam("qnaNo") int qnaNo
-							/* ,HttpSession session */) {  
-			
-		// 해당 id가 쓴 글 전체 삭제 가능한 기능
-//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-//		b.setEmailId(id);
-		
-//		System.out.println("삭제 id="+id);
-//		System.out.println("삭제 b="+b);
-		System.out.println("삭제 qnaNo="+qnaNo);
-		
-		int result = bService.deleteBoardQna(qnaNo);
-//		int result = bService.deleteBoardQna(b);
-		
-
-		System.out.println("삭제 result="+result);
-
-		System.out.println("삭제 id="+id);
-		System.out.println("삭제 b="+b);
-		
-		int result = bService.deleteBoardQna(b);
-
-		
-		System.out.println("삭제 result="+result);
-		
-		if(result > 0) {
-			return "redirect:boardQna.bo";
-		}else {
-			throw new BoardException("QnA 삭제에 실패하였습니다.");
-		}
-	}
-	
-	
-
-/*********************************** 관리자 공지사항 ***********************************/	
 	
 	
 	
@@ -745,20 +817,7 @@ public class BoardController {
 	
 	
 	
-	
-/*********************************** 관리자 문의사항 ***********************************/	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-/*********************************** 댓글 ***********************************/
+/**********************************************************************/
 
 }
 
