@@ -357,6 +357,7 @@ public class BoardController {
 	@RequestMapping("noticeWriteForm.bo")
 	public String insertNotice(@ModelAttribute Board b) {
 
+
 		int result = bService.insertNotice(b);
 		 
 		if (result > 0) {
@@ -369,6 +370,7 @@ public class BoardController {
 
 
 	
+		
 /********************************** Notice(공지사항) : 수정  *************************************/	
 	// Notice 수정
 	@RequestMapping(value="noticeUpdate.bo", method=RequestMethod.GET)
