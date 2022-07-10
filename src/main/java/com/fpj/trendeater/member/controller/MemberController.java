@@ -38,7 +38,10 @@ import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.exception.MemberException;
 import com.fpj.trendeater.member.model.service.MemberService;
+import com.fpj.trendeater.member.model.vo.LikeScrapList;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.PointList;
+import com.fpj.trendeater.member.model.vo.ReviewList;
 
 
 @SessionAttributes("loginUser")
@@ -590,6 +593,177 @@ public class MemberController {
 		return mv;
 		
 	}
+	
+	// 출석 체크 조회
+		@RequestMapping("attendCalendar.me")
+		public ModelAndView attendCalendar(HttpSession session, ModelAndView mv) {
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			ArrayList<String> list = mService.getAttendCheck(email);
+			
+			if (list != null) {
+				mv.addObject("list", list);
+				mv.setViewName("attendCalendarView");
+			} else {
+				throw new MemberException("내 출석체크 조회에 실패했습니다.");
+			}
+			
+			return mv;
+		}
+		
+		/// 출석 체크
+		@RequestMapping("insertAttendCheck.me")
+		public String insertAttendCheck(HttpSession session) {
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			int result = mService.insertAttendCheck(email);
+			int result2 = mService.insertAttendPoint(email);
+			
+			if(result+result2 > 1 ) {
+				return "attendCalendarView";
+
+			} else {
+			throw new MemberException("출석체크에 실패했습니다.");
+			}
+		}
+		
+		// 내 리뷰 리스트
+		@RequestMapping("myReview.me")
+		public ModelAndView myReview(@RequestParam(value="page", required = false) Integer page,
+										HttpSession session, ModelAndView mv) {
+			int currentPage = 1;
+			if (page != null) {	
+				currentPage = page;
+			}
+			
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			int listCount = mService.getReviewListCount(email);
+			int boardLimit = 5;
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			
+			ArrayList<ReviewList> list = mService.getReviewList(pi, email);		
+			
+			if (list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("myReviewListView");
+			} else {
+				throw new MemberException("내 리뷰 리스트 조회에 실패했습니다.");
+			}
+			
+			return mv;
+		}
+		
+		// 내 리뷰 삭제
+		@RequestMapping("deleteMyReview.me")
+		public String deleteMyReview(@RequestParam("rNo") int rNo) {
+			int result = mService.deleteMyReview(rNo);
+			
+			if(result > 0 ) {
+				return "myReviewListView";
+
+			} else {
+			throw new MemberException("리뷰 삭제에 실패했습니다.");
+			}
+		}
+		
+		
+		// 리뷰 스크랩 리스트
+		@RequestMapping("reviewScrapList.me")
+		public ModelAndView reviewScrapList(@RequestParam(value="page", required = false) Integer page,
+												HttpSession session, ModelAndView mv) {
+				int currentPage = 1;
+				if (page != null) {	
+					currentPage = page;
+				}
+				
+				String email = ((Member)session.getAttribute("loginUser")).getEmail();
+				
+				int listCount = mService.getReviewScrapListCount(email);
+				int boardLimit = 5;
+				
+				PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+				
+				ArrayList<LikeScrapList> list = mService.getReviewScrapList(pi, email);
+				
+				if (list != null) {
+					mv.addObject("list", list);
+					mv.setViewName("reviewScrapListView");
+				} else {
+					throw new MemberException("내 좋아요한 리뷰 리스트 조회에 실패했습니다.");
+				}
+				
+				return mv;
+		}
+		
+		// 리뷰 스크랩 삭제
+		@RequestMapping("deleteLikeScrap.me")
+		public String deleteLikeScrap(@RequestParam("lNo") int lNo) {
+			int result = mService.deleteLikeScrap(lNo);
+			
+			if(result > 0 ) {
+				return "reviewScrapListView";
+
+			} else {
+			throw new MemberException("리뷰 삭제에 실패했습니다.");
+			}
+		}
+		
+		
+		@RequestMapping("pointList.me")
+		public ModelAndView pointList(HttpSession session, ModelAndView mv) {
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			ArrayList<PointList> list = mService.getPointList(email);
+			
+			if (list != null) {
+				mv.addObject("list", list);
+				mv.setViewName("pointListView");
+			} else {
+				throw new MemberException("포인트 리스트 조회에 실패했습니다.");
+			}
+			
+			return mv;
+		}
+	
+		//마이 페이지 메뉴
+		@RequestMapping("myPageMenu.me")
+		public String myPageMenu(HttpSession session) {
+			
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			int reviewCount = mService.getReviewListCount(email);
+
+			int plusPoint = mService.getPlusPoint(email);
+			int minusPoint = mService.getMinusPoint(email);
+			int totalPoint = plusPoint-minusPoint;
+			
+			boolean check1 = false;
+			
+			String attendCheckTest = mService.attendCheckTest(email);
+			System.out.println(attendCheckTest);
+			
+			if (attendCheckTest != null) {
+				check1 = true;
+			} else {
+				check1 = false;
+			}
+			
+			if(reviewCount >= 0 ) {
+				session.setAttribute("reviewCount", reviewCount);
+				session.setAttribute("totalPoint", totalPoint);
+				session.setAttribute("check1", check1);
+				return "myPageMenu";
+			} else {
+				throw new MemberException("마이 페이지 메뉴 조회에 실패했습니다.");
+			}
+		}	
+	
+	
+	
+	
 	
 	//***김주희*****//
 	//회원 탈퇴
