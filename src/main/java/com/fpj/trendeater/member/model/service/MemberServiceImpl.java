@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.member.model.dao.MemberDAO;
 import com.fpj.trendeater.member.model.vo.LikeScrapList;
@@ -367,7 +368,15 @@ public void kakaoLogout(String access_Token) {
 		return mDAO.attendCheckTest(sqlSession, email);
 	}
 	
-	
+	@Override
+	public ArrayList<ReviewImage> getReviewImageList(String email) {
+		return mDAO.getReviewImageList(sqlSession, email);
+	}
+
+	@Override
+	public ArrayList<ReviewImage> getScrapReviewImageList(String email) {
+		return mDAO.getScrapReviewImageList(sqlSession, email);
+	}
 
 
 

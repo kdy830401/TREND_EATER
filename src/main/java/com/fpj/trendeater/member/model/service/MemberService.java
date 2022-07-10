@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.member.model.vo.LikeScrapList;
 import com.fpj.trendeater.member.model.vo.Member;
@@ -79,5 +80,9 @@ public interface MemberService {
 	int getMinusPoint(String email);
 
 	String attendCheckTest(String email);
+
+	ArrayList<ReviewImage> getReviewImageList(String email);
+
+	ArrayList<ReviewImage> getScrapReviewImageList(String email);
 	
 }

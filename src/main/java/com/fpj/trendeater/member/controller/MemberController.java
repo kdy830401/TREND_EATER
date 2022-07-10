@@ -34,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fpj.trendeater.admin.controller.AdminController;
 import com.fpj.trendeater.admin.model.service.AdminService;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.exception.MemberException;
@@ -554,9 +555,6 @@ public class MemberController {
 	}
 		 
 	
-	
-	//*****박미리*****//
-	
 	@RequestMapping("scrapListView.me")
 	public ModelAndView myScrapListView(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv, HttpServletRequest request) {
 		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
@@ -594,6 +592,8 @@ public class MemberController {
 		
 	}
 	
+	
+	//*****박미리*****//
 	// 출석 체크 조회
 		@RequestMapping("attendCalendar.me")
 		public ModelAndView attendCalendar(HttpSession session, ModelAndView mv) {
@@ -643,11 +643,13 @@ public class MemberController {
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 			
-			ArrayList<ReviewList> list = mService.getReviewList(pi, email);		
+			ArrayList<ReviewList> list = mService.getReviewList(pi, email);
+			ArrayList<ReviewImage> reviewImageList = mService.getReviewImageList(email);
 			
 			if (list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
+				mv.addObject("reviewImageList", reviewImageList);
 				mv.setViewName("myReviewListView");
 			} else {
 				throw new MemberException("내 리뷰 리스트 조회에 실패했습니다.");
@@ -687,9 +689,12 @@ public class MemberController {
 				PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 				
 				ArrayList<LikeScrapList> list = mService.getReviewScrapList(pi, email);
+				ArrayList<ReviewImage> scrapReviewImageList = mService.getScrapReviewImageList(email);
+
 				
 				if (list != null) {
 					mv.addObject("list", list);
+					mv.addObject("scrapReviewImageList", scrapReviewImageList);
 					mv.setViewName("reviewScrapListView");
 				} else {
 					throw new MemberException("내 좋아요한 리뷰 리스트 조회에 실패했습니다.");
