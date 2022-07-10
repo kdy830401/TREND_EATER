@@ -153,7 +153,7 @@
 			events: attendList,
 				eventColor : 'white',
 				eventContent: {
-		    	  html: '<div class="uk-text-center"><img src="${ contextPath }\\resources\\images\\check.png" class="event-icon" /></div>',
+		    	  html: '<div class="uk-text-center"><img src="${ contextPath }\\resources\\images\\attend.png" class="event-icon" /></div>',
 				},          
 	    	 
 		    });
