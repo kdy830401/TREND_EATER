@@ -108,7 +108,7 @@
                   <a href="#">내 문의사항</a>
                </li>
                <li>
-                  <a href="#">주문 관리</a>
+                  <a href="orderList.me">주문 관리</a>
                </li>
             </ul>
          </aside>

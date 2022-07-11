@@ -11,6 +11,7 @@ import com.fpj.trendeater.member.model.vo.Member;
 import com.fpj.trendeater.member.model.vo.PointList;
 import com.fpj.trendeater.member.model.vo.ReviewList;
 import com.fpj.trendeater.member.model.vo.ScrapList;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
 
 public interface MemberService {
 
@@ -84,5 +85,12 @@ public interface MemberService {
 	ArrayList<ReviewImage> getReviewImageList(String email);
 
 	ArrayList<ReviewImage> getScrapReviewImageList(String email);
+
+	// 주문 내역
+	// 1. 페이징
+	int getMyOrderListCount(String emailId);
+	
+	// 2. 주문 정보 받기
+	ArrayList<OrderStatus> getMyOrderList(String emailId, PageInfo pi);
 	
 }
