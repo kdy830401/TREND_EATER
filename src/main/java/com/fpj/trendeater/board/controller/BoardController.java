@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fpj.trendeater.admin.controller.AdminController;
+import com.fpj.trendeater.admin.model.exception.AdminException;
 import com.fpj.trendeater.admin.model.service.AdminService;
 import com.fpj.trendeater.admin.model.vo.Admin;
 import com.fpj.trendeater.admin.model.vo.Image;
@@ -54,6 +55,7 @@ import com.google.gson.Gson;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
+import com.fpj.trendeater.board.model.vo.EventBoard;
 import com.fpj.trendeater.common.CountReviewPoint;
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.model.vo.Member;
@@ -819,6 +821,49 @@ public class BoardController {
 	
 	
 /**********************************************************************/
+	
+	
+/************************* UserEventBoard *********************************************/
+
+	//유저가 보는 이벤트 페이지 리스트 
+	@RequestMapping("elist.bo")
+	public ModelAndView eListView(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv) {
+		int currentPage = 1;
+		int boardLimit = 10;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = bService.getEListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+		ArrayList<EventBoard> list = bService.getEBoardList(pi);
+		
+		
+		if(list !=null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("eboardListView");
+		} else {
+			throw new BoardException("이벤트 게시판 관리 목록 조회에 실패하였습니다.");
+		}
+		return mv;
+	}
+	
+	//유저가 보는 이벤트페이지 detail
+	@RequestMapping("edetail.bo")
+	public ModelAndView eDetailView(@RequestParam("eNo") int eNo, @RequestParam(value = "page", required = false) Integer page, ModelAndView mv) {
+		EventBoard board = bService.selectEBoard(eNo);
+		ArrayList<Image> imageList = bService.selectEFiles(eNo);
+		
+		if(board !=null) {
+			mv.addObject("board", board).addObject("imageList", imageList).addObject("page", page).setViewName("eDatailView");
+		} else {
+			throw new BoardException("이벤트 게시글 상세보기에 실패하였습니다.");
+		}
+		return mv;
+	}
 
 }
 

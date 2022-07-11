@@ -201,6 +201,8 @@
  		<result column="EMAIL_ID" property="emailId"/>
  	</resultMap>
  	
+
+
       <!-- 좋아요 카운트 -->
 	<select id="likeCheck" resultType="_int">
 		select count(*) 
@@ -208,23 +210,37 @@
 		where review_no = #{reviewNo} and email_Id = #{emailId}
 
 	</select>
+
 	
 	<!-- 게시글 좋아요 -->
-	<insert id="insertLike">
+<insert id="insertLike">
 		insert into user_like
+
 		values(seq_likeid.nextval, #{reviewNo}, #{emailId})
-	</insert>
+</insert>
+
 	
 	<!-- 게시글 좋아요 취소 -->
-	<delete id="deleteLike">
+ <delete id="deleteLike">
 		delete
-		from user_like
-		where review_no = #{reviewNo}
-		and email_id = #{emailId}
-	</delete>
-	
-	
 
+		  from user_like
+		 where review_no = #{reviewNo}
+		   and email_id = #{emailId}
+	</delete> 
+	
+	
+	<!-- 좋아요 전체 카운트 -->
+<select id="selectLikeCount" resultType = "_int">
+		select 
+			   review_no
+			 , email_id
+		  from
+		       user_like
+		 where review_no = #{reviewNo}
+	</select>
+
+		
 	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
 

@@ -51,11 +51,15 @@ img{
             <div class="uk-position-relative">
         
                 <div class="uk-slider-container uk-light ">
+                	
                     <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid">
                         <c:forEach var="pIList" items="${pIList}" varStatus="status">
+                         <c:url var="prdetail" value="prbdetail.bo">
+                		<c:param name="pno" value="${pList[status.index].productNo}"/>
+                		</c:url> 
                         <li class="uk-transition-toggle" tabindex="0">
-                            <img src="${ contextPath }/resources/productImgUploadFiles/${pIList.changeName}" width="400" height="600" alt="">
-                            <div class="uk-position-center uk-panel"><h1>${bProducts[status.index].productName}</h1></div>
+                            <img src="${ contextPath }/resources/productImgUploadFiles/${pIList.changeName}" width="400" height="600" alt="" onclick="location.href='${prdetail}'">
+                            <div class="uk-position-center uk-panel"><h1>${pList[status.index].productName}</h1></div>
                         </li>
                         </c:forEach>
                     </ul>
@@ -87,7 +91,10 @@ img{
                     <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid">
                         <c:forEach var="bList" items="${bList}" varStatus="status">
                         <li>
-                            <img src="${ contextPath }/resources/productImgUploadFiles/${bList.changeName}" width="400" height="600" alt="">
+                         <c:url var="prdetail2" value="prbdetail.bo">
+                		<c:param name="pno" value="${bProducts[status.index].productNo}"/>
+                		</c:url> 
+                            <img src="${ contextPath }/resources/productImgUploadFiles/${bList.changeName}" width="400" height="600" alt="" onclick="location.href='${prdetail2}'">
                             <div class="uk-position-center uk-panel"><h1>${bProducts[status.index].productName}</h1></div>
                         </li>
                         </c:forEach>

@@ -506,8 +506,21 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<input type="hidden" name="productPrice" id="productPrice" value="${p.productPrice}">
 							<input type="hidden" name="productName" id="productName" value="${p.productName}">	
 							<!-- 구매하기 -->
-							<button class="uk-button uk-button-primary uk-width-1-2@m">구매하기</button>
+						
+							<button class="uk-button uk-button-primary uk-width-1-2@m" id="buyBtn">구매하기</button>
+<script>
+	 $('#buyBtn').on('click', function(){
+	var productNo = $(this).siblings('#productNo').val();
+	var productName = $(this).siblings('#productName').val();
+	var productPrice = $(this).siblings('#productPrice').val();
+	var productAmount = $(this).parent().parent().siblings('#pdtAmount').find('#amount').val();
+	
+	location.href ='direct.or?productNo='+productNo+'&productName='+productName+'&productPrice='+productPrice+'&productAmount='+productAmount; 	
+		
+}); 
+	
 
+</script>
 							</c:if>
 							<c:if test="${ p.productType == 2 }">
 								<button class="uk-button uk-button-default uk-width-4-5@m" disabled>미판매 상품입니다.</button>
