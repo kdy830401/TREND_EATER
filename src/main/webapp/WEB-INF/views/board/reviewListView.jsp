@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/font.css" type="text/css" />
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 
 
@@ -52,7 +52,7 @@
 }
 
 #review-count {
-	font-size: 15px;
+	font-size: 20px;
 	color: rgba(255, 99, 132, 0.6);
 }
 
@@ -85,15 +85,7 @@
 	font-size: 23px;
 }
 
-#thumb {
-	margin: 0 7px 0 30px;
-	font-size: 20px;
-	color: black;
-}
 
-.thumb-like {
-	font-size: 12px;
-}
 
 #chart-button {
 	margin-left: 700px;
@@ -169,6 +161,40 @@ height: 50px;
 box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
+.nofill{
+ font-size : 20px;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 200,
+  'GRAD' 100,
+  'opsz' 30;
+ 
+}
+
+ .fill{
+ font-size : 20px;
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 200,
+  'GRAD' 100,
+  'opsz' 30;
+ 
+}
+
+
+.thumb-like {
+	font-size: 12px;
+}
+
+.thumb{
+cursor: pointer;
+	margin: 0 7px 0 30px;
+	font-size: 20px;
+}
+.thumb:hover{
+border-color: rgba(255, 99, 132, 0.6);
+}
+
 </style>
 <%--   <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }resources/assets/reviewCss/reviewList.css" type="text/css" /> --%>
 </head>
@@ -178,7 +204,7 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 	<div class="uk-container uk-container-midium" id="review-container">
 
 		<h1  id="review-header" class="review-header">
-			리뷰 목록<span id="review-count">${ pi.listCount }</span>
+			리뷰 목록<span id="review-count">(${ pi.listCount })</span>
 		</h1>
 		<ul
 			class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"
@@ -204,23 +230,28 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 					</div>
 					<div class="uk-width-expand">
 						<span class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="someReviewList.bo">${ rev.nickName }</a></span>
-<!--  						 <a><i class="fa-regular fa-thumbs-up" id="thumb"></i></a>  -->
-<%--  							<span class="thumb-like">${ rev.likeCount }명이 좋아합니다.</span>  --%>
-							<c:choose>
-		                            	<c:when test = "${empty loginUser }">
-		                                	<img id = "thumb" onclick = "alert('로그인 후 이용가능한 서비스 입니다')" src="${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png" style="width: 20px;">
-		                                </c:when>
-		                                <c:when test = "${count == 0}">
-		                                	<img id = "thumb" onclick = "likeReview();" src="${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png" style="width: 20px;">
-		                                </c:when>
-		                                <c:otherwise>
-		                                	<img id = "thumb" onclick = "likeDelete();" src="${ pageContext.servletContext.contextPath }/resources/images/thumb.png" style="width: 20px;">
-		                                </c:otherwise>
-	                       </c:choose>
-	                                
-	                                	<span>좋아요</span> <span id="rcount">0</span>
+	<!--  						 <a><i class="fa-regular fa-thumbs-up" id="thumb"></i></a>  -->
+	<%--  							<span class="thumb-like">${ rev.likeCount }명이 좋아합니다.</span>  --%>
+						<c:forEach var="like" items="${ likeList }">
+							<c:if test="${ like.reviewNo == rev.reviewNo and like.emailId == loginUser.email}">
+							<a href="javascript:void(0)" class="thumb">
+								<span class="material-symbols-outlined fill">thumb_up</span>
+								<span>좋아요</span> <span class="rcount">${ rev.likeCount }</span>
+							</a>
+<%-- 								<img class = "thumb" src="${ pageContext.servletContext.contextPath }/resources/images/thumb.png" style="width: 20px;"> --%>
+							</c:if>
+							<c:if test ="${ like.reviewNo == rev.reviewNo and like.emailId != loginUser.email }">
+							<a href="javascript:void(0)" class="thumb">
+								<span class="material-symbols-outlined nofill">thumb_up</span>
+								<span>좋아요</span> <span class="rcount">${ rev.likeCount }</span>
+							</a>
+								<%-- 		                                	<img class = "thumb"  src="${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png" style="width: 20px;"> --%>
+	                         </c:if>
+                         </c:forEach>
 					</div>
 				</div>
+				
+			
 	                  
 
 						<div class="uk-inline">
@@ -228,9 +259,45 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 								type="button" id="chart-button">맛 평가</button>
 							<div uk-drop="pos: right-bottom">
 								<div class="uk-card uk-card-body uk-card-default">
-									추천의사<div class="star">★★★★★ ${ rev.recommend }</div>
+									추천의사
+									<c:choose>
+									<c:when test="${ rev.recommend == 1 }">
+									<div class="star">★ ${  rev.recommend }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 2 }">
+									<div class="star">★★ ${  rev.recommend }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 3 }">
+									<div class="star">★★★ ${  rev.recommend }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 4 }">
+									<div class="star">★★★★ ${  rev.recommend }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 5 }">
+									<div class="star">★★★★★ ${  rev.recommend }</div>
+									</c:when>
+									</c:choose>
+<%-- 									<div class="star">★★★★★ ${  rev.recommend }</div> --%>
 									<br> 
-									재구매의사<div class="star">★★★★★ ${ rev.repurcharse }</div>
+									재구매의사
+									<c:choose>
+									<c:when test="${ rev.repurcharse == 1 }">
+									<div class="star">★ ${  rev.repurcharse }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 2 }">
+									<div class="star">★★ ${  rev.repurcharse }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 3 }">
+									<div class="star">★★★ ${  rev.repurcharse }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 4 }">
+									<div class="star">★★★★ ${  rev.repurcharse }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 5 }">
+									<div class="star">★★★★★ ${  rev.repurcharse }</div>
+									</c:when>
+									</c:choose>
+<%-- 									<div class="star">★★★★★ ${ rev.repurcharse }</div> --%>
 									<br>
 									<div>매운맛 ${ rev.spicy } </div>
 									<div>단맛  ${ rev.sweet }</div>
@@ -257,8 +324,8 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 								        	<div><input type="radio" name="reportType" value="5" class="reportType" id="reportType">  기타</div>
 							        	<br>
 											<div class="uk-margin">
-				        					<p class="reportQuestion">신고하시는 이유를 알려주세요</p>
-				            				<textarea id="reportContent" class="reportContent uk-textarea" name="reportContent" rows="10" placeholder="최소 20자 이상 입력해주세요."></textarea>
+					        					<p class="reportQuestion">신고하시는 이유를 알려주세요</p>
+					            				<textarea id="reportContent" class="reportContent uk-textarea" name="reportContent" rows="10" placeholder="최소 20자 이상 입력해주세요."></textarea>
 									        </div>
 									</div>   
 				        			<div class="uk-modal-footer uk-text-right">
@@ -276,7 +343,24 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 <%-- 							<li>${ 상품정보.productNo }</li> --%>
 							<li>${ rev.modifyDate }</li>
 						</ul>
-						<span class="star">★★★★★${ rev.reviewRating }</span>
+						<c:choose>
+							<c:when test="${ rev.repurcharse == 1 }">
+							<span class="star">★${ rev.reviewRating }</span>
+							</c:when>
+							<c:when test="${ rev.recommend == 2 }">
+							<span class="star">★★${ rev.reviewRating }</span>
+							</c:when>
+							<c:when test="${ rev.recommend == 3 }">
+							<span class="star">★★★${ rev.reviewRating }</span>
+							</c:when>
+							<c:when test="${ rev.recommend == 4 }">
+							<span class="star">★★★★${ rev.reviewRating }</span>
+							</c:when>
+							<c:when test="${ rev.recommend == 5 }">
+							<span class="star">★★★★★${ rev.reviewRating }</span>
+							</c:when>
+						</c:choose>
+<%-- 						<span class="star">★★★★★${ rev.reviewRating }</span> --%>
 <!-- 					</div> -->
 			</header>
 			<!-- 슬라이더 -->
@@ -330,6 +414,7 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             <c:if test="${ pi.currentPage > 1 }">
                <c:url var="before" value="rlist.bo">
                   <c:param name="page" value="${ pi.currentPage - 1 }"/>
+                    <c:param name="pno" value="${ pno }"/>
                </c:url>
                <li><a href="${ before }"><span uk-pagination-previous></span></a></li>
             </c:if>
@@ -343,6 +428,7 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
                <c:if test="${ p ne pi.currentPage }">
                   <c:url var="pagination" value="rlist.bo">
                      <c:param name="page" value="${ p }"/>
+                     <c:param name="pno" value="${ pno }"/>
                   </c:url>
                    <li><a href="${ pagination }">${ p }</a></li>&nbsp;
                </c:if>
@@ -355,13 +441,13 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             <c:if test="${ pi.currentPage < pi.maxPage }">
                <c:url var="after" value="rlist.bo">
                   <c:param name="page" value="${ pi.currentPage + 1 }"/>
+                    <c:param name="pno" value="${ pno }"/>
                </c:url> 
                <li><a href="${ after }"><span uk-pagination-next></span></a></li>
             </c:if>
      	 </ul>
 	
 		</div>
-	</div>
 	
 	
 	<!-- container -->
@@ -402,7 +488,108 @@ $('.reportReview').on("click",function(){
 });
 
 	</script>
-	
+		<!-- 좋아요 버튼 사용하는 script -->
+                    <script>
+                    $()
+                    
+                    
+                    $('.thumb').on('click', function(){
+                        var reviewNo = $(this).parent().parent().prev().val();
+                        var icon = $(this).children().eq(0);
+                        var thumb = $(this);
+                        var span = $('<span>');
+                        var count = $(this).children('.rcount')
+                        var num = parseInt(count.text());
+                        console.log(count);
+                        
+                        $.ajax({
+                          url: "reviewLike.bo",
+                          type: "post",
+                          data: { reviewNo : reviewNo},
+                          success: function(data){
+                              console.log(data);
+                              if(data == "insert"){
+                                 icon.empty();
+                                 span.attr("class","material-symbols-outlined fill");
+                                 span.text("thumb_up");
+                                 thumb.prepend(span);
+                                 num += 1;
+                                 count.text(num);
+                                 
+                              }else if(data == "delete"){
+                                 icon.empty();
+                                 span.attr("class","material-symbols-outlined nofill");
+                                 span.text("thumb_up");
+                                 thumb.prepend(span);
+                                 num -= 1;
+                                 count.text(num);
+                              }
+                              
+                          },
+                          error: function(data){
+                              console.log(data);
+                          }
+                          
+                        })
+                    });
+                    
+                    // 대장님 코드
+//                     $(function(){
+//                     	selectLikeCount();
+//                     });
+                    
+//                     function selectLikeCount(){
+//                     	$.ajax({
+//                     		url : "allLike.bo",
+//                     		type : "post",
+//                     		data : {
+//                     			reviewNo : ${rev.reviewNo}
+//                     		},
+//                     		success : function(list){
+//                     			$("#rcount").html(list.length);
+//                     		}, error:function(){
+//                     			console.log("좋아요 기능 통신 실패!");
+//                     		}
+//                     	})
+//                     }
+//                     function likeReview(){
+//                     	$.ajax({
+//                     		url : "likeInsert.bo",
+//                     		type : "post",
+//                     		data : {
+//                     			reviewNo : ${rev.reviewNo},
+//                     			email : ${loginUser.email}
+//                     		},
+//                     		success : function(status){
+//                     			if(status == "success"){ // 좋아요 성공
+//                     				$("#thumb").attr("src", '${ pageContext.servletContext.contextPath }/resources/images/thumb.png');
+//                     				$("#thumb").attr("onclick", "likeDelete();");
+//                     				selectLikeCount();
+//                     			}
+//                     		}, error:function(){
+//                     			console.log("좋아요 실패");
+//                     		}
+//                     	})
+//                     }
+                    
+//                     function likeDelete(){
+//                     	$.ajax({
+//                     		url : "likeDelete.bo",
+//                     		type : "post",
+//                     		data : {
+//                     			reviewNo : ${rev.reviewNo},
+//                     			email : ${loginUser.email}
+//                     		},
+//                     		success : function(status){ // 좋아요 취소
+//                     			$("#thumb").attr("src", '${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png');
+//                     			$("#thumb").attr("onclick", "likeReview();")
+//                     			selectLikeCount();
+//                     		}, error : function(){
+//                     			console.log("좋아요 취소 실패");
+//                     		}
+//                     	})
+//                     }
+                    </script>
     <script>
 // 		탑버튼
 $( '#tothetop' ).click( function() {
@@ -411,63 +598,7 @@ $( '#tothetop' ).click( function() {
 });
 
 </script>
-<!-- 좋아요 버튼 사용하는 script -->
-	                    <script>
-	                    $(function(){
-	                    	selectLikeCount();
-	                    });
-	                    
-	                    function selectLikeCount(){
-	                    	$.ajax({
-	                    		url : "allLike.bo",
-	                    		type : "post",
-	                    		data : {
-	                    			reviewNo : ${rev.reviewNo}
-	                    		},
-	                    		success : function(list){
-	                    			$("#rcount").html(list.length);
-	                    		}, error:function(){
-	                    			console.log("좋아요 기능 통신 실패!");
-	                    		}
-	                    	})
-	                    }
-	                    function likeReview(){
-	                    	$.ajax({
-	                    		url : "likeInsert.bo",
-	                    		type : "post",
-	                    		data : {
-	                    			reviewNo : ${rev.reviewNo},
-	                    			email : ${loginUser.email}
-	                    		},
-	                    		success : function(status){
-	                    			if(status == "success"){ // 좋아요 성공
-	                    				$("#thumb").attr("src", '${ pageContext.servletContext.contextPath }/resources/images/thumb.png');
-	                    				$("#thumb").attr("onclick", "likeDelete();");
-	                    				selectLikeCount();
-	                    			}
-	                    		}, error:function(){
-	                    			console.log("좋아요 실패");
-	                    		}
-	                    	})
-	                    }
-	                    function likeDelete(){
-	                    	$.ajax({
-	                    		url : "likeDelete.bo",
-	                    		type : "post",
-	                    		data : {
-	                    			reviewNo : ${rev.reviewNo},
-	                    			email : ${loginUser.email}
-	                    		},
-	                    		success : function(status){ // 좋아요 취소
-	                    			$("#thumb").attr("src", '${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png');
-	                    			$("#thumb").attr("onclick", "likeReview();")
-	                    			selectLikeCount();
-	                    		}, error : function(){
-	                    			console.log("좋아요 취소 실패");
-	                    		}
-	                    	})
-	                    }
-	                    </script>
+
 
 </body>
 </html>

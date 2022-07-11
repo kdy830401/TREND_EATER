@@ -163,7 +163,7 @@
 								<script>
                                     var selectNo = ${ p.productNo };
                                     var $deleteAdmin = $('#delete' + selectNo);
-                                    console.log($deleteAdmin);
+//                                     console.log($deleteAdmin);
 
                                     $deleteAdmin.on('click', function() {
                                         var pno = $(this).parent().parent().parent().children().eq(0).text();
@@ -180,8 +180,8 @@
   	                                    	imgNo.push($(item).val());
                                             
                                         });
-                                        console.log(imgNo);
-                                        console.log(imgName);
+//                                         console.log(imgNo);
+//                                         console.log(imgName);
                                         
 
 //                                         console.log(td);
@@ -233,13 +233,13 @@
 							<script>
                                 var selectNo = ${ p.productNo };
                                 var $inputStatus = $('#boardStatus' + selectNo);
-                                console.log($inputStatus);
+//                                 console.log($inputStatus);
                                 $inputStatus.on('change', function() {
                                     var pno = $(this).parent().parent().parent().children().eq(0).text();
-                                    console.log(pno);
+//                                     console.log(pno);
 
                                     var bool = $(this).is(":checked");
-                                    console.log(bool);
+//                                     console.log(bool);
 
                                     $.ajax({ url : 'deleteProductBoard.ad',
                                     data : { bool : bool,
@@ -248,10 +248,12 @@
                                     success : function(data) {
                                         console.log(data);
                                         if(data > 0){
-                                        	alert('해당 게시글을 삭제하였습니다.')
-                                        } else{
-                                        	alert('게시글 삭제에 실패 하였습니다.')
-                                        }
+                                           if(bool){
+                                        	alert('해당 상품을 게시하였습니다..')
+                                           } else{
+                                        	alert('해당 상품 게시글을 삭제하였습니다.')
+                                           }
+                                        } 
                                     },
                                     error : function(data) {
                                         console.log(data);
@@ -311,7 +313,7 @@
                     success : function(data) {
                         console.log(data);
                         if (parseInt(data) > 0) {
-                            console.log(checkBtn);
+//                             console.log(checkBtn);
                             checkBtn.attr('disabled', true)
                             checkBtn.text("진행중");
                         } else {

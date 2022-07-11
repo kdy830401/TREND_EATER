@@ -25,16 +25,20 @@ public interface BoardService {
 
 	
 	// 리뷰 게시판 상세보기
-	Product selectPrBoard(int pno);
+	Product selectPrBoard(HashMap<String, Object> map);
 
 	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
 	
 
 	//이용준
-	int reviewCount();
+	int reviewCount(Integer productNo);
+	ArrayList<UserLike> userLikeSelect(HashMap<String, Object> map);
 
-	ArrayList<Review> getReviewList(PageInfo pi);
+	int reviewLike(HashMap<String, Object> map);
+	
+	
+	ArrayList<Review> getReviewList(PageInfo pi, Integer productNo);
 
 	ArrayList<ReviewImage> getReviewImageList();
 
@@ -45,16 +49,17 @@ public interface BoardService {
 
 	int reportReview(Report rep);
 
-		// 게시글 좋아요 여부 카운트
-		int likeCount(UserLike li);
-		// 게시글 좋아요
-		int insertLike(UserLike like);
-		
-		// 게시글 좋아요 취소
-		int deleteLike(UserLike like);
-		
-		// 전체 좋아요 개수
-		ArrayList<UserLike> selectLikeCount(int ReviewNo);
+//		// 게시글 좋아요 여부 카운트
+//		int likeCount(UserLike li);
+//		
+//		// 게시글 좋아요
+//		int insertLike(UserLike like);
+//		
+//		// 게시글 좋아요 취소
+//		int deleteLike(UserLike like);
+//		
+//		// 전체 좋아요 개수
+//		ArrayList<UserLike> selectLikeCount(int ReviewNo);
 
 	// 시식신청
 	int registerApplyTaste(ApplyTastePerson applyPerson);
@@ -70,6 +75,7 @@ public interface BoardService {
 	// 리뷰 평점 점수별 갯수 카운트
 	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
+	
 
 /*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
@@ -112,8 +118,8 @@ public interface BoardService {
 	int reuploadEImage(ArrayList<Image> imageList);// 이벤트게시판 수정하기 3 : 새로운 이미지 삽입
 
 	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
-	
-	
+
+
 	
 
 
