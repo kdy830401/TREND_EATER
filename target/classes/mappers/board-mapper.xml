@@ -109,6 +109,7 @@
 	</select>
 	
 
+
 <!-- 	이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	 <select id="reviewCount" resultType="_int">
      select count(*)
@@ -205,6 +206,7 @@
 		select count(*) 
 		from user_like
 		where review_no = #{reviewNo} and email_Id = #{emailId}
+
 	</select>
 	
 	<!-- 게시글 좋아요 -->
@@ -488,7 +490,7 @@
  	<result column="IDENTIFY_NO" property="identifyNo"/>
  	</resultMap>
   
-  <!-- 이벤트 게시판 글수정 -->
+<!-- 이벤트 게시판 글수정 -->
 	<update id="updateEBoard">
 	 	update board
 	 	set BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent}, 
@@ -596,12 +598,54 @@
 	select * 
 	from image
 	where board_type=1 and file_level = 1 and identify_no = #{ProductNo}
+
 	</select>
 	
 	
 	
+
+	<!-- 좋아요 전체 카운트 -->
+	<select id="selectLikeCount" resultType = "_int">
+		select 
+			   review_no
+			 , email_id
+		  from
+		       user_like
+		 where review_no = #{reviewNo}
+	</select>
+	
+    <insert id="reportReview">
+    	insert into report
+    	values (seq_repid.nextval, #{reportType}, #{reportContent}, 'N', sysdate, #{emailId}, #{reviewNo})
+    </insert>
+    
+    <select id="someReviewCount" resultType="_int">
+     select count(*)
+     from review_list
+     where REVIEW_STATUS = 'Y' and email_id=#{emailId}
+  </select>
   
+    <select id="someReviewList" resultMap="reviewResultSet">
+<!--      select * -->
+<!--      from review_list rl -->
+<!--          join member m on (rl.email_id = m.email_id)     -->
+<!--      where review_status  = 'Y' -->
+<!--      order by review_no desc -->
+select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3
+     from review_list rl
+         join member m on (rl.email_id = m.email_id)    
+     where review_status  = 'Y' and rl.email_id=#{emailId}
+     order by review_no desc
+  </select>
+  
+  <select id="someReviewImageList" resultMap="reviewImageResultSet">
+		select *
+		from review_img
+		where review_no=#{reviewNo} 
+	</select>
+    
+ <!-- boardLike -->
+
 
 </mapper>
-
 

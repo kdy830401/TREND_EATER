@@ -151,6 +151,11 @@ height: 50px;
 box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
+
+.profileImg{
+background: gray; width: 50px; height: 50px; border-radius: 50px;
+}
+
 .nofill{
  font-size : 20px;
   font-variation-settings:
@@ -185,6 +190,7 @@ cursor: pointer;
 border-color: rgba(255, 99, 132, 0.6);
 }
 
+
 </style>
 <%--   <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }resources/assets/reviewCss/reviewList.css" type="text/css" /> --%>
 </head>
@@ -214,8 +220,10 @@ border-color: rgba(255, 99, 132, 0.6);
 		<article class="uk-comment">
 			<header class="uk-comment-header">
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
+<%-- 				<input type="hidden" class="review" name="emailId" value="${ rev.emailId }"> --%>
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
 					<div>
+
 						<c:if test="${ empty loginUser.changeName }">
 							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/images/avatar.png" alt="프로필사진">
 						</c:if>
@@ -255,6 +263,7 @@ border-color: rgba(255, 99, 132, 0.6);
 							<button class="uk-button uk-button-default uk-button-small chart-button "
 								type="button" aria-haspopup="true" aria-expanded="false">맛 평가</button>
 							<div uk-drop="pos: left-center" class="uk-drop">
+
 								<div class="uk-card uk-card-body uk-card-default">
 									추천의사
 									<c:choose>
@@ -303,10 +312,16 @@ border-color: rgba(255, 99, 132, 0.6);
 									<div>신맛 ${ rev.sour }</div>
 								</div>
 							</div>
-						</div>
-						<a href="#modal-center${ rev.reviewNo }" uk-toggle >
-							<img class="siren" src="resources/images/siren.png">
+
+						</span>
+						<a href="#modal-center${ rev.reviewNo }" uk-toggle>
+							<img class="siren" src="resources/images/siren.png" >
 						</a>
+					</div>
+				</div>
+	                  
+
+
 							<div id="modal-center${ rev.reviewNo }" class="uk-flex-top" uk-modal>
 									<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 										<div class="uk-modal-header">
@@ -314,11 +329,11 @@ border-color: rgba(255, 99, 132, 0.6);
 				       					</div>
 				        			<div class="uk-modal-body">
 				        				<p class="reportQuestion">신고하시는 사유가 무엇인가요?</p>
-								        	<div><input type="radio" name="reportType" value="1" class="reportType" id="reportType">  욕설/비방</div>
-								        	<div><input type="radio" name="reportType" value="2" class="reportType" id="reportType">  스팸/광고</div>
-								        	<div><input type="radio" name="reportType" value="3" class="reportType" id="reportType">  음란성</div>
-								        	<div><input type="radio" name="reportType" value="4" class="reportType" id="reportType">  양식 위반</div>
-								        	<div><input type="radio" name="reportType" value="5" class="reportType" id="reportType">  기타</div>
+								        	<div><input type="radio" name="reportType" value="1" class="reportType">  욕설/비방</div>
+								        	<div><input type="radio" name="reportType" value="2" class="reportType">  스팸/광고</div>
+								        	<div><input type="radio" name="reportType" value="3" class="reportType">  음란성</div>
+								        	<div><input type="radio" name="reportType" value="4" class="reportType">  양식 위반</div>
+								        	<div><input type="radio" name="reportType" value="5" class="reportType">  기타</div>
 							        	<br>
 											<div class="uk-margin">
 					        					<p class="reportQuestion">신고하시는 이유를 알려주세요</p>
@@ -327,12 +342,15 @@ border-color: rgba(255, 99, 132, 0.6);
 									</div>   
 				        			<div class="uk-modal-footer uk-text-right">
 				            			<button class="uk-button uk-button-default uk-modal-close" type="button">취소</button>
-				            			<button class="reportReview uk-button uk-button-primary" type="submit">신고</button>
+				            			<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
+				            			<button class="reportReview uk-button uk-button-primary" type="button" id="reportReview_${rev.reviewNo}">신고</button>
+				            			
 				        			</div>
 									</div>
 								</div>
 							</div>
 <!-- 							신고 하기 끝 -->
+
 						<div class="uk-margin">
 								<dl class="uk-description-list uk-description-list-divider">
 								<dt>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</dt>
@@ -358,9 +376,11 @@ border-color: rgba(255, 99, 132, 0.6);
 							</c:choose>
 <%-- 						<span class="star">★★★★★${ rev.reviewRating }</span> --%>
 <!-- 					</div> -->
+
 			</header>
 			
 			<!-- 슬라이더 -->
+
 			
 			
 			<div uk-slider="" class="uk-slider uk-slider-container" center="0" sets="0">
@@ -397,17 +417,22 @@ border-color: rgba(255, 99, 132, 0.6);
 <%-- 						<c:forEach var="img" items="${ reviewImageList }"> --%>
 <%-- 							<c:if test="${ img.reviewNo == rev.reviewNo }"> --%>
 <%-- 								<img class="uk-align-center" src="${ contextPath }/resources/reviewImages/${ img.changeName }"  width="400" height="600" alt="리뷰이미지"> --%>
+
 <%-- 							</c:if> --%>
 <%-- 						</c:forEach> --%>
 <!-- 						</span> -->
 <!-- 					</li> -->
+
 <!-- 				</div> -->
 <!-- 				<a class="uk-position-center-left uk-position-small uk-hidden-hover" -->
 <!-- 					href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a -->
 <!-- 					class="uk-position-center-right uk-position-small uk-hidden-hover" -->
 <!-- 					href="#" uk-slidenav-next uk-slider-item="next"></a> -->
 <!-- 			</div> -->
+
 			<!-- 슬라이더 끝 -->
+			
+			
 			<div class="uk-comment-body">
 				<br>
 
@@ -482,36 +507,8 @@ border-color: rgba(255, 99, 132, 0.6);
 	<ul class="uk-iconnav uk-iconnav-vertical uk-icon-button uk-margin-small-right" id="write-review">
   	 <li><a href="rinsertView.bo?productNo=${ pno }" uk-icon="icon: file-edit; ratio: 1.5"></a></li>
     </ul>
-    
-    
-    <script type="text/javascript">	
-$('.reportReview').on("click",function(){
-	var rpType = $('.reportType').val();
-	var rpContent = $('.reportContent').val();
-	
-	$.ajax({
-		url:"reportReview.bo",
-		type:"post",
-		data:{	reportType:rpType, reportContent:rpContent},
-		success:function(data){
-		if(data == 'success'){
-			alert("신고가 완료되었습니다.");
-		} 
-			
-		},error:function(data){
-			alert("신고에 실패하였습니다.");
-			console.log(data);
-			console.log(rpType);
-			console.log(rpContent);
-			console.log($('#reportContent1').val());
-			
-		}
-		
-		
-	});
-	
-});
-	</script>
+
+
 		<!-- 좋아요 버튼 사용하는 script -->
                     <script>
                     $()
@@ -614,6 +611,7 @@ $('.reportReview').on("click",function(){
 //                     	})
 //                     }
                     </script>
+
     <script>
 // 		탑버튼
 $( '#tothetop' ).click( function() {
@@ -622,7 +620,43 @@ $( '#tothetop' ).click( function() {
 });
 </script>
 
+	 <script defer type="text/javascript">	
+// 	$(document).on("click",".reportReview", function(){
+// 	$('.reportReview${rev.reviewNo}').on('click',function(){
+	$("button[id^='reportReview']").on("click", function(e) {
+		var rpType = $("input[name='reportType']:checked").val();
+		var reviewNo = $(this).prev().val();
+		var rpContent = $(this).parent().prev().children().children('textarea').val();
+	
+		$.ajax({
+			url:'reportReview.bo',
+			type:'post',
+			data:{reviewNo:reviewNo, reportType:rpType, reportContent:rpContent },
+			success:function(data){
+			if(data == 'success'){
+				alert("신고가 완료되었습니다.");
+				console.log(rpType);
+				console.log(rpContent);
+				console.log(reviewNo);
+				console.log($('#reportContent').val());
+			} 
+				
+			},error:function(data){
+				alert("신고에 실패하였습니다.");
+				console.log(rpType);
+				console.log(rpContent);
+				console.log(reviewNo);
+				
+			}
+			
+			
+		});
+		
+	});
 
+
+	</script>
+ 
 </body>
 </html>
 

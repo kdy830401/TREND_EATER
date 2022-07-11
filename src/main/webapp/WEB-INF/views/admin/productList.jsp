@@ -12,11 +12,9 @@
 .uk-breadcrumb>:nth-child(n+2):not(.uk-first-column)::before {
 	margin: 0 5px 0 calc(5px - 4px) !important;
 }
-
 .date {
 	width: 355px;
 }
-
 * {
 	word-break: keep-all;
 }
@@ -163,7 +161,9 @@
 								<script>
                                     var selectNo = ${ p.productNo };
                                     var $deleteAdmin = $('#delete' + selectNo);
+
 //                                     console.log($deleteAdmin);
+
 
                                     $deleteAdmin.on('click', function() {
                                         var pno = $(this).parent().parent().parent().children().eq(0).text();
@@ -183,7 +183,6 @@
 //                                         console.log(imgNo);
 //                                         console.log(imgName);
                                         
-
 //                                         console.log(td);
 //                                         console.log(pno);
                                         if (confirm("해당 게시물 관리자 게시판에서 삭제하시겠습니까?") == true) {
@@ -203,13 +202,9 @@
                                             },
                                             error : function(data) {
                                                 console.log(data);
-
                                             }
-
                                             });
-
                                         }
-
                                     });
                                 </script>
 
@@ -236,10 +231,12 @@
 //                                 console.log($inputStatus);
                                 $inputStatus.on('change', function() {
                                     var pno = $(this).parent().parent().parent().children().eq(0).text();
+
 //                                     console.log(pno);
 
                                     var bool = $(this).is(":checked");
 //                                     console.log(bool);
+
 
                                     $.ajax({ url : 'deleteProductBoard.ad',
                                     data : { bool : bool,
@@ -258,7 +255,6 @@
                                     error : function(data) {
                                         console.log(data);
                                     } });
-
                                 });
                             </script>
 						</td>
@@ -317,18 +313,13 @@
                             checkBtn.attr('disabled', true)
                             checkBtn.text("진행중");
                         } else {
-
                         }
-
                     },
                     error : function(data) {
                         console.log(data);
-
                     }
-
                     });
                 })
-
             })
         </script>
 

@@ -61,7 +61,28 @@ public interface BoardService {
 //	int insertReviewImage(ArrayList<ReviewImage> imageList, int reviewNo);
 	int insertReviewImage(ArrayList<ReviewImage> imageList);
 
+//	int reportReview(Report rep);
 	int reportReview(Report rep);
+
+
+		// 게시글 좋아요 여부 카운트
+		int likeCount(UserLike li);
+		// 게시글 좋아요
+		int insertLike(UserLike like);
+		
+		// 게시글 좋아요 취소
+		int deleteLike(UserLike like);
+		
+		// 전체 좋아요 개수
+		ArrayList<UserLike> selectLikeCount(int ReviewNo);
+		
+		int someReviewCount();
+
+		ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map);
+
+		ArrayList<ReviewImage> someReviewImageList();
+		
+		
 
 
 
@@ -112,6 +133,7 @@ public interface BoardService {
 	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
 
 
+
 	ArrayList<EventBoard> getRecentEboard();//메인 최신글 불러오기
 
 	ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB);//메인 최신글 그림 불러오기
@@ -123,6 +145,7 @@ public interface BoardService {
 	ArrayList<Product> getbProducts();// 메인 베스트 상품 불러오기
 
 	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
+
 
 	
 	int getEListCount();
