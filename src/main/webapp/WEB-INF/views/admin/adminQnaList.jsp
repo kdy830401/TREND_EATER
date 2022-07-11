@@ -116,7 +116,7 @@ pageEncoding="UTF-8"%>
 				                                </c:if>
 			                         		      </c:forEach>		
 	                                		<div class="replyTable">
-													<button class="rSubmit" >등록하기</button>
+													<button class="rSubmit">등록하기</button>
 													<textarea name="replyContent" cols="100" rows="5" id="replyContent${ vs.index }" style="resize:none"></textarea>
 											</div>
 											

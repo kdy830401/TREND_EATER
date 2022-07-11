@@ -447,7 +447,7 @@ border-radius:10px 10px 0 0;
 		    <div id="taste-comment">1개 이상의 사진을 넣어주세요!</div>
 		    <br>	
 		    <label class="uk-button uk-button-default uk-button-medium" id="image-button" for="btnAtt">사진 첨부</label>
-		    <input type='file' id='btnAtt' multiple='multiple' accept='image/*' name="uploadFile[]" />
+		    <input type='file' id='btnAtt' multiple='multiple' accept='image/*' name="uploadFile" />
 		    <div id='att_zone' data-placeholder='사진 첨부 버튼을 클릭하거나 사진을 드래그 해주세요.'></div>
 	  </div>
 

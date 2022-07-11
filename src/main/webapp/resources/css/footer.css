@@ -13,8 +13,7 @@ body{
 
 .footerTop{
     width: 100%;
-    height: 100%;
-    width: 1200px;
+    width: 1100px;
     display: flex;
     align-items: center; 
     margin: 0 auto;  
@@ -26,11 +25,11 @@ body{
 .footerLeft {
     display: flex;
     flex-direction: column;
-    width:600px;
+    width:550px;
 }
 
 .footerLeft > h2{  /* 고객센터 글씨 */
-    font-size: 20px;
+    font-size: 16px;
     padding:2%;
     margin-top: 2%;
 }
@@ -49,16 +48,16 @@ body{
 .footerLeft > div > div > button{
     background: white;
     width: 145px;
-    height:50px;
+    height:40px;
     border : 1px solid lightgray;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     line-height: normal;
     align-items: center;
 } 
 
 .callCenter div:first-child{ /* 고객행복센터 */
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 800; 
     padding : 2%;
     width: 145px;
@@ -68,6 +67,7 @@ body{
     padding-top:3%;
     padding-left:2%;
     width: 400px;
+    font-size:13px;
 }
 .kakaotalkQuestion div:first-child{
     padding : 2%;
@@ -96,7 +96,8 @@ body{
 
 /*************************footerRight****************************/
 .footerRight{
-    width:570px;
+    width:560px;
+    margin-top: 50px;
 }
 
 .footerRight > ul{
@@ -113,7 +114,7 @@ body{
 .footerRightMiddle{
     color:rgb(165, 164, 164);
     font-size: 12px;
-    line-height: normal; /* 1px이나 1%로하면 세로줄이 좁게 압축되고 normal하니 적절히 상하 간격이 생김*/
+    line-height: 25px; /* 1px이나 1%로하면 세로줄이 좁게 압축되고 normal하니 적절히 상하 간격이 생김*/
 }
 .footerRightMiddle > a{
     text-decoration:none;
@@ -195,6 +196,14 @@ body{
 
     padding: 2%;
 }
+
+
+
+
+
+
+
+
 
 
 
