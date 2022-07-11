@@ -228,6 +228,7 @@ pageEncoding="UTF-8"%>
 		$('#qnaNo').val(qnaNo); 
 		$('#boardQnaUpdateViewForm').submit();
 	}); */	
+
 	$('.updateBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		// parent() : 상위태그로 // prev() : 동급의 이전태그(같은 띄어쓰기 단계의 바로 앞에 쓰인 태그) // children() : 하위태그로 // eq(0) : 해당 태그의 0번째있는 태그 // text() : 텍스트만 끌어오는 태그

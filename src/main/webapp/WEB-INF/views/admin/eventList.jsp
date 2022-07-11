@@ -5,36 +5,11 @@
 <html>
 <head>
 <!-- UIkit CSS -->
-<link rel="stylesheet"
-   href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
 <!-- UIkit JS -->
-<script
-   src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
-<script
-   src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
 <script
    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-  <!-- for ios 7 style, multi-resolution icon of 152x152 -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
-  <link rel="apple-touch-icon" href="../assets/images/logo.png">
-  <meta name="apple-mobile-web-app-title" content="Flatkit">
-  <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="shortcut icon" sizes="196x196" href="../assets/images/logo.png">
-  
-  <!-- style -->
-  <link rel="stylesheet" href="../assets/animate.css/animate.min.css" type="text/css" />
-  <link rel="stylesheet" href="../assets/glyphicons/glyphicons.css" type="text/css" />
-  <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css" type="text/css" />
-  <link rel="stylesheet" href="../assets/material-design-icons/material-design-icons.css" type="text/css" />
 
-  <link rel="stylesheet" href="../assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
-  <!-- build:css ../assets/styles/app.min.css -->
-  <link rel="stylesheet" href="../assets/styles/app.css" type="text/css" />
-  <!-- endbuild -->
-  <link rel="stylesheet" href="../assets/styles/font.css" type="text/css" />
  <style>
 body {
    background: #F3F5F7;
@@ -77,6 +52,16 @@ body {
 background:#F3F5F7;
 margin: 10px;
 }
+/*a태그 스타일 없애기  */
+td >a {
+  text-decoration: none;
+  color: black ;
+ 
+}
+td >a:hover{
+	text-decoration: none;
+	color:#FF5C58
+}
  </style>
 </head>
 <body>
@@ -99,7 +84,7 @@ margin: 10px;
            <input class="uk-search-input" type="search" placeholder="검색">
        </form>
    </span>
-   
+   <form action="eViewup.ad" method="post" >
    <table class="uk-table uk-table-justify uk-table-divider">
     <thead>
         <tr id="table-title">
@@ -108,7 +93,7 @@ margin: 10px;
             <th>제목</th>
             <th>작성자</th>
             <th>작성일</th>
-            <th>이벤트 타입</th>
+            <th>조회수</th>
             <th>수정</th>
             <th>삭제</th>
         </tr>
@@ -116,14 +101,34 @@ margin: 10px;
     <tbody>
         <c:forEach var="b" items="${ list }">
             <tr>
-            <td></td>
+            <td>
+            <input type="hidden" value="${b.boardNo}" name="boardNo">
+			<input type="hidden" value="${pi.currentPage}" name="page">
+			<input type="hidden" value="${b.boardTitle}" name="boardTitle">		
+			<input type="hidden" value="${b.boardContent}" name="boardContent">	
+			<input type="hidden" value="${b.boardType}" name="boardType">
+            </td>
                 <td>${ b.boardNo }</td>
-                <td>${ b.boardTitle }</td>
+                
+                <td><c:url var="edetail" value="edetail.ad">
+						<c:param name="eNo" value="${ b.boardNo }"/>
+						<c:param name="page" value="${ pi.currentPage }"/>
+					</c:url>
+					<a href="${ edetail }">${ b.boardTitle }</a></td>
                 <td>${ b.adminId }</td>
                 <td>${ b.createDate }</td>
-                <td>어떻게불러와 ㅅㅂ</td>
-                <td><button class="uk-button-small uk-button-default" type="button">수정</button></td>
-                <td><button class="uk-button-small uk-button-default" type="button">삭제</button></td>
+                <td>${ b.boardCount }</td>
+                <td><c:url var="eupView" value="eViewup.ad"> 
+ 			<c:param name="boardNo" value="${ b.boardNo }"/>  
+  			<c:param name="page" value="${ pi.currentPage }"/>  
+  			</c:url> 
+                <button class="uk-button-small uk-button-default" type="button" onclick="location.href='${ eupView }'">수정</button></td>
+                <td>
+	                <c:url var="edelete" value="edelete.ad"> 
+	 					<c:param name="boardNo" value="${ b.boardNo }"/>  
+	  					<c:param name="page" value="${ pi.currentPage }"/>  
+	  				</c:url>
+                <button class="uk-button-small uk-button-default" type="button" onclick="location.href='${edelete}'">삭제</button></td>
             </tr>
         </c:forEach>
     </tbody>
@@ -136,11 +141,11 @@ margin: 10px;
             <td></td>
             <td></td>
             <td></td>    
-            <td><button class="uk-button-small uk-button-default" type="button" onclick="location.href='einsertView.bo'">글작성</button></td>>
-        </tr>>
+            <td><button class="uk-button-small uk-button-default" type="button" onclick="location.href='einsertView.ad'">글작성</button></td>>
+        </tr>
     </tfoot>
 </table>
-
+</form>
 <!-- 페이지네이션 -->
     <!--UI kit pagination -->
     <ul class="uk-pagination uk-flex-center" uk-margin>
@@ -192,34 +197,35 @@ margin: 10px;
 
   </div>
 <!-- build:js scripts/app.html.js -->
-<!-- jQuery -->
-  <script src="../libs/jquery/jquery/dist/jquery.js"></script>
-<!-- Bootstrap -->
-  <script src="../libs/jquery/tether/dist/js/tether.min.js"></script>
-  <script src="../libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
-<!-- core -->
-  <script src="../libs/jquery/underscore/underscore-min.js"></script>
-  <script src="../libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
-  <script src="../libs/jquery/PACE/pace.min.js"></script>
+	<!-- jQuery -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery/dist/jquery.js"></script>
+	<!-- Bootstrap -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/tether/dist/js/tether.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- core -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/underscore/underscore-min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/PACE/pace.min.js"></script>
 
-  <script src="scripts/config.lazyload.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/config.lazyload.js"></script>
 
-  <script src="scripts/palette.js"></script>
-  <script src="scripts/ui-load.js"></script>
-  <script src="scripts/ui-jp.js"></script>
-  <script src="scripts/ui-include.js"></script>
-  <script src="scripts/ui-device.js"></script>
-  <script src="scripts/ui-form.js"></script>
-  <script src="scripts/ui-nav.js"></script>
-  <script src="scripts/ui-screenfull.js"></script>
-  <script src="scripts/ui-scroll-to.js"></script>
-  <script src="scripts/ui-toggle-class.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/palette.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-load.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-jp.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-include.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 
-  <script src="scripts/app.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
 
-  <!-- ajax -->
-  <script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
-  <script src="scripts/ajax.js"></script>
-<!-- endbuild -->
+	<!-- ajax -->
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
+	<!-- endbuild -->
 </body>
 </html>

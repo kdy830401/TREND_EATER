@@ -101,6 +101,30 @@
 </script>    
     
 
+<%--        <div class="QnaToggleOpen_Button">
+             <button type="button" name="page" id="updateBtn${ vs.index }" class="updateBtn">수정</button> <!-- { vs.index } == 위의 varStatus -->
+             <button type="button" name="page" id="deleteBtn${ vs.index }" class="deleteBtn">삭제</button>
+             		
+<button type="submit" name="page" value="${pi.currentPage}" id="boardQnaDelete"
+	    onclick="boardQnaDelete()">삭제</button>
+<button type="submit" name="page" value="${pi.currentPage}" onclick="location.href='boardQnaDeleteForm.bo'">삭제</button> 
+
+      </div><br>	--%>
+
+
+<!-- 
+    <script>
+		$('.listButton').mouseenter(function() {
+			$(this).parent().css({'background':'#FCD2D1', 'color': 'white', 'cursor': 'pointer' });
+		}).mouseout(function(){
+			$(this).parent().css({'background':'#FF5C58', "color":"white"});
+		}).click(function() {
+			location.href = 'notice.bo?' + page + "page";
+			location.href = 'bdetail.bo?bId=' + bId + "&page=" + ${pi.currentPage};
+		});	
+	</script> 
+ -->
+
 <!-- ############ PAGE END 끝~ -->
 
 </div>

@@ -43,7 +43,6 @@
 a {
 	color: rgba(255, 255, 255, 0.87);
 }
-
 a:hover {
 	text-decoration: none;
 	color: white;
@@ -116,6 +115,11 @@ a:hover {
 										</a>
 									</li>
 									<li>
+										<a href="reviewList.ad">
+											<span class="nav-text">리뷰 리스트</span>
+										</a>
+									</li>
+									<li>
 										<a href="requestProductList.ad">
 											<span class="nav-text">상품 등록 요청 관리</span>
 										</a>
@@ -149,7 +153,7 @@ a:hover {
 							</li>
 
 							<li>
-								<a href="#">
+								<a href="orderAdminList.ad">
 									<span class="nav-text">주문 관리</span>
 								</a>
 							</li>

@@ -64,7 +64,17 @@
   <result column = "LOGIN_TYPE" property = "loginType"/>
   </resultMap>
   
-  
+ 	<!-- OrderStatus -->
+	<resultMap type="OrderStatus" id="orderStatusResultMap">
+		<id column="ORDER_NO" property="orderNo"/>
+		
+		<result column="ORDER_DATE" property="orderDate"/>
+		<result column="TOTAL_PRICE" property="totalPrice"/>		
+		<result column="ORDER_REQUEST" property="orderRequest"/>
+		<result column="EMAIL_ID" property="email"/>
+		<result column="ORDER_STATUS_NO" property="orderStatusNo"/>
+		<result column="ORDER_STATUS_NAME" property="orderStatusName"/>
+	</resultMap>	 
   
   <update id="updateInfo">
   
@@ -156,5 +166,232 @@
 	  <result column="REVIEW_COUNT" property="reviewCount"/>
   </resultMap>
 
+		<!-- 내가 쓴 리뷰 갯수 -->
+	<select id="getReviewListCount" resultType="_int">
+		select count(*)
+		from review_list
+		where email_id = #{email} and review_status='Y'
+	</select>
+	
+	<!-- 내가 쓴 리뷰 리스트 -->
+	<select id="getReviewList" resultMap="ReviewListResultSet">
+		select *
+		from review_list r
+				join member m on(r.email_id = m.email_id)
+				join pr_board using(product_no)
+				join product using(product_no)
+		where r.email_id = #{email} and review_status='Y'
+		order by review_no desc
+	</select>
+	
+	<!-- 리뷰 이미지 -->
+	<select id="getReviewImageList" resultMap="reviewImageResultSet">
+		select *
+		from review_list r
+                join review_img i on(r.review_no = i.review_no)
+		where email_id =#{email} and review_status='Y'
+	</select>
+	
+	<resultMap type="ReviewImage" id="reviewImageResultSet">
+		<id column="IMAGE_NO" property="imageNo"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="REVIEW_NO" property="reviewNo"/>
+	</resultMap>
+	
+	<!-- 내가 쓴 리뷰 삭제 -->
+	<update id="deleteMyReview">
+		update review_list
+		set review_status='N'
+		where review_no = #{rNo}
+	</update>
+	
+	<resultMap type="ReviewList" id="ReviewListResultSet">
+		<id column="REVIEW_NO" property="reviewNo"/>
+		<result column="REVIEW_RATING" property="reviewRating"/>
+		<result column="RECOMMEND" property="recommend"/>
+		<result column="REPURCHARSE" property="repurcharse"/>
+		<result column="SPICY" property="spicy"/>
+		<result column="SWEET" property="sweet"/>
+		<result column="BITTER" property="bitter"/>
+		<result column="SALTY" property="salty"/>
+		<result column="SOUR" property="sour"/>
+		<result column="GOOD" property="good"/>
+		<result column="BAD" property="bad"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="LIKE_COUNT" property="likeCount"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="EMAIL_ID" property="emailId"/>
+		<result column="REVIEW_STATUS" property="reviewStatus"/>
+		<result column="NICKNAME" property="nickName"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="FLAVOR1" property="flavor1"/>
+		<result column="FLAVOR2" property="flavor2"/>
+		<result column="FLAVOR3" property="flavor3"/>
+	</resultMap>
+	
+	<!-- 내가 좋아요한 리뷰 갯수 -->
+	<select id="getReviewScrapListCount" resultType="_int">
+		select count(*)
+		from user_like l
+				join review_list r on(l.email_id = r.email_id)
+		where l.email_id=#{email} and review_status='Y'
+	</select>
+	
+	<!-- 내가 좋아요한 리뷰 리스트 -->
+	<select id="getReviewScrapList" resultMap="LikeScrapListResultSet">
+		select *
+		from user_like l
+				join review_list r on(l.review_no = r.review_no)
+				join member m on(r.email_id = m.email_id)
+				join pr_board using(product_no)
+				join product using(product_no)
+		where l.email_id=#{email} and review_status='Y'
+		order by like_no desc
+	</select>
+	
+	<!-- 좋아요한 리뷰 이미지 -->
+	<select id="getScrapReviewImageList" resultMap="reviewImageResultSet">
+		select *
+		from review_list r
+                join review_img i on(r.review_no = i.review_no)
+                join user_like l on(l.review_no = r.review_no)
+		where l.email_id =#{email} and review_status='Y'
+	</select>
+	
+	<!-- 내가 좋아요한 리뷰 삭제 -->
+	<delete id="deleteLikeScrap">
+		delete from user_like
+		where like_no = #{lNo}
+	</delete>
+	
+	<resultMap type="LikeScrapList" id="LikeScrapListResultSet">
+		<id column="REVIEW_NO" property="reviewNo"/>
+		<result column="REVIEW_RATING" property="reviewRating"/>
+		<result column="RECOMMEND" property="recommend"/>
+		<result column="REPURCHARSE" property="repurcharse"/>
+		<result column="SPICY" property="spicy"/>
+		<result column="SWEET" property="sweet"/>
+		<result column="BITTER" property="bitter"/>
+		<result column="SALTY" property="salty"/>
+		<result column="SOUR" property="sour"/>
+		<result column="GOOD" property="good"/>
+		<result column="BAD" property="bad"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="LIKE_COUNT" property="likeCount"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="EMAIL_ID" property="emailId"/>
+		<result column="REVIEW_STATUS" property="reviewStatus"/>
+		<result column="NICKNAME" property="nickName"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="FLAVOR1" property="flavor1"/>
+		<result column="FLAVOR2" property="flavor2"/>
+		<result column="FLAVOR3" property="flavor3"/>
+		<result column="LIKE_NO" property="likeNo"/>
+	</resultMap>
 
+	<!-- 내가 스크랩한 게시물 갯수 -->
+	<select id="getScrapListCount" resultType="_int">
+		select count(*)
+		from scrap
+				join product using(product_no)
+				join pr_board using(product_no)
+		where email_id=#{email} and board_status='Y'
+	</select>
+	
+	<!-- 내가 스크랩한 게시물 리스트 -->
+	<select id="getScrapList" resultMap="ScrapListResultSet">
+		select *
+		from scrap s
+				join member m on(s.email_id = m.email_id)
+				join product using(product_no)
+				join pr_board using(product_no)
+		where s.email_id=#{email} and board_status='Y'
+		order by scrap_no desc
+	</select>
+	
+	<resultMap type="ScrapList" id="ScrapListResultSet">
+		<id column="SCRAP_NO" property="scrapNo"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="REVIEW_COUNT" property="reviewCount"/>
+	</resultMap>
+	
+	<!-- 출석 체크 조회 -->
+	<select id="getAttendCheck" resultType="string">
+		select TO_CHAR(attn_date, 'YYYYMMDD')
+		from attendance
+		where email_id=#{email}
+	</select>
+	
+	<!-- 출석 체크 -->
+	<insert id="insertAttendCheck">
+		insert into attendance
+		values(sysdate, #{email})
+	</insert>
+	
+	<!-- 출석 체크 포인트 -->
+	<insert id="insertAttendPoint">
+		insert into point
+		values(seq_ptid.NEXTVAL, sysdate, '적립', 10, #{email}, 10)
+	</insert>
+	
+	<!-- 출석 체크 확인 -->
+	<select id="attendCheckTest" resultType="string">
+		select TO_CHAR(attn_date, 'YYYYMMDD')
+		from attendance
+		where email_id=#{email} and TO_CHAR(attn_date, 'YYYYMMDD') = TO_CHAR(sysdate, 'YYYYMMDD')
+	</select>
+	
+	<!-- 포인트 내역 -->
+	<select id="getPointList" resultMap="PointListResultSet">
+		select *
+		from point
+				join point_category on(category_no = point_category_no)
+		where email_id=#{email}
+		order by point_no desc
+	</select>
+	
+	<resultMap type="PointList" id="PointListResultSet">
+		<id column="POINT_NO" property="pointNo"/>
+		<result column="POINT_UPDATE_DATE" property="pointUpdateDate"/>
+		<result column="POINT_STATUS" property="pointStatus"/>
+		<result column="POINT_CHANGE" property="pointChange"/>
+		<result column="CATEGORY_NAME" property="categoryName"/>
+	</resultMap>
+	
+	<!-- 포인트 계산 -->
+	<select id="getPlusPoint" resultType="_int">
+		select NVL(sum(point_change), 0)
+		from point
+				join point_category on(category_no = point_category_no)
+		where email_id=#{email} and point_status = '적립'
+	</select>
+	
+	<select id="getMinusPoint" resultType="_int">
+		select NVL(sum(point_change), 0)
+		from point
+				join point_category on(category_no = point_category_no)
+		where email_id=#{email} and point_status = '사용'
+	</select>
+	
+	<!-- 주문 내역 페이지 -->
+	<!-- 1. 페이징 -->
+	<select id="getMyOrderListCount" resultType="_int">
+		select count(*)
+		from order_list
+		where email_id = #{emailId}
+	</select>
+	
+	<!-- 주문 정보 받아오기 -->
+	<!-- 2.1 주문 내역 받기 -->
+	<select id="myOrderList" resultMap="orderStatusResultMap">
+		select *
+		from order_list
+			left join order_status on(order_list.order_status_no=order_status.order_status_no)
+		where email_id = #{emailId}
+	</select>	
 </mapper>
