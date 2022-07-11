@@ -103,21 +103,21 @@ public class BoardController {
 
 		String emailId = null;
 		int scrapCheckNum = 0;
-		if(request.getSession().getAttribute("loginUser") != null) {
+		HashMap<String, Object> map = new HashMap<>();
+		
 			emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
-			HashMap<String, Object> map = new HashMap<>();
 			
-			map.put("pNo", pno);
+			map.put("pno", pno);
 			map.put("emailId", emailId);
 			
 			scrapCheckNum = bService.checkScrap(map);
-		}
-	
 		
-		System.out.println(scrapCheckNum);
-		System.out.println(pno);
-		Product p = bService.selectPrBoard(pno);
-
+		
+		
+//		System.out.println(scrapCheckNum);
+//		System.out.println(pno);
+		Product p = bService.selectPrBoard(map);
+		System.out.println(map);
 		// review rating 점수별 갯수 구하기
 		HashMap<String, Object> countMap = new HashMap<>();
 		countMap.put("pno", pno);
@@ -278,7 +278,6 @@ public class BoardController {
 	}
 	
 
-
 ///********************************** Notice(공지사항) : 쓰기  *************************************/	
 //	// Notice 쓰기 by admin 
 //	@RequestMapping("noticeWriteView.bo")
@@ -348,82 +347,6 @@ public class BoardController {
 //			throw new BoardException("공지사항 삭제에 실패하였습니다.");
 //		}
 //	}
-
-/********************************** Notice(공지사항) : 쓰기  *************************************/	
-	// Notice 쓰기 by admin 
-	@RequestMapping("noticeWriteView.bo")
-	public String noticeWriteForm() {
-		return "noticeWriteForm";
-	}
-	@RequestMapping("noticeWriteForm.bo")
-	public String insertNotice(@ModelAttribute Board b) {
-
-
-		int result = bService.insertNotice(b);
-		 
-		if (result > 0) {
-			return "redirect:noticeList.bo"; // 관리자 게시판으로 돌아가야함!
-		} else {
-			throw new BoardException("공지사항 등록에 실패하였습니다.");
-		}
-	}
-
-
-
-	
-		
-/********************************** Notice(공지사항) : 수정  *************************************/	
-	// Notice 수정
-	@RequestMapping(value="noticeUpdate.bo", method=RequestMethod.GET)
-	public String noticeUpdateForm() {
-		return "noticeUpdateForm";
-	}
-	
-	@RequestMapping(value="noticeUpdate.bo", method = RequestMethod.POST) 
-	public String updateNotice(@ModelAttribute Board b, @RequestParam("page") int page,
-									HttpSession session) {  
-		
-		String id = ((Admin)session.getAttribute("loginUser")).getId();
-		b.setAdminId(id);
-		
-		int result = bService.updateNotice(b); 
-
-		if(result > 0) {
-			//model.addAttribute("board", b)...;
-			// 보드 보낼 필요없음. 화면 상세보기 페이지로 가기 때문에 상세보기 페이지로 가는 bdetail.bo 이용하면 됨
-			//return "redirect:bdetail.bo?bId=" + b.getBoardId() + "&page=" + page;
-			
-			// 리다이렉트인데 데이터보존됨
-//			model.addAttribute("bId",b.getBoardId());
-//			model.addAttribute("page",page);
-			return "redirect:boardQna.bo";
-			
-		} else {
-			throw new BoardException("공지사항 수정에 실패하였습니다.");
-		}
-	}
-	
-	
-	
-/********************************** Notice(공지사항) : 삭제  *************************************/	
-	// Notice 삭제
-	@RequestMapping(value="noticeDelete.bo", method=RequestMethod.POST)
-	public String deleteNotice(@ModelAttribute Board b, HttpSession session) {  
-			
-		
-		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-		b.setAdminId(id);
-		
-		int result = bService.deleteNotice(b);
-		
-		if(result > 0) {
-			return "redirect:boardQna.bo";	// 관리자 게시판으로 돌아가야함!
-		}else {
-			throw new BoardException("공지사항 삭제에 실패하였습니다.");
-		}
-	}
-	
-
 	
 	
 /*********************************** Notice(공지사항) : 상세보기 **************************************************/
@@ -502,7 +425,9 @@ public class BoardController {
 		String id = ((Member)session.getAttribute("loginUser")).getEmail();
 		b.setEmailId(id);
 		
+		System.out.println("qna쓰기_b="+b);
 		int result = bService.insertBoardQna(b);
+		System.out.println("qna쓰기_result="+result);
  
 		if (result > 0) {
 			return "redirect:boardQna.bo";
@@ -612,7 +537,9 @@ public class BoardController {
 	
 	//이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("rlist.bo")
-	public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv, UserLike like, HttpSession session) {
+	public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, 
+								   @RequestParam(value="pno", required=false) Integer productNo,
+								   ModelAndView mv, UserLike like, HttpSession session) {
 		
 		int currentPage = 1;
 		
@@ -620,29 +547,34 @@ public class BoardController {
 			currentPage = page;			
 		}
 		
-		int listCount = bService.reviewCount();
+		int listCount = bService.reviewCount(productNo);
 		
-		int boardLimit = 10;
+		int boardLimit = 5;
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
-		ArrayList<Review> reviewList = bService.getReviewList(pi);
+		ArrayList<Review> reviewList = bService.getReviewList(pi, productNo);
 		
 		ArrayList<ReviewImage> reviewImageList = bService.getReviewImageList();
 		
-		String loginUser = (String)session.getAttribute("loginUser.email");
+		String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
 		
-		UserLike li = new UserLike();
-		li.setEmailId(loginUser);
-//		li.setReviewNo(reviewNo);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("emailId", emailId);
+//		System.out.println(map);
 		
-		int count = bService.likeCount(li);
+		ArrayList<UserLike> likeList = bService.userLikeSelect(map);
 		
+		System.out.println(reviewImageList);
+		System.out.println(pi);
 		
 		if(reviewList != null && reviewImageList != null) {
 			mv.addObject("reviewList", reviewList);
 			mv.addObject("pi", pi); 
 			mv.addObject("reviewImageList", reviewImageList);
-//			mv.addObject(count);
+
+			mv.addObject("likeList",likeList);
+			mv.addObject("pno", productNo);
+
 			mv.setViewName("reviewListView");
 			System.out.println("reviewList : " + reviewList);
 			System.out.println("reviewImageList : " + reviewImageList);
@@ -654,43 +586,54 @@ public class BoardController {
 	}
 	
 	@RequestMapping("rinsertView.bo")
-	public String reviewInsertForm() {
+	public String reviewInsertForm(@RequestParam("productNo") Integer productNo, Model model) {
+		System.out.println(productNo);
+		model.addAttribute("productNo", productNo);
 		return "reviewInsertForm";
 	}
 	
 
 	@RequestMapping("rinsert.bo")
-	public String insertReview(@ModelAttribute Review r,@ModelAttribute ReviewImage rImg, @RequestParam("uploadFile[]") ArrayList<MultipartFile> uploadFiles,
-			HttpServletRequest request)  {
+
+	public String insertReview(@ModelAttribute Review r, @RequestParam("uploadFile") ArrayList<MultipartFile> uploadFile,
+			HttpServletRequest request, Model model)  {
+		
+
 		
 		ArrayList<ReviewImage> imageList = new ArrayList<ReviewImage>();
 		String savePath = null;
 //		ReviewImage reviewImage = new ReviewImage();
-		if(uploadFiles != null && !uploadFiles.isEmpty()) {
 
-			ArrayList<String> r2nameFileNames =saveFile(uploadFiles, request);//변경파일명
-	         ArrayList<String> originFiles = new ArrayList<String>();//원본파일명
-	         
-	         savePath = request.getSession().getServletContext().getRealPath("resources")+ "\\reviewImages";
-	         //원본파일명 집어넣을 for문
-	         for(int i=0; i<uploadFiles.size(); i++ ) {
-	            originFiles.add(uploadFiles.get(i).getOriginalFilename());
-	            System.out.println("원본파일명"+originFiles);// 원본파일 제대로 뜨나 확인
-	         }
-	         
-	         for(int i = 0; i<uploadFiles.size(); i++ ) {
-	            rImg.setOriginName(originFiles.get(i));
+//		ArrayList<String> originFiles = new ArrayList<String>();//원본파일명
+		System.out.println("업로드 파일:" + uploadFile);
+		if(uploadFile != null && !uploadFile.isEmpty()) {
+			ArrayList<String> r2nameFileNames =saveFile(uploadFile, request);//변경파일명
+			savePath = request.getSession().getServletContext().getRealPath("resources")+ "\\reviewImages";
+			
+			System.out.println(r2nameFileNames);
+			for(int i=0; i<uploadFile.size(); i++ ) {
+	         ReviewImage rImg = new ReviewImage();
+				//원본파일명 집어넣을 for문
+//	            originFiles.add(uploadFile.get(i).getOriginalFilename());
+	            //System.out.println("원본파일명"+originFiles);// 원본파일 제대로 뜨나 확인
+	            rImg.setOriginName(uploadFile.get(i).getOriginalFilename());
+
 	            rImg.setChangeName(r2nameFileNames.get(i));
 	            rImg.setFilePath(savePath);
-	           
 	            imageList.add(rImg);
+	            System.out.println(("이미지 리스트 " + imageList));
 	         }
+
 	      }
+		System.out.println(imageList);
 	      int result1 = bService.insertReview(r);
 	      int result2 = bService.insertReviewImage(imageList);
 	      System.out.println("insert con : " + r + "++ imageList/" + imageList);
+	      
 	      if( result1 + result2 > 1) {
-	    	  System.out.println();
+
+	    	  model.addAttribute("pno", r.getProductNo());
+
 	         return "redirect:rlist.bo";
 	      } else {
 	         for(int i = 0; i < imageList.size(); i++) {
@@ -719,21 +662,21 @@ public class BoardController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		ArrayList<String> r2nameFileNames = new ArrayList<String>();
 		for(int i = 0; i < file.size(); i++) {
-		String originName = file.get(i).getOriginalFilename();
+			String originName = file.get(i).getOriginalFilename();
+			
+			String ext = null;
+			
+			int dot = originName.lastIndexOf(".");
+			if(dot == -1) {
+				ext = "";
+			} else {
+				ext = originName.substring(dot);
+			}
 		
-		String ext = null;
-		
-		int dot = originName.lastIndexOf(".");
-		if(dot == -1) {
-			ext = "";
-		} else {
-			ext = originName.substring(dot);
-		}
-		
-		// 날짜 + 시간 + 랜덤번호 + 확장자로 파일명 생성
-		String changeName = sdf.format(new Date(System.currentTimeMillis())) + ranNum + ext;
-		
-		String renamePath = folder + "/" + changeName;
+			// 날짜 + 시간 + 랜덤번호 + 확장자로 파일명 생성
+			String changeName = sdf.format(new Date(System.currentTimeMillis())) + ranNum + ext;
+			
+			String renamePath = folder + "/" + changeName;
 		
 		
 		try {
@@ -743,14 +686,15 @@ public class BoardController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		r2nameFileNames.add(changeName);
+			r2nameFileNames.add(changeName);
 		}
-		System.out.println(r2nameFileNames);
+		System.out.println("저장: " +r2nameFileNames);
 		return r2nameFileNames;
 	}
 	
 	
 	//리뷰 신고하기
+
 		@RequestMapping("reportReview.bo")
 		@ResponseBody
 		public String reportReview(@ModelAttribute Report rep, HttpSession session,
@@ -785,45 +729,38 @@ public class BoardController {
 				throw new BoardException("신고에 실패하였습니다!!!!!!!.");
 			}
 				
+
 		}
-		// 좋아요 
-		// 게시판 좋아요
-		@ResponseBody
-		@RequestMapping("likeInsert.bo")
-		public String insertLike(UserLike like, HttpSession session, Model model) {
 			
-			int result = bService.insertLike(like);
-			if(result>0) {
-				return "success";
-			}else {
-				return "fail";
-			}
-			
-		}
+	}
+	// 좋아요 
+	@RequestMapping("reviewLike.bo")
+	public void reviewLike(@RequestParam(value="reviewNo", required=false) Integer reviewNo, HttpServletRequest request, HttpServletResponse response) {
+
+		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
 		
-		// 게시판 좋아요 취소
-		@ResponseBody
-		@RequestMapping("likeDelete.bo")
-		public String deleteLike(UserLike like, HttpSession session, Model model) {
-			int result = bService.deleteLike(like);
-			if(result>0) {
-				return "success";
-			}else {
-				return "fail";
-			}
-			
-		}
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("emailId", emailId);
+		map.put("reviewNo", reviewNo);
 		
-		// 게시판 전체 좋아요
-		@ResponseBody
-		@RequestMapping(value="allLike.bo", produces="application/json; charset=utf-8")
-		public String selectLikeCount(int reviewNo, HttpSession session, Model model) {
-			
-			ArrayList<UserLike> list = bService.selectLikeCount(reviewNo);
-			return new Gson().toJson(list);
-			
-		}
+		int result = bService.reviewLike(map);
 		
+		String data = null;
+		if(result > 1) {
+			data = "delete";
+		}  else {
+			data = "insert";
+		}
+			try {
+			PrintWriter pw = response.getWriter();
+			pw.print(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}			
+		
+	}
+
 		@RequestMapping("someReviewList.bo")
 	  	public ModelAndView someReviewList(@RequestParam(value = "page", required=false) Integer page,
 	  										@RequestParam(value = "emailId", required=false) String emailId,
@@ -873,6 +810,7 @@ public class BoardController {
 	  	
 	  		return mv;
 	  	}
+
 	
 	
 	

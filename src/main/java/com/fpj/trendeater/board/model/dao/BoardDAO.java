@@ -26,15 +26,16 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 @Repository("bDAO")
 public class BoardDAO {
 
 	// 리뷰게시판 상세보기
-	public Product selectPrBoard(SqlSessionTemplate sqlSession, int pno) {
+	public Product selectPrBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("boardMapper.selectPrBoard", pno);
+		return sqlSession.selectOne("boardMapper.selectPrBoard", map);
 	}
 	// 리뷰게시판 상세보기
 	public ArrayList<Image> selectPrImage(SqlSessionTemplate sqlSession, int pno) {
@@ -52,7 +53,7 @@ public class BoardDAO {
 	// 스크랩 
 	public int scrap(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		
-		System.out.println(map);
+//		System.out.println(map);
 
 		int checkNum = sqlSession.selectOne("boardMapper.checkScrap", map);
 		
@@ -82,15 +83,97 @@ public class BoardDAO {
 		int arr = 0;
 		for(int i = 1; i <= 5; i++) {
 			arr = i;
-			System.out.println("arr;"+ arr);
+//			System.out.println("arr;"+ arr);
 			countMap.put("arr",arr);
 			resultArr[i-1] = sqlSession.selectOne("boardMapper.getCountReviewPoint", countMap);
-			System.out.println("result:"+resultArr[i-1]);
+//			System.out.println("result:"+resultArr[i-1]);
 		}
 		
 		return resultArr;
 	}
 
+
+
+	//이용준
+	public int reviewCount(SqlSessionTemplate sqlSession, Integer productNo) {
+		return sqlSession.selectOne("boardMapper.reviewCount", productNo);
+	}
+
+	public ArrayList<Review> getReviewList(SqlSessionTemplate sqlSession, PageInfo pi, Integer productNo) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.getReviewList", productNo, rowBounds);
+	}
+
+	public ArrayList<ReviewImage> getReviewImageList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getReviewImageList");
+	}
+
+	public int insertReview(SqlSessionTemplate sqlSession, Review r) {
+		return sqlSession.insert("boardMapper.insertReview", r);
+	}
+
+
+	public int insertReviewImage(SqlSessionTemplate sqlSession, ArrayList<ReviewImage> imageList) {
+		int imgResult = 0;
+		System.out.println(imageList.size());
+		
+		for(ReviewImage r :  imageList ) {
+		imgResult += sqlSession.insert("boardMapper.insertReviewImage", r);
+		}
+		System.out.println(imgResult);
+		return imgResult;
+	}
+
+	public int reportReview(SqlSessionTemplate sqlSession, Report rep) {
+		return sqlSession.insert("boardMapper.reportReview", rep);
+	}
+	
+	// 회원의 좋아요 리뷰 리스트 불러오기
+	public ArrayList<UserLike> userLikeSelect(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.userLikeSelect", map);
+	}
+	
+	public int reviewLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		int checkCount = sqlSession.selectOne("boardMapper.likeCheck", map);
+		int result = 0;
+		if( checkCount > 0) {
+			result = sqlSession.delete("boardMapper.deleteLike", map);
+			if(result > 0) {
+				result = 2;
+			}
+		} else {
+			result = sqlSession.delete("boardMapper.insertLike", map);
+		}
+	
+	return result;
+}
+	
+//	// 좋아요
+//	// 게시글 좋아요 count
+//		public int likeCount(SqlSessionTemplate sqlSession, UserLike li) {
+//			return sqlSession.selectOne("boardMapper.likeCount", li);
+//		}
+//		
+//		// 게시글 좋아요
+//		public int insertLike(SqlSessionTemplate sqlSession, UserLike like) {
+//			return sqlSession.insert("boardMapper.insertLike", like);
+//		}
+//		
+//		// 게시글 좋아요 취소
+//		public int deleteLike(SqlSessionTemplate sqlSession, UserLike like) {
+//			return sqlSession.delete("boardMapper.deleteLike", like);
+//		}
+//		
+//		// 게시글 전체 좋아요 count
+//		public ArrayList<UserLike> selectLikeCount(SqlSessionTemplate sqlSession, int reviewNo) {
+//			return (ArrayList)sqlSession.selectList("boardMapper.selectLikeCount", reviewNo);
+//		}
+		
+	
+	
 
 
 
@@ -192,10 +275,12 @@ public class BoardDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());  // 임포트 RowBounds 
 		return (ArrayList)sqlSession.selectList("boardMapper.getBoardQnaListAdmin", null, rowBounds);
 	}
-
+	public int adminQnaAnsWrite(SqlSessionTemplate sqlSession, Reply reply) {
+		return sqlSession.insert("boardMapper.adminQnaAnsWrite",reply);
+	}
 
 	
-
+	
 
 	
 
@@ -214,6 +299,10 @@ public class BoardDAO {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.getEBoardList", null, rowBounds);
+	}
+
+	public ArrayList<Reply> getQnaReplyListAdmin(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getQnaReplyListAdmin");
 	}
 
 	
@@ -272,11 +361,64 @@ public class BoardDAO {
 		 return imgResult;
 		 
 	}
+	//이벤트게시판 글삭제
 	public int eDeleteBoard(SqlSessionTemplate sqlSession, int eno) {
 		return sqlSession.update("boardMapper.eDeleteBoard", eno);
 	}
+
+
+	
+
+	//메인에서 최근 5개 이벤트게시판 게시글 가져오기
+	public ArrayList<EventBoard> getRecentEboard(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.getRecentEboard");
+	}
+	//메인 최신글 그림 불러오기
+	public ArrayList<Image> getEImgList(SqlSessionTemplate sqlSession, ArrayList<EventBoard> eventB) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<Image> imgList = new ArrayList<>();
+		for(int i =0; i < eventB.size(); i++) {
+			int boardNo = eventB.get(i).getBoardNo();
+			Image img =	sqlSession.selectOne("boardMapper.getEImgList", boardNo);
+			imgList.add(img);
+		}
+		
+		return imgList;
+	}
+	//메인 최신제품 목록 불러오기
+	public ArrayList<Product> getNewProucts(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getNewProucts");
+	}
+	//메인 최신제품 이미지 불러오기
+	public ArrayList<Image> getNewPImages(SqlSessionTemplate sqlSession, ArrayList<Product> pList) {
+		ArrayList<Image> imgList = new ArrayList<>();
+		for(int i =0; i < pList.size(); i++) {
+			int ProductNo = pList.get(i).getProductNo();
+			Image img =	sqlSession.selectOne("boardMapper.getNewPImages", ProductNo);
+			imgList.add(img);
+		}
+		
+		return imgList;
+	}
+	//메인 베스트상품 불러오기
+	public ArrayList<Product> getbProducts(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getbProducts");
+	}
+	//메인 베스트 상품 이미지 불러오기
+	public ArrayList<Image> getbImgList(SqlSessionTemplate sqlSession, ArrayList<Product> bProducts) {
+		ArrayList<Image> imgList = new ArrayList<>();
+		for(int i =0; i < bProducts.size(); i++) {
+			int ProductNo = bProducts.get(i).getProductNo();
+			Image img =	sqlSession.selectOne("boardMapper.getbImgList", ProductNo);
+			imgList.add(img);
+		}
+		return imgList;
+	}
 	
 	
+
 	
 	
 	

@@ -19,22 +19,40 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 public interface BoardService {
 
 	
 	// 리뷰 게시판 상세보기
-	Product selectPrBoard(int pno);
+	Product selectPrBoard(HashMap<String, Object> map);
 
 	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
 	
+	// 시식신청
+	int registerApplyTaste(ApplyTastePerson applyPerson);
+	// 시식신청 중복 체크
+	int dupCheckApply(HashMap<String, Object> map);
+	
+	//스크랩
+	int scrap(HashMap<String, Object> map);
+	
+	// 스크랩 여부 체크
+	int checkScrap(HashMap<String, Object> map);
+	
+	// 리뷰 평점 점수별 갯수 카운트
+	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
 	//이용준
-	int reviewCount();
+	int reviewCount(Integer productNo);
+	ArrayList<UserLike> userLikeSelect(HashMap<String, Object> map);
 
-	ArrayList<Review> getReviewList(PageInfo pi);
+	int reviewLike(HashMap<String, Object> map);
+	
+	
+	ArrayList<Review> getReviewList(PageInfo pi, Integer productNo);
 
 	ArrayList<ReviewImage> getReviewImageList();
 
@@ -45,6 +63,7 @@ public interface BoardService {
 
 //	int reportReview(Report rep);
 	int reportReview(Report rep);
+
 
 		// 게시글 좋아요 여부 카운트
 		int likeCount(UserLike li);
@@ -65,20 +84,10 @@ public interface BoardService {
 		
 		
 
-	// 시식신청
-	int registerApplyTaste(ApplyTastePerson applyPerson);
-	// 시식신청 중복 체크
-	int dupCheckApply(HashMap<String, Object> map);
-	
-	//스크랩
-	int scrap(HashMap<String, Object> map);
-	
-	// 스크랩 여부 체크
-	int checkScrap(HashMap<String, Object> map);
-	
-	// 리뷰 평점 점수별 갯수 카운트
-	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
+
+
+	
 
 /*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
@@ -101,12 +110,13 @@ public interface BoardService {
 	
 	Board adminNoticeSelect(Board b);
 	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
-
+	int adminQnaAnsWrite(Reply reply);
+  ArrayList<Reply> getQnaReplyListAdmin();
+  
 	int deleteBoardQna(BoardQnA b);
 
 	
 /********************************** Event Management *********************************/	
-	int getEListCount();	//페이징처리 1: 총게시물 수 
 	ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
 	
 	int insertEBoard(EventBoard b);// 이벤트 게시판 삽입 1 글내용 삽입
@@ -124,8 +134,23 @@ public interface BoardService {
 
 
 
+	ArrayList<EventBoard> getRecentEboard();//메인 최신글 불러오기
+
+	ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB);//메인 최신글 그림 불러오기
+
+	ArrayList<Product> getNewProducts();// 메인 최신제품 불러오기
+
+	ArrayList<Image> getNewPImages(ArrayList<Product> pList);//메인 최신제품이미지 불러오기
+
+	ArrayList<Product> getbProducts();// 메인 베스트 상품 불러오기
+
+	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
+
+
 	
+	int getEListCount();
 	
+
 	
 
 

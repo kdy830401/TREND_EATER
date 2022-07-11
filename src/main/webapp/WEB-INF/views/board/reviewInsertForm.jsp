@@ -344,7 +344,7 @@ border-radius:10px 10px 0 0;
 		
 		<form action="rinsert.bo" method="post" enctype="Multipart/form-data">
     <fieldset class="uk-fieldset">
-
+		<input type="hidden" name="productNo" value="${ productNo }">
         <legend class="uk-legend" id="review-form-header">리뷰 작성</legend>
         <hr>
         <ul class="review-care">
