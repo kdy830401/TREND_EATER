@@ -139,8 +139,16 @@
 		    			cartList.push($(item).val());
 		    			cartAmountArr.push($(item).parent().siblings('#second').find('#productAmount').val());
 		    		}
-		    	});		    	
-		    	location.href = 'order.or?cartList='+cartList+"&cartAmountArr="+cartAmountArr; 
+		    	});		
+		    	
+		    	console.log(cartList);
+		    	
+		    	if(cartList.length == 0){
+		    		alert('결제할 상품을 선택하세요.');		
+		    		
+		    	} else{
+		    		location.href = 'order.or?cartList='+cartList+"&cartAmountArr="+cartAmountArr; 
+		    	}
 		    });
 		    </script>
 		    

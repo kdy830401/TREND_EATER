@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fpj.trendeater.admin.model.vo.Admin;
 import com.fpj.trendeater.admin.model.vo.ApplyTaste;
@@ -18,7 +19,7 @@ import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
 
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
-
+import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Repository("aDAO")
@@ -210,6 +211,18 @@ public class AdminDAO {
 
 	public ArrayList<ReviewImage> reviewImageList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.reviewImageList");
+	}
+
+	public ArrayList<Report> reportedList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("adminMapper.reportedList");
+	}
+
+	public int reportCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.reportCount");
+	}
+
+	public int reportConfirm(SqlSessionTemplate sqlSession, Report rp) {
+		return sqlSession.update("adminMapper.reportConfirm", rp);
 	}
 
 

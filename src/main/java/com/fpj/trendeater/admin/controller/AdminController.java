@@ -54,7 +54,11 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+
+import com.fpj.trendeater.board.model.vo.Report;
+
 import com.fpj.trendeater.board.model.vo.Reply;
+
 import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.common.Pagination;
@@ -185,9 +189,9 @@ public class AdminController {
 		ArrayList<MultipartFile> fileList = new ArrayList<>();
 		HashMap<String, String> map = null;
 		String savePath = null;
-		Image productupload = new Image();
-		String originName = null;
-		ArrayList<Image> imageList = new ArrayList<Image>();
+			Image productupload = new Image();
+			String originName = null;
+			ArrayList<Image> imageList = new ArrayList<Image>();
 		
 		if(fileMap != null && !fileMap.isEmpty()) {
 			// fileMap에 담긴 MultipartFile 객체를 list에 담는다
@@ -196,38 +200,41 @@ public class AdminController {
 			}
 			
 			for(MultipartFile mf : fileList) {
-				String fieldName = mf.getName();
-				System.out.println(fieldName);
-				Image nutInfoupload = new Image();
-				
-				switch(fieldName) {
-					case("productImg"):
-						
-						map = saveFile(mf, request);
-						originName = mf.getOriginalFilename();
-						savePath = map.get("savePath");
-						productupload.setOriginName(originName);
-						productupload.setChangeName(map.get("changeName"));
-						productupload.setFilePath(map.get("savePath"));
-						productupload.setFileLevel(1);
-						productupload.setFileType(1);
-						productupload.setBoardType(1);
-		//				productupload.setIdentifyNo(product.getProductNo());
-						imageList.add(productupload);
-						break;
-									
-					case("nutInfoImg"):
-						map = saveFile(mf, request);
-						originName = mf.getOriginalFilename();
-						savePath = map.get("savePath");
-						nutInfoupload.setOriginName(originName);
-						nutInfoupload.setChangeName(map.get("changeName"));
-						nutInfoupload.setFilePath(map.get("savePath"));
-						nutInfoupload.setFileLevel(2);
-						nutInfoupload.setFileType(2);
-						nutInfoupload.setBoardType(1);
-	//					nutInfoupload.setIdentifyNo(product.getProductNo());
-						imageList.add(nutInfoupload);
+				if(mf.getSize()>0) {
+					
+					String fieldName = mf.getName();
+					System.out.println(fieldName);
+					Image nutInfoupload = new Image();
+					
+					switch(fieldName) {
+						case("productImg"):
+							
+							map = saveFile(mf, request);
+							originName = mf.getOriginalFilename();
+							savePath = map.get("savePath");
+							productupload.setOriginName(originName);
+							productupload.setChangeName(map.get("changeName"));
+							productupload.setFilePath(map.get("savePath"));
+							productupload.setFileLevel(1);
+							productupload.setFileType(1);
+							productupload.setBoardType(1);
+			//				productupload.setIdentifyNo(product.getProductNo());
+							imageList.add(productupload);
+							break;
+										
+						case("nutInfoImg"):
+							map = saveFile(mf, request);
+							originName = mf.getOriginalFilename();
+							savePath = map.get("savePath");
+							nutInfoupload.setOriginName(originName);
+							nutInfoupload.setChangeName(map.get("changeName"));
+							nutInfoupload.setFilePath(map.get("savePath"));
+							nutInfoupload.setFileLevel(2);
+							nutInfoupload.setFileType(2);
+							nutInfoupload.setBoardType(1);
+		//					nutInfoupload.setIdentifyNo(product.getProductNo());
+							imageList.add(nutInfoupload);
+					}
 				}
 			}
 		}
@@ -236,6 +243,7 @@ public class AdminController {
 		
 		// 상품사진 이미지 정보 설정
 		
+		System.out.println("size :" + imageList.size());
 		
 		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
 		String adminName = ((Admin) request.getSession().getAttribute("adminUser")).getName();
@@ -248,7 +256,7 @@ public class AdminController {
 		int result2 = aService.registerImage(imageList, product.getProductNo());
 
 		System.out.println("imgresult : " + result2);
-		if (result1 + result2 > 2) {
+		if (result1 + result2 > 1 + imageList.size()) {
 			return "redirect:productList.ad";
 		} else {
 			// 상품 등록 실패시 저장소 파일 삭제
@@ -1435,15 +1443,60 @@ public class AdminController {
 //			mv.addObject(count);
 			mv.setViewName("adminReviewList");
 		} else {
-			throw new BoardException("관리자페이지 리뷰 조회에 실패하였습니다");
+			throw new AdminException("관리자페이지 리뷰 조회에 실패하였습니다");
 		}
 	
 		return mv;
 		}
 
 
-	//##########
+	//신고된 리뷰 리스트 뷰 이동
+	@RequestMapping("reportedReview.ad")
+	public ModelAndView reportedList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv) {
+
+		int currentPage = 1; 
+
+		if (page != null) { 
+			currentPage = page;
+		}
+		int boardLimit = 5;
+
+		int listCount = bService.getListCount();
+		
+		int reportCount = aService.reportCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount,boardLimit);
+		
+		ArrayList<Report> reportList = aService.getReportList(pi);
+		
+		if(reportList != null) {
+			mv.addObject("reportList", reportList);
+			mv.addObject("pi", pi); 
+			mv.addObject("reportCount", reportCount);
+			mv.setViewName("reportedList");
+		} else {
+			throw new AdminException("신고된 리뷰 리스트 조회에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
 	
+	//신고된 리뷰 확인
+	@RequestMapping("reportConfirm.ad")
+	public String reportConfirm(@RequestParam(value = "reportNo", required=false) int reportNo, @RequestParam("page") int page,
+								Report rp, Model model) {
+		
+		if(reportNo != 0) {
+			rp.setReportNo(reportNo);
+		}
+		
+		int result = aService.reportConfirm(rp);
+		if(result > 0) {
+			return "reportedReview.ad";
+		}	else {
+			throw new AdminException("신고 확인에 실패하였습니다..");
+		}
+	}
 	
 	
 	
@@ -1840,6 +1893,7 @@ public class AdminController {
 		// 4. mv에 담아 이동
 		if(orderAdminList != null) {
 			mv.addObject("orderAdminList", orderAdminList);
+			mv.addObject("pi", pi);
 			mv.setViewName("orderAdminList");
 		} else {
 			throw new BoardException("주문 관리 조회에 실패했습니다.");
@@ -1850,6 +1904,8 @@ public class AdminController {
 	// 주문 관리 - 주문 상태 변경
 	@RequestMapping("changeOrderStatus.ad")
 	public void changeOrderStatus(@ModelAttribute OrderStatus os, HttpServletResponse response) {
+		System.out.println("os : " + os);
+		
 		int result = oService.changeOrderStatus(os);
 		
 		

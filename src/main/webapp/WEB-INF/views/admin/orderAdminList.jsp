@@ -295,9 +295,11 @@
     <script>
     	$('.chooseOrderStatus').on('click', function(){
     		var orderNo = $(this).siblings('#orderNo').val();
+    		console.log('orderNo : ' + orderNo);
     		var orderStatusName = $(this).siblings('#newStatus').val();
+    		console.log(orderStatusName);
     		var originStatus = $(this).siblings('input[name=originStatus]').val();
-    		var $status = $('select[name=newStatus]') 
+    		var $status = $('select[name=newStatus]');
 
     		$.ajax({
     			url:'changeOrderStatus.ad',
@@ -335,7 +337,7 @@
     	$('.orderDetail').on('click', function(){
     		var orderNo = $(this).parent().siblings('#info').children('#orderNo').val();
     		
-    		location.href='orderAdminDetail.or?orderNo='+orderNo;
+    		window.open('orderDetail.or?orderNo='+orderNo, '주문 상세', 'width=1000, height=600');    	
     	});
     </script>
 </body>

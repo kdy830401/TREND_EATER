@@ -31,6 +31,19 @@ public interface BoardService {
 	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
 	
+	// 시식신청
+	int registerApplyTaste(ApplyTastePerson applyPerson);
+	// 시식신청 중복 체크
+	int dupCheckApply(HashMap<String, Object> map);
+	
+	//스크랩
+	int scrap(HashMap<String, Object> map);
+	
+	// 스크랩 여부 체크
+	int checkScrap(HashMap<String, Object> map);
+	
+	// 리뷰 평점 점수별 갯수 카운트
+	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
 	//이용준
 	int reviewCount(Integer productNo);
@@ -48,33 +61,31 @@ public interface BoardService {
 //	int insertReviewImage(ArrayList<ReviewImage> imageList, int reviewNo);
 	int insertReviewImage(ArrayList<ReviewImage> imageList);
 
+//	int reportReview(Report rep);
 	int reportReview(Report rep);
 
-//		// 게시글 좋아요 여부 카운트
-//		int likeCount(UserLike li);
-//		
-//		// 게시글 좋아요
-//		int insertLike(UserLike like);
-//		
-//		// 게시글 좋아요 취소
-//		int deleteLike(UserLike like);
-//		
-//		// 전체 좋아요 개수
-//		ArrayList<UserLike> selectLikeCount(int ReviewNo);
 
-	// 시식신청
-	int registerApplyTaste(ApplyTastePerson applyPerson);
-	// 시식신청 중복 체크
-	int dupCheckApply(HashMap<String, Object> map);
-	
-	//스크랩
-	int scrap(HashMap<String, Object> map);
-	
-	// 스크랩 여부 체크
-	int checkScrap(HashMap<String, Object> map);
-	
-	// 리뷰 평점 점수별 갯수 카운트
-	int[] getCountReviewPoint(HashMap<String, Object> countMap);
+		// 게시글 좋아요 여부 카운트
+		int likeCount(UserLike li);
+		// 게시글 좋아요
+		int insertLike(UserLike like);
+		
+		// 게시글 좋아요 취소
+		int deleteLike(UserLike like);
+		
+		// 전체 좋아요 개수
+		ArrayList<UserLike> selectLikeCount(int ReviewNo);
+		
+		int someReviewCount();
+
+		ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map);
+
+		ArrayList<ReviewImage> someReviewImageList();
+		
+		
+
+
+
 
 	
 
@@ -106,7 +117,9 @@ public interface BoardService {
 
 	
 /********************************** Event Management *********************************/	
+
 	int getEListCount();	//페이징처리 1: 총게시물 수 
+
 	ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
 	
 	int insertEBoard(EventBoard b);// 이벤트 게시판 삽입 1 글내용 삽입
@@ -123,6 +136,7 @@ public interface BoardService {
 	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
 
 
+
 	ArrayList<EventBoard> getRecentEboard();//메인 최신글 불러오기
 
 	ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB);//메인 최신글 그림 불러오기
@@ -135,10 +149,7 @@ public interface BoardService {
 
 	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
 
-	
 
-	
-	
 	
 
 	

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fpj.trendeater.admin.model.dao.AdminDAO;
 import com.fpj.trendeater.admin.model.vo.Admin;
@@ -19,7 +20,7 @@ import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
 
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
-
+import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.member.model.vo.Member;
 
 @Service("aService")
@@ -198,6 +199,21 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public ArrayList<ReviewImage> reviewImageList() {
 		return aDAO.reviewImageList(sqlSession);
+	}
+	//신고된 리뷰 리스트
+	@Override
+	public ArrayList<Report> getReportList(PageInfo pi) {
+		return aDAO.reportedList(sqlSession, pi);
+	}
+
+	@Override
+	public int reportCount() {
+		return aDAO.reportCount(sqlSession);
+	}
+
+	@Override
+	public int reportConfirm(Report rp) {
+		return aDAO.reportConfirm(sqlSession, rp);
 	}
 
 

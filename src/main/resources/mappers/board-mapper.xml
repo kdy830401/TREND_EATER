@@ -58,6 +58,7 @@
 		<result column="FILE_TYPE" property="fileType"/>
 		<result column="IDENTIFY_NO" property="identifyNo"/>
 	</resultMap>
+	
 	<!-- 시식신청  -->
 	<insert id="registerApplyTaste">
 		insert into apply_t
@@ -108,6 +109,7 @@
 	</select>
 	
 
+
 <!-- 	이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	 <select id="reviewCount" resultType="_int">
      select count(*)
@@ -115,7 +117,7 @@
      <if test="productNo != null">
      where REVIEW_STATUS = 'Y' and product_no = #{ productNo }
      </if>
-  </select>
+  	</select>
   
   <select id="getReviewList" resultMap="reviewResultSet">
 <!--      select * -->
@@ -123,7 +125,7 @@
 <!--          join member m on (rl.email_id = m.email_id)     -->
 <!--      where review_status  = 'Y' -->
 <!--      order by review_no desc -->
-select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3
+	select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3, nickname
      from review_list rl
          join member m on (rl.email_id = m.email_id)    
      where review_status  = 'Y' and product_no = #{ productNo }
@@ -155,7 +157,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	<select id="getReviewImageList" resultMap="reviewImageResultSet">
 		select *
 		from review_img
-		where review_no=#{reviewNo}
+		
 	</select>
 	
 	<resultMap type="ReviewImage" id="reviewImageResultSet">
@@ -169,7 +171,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	 <insert id="insertReview" >
        insert into review_list
        values (seq_rid.nextval, #{reviewRating}, #{recommend}, #{repurcharse}, #{spicy}, #{sweet}, #{bitter}, #{salty}, #{sour}, #{good},
-       			#{bad}, sysdate, sysdate, default,	'Y', #{emailId}, 1)
+       			#{bad}, sysdate, sysdate, default,	'Y', #{emailId}, #{productNo})
 <!--        			 productNo가 패런트가 없다고 안돼서 임시번호 .... -->
     </insert>
     
@@ -199,39 +201,46 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
  		<result column="EMAIL_ID" property="emailId"/>
  	</resultMap>
  	
-       <!-- 좋아요 카운트 -->
-	<!-- <select id="likeCount" resultType = "_int">
+
+
+      <!-- 좋아요 카운트 -->
+	<select id="likeCheck" resultType="_int">
 		select count(*) 
-		  from user_like
-		 where review_no = #{reviewNo}
-		   and email_Id = #{emailId}
-	
-	</select> -->
+		from user_like
+		where review_no = #{reviewNo} and email_Id = #{emailId}
+
+	</select>
+
 	
 	<!-- 게시글 좋아요 -->
-	<!-- <insert id="insertLike">
+<insert id="insertLike">
 		insert into user_like
-		   values(seq_likeid.nextval, #{reviewNo}, #{emailId})
-	</insert> -->
+
+		values(seq_likeid.nextval, #{reviewNo}, #{emailId})
+</insert>
+
 	
 	<!-- 게시글 좋아요 취소 -->
-	<!-- <delete id="deleteLike">
+ <delete id="deleteLike">
 		delete
+
 		  from user_like
 		 where review_no = #{reviewNo}
 		   and email_id = #{emailId}
-	</delete> -->
+	</delete> 
 	
 	
 	<!-- 좋아요 전체 카운트 -->
-	<!-- <select id="selectLikeCount" resultType = "_int">
+<select id="selectLikeCount" resultType = "_int">
 		select 
 			   review_no
 			 , email_id
 		  from
 		       user_like
 		 where review_no = #{reviewNo}
-	</select> -->
+	</select>
+
+		
 	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
 
@@ -497,7 +506,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
  	<result column="IDENTIFY_NO" property="identifyNo"/>
  	</resultMap>
   
-  <!-- 이벤트 게시판 글수정 -->
+<!-- 이벤트 게시판 글수정 -->
 	<update id="updateEBoard">
 	 	update board
 	 	set BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent}, 
@@ -600,6 +609,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	</select>
 
 
+
 <!-- 메인페이지 베스트 제품 이미지리스트 -->	
 	<select id="getbImgList" resultMap="eBoardImages">
 	select * 
@@ -609,39 +619,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	
 	
 	
-       <!-- 좋아요 카운트 -->
-	<select id="likeCount" resultType = "_int">
-		select count(*) 
-		  from user_like
-		 where review_no = #{reviewNo}
-		   and email_Id = #{emailId}
-	
-	</select>
-	
-	<!-- 게시글 좋아요 -->
-	<insert id="insertLike">
-		insert
-		  into user_like
-		  (
-		  	review_no
-		  , email_id
-		  )
-		  values
-		  (
-		  	#{reviewNo}
-		  , #{emailId}
-		  )
-	</insert>
-	
-	<!-- 게시글 좋아요 취소 -->
-	<delete id="deleteLike">
-		delete
-		  from user_like
-		 where review_no = #{reviewNo}
-		   and email_id = #{emailId}
-	</delete>
-	
-	
+
 	<!-- 좋아요 전체 카운트 -->
 	<select id="selectLikeCount" resultType = "_int">
 		select 
@@ -651,8 +629,39 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 		       user_like
 		 where review_no = #{reviewNo}
 	</select>
-	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	
+    <insert id="reportReview">
+    	insert into report
+    	values (seq_repid.nextval, #{reportType}, #{reportContent}, 'N', sysdate, #{emailId}, #{reviewNo})
+    </insert>
+    
+    <select id="someReviewCount" resultType="_int">
+     select count(*)
+     from review_list
+     where REVIEW_STATUS = 'Y' and email_id=#{emailId}
+  </select>
+  
+    <select id="someReviewList" resultMap="reviewResultSet">
+<!--      select * -->
+<!--      from review_list rl -->
+<!--          join member m on (rl.email_id = m.email_id)     -->
+<!--      where review_status  = 'Y' -->
+<!--      order by review_no desc -->
+select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3
+     from review_list rl
+         join member m on (rl.email_id = m.email_id)    
+     where review_status  = 'Y' and rl.email_id=#{emailId}
+     order by review_no desc
+  </select>
+  
+  <select id="someReviewImageList" resultMap="reviewImageResultSet">
+		select *
+		from review_img
+		where review_no=#{reviewNo} 
+	</select>
+    
+ <!-- boardLike -->
+
 
 </mapper>
-
 

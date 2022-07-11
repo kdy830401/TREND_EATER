@@ -171,7 +171,7 @@ a:hover {
 							</li>
 
 							<li>
-								<a href="#">
+								<a href="reportedReview.ad">
 									<span class="nav-text">신고 리뷰 현황</span>
 								</a>
 							</li>

@@ -73,6 +73,8 @@ public class OrderController {
 		//결과출력
 		if(result1 + result2 + result3 + result4 > 3) {
 
+
+
 			model.addAttribute("carts", cartList);
 			model.addAttribute("images",imageList);
 			return "orderEndView";

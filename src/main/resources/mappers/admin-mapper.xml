@@ -564,4 +564,32 @@
 		<result column="USER_NAME" property="name" />
 
 	</resultMap>
+	
+	<select id="reportedList" resultMap="reportResultSet">
+		select * 
+		from report
+		where report_result = 'N'
+		order by report_no desc
+	</select>
+	<resultMap type="Report" id="reportResultSet">
+		<id column="REPORT_NO" property="reportNo"/>
+		<result column="REPORT_TYPE" property="reportType"/>
+		<result column="REPORT_CONTENT" property="reportContent"/>
+		<result column="REPORT_RESULT" property="reportResult"/>
+		<result column="REPORT_DATE" property="reportDate"/>
+		<result column="EMAIL_ID" property="emailId"/>
+		<result column="REVIEW_NO" property="reviewNo"/>
+		</resultMap>
+		
+	<select id="reportCount" resultType="_int">
+		select count(*)
+		from report
+		where report_result = 'N'
+	</select>
+	
+	<update id="reportConfirm">
+		update report
+		set report_result = 'Y'
+		where report_no = #{reportNo}
+	</update>
 </mapper>

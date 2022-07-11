@@ -344,7 +344,7 @@ border-radius:10px 10px 0 0;
 		
 		<form action="rinsert.bo" method="post" enctype="Multipart/form-data">
     <fieldset class="uk-fieldset">
-
+		<input type="hidden" name="productNo" value="${ productNo }">
         <legend class="uk-legend" id="review-form-header">리뷰 작성</legend>
         <hr>
         <ul class="review-care">
@@ -361,7 +361,8 @@ border-radius:10px 10px 0 0;
         </ul>
         <hr>
 		<input type="hidden" class="review" name="emailId" value="${ loginUser.email }">
-		<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
+<%-- 		<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }"> --%>
+		<input type="hidden" class="review" name="nickName" value="${ loginUser.nickName }">
         <div class="review-title">별점을 매겨주세요</div>
 		<div name="reviewRating" id="myform" method="post" action="./save" name="reviewRating">
         <input type="radio" name="reviewRating" value="5" id="rate1" ><label for="rate1">⭐</label>
@@ -446,7 +447,7 @@ border-radius:10px 10px 0 0;
 		    <div id="taste-comment">1개 이상의 사진을 넣어주세요!</div>
 		    <br>	
 		    <label class="uk-button uk-button-default uk-button-medium" id="image-button" for="btnAtt">사진 첨부</label>
-		    <input type='file' id='btnAtt' multiple='multiple' accept='image/*' name="uploadFile" />
+		    <input type='file' id='btnAtt' multiple='multiple' accept='image/*' name="uploadFile[]" />
 		    <div id='att_zone' data-placeholder='사진 첨부 버튼을 클릭하거나 사진을 드래그 해주세요.'></div>
 	  </div>
 
