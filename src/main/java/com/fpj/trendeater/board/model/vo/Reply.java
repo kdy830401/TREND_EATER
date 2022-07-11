@@ -3,25 +3,23 @@ package com.fpj.trendeater.board.model.vo;
 import java.sql.Date;
 
 public class Reply {
-	private int replyId;
+	private int replyNo;
 	private String replyContent;
-	private int refBoardId;
-	private String replyWriter;
-	private String nickName;
+	private int refQnaNo;
+	private String adminId;
 	private Date replyCreateDate;
 	private Date replyModifyDate;
 	private String replyStatus;
 	
 	public Reply() {}
 
-	public Reply(int replyId, String replyContent, int refBoardId, String replyWriter, String nickName,
-			Date replyCreateDate, Date replyModifyDate, String replyStatus) {
+	public Reply(int replyNo, String replyContent, int refQnaNo, String adminId, Date replyCreateDate,
+			Date replyModifyDate, String replyStatus) {
 		super();
-		this.replyId = replyId;
+		this.replyNo = replyNo;
 		this.replyContent = replyContent;
-		this.refBoardId = refBoardId;
-		this.replyWriter = replyWriter;
-		this.nickName = nickName;
+		this.refQnaNo = refQnaNo;
+		this.adminId = adminId;
 		this.replyCreateDate = replyCreateDate;
 		this.replyModifyDate = replyModifyDate;
 		this.replyStatus = replyStatus;
@@ -29,17 +27,17 @@ public class Reply {
 
 	@Override
 	public String toString() {
-		return "Reply [replyId=" + replyId + ", replyContent=" + replyContent + ", refBoardId=" + refBoardId
-				+ ", replyWriter=" + replyWriter + ", nickName=" + nickName + ", replyCreateDate=" + replyCreateDate
-				+ ", replyModifyDate=" + replyModifyDate + ", replyStatus=" + replyStatus + "]";
+		return "Reply [replyNo=" + replyNo + ", replyContent=" + replyContent + ", refQnaNo=" + refQnaNo + ", adminId="
+				+ adminId + ", replyCreateDate=" + replyCreateDate + ", replyModifyDate=" + replyModifyDate
+				+ ", replyStatus=" + replyStatus + "]";
 	}
 
-	public int getReplyId() {
-		return replyId;
+	public int getReplyNo() {
+		return replyNo;
 	}
 
-	public void setReplyId(int replyId) {
-		this.replyId = replyId;
+	public void setReplyNo(int replyNo) {
+		this.replyNo = replyNo;
 	}
 
 	public String getReplyContent() {
@@ -50,28 +48,20 @@ public class Reply {
 		this.replyContent = replyContent;
 	}
 
-	public int getRefBoardId() {
-		return refBoardId;
+	public int getRefQnaNo() {
+		return refQnaNo;
 	}
 
-	public void setRefBoardId(int refBoardId) {
-		this.refBoardId = refBoardId;
+	public void setRefQnaNo(int refQnaNo) {
+		this.refQnaNo = refQnaNo;
 	}
 
-	public String getReplyWriter() {
-		return replyWriter;
+	public String getAdminId() {
+		return adminId;
 	}
 
-	public void setReplyWriter(String replyWriter) {
-		this.replyWriter = replyWriter;
-	}
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
 	}
 
 	public Date getReplyCreateDate() {
@@ -97,8 +87,6 @@ public class Reply {
 	public void setReplyStatus(String replyStatus) {
 		this.replyStatus = replyStatus;
 	}
-	
-	
 	
 	
 }

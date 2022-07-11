@@ -14,6 +14,7 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 public interface BoardService {
@@ -61,6 +62,7 @@ public interface BoardService {
 	
 	Board adminNoticeSelect(Board b);
 	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
+	int adminQnaAnsWrite(Reply reply);
 
 	int deleteBoardQna(BoardQnA b);
 
@@ -68,6 +70,8 @@ public interface BoardService {
 /********************************** Event Management *********************************/	
 int getEListCount();	//페이징처리 1: 총게시물 수 
 ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
+ArrayList<Reply> getQnaReplyListAdmin();
+
 
 
 

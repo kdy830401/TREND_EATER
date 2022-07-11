@@ -260,6 +260,34 @@
 		where qna_status = 'Y'
 		order by qna_no desc
 	</select>
+	
+<!-- adminQnaAns 쓰기 -->	
+	<select id="getQnaReplyListAdmin" resultMap="ReplyResultSet">
+		select *
+		from qna_reply 
+		where reply_status = 'Y' 
+		order by reply_no desc
+	</select>
+	<resultMap type="Reply" id="ReplyResultSet">	<!-- type="" 속성 별칭 설정하면 Board도 가능 -->
+		<id column="REPLY_NO" property="replyNo"/> 					<!-- PK(기본키) -->
+		<result column="REPLY_CONTENT" property="replyContent"/>  <!-- 위의 select태그에서 join해서 가져온 멤버테이블의 컬럼 nickname  -->
+		<result column="REF_QNA_NO" property="refQnaNo"/>
+		<result column="ADMIN_ID" property="adminId"/>
+		<result column="REPLY_CREATE_DATE" property="replyCreateDate"/>
+		<result column="REPLY_MODIFY_DATE" property="replyModifyDate"/>
+		<result column="REPLY_STATUS" property="replyStatus"/>
+	</resultMap>
+	
+<!-- adminQnA 쓰기  -->
+	<insert id="adminQnaAnsWrite">
+		insert into qna_reply
+		values(seq_qnarid.nextval, #{replyContent}, #{refQnaNo}, #{adminId},  sysdate, default, 'Y' ) 
+	</insert>
+
+
+
+
+
 
 
 

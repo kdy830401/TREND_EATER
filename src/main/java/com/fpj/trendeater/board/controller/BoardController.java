@@ -404,7 +404,9 @@ public class BoardController {
 		String id = ((Member)session.getAttribute("loginUser")).getEmail();
 		b.setEmailId(id);
 		
+		System.out.println("qna쓰기_b="+b);
 		int result = bService.insertBoardQna(b);
+		System.out.println("qna쓰기_result="+result);
  
 		if (result > 0) {
 			return "redirect:boardQna.bo";

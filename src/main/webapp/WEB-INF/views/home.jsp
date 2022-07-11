@@ -12,6 +12,6 @@
 <body>
 	<c:import url="common/menubar.jsp"/>
 	
-		
+	<c:import url="common/footer.jsp" />	
 </body>
 </html>

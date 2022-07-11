@@ -2,7 +2,6 @@
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
-<%@ page import="com.fpj.trendeater.board.model.vo.BoardQnA" %> 
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -30,7 +29,7 @@ pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 
-<link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/board/boardQna.css">
+<link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/admin/adminQnaList.css">
   
 
 
@@ -38,8 +37,7 @@ pageEncoding="UTF-8"%>
     
 <body>
 
-	<c:import url="../common/menubar.jsp" />
-	
+	<c:import url="adminMenubar.jsp" />
 
 <div class="container">
 <!-- 헤더푸터는 클래스명 신경써야함
@@ -64,7 +62,7 @@ pageEncoding="UTF-8"%>
                 </table>
                 <br>
             </div>
-        <form action="boardQnaUpdateView.bo" method="post" id="boardQnaUpdateViewForm">
+        <form action="adminQnaAnsUpdateViewForm.ad" method="post" id="adminQnaAnsUpdateViewForm">
             <c:forEach var="b" items="${ list }" varStatus="vs">
 	            <details>
 	                <summary> 
@@ -90,37 +88,47 @@ pageEncoding="UTF-8"%>
 		                        <li>
 		                            <div>
 		                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_q-solid.svg" style="width: 15px;">
-
 		                                <p>${ b.qnaContent }</p>
-	                                  <%--  <c:set var="newLineChar" value="1"/> --%>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
 	                                   <c:set var="newLineChar" value="ᚘ"/>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
-	                                   <%-- ${fn:contains(b.qnaContent, "\\r\\n")} --%> <!-- b.qnaContent 안에 내용 중에 개행문자가 포함되어있는지 확인 디버깅용 -->
 	                                  	 ${fn:replace(b.qnaContent, newLineChar, "<br>") }
 	                                   <input type="hidden" name="qnaContent" value="${b.qnaContent}">
 		                                   
-
-		                                
-
+	                                  <%--  <c:set var="newLineChar" value="1"/> --%>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
+	                                   <%-- ${fn:contains(b.qnaContent, "\\r\\n")} --%> <!-- b.qnaContent 안에 내용 중에 개행문자가 포함되어있는지 확인 디버깅용 -->
 		                                   <%-- <input type="hidden" name="qnaContent" value="${b.qnaContent}">${b.qnaContent} --%>
 		                                   <!--타이틀도. 전체를 폼으로 감싸야함. href를 안주고 액션에 주소값 주는 것. 버튼을 누르면 폼에 감싸져있음. 서브밋 필요없이 버튼 누르면 제출됨. vo에 세터값이랑이랑 일치하니   -->
 		                            </div><br>
-		                            <c:if test="${b.qnaAnsStatus eq 'Y'}">
 			                            <div>
 			                                <!-- 답변 상태 b.QnAAnsStatus가 Y이면 A아이콘이 나타나는 c:if 사용 -->
 			                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_a-solid.svg" style="width: 15px;">
-			                                	답변 내용 - 관리자 댓글에서 끌어와야함
+			                                	
+			                                	
+			                                	<div id="dis">
+			                                		<table class="replyTable">
+														<tr>
+															<td><textarea cols="100" rows="4" id="replyContent" align="left">${Reply.replyContent}</textarea></td>
+															<td><button id="rSubmit">등록하기</button></td>
+														</tr>
+													</table>
+													<table class="replyTable" id="rtb">
+														<thead>	
+															<tr>
+																<td colspan="2"><b id="rCount"></b></td>
+															</tr>
+														</thead>
+														<tbody>
+														
+														</tbody>
+													</table>
+			                                	</div>
+			                                	
 			                            </div>
-		                            </c:if>
 		                        </li>
 	                        </div>  
 	                    </ul>
 	                    <div class="QnaToggleOpen_Button">
-	                        <button type="button" name="page" id="updateBtn${ vs.index }" class="updateBtn">수정</button> <!-- { vs.index } == 위의 varStatus -->
-
-	                        <button type="button" name="page" id="deleteBtn${ vs.index }" class="deleteBtn">삭제</button>
-
-	                
-
+	                       <button type="button" name="page" id="BtnReplyUpdate${ vs.index }" class="BtnReplyUpdate">수정</button> <!-- { vs.index } == 위의 varStatus -->
+	                       <button type="button" name="page" id="BtnReplydelete${ vs.index }" class="BtnReplydelete">삭제</button>
 	                        		
 <%-- 	                        <button type="submit" name="page" value="${pi.currentPage}" id="boardQnaDelete"
 	                        		onclick="boardQnaDelete()">삭제</button>
@@ -140,7 +148,7 @@ pageEncoding="UTF-8"%>
 	              <li><a href="#"><span uk-pagination-previous></span></a></li> &nbsp;
 	           </c:if>
 	           <c:if test="${ pi.currentPage > 1 }">
-	              <c:url var="before" value="boardQna.bo">
+	              <c:url var="before" value="adminQnaList.ad">
 	                 <c:param name="page" value="${ pi.currentPage - 1 }"/>
 	              </c:url>
 	              <li><a href="${ before }"><span uk-pagination-previous></span></a></li>
@@ -153,7 +161,7 @@ pageEncoding="UTF-8"%>
 	              </c:if>
 	              
 	              <c:if test="${ p ne pi.currentPage }">
-	                 <c:url var="pagination" value="boardQna.bo">
+	                 <c:url var="pagination" value="adminQnaList.ad">
 	                    <c:param name="page" value="${ p }"/>
 	                 </c:url>
 	                  <li><a href="${ pagination }">${ p }</a></li>&nbsp;
@@ -165,7 +173,7 @@ pageEncoding="UTF-8"%>
 	              <li><a href="#"><span uk-pagination-next></span></a></li> &nbsp;
 	           </c:if>
 	           <c:if test="${ pi.currentPage < pi.maxPage }">
-	              <c:url var="after" value="boardQna.bo">
+	              <c:url var="after" value="adminQnaList.ad">
 	                 <c:param name="page" value="${ pi.currentPage + 1 }"/>
 	              </c:url> 
 	              <li><a href="${ after }"><span uk-pagination-next></span></a></li>
@@ -175,10 +183,6 @@ pageEncoding="UTF-8"%>
  
  
             <br>
-            <div class="submitButton">
-                <button type="submit" onclick="location.href='boardQnaWriteView.bo'">문의하기</button>
-            </div>
-        
 
             <br>
             <div class="boardSearchBox">
@@ -201,34 +205,23 @@ pageEncoding="UTF-8"%>
 
 <script>
 
+	$('.ReplyBtn').on('click',function(){
+		
+		$('#adminQnaAnsView.ad').submit(); // 맨 위 form태그의 id="boardQnaUpdateViewForm"를 submit 시키겠다는 의미
+		
+	});
 
-	$('.deleteBtn').on('click',function(){
+/* 	$('.BtnReplydelete').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
-		$('#qnaNo').val(qnaNo); // #qnaNo의 value="" 속성값에  var qnaNo의 값을 넣겠다는 의미
+		$('#qnaNo').val(qnaNo); // value(qnaNo)의 값을 id="qnaNo"에 넣겠다는 의미
 		console.log(qnaNo);
 		if(confirm("정말로 삭제하시겠습니까?")){
-//			location.href="boardQnaDeleteForm.bo"; // 단순 url 변경이라 데이터 변경이 안됐던 것. 폼태그 안에 있는 데이터 내용을 같이 보내줘야하는데 url 변경만 해서 작동을 안한 것
-			location.href="boardQnaDeleteForm.bo?qnaNo="+qnaNo; 
+//			location.href="adminQnaAnsDeleteForm.ad"; // 단순 url 변경이라 데이터 변경이 안됐던 것. 폼태그 안에 있는 데이터 내용을 같이 보내줘야하는데 url 변경만 해서 작동을 안한 것
+			location.href="adminQnaAnsDeleteForm.ad?qnaNo="+qnaNo; 
 		}
-	});	
-/* 	$('.updateBtn').on('click',function(){
-		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
-	
-		function boardQnaDelete(){
-		if(confirm("정말 삭제하시겠습니까?")){
-			location.href="boardQnaDeleteForm.bo" */
-			/* <c:url var="bdelete" value="bdelete.bo">
-				 <c:param name="bId" value="${ board.boardId }"/>
-				 <c:param name="renameFileName" value="${ board.renameFileName }"/>
-			</c:url> 
-		}
-	}); */
-	/* $('.deleteBtn').on('click',function(){
-		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
-		$('#qnaNo').val(qnaNo); 
-		$('#boardQnaUpdateViewForm').submit();
-	}); */	
-	$('.updateBtn').on('click',function(){
+	});	 */
+
+/* 	$('.ReplyBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		// parent() : 상위태그로 // prev() : 동급의 이전태그(같은 띄어쓰기 단계의 바로 앞에 쓰인 태그) // children() : 하위태그로 // eq(0) : 해당 태그의 0번째있는 태그 // text() : 텍스트만 끌어오는 태그
 		
@@ -236,15 +229,119 @@ pageEncoding="UTF-8"%>
 		// class="updateBtn"이 있는 button태그에서 .parent()는 div태그 그 위 parent는 <div class="QnaToggleOpen">태그
 		// 여기서 prev()하면  summary태그로 가서 children5번하면  table아래 tr태그가 나오고 eq(0)해서 tr태그 아래 첫번째 태그인 td가 선택됨
 		// 이 td태그에서 text()해서 텍스트만 가져오므로써  ${ b.qnaNo } 획득
-
-		$('#qnaNo').val(qnaNo); //  #qnaNo의 value="" 속성값에  var qnaNo의 값을 넣겠다는 의미
-
-		$('#boardQnaUpdateViewForm').submit(); // 맨 위 form태그의 id="boardQnaUpdateViewForm"를 submit 시키겠다는 의미
+		$('#qnaNo').val(qnaNo); // 위에서 ${ b.qnaNo }만 가져다 변수 no에 넣은 걸, id='qnaNo'에 val(no)으로 넣어준다
+		
+		$('#adminQnaAnsUpdateViewForm').submit(); // 맨 위 form태그의 id="boardQnaUpdateViewForm"를 submit 시키겠다는 의미
+		
+	}); */
+	
+	/* 댓글 등록 먼저 해 볼 예정 */
+	/* $('#ReplyBtn').click(function(){
+		var rContent = $('#replyContent').val();
+		var refBId = ${board.boardId};
+		
+		$.ajax({
+			url: 'addReply.bo',
+			data: {replyContent:rContent, refBoardId:refBId},
+			success: function(data) {
+				console.log(data);
+				if(data == 'success'){
+					$('#replyContent').val(' '); // .val(' ') 넣는 이유?
+				}
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
 	});
+	
+	
+	function getReplyList() {
+		$.ajax({
+			url: 'rList.bo',
+			data: {bId:${board.boardId}},
+			success: function(data) {
+				console.log(data);
+				
+				// 계속 이어붙기 때문에 공백 넣어주기. 댓글이 이어서 나오면 뷰가..
+				$tableBody = $('#rtb tbody');
+				$tableBody.html('');
+				
+				var $tr;
+				var $writer;
+				var $content;
+				var $date;
+				$('#rCount').text('댓글(' + data.length + ')');
+				
+				if(data.length > 0) {
+					for (var i in data) {
+						$tr = $('<tr>');
+						$writer = $('<td>').css('width', '100px').text(data[i].nickName);
+						$content = $('<td>').text(data[i].replyContent);
+						$date = $('<td width="100px">').text(data[i].replyCreateDate);
+					
+						$tr.append($writer);
+						$tr.append($content);
+						$tr.append($date);
+						$tableBody.append($tr);
+					}
+				}else{
+					$tr = $('<tr>');
+					$content = $('<td colspan="3">').text('등록된 댓글이 없습니다.');  attr해서 집어넣는 것도 가능
+				
+					$tr.append($content);
+					$tableBody.append($tr);
+				}
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	} */
 </script>
 
 
-<c:import url="../common/footer.jsp" />
+<!-- ############ PAGE END 끝~ -->
+
+</div>
+</div>
+<!-- / -->
+
+<!-- theme switcher -->
+
+<!-- ############ LAYOUT END-->
+
+</div>
+<!-- build:js scripts/app.html.js -->
+<!-- jQuery -->
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery/dist/jquery.js"></script>
+<!-- Bootstrap -->
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/tether/dist/js/tether.min.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+<!-- core -->
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/underscore/underscore-min.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/PACE/pace.min.js"></script>
+
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/config.lazyload.js"></script>
+
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/palette.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-load.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-jp.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-include.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
+
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
+
+<!-- ajax -->
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
+<!-- endbuild -->
+
 
 </body>
 </html>
