@@ -305,7 +305,40 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.eDeleteBoard(sqlSession, eno);
 	}
 	
+/******************************MAIN*****************************************/
+	//이벤트게시판 최근 글 불러오기 
+	@Override
+	public ArrayList<EventBoard> getRecentEboard() {
+		return bDAO.getRecentEboard(sqlSession);
+	}
 	
+	//메인 최신글 그림 불러오기
+	@Override
+	public ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB) {
+		return bDAO.getEImgList(sqlSession, eventB);
+	}
+	
+	//메인 최신제품 불러오기
+	@Override
+	public ArrayList<Product> getNewProducts() {
+		return bDAO.getNewProucts(sqlSession);
+	}
+
+	//메인 최신제품 이미지 불러오기
+	@Override
+	public ArrayList<Image> getNewPImages(ArrayList<Product> pList) {
+		return bDAO.getNewPImages(sqlSession, pList);
+	}
+	//메인 베스트상품 불러오기
+	@Override
+	public ArrayList<Product> getbProducts() {
+		return bDAO.getbProducts(sqlSession);
+	}
+	//메인 베스트상품 이미지 불러오기
+	@Override
+	public ArrayList<Image> getbImgList(ArrayList<Product> bProducts) {
+		return bDAO.getbImgList(sqlSession, bProducts);
+	}
 	
 /***********************************************************************/
 
@@ -334,4 +367,11 @@ public class BoardServiceImpl implements BoardService{
 		public ArrayList<UserLike>selectLikeCount(int reviewNo) {
 			return bDAO.selectLikeCount(sqlSession, reviewNo);
 		}
+		
+		
+		
+		
+		
+		
+		
 }

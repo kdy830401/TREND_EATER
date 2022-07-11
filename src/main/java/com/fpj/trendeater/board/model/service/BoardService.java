@@ -112,6 +112,20 @@ public interface BoardService {
 	int reuploadEImage(ArrayList<Image> imageList);// 이벤트게시판 수정하기 3 : 새로운 이미지 삽입
 
 	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
+
+	ArrayList<EventBoard> getRecentEboard();//메인 최신글 불러오기
+
+	ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB);//메인 최신글 그림 불러오기
+
+	ArrayList<Product> getNewProducts();// 메인 최신제품 불러오기
+
+	ArrayList<Image> getNewPImages(ArrayList<Product> pList);//메인 최신제품이미지 불러오기
+
+	ArrayList<Product> getbProducts();// 메인 베스트 상품 불러오기
+
+	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
+
+	
 	
 	
 	
