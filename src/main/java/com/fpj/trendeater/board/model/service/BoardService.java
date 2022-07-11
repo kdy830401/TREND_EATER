@@ -96,6 +96,7 @@ public interface BoardService {
 
 	
 /********************************** Event Management *********************************/	
+	int getEListCount();   //페이징처리 1: 총게시물 수 
 	ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
 	
 	int insertEBoard(EventBoard b);// 이벤트 게시판 삽입 1 글내용 삽입
