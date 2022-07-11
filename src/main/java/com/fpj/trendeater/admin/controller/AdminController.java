@@ -58,6 +58,12 @@ import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.order.model.exception.OrderException;
+import com.fpj.trendeater.order.model.service.OrderService;
+import com.fpj.trendeater.order.model.vo.OrderDetail;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 @SessionAttributes("adminUser")
 @Controller
@@ -68,6 +74,9 @@ public class AdminController {
 
 	@Autowired
 	private BoardService bService;
+	
+	@Autowired
+	private OrderService oService;
 
 	@Autowired
 	private BoardController bController;
@@ -1757,6 +1766,100 @@ public class AdminController {
 //	
 	
 	
+	/*********************************** 주문 관리  ***********************************/		
+	// 주문 관리 페이지
+	@RequestMapping("orderAdminList.ad")
+	public ModelAndView orderAdminList(@RequestParam(value="page", required=false) Integer page, 
+			 HttpSession session, ModelAndView mv) {
+//		// 1. 관리자 여부 확인 -> 나중에 TP로 완성하기
+//		Admin admin = (Admin)session.getAttribute("admin");
+//		if(admin != null) {
+//		
+//		} else {
+//			throw new BoardException()
+//		}
+		
+		// 2. 페이징	
+		// 2.1 주문 정보 리스트 숫자 구하기
+		int listCount = oService.getOrderListCount();
+		
+		// 2.2 현재 페이지 구하기
+		int currentPage=1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		// 2.3 한 페이지에 들어갈 게시물 수
+		int boardLimit = 10;
+		
+		// 2.4 페이징 계산		
+		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);
+		
+		// 3. 특정 페이지의 주문 정보 가져오기 
+		// 3.1 Order에서 주문자의 주문 정보가져오기
+		ArrayList<OrderStatus> orderAdminList = oService.getAdminOrderList(pi);
+		
+		// 4. mv에 담아 이동
+		if(orderAdminList != null) {
+			mv.addObject("orderAdminList", orderAdminList);
+			mv.setViewName("orderAdminList");
+		} else {
+			throw new BoardException("주문 관리 조회에 실패했습니다.");
+		}
+		return mv;		
+	}
+	
+	// 주문 관리 - 주문 상태 변경
+	@RequestMapping("changeOrderStatus.ad")
+	public void changeOrderStatus(@ModelAttribute OrderStatus os, HttpServletResponse response) {
+		int result = oService.changeOrderStatus(os);
+		
+		
+		if(result<1) {
+			throw new BoardException("주문 상태 변경에 실패했습니다.");
+		}
+		
+		try {
+			new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(result, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 주문 관리 - 주문 목록
+	@RequestMapping("categoryList.ad")
+	public ModelAndView getCategoryList(@RequestParam(value="page", required=false) Integer page, 
+			 HttpSession session, ModelAndView mv, @RequestParam("orderStatusName") String orderStatusName) {
+//		// 1. 관리자 여부 확인 -> 나중에 TP로 완성하기
+		
+		// 2. 페이징	
+		// 2.1 주문 정보 리스트 숫자 구하기
+		int listCount = oService.getCategoryListCount(orderStatusName);
+		
+		// 2.2 현재 페이지 구하기
+		int currentPage=1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		// 2.3 한 페이지에 들어갈 게시물 수
+		int boardLimit = 10;
+		
+		// 2.4 페이징 계산		
+		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);		
+		
+		// 3. 주문(ordered) 목록 가져오기
+		ArrayList<OrderDetail> categoryList = oService.getCategoryList(pi, orderStatusName);
+		System.out.println("ordered : " + categoryList);
+		
+		// 4. 이동	
+		mv.addObject("categoryList", categoryList);
+		mv.addObject("pi", pi);
+		mv.setViewName("categoryList");
+		return mv;
+	}
 	
 
 }

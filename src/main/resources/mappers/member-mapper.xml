@@ -64,7 +64,17 @@
   <result column = "LOGIN_TYPE" property = "loginType"/>
   </resultMap>
   
-  
+ 	<!-- OrderStatus -->
+	<resultMap type="OrderStatus" id="orderStatusResultMap">
+		<id column="ORDER_NO" property="orderNo"/>
+		
+		<result column="ORDER_DATE" property="orderDate"/>
+		<result column="TOTAL_PRICE" property="totalPrice"/>		
+		<result column="ORDER_REQUEST" property="orderRequest"/>
+		<result column="EMAIL_ID" property="email"/>
+		<result column="ORDER_STATUS_NO" property="orderStatusNo"/>
+		<result column="ORDER_STATUS_NAME" property="orderStatusName"/>
+	</resultMap>	 
   
   <update id="updateInfo">
   
@@ -367,4 +377,21 @@
 				join point_category on(category_no = point_category_no)
 		where email_id=#{email} and point_status = '사용'
 	</select>
+	
+	<!-- 주문 내역 페이지 -->
+	<!-- 1. 페이징 -->
+	<select id="getMyOrderListCount" resultType="_int">
+		select count(*)
+		from order_list
+		where email_id = #{emailId}
+	</select>
+	
+	<!-- 주문 정보 받아오기 -->
+	<!-- 2.1 주문 내역 받기 -->
+	<select id="myOrderList" resultMap="orderStatusResultMap">
+		select *
+		from order_list
+			left join order_status on(order_list.order_status_no=order_status.order_status_no)
+		where email_id = #{emailId}
+	</select>	
 </mapper>

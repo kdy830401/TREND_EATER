@@ -15,6 +15,7 @@ import com.fpj.trendeater.member.model.vo.Member;
 import com.fpj.trendeater.member.model.vo.PointList;
 import com.fpj.trendeater.member.model.vo.ReviewList;
 import com.fpj.trendeater.member.model.vo.ScrapList;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
 
 @Repository("mDAO")
 public class MemberDAO {
@@ -172,4 +173,21 @@ public class MemberDAO {
 	public ArrayList<ReviewImage> getScrapReviewImageList(SqlSessionTemplate sqlSession, String email) {
 		return (ArrayList)sqlSession.selectList("memberMapper.getScrapReviewImageList", email);
 	}
+	
+	// 주문 내역
+	// 1. 페이징
+	public int getMyOrderListCount(SqlSessionTemplate sqlSession, String emailId) {
+		return sqlSession.selectOne("memberMapper.getMyOrderListCount", emailId);
+	}
+	
+	// 2. 주문 정보 받기
+	// 2.1 주문 리스트 받기
+	public ArrayList<OrderStatus> getMyOrderList(SqlSessionTemplate sqlSession, String emailId, PageInfo pi) {
+		// 1. 건너뛸 페이지 수
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		// 2. Rowbounds
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());	
+		return (ArrayList)sqlSession.selectList("memberMapper.myOrderList", emailId, rowBounds);
+	}	
 }

@@ -34,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fpj.trendeater.admin.controller.AdminController;
 import com.fpj.trendeater.admin.model.service.AdminService;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.common.Pagination;
@@ -43,6 +44,7 @@ import com.fpj.trendeater.member.model.vo.LikeScrapList;
 import com.fpj.trendeater.member.model.vo.Member;
 import com.fpj.trendeater.member.model.vo.PointList;
 import com.fpj.trendeater.member.model.vo.ReviewList;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
 
 
 @SessionAttributes("loginUser")
@@ -767,8 +769,46 @@ public class MemberController {
 		}	
 	
 	
-	
-	
+		// 주문 내역
+		@RequestMapping("orderList.me")
+		public ModelAndView orderList(@RequestParam(value="page", required=false) Integer page,
+				HttpSession session, ModelAndView mv) {	
+			// 1. 주문자 이메일 가져오기
+			String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
+
+			// 2. 페이징	
+			// 2.1 주문 정보 리스트 숫자 구하기
+			int listCount = mService.getMyOrderListCount(emailId);
+			System.out.println("listCount : " + listCount);
+			
+			// 2.2 현재 페이지 구하기
+			int currentPage=1;
+			if(page != null) {
+				currentPage = page;
+			}
+			
+			// 2.3 한 페이지에 들어갈 게시물 수
+			int boardLimit = 10;
+			
+			// 2.4 페이징 계산		
+			PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);
+			
+			// 3. 특정 페이지의 주문 정보 가져오기 
+			// 3.1 Order에서 주문자의 주문 정보가져오기
+			ArrayList<OrderStatus> orderList = mService.getMyOrderList(emailId, pi);
+			
+
+			// 4. mv에 담아 이동
+			if(orderList != null) {
+				mv.addObject("orderList", orderList);
+				mv.setViewName("orderList");
+			} else {
+				throw new MemberException("주문 내역 조회에 실패했습니다.");
+			}
+			return mv;
+		}		
+		
+		
 	
 	//***김주희*****//
 	//회원 탈퇴

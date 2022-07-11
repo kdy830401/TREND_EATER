@@ -153,7 +153,7 @@ a:hover {
 							</li>
 
 							<li>
-								<a href="#">
+								<a href="orderAdminList.ad">
 									<span class="nav-text">주문 관리</span>
 								</a>
 							</li>

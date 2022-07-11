@@ -24,6 +24,7 @@ import com.fpj.trendeater.member.model.vo.Member;
 import com.fpj.trendeater.member.model.vo.PointList;
 import com.fpj.trendeater.member.model.vo.ReviewList;
 import com.fpj.trendeater.member.model.vo.ScrapList;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -378,6 +379,18 @@ public void kakaoLogout(String access_Token) {
 		return mDAO.getScrapReviewImageList(sqlSession, email);
 	}
 
+	// 주문 내역
+	// 1. 페이징
+	@Override
+	public int getMyOrderListCount(String emailId) {
+		return mDAO.getMyOrderListCount(sqlSession, emailId);
+	}	
 
+	// 2. 사용자 주문 정보 가져오기
+	// 2.1 주문 내역 가져오기
+	@Override
+	public ArrayList<OrderStatus> getMyOrderList(String emailId, PageInfo pi) {
+		return mDAO.getMyOrderList(sqlSession, emailId, pi);
+	}
 
 }
