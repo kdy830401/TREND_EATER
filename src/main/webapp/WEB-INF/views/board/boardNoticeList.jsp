@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="com.fpj.trendeater.board.model.vo.Board" %>
 
 <!DOCTYPE html>
@@ -35,7 +36,7 @@
 <body>
 
 
-
+	<c:import url="../common/menubar.jsp" />
 
     <div class="container">
 
@@ -156,7 +157,7 @@
 	</script> 
 
     
-   
+<c:import url="../common/footer.jsp" />   
 </body>
 </html>
 

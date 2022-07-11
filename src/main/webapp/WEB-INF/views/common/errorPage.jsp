@@ -84,7 +84,7 @@ font-family: 'Noto Sans KR', sans-serif
 							
 							<p class="exception">${requestScope['javax.servlet.error.message'] }</p>
 
-							<a href="home.do" class="link_404">Go to Home</a>
+							<a href="${ pageContext.servletContext.contextPath }/home.do" class="link_404">Go to Home</a>
 						</div>
 					</div>
 				</div>

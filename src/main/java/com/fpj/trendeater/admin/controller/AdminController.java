@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,19 +51,20 @@ import com.fpj.trendeater.board.controller.BoardController;
 import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.service.BoardService;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
-
-import com.fpj.trendeater.board.model.vo.Review;
-import com.fpj.trendeater.board.model.vo.ReviewImage;
-import com.fpj.trendeater.board.model.vo.UserLike;
-
-
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
-
+import com.fpj.trendeater.board.model.vo.Reply;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.common.Pagination;
-import com.fpj.trendeater.common.ReviewPagination;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.order.model.exception.OrderException;
+import com.fpj.trendeater.order.model.service.OrderService;
+import com.fpj.trendeater.order.model.vo.OrderDetail;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 @SessionAttributes("adminUser")
 @Controller
@@ -72,6 +75,9 @@ public class AdminController {
 
 	@Autowired
 	private BoardService bService;
+	
+	@Autowired
+	private OrderService oService;
 
 	@Autowired
 	private BoardController bController;
@@ -170,47 +176,66 @@ public class AdminController {
 
 	// 상품등록 ver1
 	@RequestMapping("registerProduct.ad")
-	public String registerProduct(@ModelAttribute Product product, @RequestParam(value = "productImg", required = false) MultipartFile productImg, @RequestParam(value = "nutInfoImg", required = false) MultipartFile nutInfoImg, HttpServletRequest request) {
+	public String registerProduct(@ModelAttribute Product product, 
+								  MultipartHttpServletRequest mRequest, 
+								  HttpServletRequest request) {
 
-//		System.out.println(product);
-//		System.out.println(productImg);
-//		System.out.println(nutInfoImg);
-		ArrayList<Image> imageList = new ArrayList<Image>();
+		Map<String, MultipartFile> fileMap = mRequest.getFileMap();
+		System.out.println(fileMap);
+		ArrayList<MultipartFile> fileList = new ArrayList<>();
+		HashMap<String, String> map = null;
 		String savePath = null;
 		Image productupload = new Image();
+		String originName = null;
+		ArrayList<Image> imageList = new ArrayList<Image>();
+		
+		if(fileMap != null && !fileMap.isEmpty()) {
+			// fileMap에 담긴 MultipartFile 객체를 list에 담는다
+			for(String key: fileMap.keySet()) {
+				fileList.add(fileMap.get(key));
+			}
+			
+			for(MultipartFile mf : fileList) {
+				String fieldName = mf.getName();
+				System.out.println(fieldName);
+				Image nutInfoupload = new Image();
+				
+				switch(fieldName) {
+					case("productImg"):
+						
+						map = saveFile(mf, request);
+						originName = mf.getOriginalFilename();
+						savePath = map.get("savePath");
+						productupload.setOriginName(originName);
+						productupload.setChangeName(map.get("changeName"));
+						productupload.setFilePath(map.get("savePath"));
+						productupload.setFileLevel(1);
+						productupload.setFileType(1);
+						productupload.setBoardType(1);
+		//				productupload.setIdentifyNo(product.getProductNo());
+						imageList.add(productupload);
+						break;
+									
+					case("nutInfoImg"):
+						map = saveFile(mf, request);
+						originName = mf.getOriginalFilename();
+						savePath = map.get("savePath");
+						nutInfoupload.setOriginName(originName);
+						nutInfoupload.setChangeName(map.get("changeName"));
+						nutInfoupload.setFilePath(map.get("savePath"));
+						nutInfoupload.setFileLevel(2);
+						nutInfoupload.setFileType(2);
+						nutInfoupload.setBoardType(1);
+	//					nutInfoupload.setIdentifyNo(product.getProductNo());
+						imageList.add(nutInfoupload);
+				}
+			}
+		}
+		
+		
 		
 		// 상품사진 이미지 정보 설정
-		if (productImg != null && !productImg.isEmpty()) {
-
-			HashMap<String, String> map = saveFile(productImg, request);
-			String originName = productImg.getOriginalFilename();
-
-			savePath = map.get("savePath");
-			productupload.setOriginName(originName);
-			productupload.setChangeName(map.get("changeName"));
-			productupload.setFilePath(map.get("savePath"));
-			productupload.setFileLevel(1);
-			productupload.setFileType(1);
-			productupload.setBoardType(1);
-//			productupload.setIdentifyNo(product.getProductNo());
-			imageList.add(productupload);
-		}
 		
-		Image nutInfoupload = new Image();
-		// 상세정보 사진 이미지 정보 설정
-		if (nutInfoImg != null && !nutInfoImg.isEmpty()) {
-			HashMap<String, String> map = saveFile(nutInfoImg, request);
-			String originName = nutInfoImg.getOriginalFilename();
-			savePath = map.get("savePath");
-			nutInfoupload.setOriginName(originName);
-			nutInfoupload.setChangeName(map.get("changeName"));
-			nutInfoupload.setFilePath(map.get("savePath"));
-			nutInfoupload.setFileLevel(2);
-			nutInfoupload.setFileType(2);
-			nutInfoupload.setBoardType(1);
-//			nutInfoupload.setIdentifyNo(product.getProductNo());
-			imageList.add(nutInfoupload);
-		}
 		
 		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
 		String adminName = ((Admin) request.getSession().getAttribute("adminUser")).getName();
@@ -238,76 +263,7 @@ public class AdminController {
 		}
 
 	}
-//	// 상품등록 ver1
-//	@RequestMapping("registerProduct.ad")
-//	public String registerProduct(@ModelAttribute Product product, @RequestParam(value = "productImg", required = false) MultipartFile productImg, @RequestParam(value = "nutInfoImg", required = false) MultipartFile nutInfoImg, HttpServletRequest request) {
-//		
-////		System.out.println(product);
-////		System.out.println(productImg);
-////		System.out.println(nutInfoImg);
-//		ArrayList<Image> imageList = new ArrayList<Image>();
-//		String savePath = null;
-//		Image productupload = new Image();
-//		
-//		// 상품사진 이미지 정보 설정
-//		if (productImg != null && !productImg.isEmpty()) {
-//			
-//			HashMap<String, String> map = saveFile(productImg, request);
-//			String originName = productImg.getOriginalFilename();
-//			
-//			savePath = map.get("savePath");
-//			productupload.setOriginName(originName);
-//			productupload.setChangeName(map.get("changeName"));
-//			productupload.setFilePath(map.get("savePath"));
-//			productupload.setFileLevel(1);
-//			productupload.setFileType(1);
-//			productupload.setBoardType(1);
-////			productupload.setIdentifyNo(product.getProductNo());
-//			imageList.add(productupload);
-//		}
-//		
-//		Image nutInfoupload = new Image();
-//		// 상세정보 사진 이미지 정보 설정
-//		if (nutInfoImg != null && !nutInfoImg.isEmpty()) {
-//			HashMap<String, String> map = saveFile(nutInfoImg, request);
-//			String originName = nutInfoImg.getOriginalFilename();
-//			savePath = map.get("savePath");
-//			nutInfoupload.setOriginName(originName);
-//			nutInfoupload.setChangeName(map.get("changeName"));
-//			nutInfoupload.setFilePath(map.get("savePath"));
-//			nutInfoupload.setFileLevel(2);
-//			nutInfoupload.setFileType(2);
-//			nutInfoupload.setBoardType(1);
-////			nutInfoupload.setIdentifyNo(product.getProductNo());
-//			imageList.add(nutInfoupload);
-//		}
-//		
-//		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
-//		String adminName = ((Admin) request.getSession().getAttribute("adminUser")).getName();
-//		product.setAdminId(adminId);
-//		product.setAdminName(adminName);
-//		
-//		// 상품 정보 등록(게시글 정보도 포함)
-//		int result1 = aService.registerProduct(product);
-//		// 상품 이미지 등록
-//		int result2 = aService.registerImage(imageList, product.getProductNo());
-//		
-//		System.out.println("imgresult : " + result2);
-//		if (result1 + result2 > 2) {
-//			return "redirect:productList.ad";
-//		} else {
-//			// 상품 등록 실패시 저장소 파일 삭제
-//			for (int i = 0; i < imageList.size(); i++) {
-////				File failFile = new File(savePath + "/" + imageList.get(i).getChangeName());
-////				failFile.delete();
-//				deleteFile(imageList.get(i).getChangeName(), request);
-//			}
-//			
-//			throw new AdminException("상품등록에 실패하였습니다.");
-//			
-//		}
-//		
-//	}
+	
 
 	// 파일 저장
 	private HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
@@ -596,11 +552,17 @@ public class AdminController {
 										  @RequestParam(value = "page", required = false) Integer page,ModelAndView mv) {
 
 		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("update", "update");
+		map.put("pno", productNo);
+		System.out.println(productNo);
 		// 상품 번호로 상품 정보 받아오기
-		Product p = bService.selectPrBoard(productNo);
+		Product p = bService.selectPrBoard(map);
+//		System.out.println(p);
 		// 상품 이미지 정보 받아오기
 		ArrayList<Image> imgList = bService.selectPrImage(productNo);
 //		ModelAndView updateMv = bController.prbBoardDetail(productNo, 1, null, mv);
+		System.out.println(imgList);
 		
 		if(p != null && imgList != null) {
 			mv.addObject("p", p);
@@ -1449,7 +1411,7 @@ public class AdminController {
 			currentPage = page;
 		}
 		
-		int listCount = bService.reviewCount();
+		int listCount = bService.reviewCount(null);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
@@ -1652,10 +1614,13 @@ public class AdminController {
 		ArrayList<BoardQnA> list = bService.getBoardQnaListAdmin(pi);
 		System.out.println("adQnA조회_pi=" + pi);
 		System.out.println("adQnA조회_list=" + list); // 항상 디버깅 찍어보기
-
+		ArrayList<Reply> replyList = bService.getQnaReplyListAdmin();
+		System.out.println("replyList="+replyList);
+		
 		if (list != null) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
+			mv.addObject("replyList", replyList);
 			mv.setViewName("adminQnaList");
 		} else {
 			throw new BoardException("문의사항 전체 조회에 실패했습니다");
@@ -1665,20 +1630,24 @@ public class AdminController {
 
 /********************************************** admin QnA : 쓰기  *******************************************************/
 
-	// QnA : 쓰기
-	@RequestMapping("adminQnaAnsView.ad")
-	public String boardQnaWriteForm() {
-		return "adminQnaAnsForm";
-		
-		// 댓글로 하기로함
-		// 수정폼이 필요할까? ajax로 한번?
-		
-	}
+//	// QnA : 쓰기
+//	@RequestMapping("adminQnaAnsView.ad")
+//	public String boardQnaWriteForm() {
+//		return "adminQnaAnsView";
+//	}
 	
-	@RequestMapping("adminQnaAnsForm.ad")
-	public String insertBoardQna(@ModelAttribute BoardQnA b) {
-
-		int result = bService.insertBoardQna(b);
+	@RequestMapping("adminQnaAnsWrite.ad")
+	public String adminQnaAnsWrite(@ModelAttribute Reply reply, HttpSession session) {
+		
+		// 보낼꺼 : adminId, refQnaNo,  replyContent
+		// adminId는 아래 세션 어드민에서 받아옴. replyContent는 textarea에서 보내고 refQnaNo는 인풋히든에서 보냄
+		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
+		reply.setAdminId(id); // adminId 
+		
+		
+		System.out.println("admin QnA쓰기_reply="+reply);
+		int result = bService.adminQnaAnsWrite(reply);
+		System.out.println("admin QnA쓰기_result="+result);
  
 		if (result > 0) {
 			return "redirect:adminQnaList.ad";
@@ -1687,6 +1656,36 @@ public class AdminController {
 		}
 	}
 	
+//	@RequestMapping("adminQnaAnsWrite.ad")
+////	@ResponseBody
+//	public String addReply(@ModelAttribute Reply r, HttpSession session) {
+//			// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
+//		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
+//		r.set(id);
+//		
+//		int result = bService.insertReply(r);
+//		
+//		if(result > 0) {
+//			return "success";	// "success"를 str으로 넘기고 있기에 view이름이 아니라는걸 알려주기 위하여 @ResponseBody 어노테이션 필요
+//		}else {
+//			throw new BoardException("댓글 등록에 실패하였습니다.");
+//		}
+//	}
+//	@RequestMapping("adminQnaAnsWrite.ad")
+////@ResponseBody
+//public String addReply(@ModelAttribute Reply r, HttpSession session) {
+//		// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
+//	String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
+//	r.set(id);
+//	
+//	int result = bService.insertReply(r);
+//	
+//	if(result > 0) {
+//		return "success";	// "success"를 str으로 넘기고 있기에 view이름이 아니라는걸 알려주기 위하여 @ResponseBody 어노테이션 필요
+//	}else {
+//		throw new BoardException("댓글 등록에 실패하였습니다.");
+//	}
+//}
 	
 /********************************************** admin QnA : 수정  *******************************************************/
 	
@@ -1786,8 +1785,8 @@ public class AdminController {
 	
 	
 		
-//	@RequestMapping("addReply.bo")
-//	@ResponseBody
+//	@RequestMapping("adminQnaAnsWrite.ad")
+////	@ResponseBody
 //	public String addReply(@ModelAttribute Reply r, HttpSession session) {
 //			// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
 //		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
@@ -1801,10 +1800,104 @@ public class AdminController {
 //			throw new BoardException("댓글 등록에 실패하였습니다.");
 //		}
 //	}
-//	
-//	
 	
 	
+	
+	
+	/*********************************** 주문 관리  ***********************************/		
+	// 주문 관리 페이지
+	@RequestMapping("orderAdminList.ad")
+	public ModelAndView orderAdminList(@RequestParam(value="page", required=false) Integer page, 
+			 HttpSession session, ModelAndView mv) {
+//		// 1. 관리자 여부 확인 -> 나중에 TP로 완성하기
+//		Admin admin = (Admin)session.getAttribute("admin");
+//		if(admin != null) {
+//		
+//		} else {
+//			throw new BoardException()
+//		}
+		
+		// 2. 페이징	
+		// 2.1 주문 정보 리스트 숫자 구하기
+		int listCount = oService.getOrderListCount();
+		
+		// 2.2 현재 페이지 구하기
+		int currentPage=1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		// 2.3 한 페이지에 들어갈 게시물 수
+		int boardLimit = 10;
+		
+		// 2.4 페이징 계산		
+		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);
+		
+		// 3. 특정 페이지의 주문 정보 가져오기 
+		// 3.1 Order에서 주문자의 주문 정보가져오기
+		ArrayList<OrderStatus> orderAdminList = oService.getAdminOrderList(pi);
+		
+		// 4. mv에 담아 이동
+		if(orderAdminList != null) {
+			mv.addObject("orderAdminList", orderAdminList);
+			mv.setViewName("orderAdminList");
+		} else {
+			throw new BoardException("주문 관리 조회에 실패했습니다.");
+		}
+		return mv;		
+	}
+	
+	// 주문 관리 - 주문 상태 변경
+	@RequestMapping("changeOrderStatus.ad")
+	public void changeOrderStatus(@ModelAttribute OrderStatus os, HttpServletResponse response) {
+		int result = oService.changeOrderStatus(os);
+		
+		
+		if(result<1) {
+			throw new BoardException("주문 상태 변경에 실패했습니다.");
+		}
+		
+		try {
+			new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(result, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 주문 관리 - 주문 목록
+	@RequestMapping("categoryList.ad")
+	public ModelAndView getCategoryList(@RequestParam(value="page", required=false) Integer page, 
+			 HttpSession session, ModelAndView mv, @RequestParam("orderStatusName") String orderStatusName) {
+//		// 1. 관리자 여부 확인 -> 나중에 TP로 완성하기
+		
+		// 2. 페이징	
+		// 2.1 주문 정보 리스트 숫자 구하기
+		int listCount = oService.getCategoryListCount(orderStatusName);
+		
+		// 2.2 현재 페이지 구하기
+		int currentPage=1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		// 2.3 한 페이지에 들어갈 게시물 수
+		int boardLimit = 10;
+		
+		// 2.4 페이징 계산		
+		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);		
+		
+		// 3. 주문(ordered) 목록 가져오기
+		ArrayList<OrderDetail> categoryList = oService.getCategoryList(pi, orderStatusName);
+		System.out.println("ordered : " + categoryList);
+		
+		// 4. 이동	
+		mv.addObject("categoryList", categoryList);
+		mv.addObject("pi", pi);
+		mv.setViewName("categoryList");
+		return mv;
+	}
 	
 
 }

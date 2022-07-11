@@ -177,7 +177,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 	<div class="floating">
 		<div class="uk-margin uk-border-circle floating-button edit" uk-tooltip="리뷰작성하기">
-			<a href="#">
+			<a href="rinsertView.bo">
 				<span class="material-symbols-outlined icon">edit</span>
 			</a>
 		</div>
@@ -571,7 +571,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 	<c:if test="${ p.reviewCount != 0  }">
 	<div class="uk-text-center uk-margin-large-bottom">
-	<button class="btn btn-outline rounded p-x-md b-warning text-warning">리뷰 보러 가기</button>
+	<button class="btn btn-outline rounded p-x-md b-warning text-warning" onclick="location.href='rlist.bo?pno=${ p.productNo }'">리뷰 보러 가기</button>
 	</div>
 		<div class="uk-container">
 			<div class="uk-child-width-1-4@s uk-grid" uk-grid uk-height-match="target: > .uk-card-body">

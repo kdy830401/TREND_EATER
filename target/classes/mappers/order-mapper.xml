@@ -1,7 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace ="orderMapper">
+	<!-- resultMap -->
+	<!-- 1.IMAGE -->
+	<resultMap type="Image" id="imageResultMap">
+		<id column="IMAGE_NO" property="imageNo"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="UPLOAD_DATE" property="uploadDate"/>
+		<result column="FILE_LEVEL" property="fileLevel"/> 
+		<result column="FILE_TYPE" property="fileType"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="IDENTIFY_NO" property="identifyNo"/>
+	</resultMap>
+	
+	<!-- 2. OrderDetail -->
+	<resultMap type="OrderDetail" id="orderDetailResultMap">
+		<id column="ORDER_NO" property="orderNo"/>	
+			
+		<result column="ORDER_DATE" property="orderDate"/>		
+		<result column="TOTAL_PRICE" property="totalPrice"/>
+		<result column="ORDER_REQUEST" property="orderRequest"/>
+		<result column="EMAIL_ID" property="email"/>
+		<result column="ORDER_STATUS_NO" property="orderStatusName"/>
 
+		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
+		<result column="ORDER_AMOUNT" property="orderAmount"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+	</resultMap>
+	
+	<!-- 3. Product -->
+	<resultMap type="product" id="productResultSet">
+		<id column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="PRODUCT_STOCK" property="productStock"/>
+		<result column="PRODUCT_ONELINE" property="productOneLine"/>
+		<result column="PRODUCT_TYPE" property="productType"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="REVIEW_COUNT" property="reviewCount"/>
+		<result column="SCRAP_COUNT" property="scrapCount"/>
+		<result column="BOARD_STATUS" property="boardStatus"/>
+		<result column="ADMIN_ID" property="adminId"/>
+		<result column="ADMIN_NAME" property="adminName"/>
+		
+		<result column="TOTAL_AVG" property="totalAvg"/>
+		<result column="RECOMMEND_AVG" property="recommendAvg"/>
+		<result column="REORDER_AVG" property="reorderAvg"/>
+		<result column="SPICY_AVG" property="spicyAvg"/>
+		<result column="SWEET_AVG" property="sweetAvg"/>
+		<result column="BITTER_AVG" property="bitterAvg"/>
+		<result column="SALTY_AVG" property="saltyAvg"/>
+		<result column="SOUR_AVG" property="sourAvg"/>	
+	</resultMap>	
+	
+	<!-- 4. OrderStatus -->
+	<resultMap type="OrderStatus" id="orderStatusResultMap">
+		<id column="ORDER_NO" property="orderNo"/>
+
+		<result column="ORDER_DATE" property="orderDate"/>
+		<result column="TOTAL_PRICE" property="totalPrice"/>		
+		<result column="ORDER_REQUEST" property="orderRequest"/>
+		<result column="EMAIL_ID" property="email"/>
+		<result column="ORDER_STATUS_NO" property="orderStatusNo"/>
+		<result column="ORDER_STATUS_NAME" property="orderStatusName"/>
+	</resultMap>	
+	
+	<!-- 결제 후 주문 정보 db 저장 -->
 	<!--1.ORDER_STATUS TABLE에 insert  -->
 	<insert id="insertOrderStatus">
 		insert into ORDER_STATUS
@@ -36,16 +106,63 @@
 		where IDENTIFY_NO = #{productNo} and file_level = 1 and BOARD_TYPE = 1
 	</select>
 	
-	<resultMap type="Image" id="imageResultMap">
-		<id column="IMAGE_NO" property="imageNo"/>
-		<result column="CHANGE_NAME" property="changeName"/>
-		<result column="ORIGIN_NAME" property="originName"/>
-		<result column="FILE_PATH" property="filePath"/>
-		<result column="UPLOAD_DATE" property="uploadDate"/>
-		<result column="FILE_LEVEL" property="fileLevel"/> 
-		<result column="FILE_TYPE" property="fileType"/>
-		<result column="BOARD_TYPE" property="boardType"/>
-		<result column="IDENTIFY_NO" property="identifyNo"/>
-	</resultMap>
-		
+	<!-- 주문 내역, 주문 관리 - 상세보기 -->
+	<!-- 1. 주문 상세보기 리스트 받기 -->
+	<select id="myOrderDetailList" resultMap="orderDetailResultMap">
+		select *
+		from order_l
+			left join order_detail using(order_no)
+		where order_no = #{orderNo}
+	</select>
+	
+	<!-- 2. 주문 상세보기 이미지 받기 -->
+	<select id="getMyOrderImgList" resultMap="imageResultMap">
+		select *
+		from image
+		where product_no=#{productNo} and file_level = 0
+	</select>
+	
+	<!-- 3. 주문 품목 상세보기 리스트 받기 -->
+	<select id="getPdtDetailList" resultMap="productResultSet">
+		select *
+		from product
+		where product_no=#{productNo}
+	</select>
+
+
+	<!-- 주문 관리 -->
+	<!-- 1. 페이징 -->
+	<select id="getOrderListCount" resultType="_int">
+		select count(*)
+		from order_l
+	</select>
+	
+	<!-- 2. 주문 내역 받아오기 -->
+	<select id="getAdminOrderList" resultMap="orderStatusResultMap">
+		select *
+		from order_l
+			left join order_status on(order_list.order_status_no = order_status.order_status_no)
+	</select>
+	
+	<!-- 주문 관리 - 주문 상태 변경 -->
+	<update id="changeOrderStatus">
+		update order_status
+		set order_status_name=#{orderStatusName}
+		where order_no = #{orderNo}
+	</update>
+	
+	<!-- 주문 관리 - 주문 목록 -->
+	<select id="getCategoryListCount" resultType="_int">
+		select count(*)
+		from order_l
+			left join order_status on(order_list.order_status_no = order_status.order_status_no)
+		where order_status_name = #{orderStatusName}
+	</select>
+	
+	<select id="getOrderedList" resultMap="orderStatusResultMap">
+		select *
+		from order_l
+			left join order_status on(order_list.order_status_no = order_status.order_status_no)
+		where order_status_name = #{orderStatusName}
+	</select>		
 </mapper>

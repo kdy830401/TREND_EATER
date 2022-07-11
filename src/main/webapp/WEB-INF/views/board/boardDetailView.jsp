@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ 
 <%@ page import="com.fpj.trendeater.board.model.vo.Board" %>
 
 
@@ -12,10 +13,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> TREND_EATER </title>
 
+<!-- UIkit CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
+
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
+
+<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
+
+
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/board/boardNoticeDetail.css" type="text/css">
 
 </head>
 <body>
+
+	<c:import url="../common/menubar.jsp" />
+
 
     <div class="title">
         <h2>공지사항</h2>   
@@ -71,7 +85,7 @@
  -->
 
     
-
+<c:import url="../common/footer.jsp" />
 </body>
 </html>
 

@@ -19,22 +19,27 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 public interface BoardService {
 
 	
 	// 리뷰 게시판 상세보기
-	Product selectPrBoard(int pno);
+	Product selectPrBoard(HashMap<String, Object> map);
 
 	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
 	
 
 	//이용준
-	int reviewCount();
+	int reviewCount(Integer productNo);
+	ArrayList<UserLike> userLikeSelect(HashMap<String, Object> map);
 
-	ArrayList<Review> getReviewList(PageInfo pi);
+	int reviewLike(HashMap<String, Object> map);
+	
+	
+	ArrayList<Review> getReviewList(PageInfo pi, Integer productNo);
 
 	ArrayList<ReviewImage> getReviewImageList();
 
@@ -45,16 +50,17 @@ public interface BoardService {
 
 	int reportReview(Report rep);
 
-		// 게시글 좋아요 여부 카운트
-		int likeCount(UserLike li);
-		// 게시글 좋아요
-		int insertLike(UserLike like);
-		
-		// 게시글 좋아요 취소
-		int deleteLike(UserLike like);
-		
-		// 전체 좋아요 개수
-		ArrayList<UserLike> selectLikeCount(int ReviewNo);
+//		// 게시글 좋아요 여부 카운트
+//		int likeCount(UserLike li);
+//		
+//		// 게시글 좋아요
+//		int insertLike(UserLike like);
+//		
+//		// 게시글 좋아요 취소
+//		int deleteLike(UserLike like);
+//		
+//		// 전체 좋아요 개수
+//		ArrayList<UserLike> selectLikeCount(int ReviewNo);
 
 	// 시식신청
 	int registerApplyTaste(ApplyTastePerson applyPerson);
@@ -70,6 +76,7 @@ public interface BoardService {
 	// 리뷰 평점 점수별 갯수 카운트
 	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
+	
 
 /*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
@@ -92,12 +99,14 @@ public interface BoardService {
 	
 	Board adminNoticeSelect(Board b);
 	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
-
+	int adminQnaAnsWrite(Reply reply);
+  ArrayList<Reply> getQnaReplyListAdmin();
+  
 	int deleteBoardQna(BoardQnA b);
 
 	
 /********************************** Event Management *********************************/	
-	int getEListCount();	//페이징처리 1: 총게시물 수 
+istCount();	//페이징처리 1: 총게시물 수 
 	ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
 	
 	int insertEBoard(EventBoard b);// 이벤트 게시판 삽입 1 글내용 삽입
@@ -112,6 +121,7 @@ public interface BoardService {
 	int reuploadEImage(ArrayList<Image> imageList);// 이벤트게시판 수정하기 3 : 새로운 이미지 삽입
 
 	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
+
 
 	ArrayList<EventBoard> getRecentEboard();//메인 최신글 불러오기
 
@@ -128,6 +138,7 @@ public interface BoardService {
 	
 	
 	
+
 	
 
 

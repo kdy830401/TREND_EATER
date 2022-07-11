@@ -26,15 +26,16 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 @Repository("bDAO")
 public class BoardDAO {
 
 	// 리뷰게시판 상세보기
-	public Product selectPrBoard(SqlSessionTemplate sqlSession, int pno) {
+	public Product selectPrBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("boardMapper.selectPrBoard", pno);
+		return sqlSession.selectOne("boardMapper.selectPrBoard", map);
 	}
 	// 리뷰게시판 상세보기
 	public ArrayList<Image> selectPrImage(SqlSessionTemplate sqlSession, int pno) {
@@ -52,7 +53,7 @@ public class BoardDAO {
 	// 스크랩 
 	public int scrap(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		
-		System.out.println(map);
+//		System.out.println(map);
 
 		int checkNum = sqlSession.selectOne("boardMapper.checkScrap", map);
 		
@@ -82,10 +83,10 @@ public class BoardDAO {
 		int arr = 0;
 		for(int i = 1; i <= 5; i++) {
 			arr = i;
-			System.out.println("arr;"+ arr);
+//			System.out.println("arr;"+ arr);
 			countMap.put("arr",arr);
 			resultArr[i-1] = sqlSession.selectOne("boardMapper.getCountReviewPoint", countMap);
-			System.out.println("result:"+resultArr[i-1]);
+//			System.out.println("result:"+resultArr[i-1]);
 		}
 		
 		return resultArr;
@@ -93,14 +94,14 @@ public class BoardDAO {
 
 
 	//이용준
-	public int reviewCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.reviewCount");
+	public int reviewCount(SqlSessionTemplate sqlSession, Integer productNo) {
+		return sqlSession.selectOne("boardMapper.reviewCount", productNo);
 	}
 
-	public ArrayList<Review> getReviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Review> getReviewList(SqlSessionTemplate sqlSession, PageInfo pi, Integer productNo) {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("boardMapper.getReviewList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("boardMapper.getReviewList", productNo, rowBounds);
 	}
 
 	public ArrayList<ReviewImage> getReviewImageList(SqlSessionTemplate sqlSession) {
@@ -145,6 +146,14 @@ public class BoardDAO {
 		public ArrayList<UserLike> selectLikeCount(SqlSessionTemplate sqlSession, int reviewNo) {
 			return (ArrayList)sqlSession.selectList("boardMapper.selectLikeCount", reviewNo);
 		}
+		
+		// 회원의 좋아요 리뷰 리스트 불러오기
+		public ArrayList<UserLike> userLikeSelect(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+			
+			return (ArrayList)sqlSession.selectList("boardMapper.userLikeSelect", map);
+		}
+		
+		
 
 
 
@@ -245,10 +254,12 @@ public class BoardDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());  // 임포트 RowBounds 
 		return (ArrayList)sqlSession.selectList("boardMapper.getBoardQnaListAdmin", null, rowBounds);
 	}
-
+	public int adminQnaAnsWrite(SqlSessionTemplate sqlSession, Reply reply) {
+		return sqlSession.insert("boardMapper.adminQnaAnsWrite",reply);
+	}
 
 	
-
+	
 
 	
 
@@ -267,6 +278,10 @@ public class BoardDAO {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.getEBoardList", null, rowBounds);
+	}
+
+	public ArrayList<Reply> getQnaReplyListAdmin(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getQnaReplyListAdmin");
 	}
 
 	
@@ -329,6 +344,7 @@ public class BoardDAO {
 	public int eDeleteBoard(SqlSessionTemplate sqlSession, int eno) {
 		return sqlSession.update("boardMapper.eDeleteBoard", eno);
 	}
+
 	//메인에서 최근 5개 이벤트게시판 게시글 가져오기
 	public ArrayList<EventBoard> getRecentEboard(SqlSessionTemplate sqlSession) {
 		
@@ -378,6 +394,23 @@ public class BoardDAO {
 	}
 	
 	
+
+	public int reviewLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+			
+			int checkCount = sqlSession.selectOne("boardMapper.likeCount", map);
+			int result = 0;
+			if( checkCount > 0) {
+				result = sqlSession.delete("boardMapper.deleteLike", map);
+				if(result > 0) {
+					result = 2;
+				}
+			} else {
+				result = sqlSession.delete("boardMapper.insertLike", map);
+			}
+		
+		return result;
+	}
+
 	
 	
 	

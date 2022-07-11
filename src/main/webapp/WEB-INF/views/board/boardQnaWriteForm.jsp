@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +20,16 @@
 </head>
 <body>
 
+
+	<c:import url="../common/menubar.jsp" />
+
+
 <div class="head">
     <h2>1:1 문의</h2>
 </div>
 
 <div class="main">
-    <form action="boardQnaWriteForm.bo" method="post">
+    <form action="boardQnaWriteForm.bo" method="post" id="boardQnaWriteForm">
 	    <div class="QuesType">
 	        <div class="uk-form-select innerQuesType" data-uk-form-select>
 	            <div class="innerQuesTypeLeft">
@@ -93,13 +99,13 @@
 	
 	
 	<script>
-		function test(){
+		function test(){ 
 // 			console.log($('input[name=qnaContent]').val());
 // 			$('#tt').text($('input[name=qnaContent]').val());
-			var v=document.getElementById('textarea').value
+			var v = document.getElementById('textarea').value
 			console.log(v);
 			v = v.replace('\n', 'ᚘ');
-//			v = v.replace('\n', '1');
+			$('#boardQnaWriteForm').submit();
 		}
 	// 텍스트 애리어 부분의 개행 데이터를 잘 안쓰는 특수기호로 바꾸고 이를 db 보내고 다시 db에서 뷰로 뿌릴 때 특수기호를 개행문자로 변환
 	// qna에서 내보낼 때도 한번 치환해서 내보내야함.
@@ -107,6 +113,6 @@
 
 </div>
 
-
+<c:import url="../common/footer.jsp" />
 </body>
 </html>
