@@ -1854,6 +1854,8 @@ public class AdminController {
 	// 주문 관리 - 주문 상태 변경
 	@RequestMapping("changeOrderStatus.ad")
 	public void changeOrderStatus(@ModelAttribute OrderStatus os, HttpServletResponse response) {
+		System.out.println("os : " + os);
+		
 		int result = oService.changeOrderStatus(os);
 		
 		
