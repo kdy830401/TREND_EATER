@@ -184,7 +184,6 @@
     	insert into report
     	values (seq_repid.nextval, #{reportType}, #{reportContent}, 'N', sysdate, #{emailId}, #{reviewNo})
     </insert>
-    
  <!-- boardLike -->
  
  
@@ -230,15 +229,6 @@
 	</delete> 
 	
 	
-	<!-- 좋아요 전체 카운트 -->
-<select id="selectLikeCount" resultType = "_int">
-		select 
-			   review_no
-			 , email_id
-		  from
-		       user_like
-		 where review_no = #{reviewNo}
-	</select>
 
 		
 	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -630,10 +620,7 @@
 		 where review_no = #{reviewNo}
 	</select>
 	
-    <insert id="reportReview">
-    	insert into report
-    	values (seq_repid.nextval, #{reportType}, #{reportContent}, 'N', sysdate, #{emailId}, #{reviewNo})
-    </insert>
+ 
     
     <select id="someReviewCount" resultType="_int">
      select count(*)

@@ -184,7 +184,6 @@
     	insert into report
     	values (seq_repid.nextval, #{reportType}, #{reportContent}, 'N', sysdate, #{emailId}, #{reviewNo})
     </insert>
-    
  <!-- boardLike -->
  
  
@@ -213,32 +212,23 @@
 
 	
 	<!-- 게시글 좋아요 -->
-	 <insert id="insertLike">
+<insert id="insertLike">
 		insert into user_like
 
-		   values(seq_likeid.nextval, #{reviewNo}, #{emailId})
-	</insert> 
+		values(seq_likeid.nextval, #{reviewNo}, #{emailId})
+</insert>
 
 	
 	<!-- 게시글 좋아요 취소 -->
-<delete id="deleteLike">
+ <delete id="deleteLike">
 		delete
 
 		  from user_like
 		 where review_no = #{reviewNo}
 		   and email_id = #{emailId}
-	</delete>
+	</delete> 
 	
 	
-	<!-- 좋아요 전체 카운트 -->
-	<!-- <select id="selectLikeCount" resultType = "_int">
-		select 
-			   review_no
-			 , email_id
-		  from
-		       user_like
-		 where review_no = #{reviewNo}
-	</select> -->
 
 		
 	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -609,12 +599,12 @@
 	</select>
 
 
+
 <!-- 메인페이지 베스트 제품 이미지리스트 -->	
 	<select id="getbImgList" resultMap="eBoardImages">
 	select * 
 	from image
 	where board_type=1 and file_level = 1 and identify_no = #{ProductNo}
-
 	</select>
 	
 	
@@ -630,10 +620,7 @@
 		 where review_no = #{reviewNo}
 	</select>
 	
-    <insert id="reportReview">
-    	insert into report
-    	values (seq_repid.nextval, #{reportType}, #{reportContent}, 'N', sysdate, #{emailId}, #{reviewNo})
-    </insert>
+ 
     
     <select id="someReviewCount" resultType="_int">
      select count(*)
