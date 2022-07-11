@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
 <script src="${ contextPath }/resources/js/jquery-3.6.0.min.js"></script>
 <style>
-img{
+.uk-container img{
   
   width: 100%;
   height: 100%;

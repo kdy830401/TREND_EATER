@@ -7,41 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>TREND EATER</title>
-  <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  
-  <!-- UIkit CSS -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
-<!-- UIkit JS -->
-<script
-	src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-  <!-- for ios 7 style, multi-resolution icon of 152x152 -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
-  <link rel="apple-touch-icon" href="../assets/images/logo.png">
-  <meta name="apple-mobile-web-app-title" content="Flatkit">
-  <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="shortcut icon" sizes="196x196" href="../assets/images/logo.png">
-  
-  <!-- style -->
-  <link rel="stylesheet" href="../assets/animate.css/animate.min.css" type="text/css" />
-  <link rel="stylesheet" href="../assets/glyphicons/glyphicons.css" type="text/css" />
-  <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css" type="text/css" />
-  <link rel="stylesheet" href="../assets/material-design-icons/material-design-icons.css" type="text/css" />
-
-  <link rel="stylesheet" href="../assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
-  <!-- build:css ../assets/styles/app.min.css -->
-  <link rel="stylesheet" href="../assets/styles/app.css" type="text/css" />
-  <!-- endbuild -->
-  <link rel="stylesheet" href="../assets/styles/font.css" type="text/css" />
 <style>
 /*  body {  */
 /*  	background: #F3F5F7;  */
@@ -105,7 +71,7 @@
 	font-size: 12px;
 }
 
-#delete-button {
+.delete-button {
 	margin-left: 600px;
 	/* 	color: rgb(255,99,132); */
 	border-radius: 35%;
@@ -116,6 +82,8 @@
 	text-decoration: none;
 }
 
+.uk-grid-column-medium>*, .uk-grid-medium>* {
+    padding-left: 15px !important;
 .siren {
 	height: 32px;
 	weight: 32px;
@@ -215,18 +183,26 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 		<article class="uk-comment">
 			<header class="uk-comment-header">
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
-				<div class="uk-grid-medium uk-flex-top" uk-grid>
-						<div>
-						<c:if test="${ not empty rev.changeName }">
-						<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/uploadFiled/${rev.changeName}" class="profileImg">
+<%-- 				<input type="hidden" class="review" name="emailId" value="${ rev.emailId }"> --%>
+				<div class="uk-grid-medium uk-flex-top " uk-grid>
+					<div>
+						<c:if test="${ empty loginUser.changeName }">
+							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/images/avatar.png" alt="프로필사진">
 						</c:if>
-						<c:if test="${ empty rev.changeName }">
-							<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/images/hapu.jpg" class="profileImg">
+						<c:if test="${ not empty loginUser.changeName }">
+							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/uploadFiled/${ loginUser.changeName }" alt="프로필사진">
 						</c:if>
+<!-- 					<div class="uk-width-expand uk-text-middle"> -->
+						<span class="uk-comment-title uk-margin-remove uk-text-middle">${ rev.nickName }</span>
+<!-- 					</div> -->
 					</div>
 					<div class="uk-width-expand">
-						<span class="uk-comment-title uk-margin-remove">${ rev.nickName }</span>
+						<button class="uk-button uk-button-default uk-button-small delete-button uk-align-right" 
+						type="button" id="delete-button${ rev.reviewNo }" onclick="deleteReview(this);">리뷰 삭제</button>
+						<input type="hidden" name="reviewNo" value="${ rev.reviewNo }">
+					
 					</div>
+
 					 <c:url var="reviewDelete" value="reviewDelete.ad">
 		         		<c:param name="reviewNo" value="${ rev.reviewNo }"/>
 		         		<c:param name="page" value="${ pi.currentPage }"/> 
@@ -235,40 +211,56 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 							<button class="uk-button-small uk-button-default" type="button" onclick="location.href='${ reviewDelete }'">삭제</button>
 					</div>
 
-<!-- 							</form> -->
-								
-						<ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-							<li>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</li>
-						</ul>
-						<ul
-							class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-<%-- 							<li>${ 상품정보.productNo }</li> --%>
-							<li>${ rev.modifyDate }</li>
-						</ul>
-						<span class="star">★★★★★${ rev.reviewRating }</span>
+
+				</div>
+				
+						<div class="uk-margin">
+								<dl class="uk-description-list uk-description-list-divider">
+								<dt>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</dt>
+								<dd>${ rev.modifyDate }</dd>
+								</dl>
+						</div>
+						<c:choose>
+								<c:when test="${ rev.reviewRating == 1 }">
+								<span class="star">★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.reviewRating == 2 }">
+								<span class="star">★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.reviewRating == 3 }">
+								<span class="star">★★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.reviewRating == 4 }">
+								<span class="star">★★★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.reviewRating == 5 }">
+								<span class="star">★★★★★${ rev.reviewRating }</span>
+								</c:when>
+							</c:choose>
+
 <!-- 					</div> -->
 			</header>
 			<!-- 슬라이더 -->
-			<div class="uk-position-relative uk-visible-toggle uk-light"
-				tabindex="-1" uk-slider>
-
-				<ul
-					class="uk-slider-items uk-child-width-1-2 uk-child-width-1-6@m uk-grid">
-					<li>
-						<span class="uk-panel">
-						<c:forEach var="img" items="${ reviewImageList }">
+			<div uk-slider="" class="uk-slider uk-slider-container" center="0" sets="0">
+                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
+                    <ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-4@m uk-grid" style="transform: translate3d(0px, 0px, 0px);">
+                    	<c:forEach var="img" items="${ reviewImageList }" varStatus="status">
 							<c:if test="${ img.reviewNo == rev.reviewNo }">
-								<img class="uk-align-center" src="${ contextPath }/resources/reviewImages/${ img.changeName }"  width="400" height="600" alt="리뷰이미지">
-							</c:if>
+                        <li tabindex="-1" class="uk-active" style="">
+                            <div class="uk-panel uk-transition-toggle uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
+                                <img class="img" src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="400" height="600" alt="리뷰사진">
+                                <div class="uk-position-center uk-panel"><h1 class="uk-transition-slide-bottom-small"></h1></div>
+                            </div>
+                        </li>
+                        	</c:if>
 						</c:forEach>
-						</span>
-					</li>
-				</ul>
-				<a class="uk-position-center-left uk-position-small uk-hidden-hover"
-					href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
-					class="uk-position-center-right uk-position-small uk-hidden-hover"
-					href="#" uk-slidenav-next uk-slider-item="next"></a>
-			</div>
+                    </ul>
+					 <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+				    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+                </div>
+
+            </div>
 			<!-- 슬라이더 끝 -->
 			<div class="uk-comment-body">
 				<br>

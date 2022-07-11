@@ -190,6 +190,11 @@ cursor: pointer;
 border-color: rgba(255, 99, 132, 0.6);
 }
 
+.img{
+width: 270px;
+height: 180px;
+}
+
 
 </style>
 <%--   <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }resources/assets/reviewCss/reviewList.css" type="text/css" /> --%>
@@ -223,38 +228,37 @@ border-color: rgba(255, 99, 132, 0.6);
 <%-- 				<input type="hidden" class="review" name="emailId" value="${ rev.emailId }"> --%>
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
 					<div>
-
 						<c:if test="${ empty loginUser.changeName }">
 							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/images/avatar.png" alt="프로필사진">
 						</c:if>
 						<c:if test="${ not empty loginUser.changeName }">
 							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/uploadFiled/${ loginUser.changeName }" alt="프로필사진">
 						</c:if>
+						<div class="uk-inline" >
+						<a href="someReviewList.bo" class="uk-text-emphasis uk-text-normal uk-text-default">${ rev.nickName }</a>
+						</div>
 					</div>
+					
+			  
 					<div class="uk-width-expand">
-	<!--  						 <a><i class="fa-regular fa-thumbs-up" id="thumb"></i></a>  -->
-	<%--  							<span class="thumb-like">${ rev.likeCount }명이 좋아합니다.</span>  --%>
 						<c:forEach var="like" items="${ likeList }">
 							<c:if test="${ like.reviewNo == rev.reviewNo and like.emailId == loginUser.email}">
 							<a href="javascript:void(0)" class="thumb">
 								<span class="material-symbols-outlined fill">thumb_up</span>
 								<span>좋아요</span> <span class="rcount">${ rev.likeCount }</span>
 							</a>
-<%-- 								<img class = "thumb" src="${ pageContext.servletContext.contextPath }/resources/images/thumb.png" style="width: 20px;"> --%>
 							</c:if>
 							<c:if test ="${ like.reviewNo == rev.reviewNo and like.emailId != loginUser.email }">
 							<a href="javascript:void(0)" class="thumb">
 								<span class="material-symbols-outlined nofill">thumb_up</span>
 								<span>좋아요</span> <span class="rcount">${ rev.likeCount }</span>
 							</a>
-								<%-- 		                                	<img class = "thumb"  src="${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png" style="width: 20px;"> --%>
 	                         </c:if>
+	                       
                          </c:forEach>
 					</div>
 				</div>
-					<div class="uk-inline">
-					<a href="someReviewList.bo">${ rev.nickName }</a>
-					</div>
+				
 				
 			
 	                  
@@ -290,16 +294,16 @@ border-color: rgba(255, 99, 132, 0.6);
 									<c:when test="${ rev.repurcharse == 1 }">
 									<div class="star">★ ${  rev.repurcharse }</div>
 									</c:when>
-									<c:when test="${ rev.recommend == 2 }">
+									<c:when test="${ rev.repurcharse == 2 }">
 									<div class="star">★★ ${  rev.repurcharse }</div>
 									</c:when>
-									<c:when test="${ rev.recommend == 3 }">
+									<c:when test="${ rev.repurcharse == 3 }">
 									<div class="star">★★★ ${  rev.repurcharse }</div>
 									</c:when>
-									<c:when test="${ rev.recommend == 4 }">
+									<c:when test="${ rev.repurcharse == 4 }">
 									<div class="star">★★★★ ${  rev.repurcharse }</div>
 									</c:when>
-									<c:when test="${ rev.recommend == 5 }">
+									<c:when test="${ rev.repurcharse == 5 }">
 									<div class="star">★★★★★ ${  rev.repurcharse }</div>
 									</c:when>
 									</c:choose>
@@ -313,7 +317,7 @@ border-color: rgba(255, 99, 132, 0.6);
 								</div>
 							</div>
 
-						</span>
+						
 						<a href="#modal-center${ rev.reviewNo }" uk-toggle>
 							<img class="siren" src="resources/images/siren.png" >
 						</a>
@@ -324,6 +328,7 @@ border-color: rgba(255, 99, 132, 0.6);
 
 							<div id="modal-center${ rev.reviewNo }" class="uk-flex-top" uk-modal>
 									<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+									<button class="uk-modal-close-default" id="close${ rev.reviewNo }" type="button" uk-close></button>
 										<div class="uk-modal-header">
 											<h3 class="uk-modal-title">리뷰 신고하기</h3>
 				       					</div>
@@ -348,7 +353,6 @@ border-color: rgba(255, 99, 132, 0.6);
 				        			</div>
 									</div>
 								</div>
-							</div>
 <!-- 							신고 하기 끝 -->
 
 						<div class="uk-margin">
@@ -358,19 +362,19 @@ border-color: rgba(255, 99, 132, 0.6);
 								</dl>
 						</div>
 							<c:choose>
-								<c:when test="${ rev.repurcharse == 1 }">
+								<c:when test="${ rev.reviewRating == 1 }">
 								<span class="star">★${ rev.reviewRating }</span>
 								</c:when>
-								<c:when test="${ rev.recommend == 2 }">
+								<c:when test="${ rev.reviewRating == 2 }">
 								<span class="star">★★${ rev.reviewRating }</span>
 								</c:when>
-								<c:when test="${ rev.recommend == 3 }">
+								<c:when test="${ rev.reviewRating == 3 }">
 								<span class="star">★★★${ rev.reviewRating }</span>
 								</c:when>
-								<c:when test="${ rev.recommend == 4 }">
+								<c:when test="${ rev.reviewRating == 4 }">
 								<span class="star">★★★★${ rev.reviewRating }</span>
 								</c:when>
-								<c:when test="${ rev.recommend == 5 }">
+								<c:when test="${ rev.reviewRating == 5 }">
 								<span class="star">★★★★★${ rev.reviewRating }</span>
 								</c:when>
 							</c:choose>
@@ -380,8 +384,6 @@ border-color: rgba(255, 99, 132, 0.6);
 			</header>
 			
 			<!-- 슬라이더 -->
-
-			
 			
 			<div uk-slider="" class="uk-slider uk-slider-container" center="0" sets="0">
                 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
@@ -390,7 +392,7 @@ border-color: rgba(255, 99, 132, 0.6);
 							<c:if test="${ img.reviewNo == rev.reviewNo }">
                         <li tabindex="-1" class="uk-active" style="">
                             <div class="uk-panel uk-transition-toggle uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
-                                <img src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="400" height="600" alt="리뷰사진">
+                                <img class="img" src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="400" height="600" alt="리뷰사진">
                                 <div class="uk-position-center uk-panel"><h1 class="uk-transition-slide-bottom-small"></h1></div>
                             </div>
                         </li>
@@ -404,7 +406,7 @@ border-color: rgba(255, 99, 132, 0.6);
 
             </div>
 			
-			_
+			
 			
 			
 			
@@ -497,7 +499,8 @@ border-color: rgba(255, 99, 132, 0.6);
 	
 		</div>
 	
-	
+	</div>
+	</div>
 	<!-- container -->
 	
 	<!-- 고정 버튼 (탑버튼, 글쓰기 버튼) -->
@@ -639,6 +642,7 @@ $( '#tothetop' ).click( function() {
 				console.log(rpContent);
 				console.log(reviewNo);
 				console.log($('#reportContent').val());
+				$('#close'+reviewNo).click();
 			} 
 				
 			},error:function(data){
