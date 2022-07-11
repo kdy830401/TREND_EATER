@@ -790,7 +790,7 @@ public class MemberController {
 			int boardLimit = 10;
 			
 			// 2.4 페이징 계산		
-			PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 			
 			// 3. 특정 페이지의 주문 정보 가져오기 
 			// 3.1 Order에서 주문자의 주문 정보가져오기
@@ -800,6 +800,7 @@ public class MemberController {
 			// 4. mv에 담아 이동
 			if(orderList != null) {
 				mv.addObject("orderList", orderList);
+				mv.addObject("pi", pi);
 				mv.setViewName("orderList");
 			} else {
 				throw new MemberException("주문 내역 조회에 실패했습니다.");

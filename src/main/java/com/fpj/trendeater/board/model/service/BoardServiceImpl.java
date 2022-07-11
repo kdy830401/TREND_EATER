@@ -117,31 +117,7 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.reportReview(sqlSession, rep);
 	}
 	
-	
-//	//좋아요
-//// 게시글 좋아요 count
-//	@Override
-//	public int likeCount(UserLike li) {
-//		return bDAO.likeCount(sqlSession, li);
-//	}
-//	
-//	// 게시글 좋아요
-//	@Override
-//	public int insertLike(UserLike like) {
-//		return bDAO.insertLike(sqlSession, like);
-//	}
-//	
-//	// 게시글 좋아요 취소
-//	@Override
-//	public int deleteLike(UserLike like) {
-//		return bDAO.deleteLike(sqlSession, like);
-//	}
-//	
-//	// 게시글 전체 좋아요 count
-//	@Override
-//	public ArrayList<UserLike>selectLikeCount(int reviewNo) {
-//		return bDAO.selectLikeCount(sqlSession, reviewNo);
-//	}
+
 	@Override
 	public ArrayList<UserLike> userLikeSelect(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub

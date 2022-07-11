@@ -734,43 +734,6 @@ public class BoardController {
 		
 		
 		
-//		// 게시판 좋아요
-//		@ResponseBody
-//		@RequestMapping("likeInsert.bo")
-//		public String insertLike(UserLike like, HttpSession session, Model model) {
-//			
-//			int result = bService.insertLike(like);
-//			if(result>0) {
-//				return "success";
-//			}else {
-//				return "fail";
-//			}
-//			
-//		}
-//		
-//		// 게시판 좋아요 취소
-//		@ResponseBody
-//		@RequestMapping("likeDelete.bo")
-//		public String deleteLike(UserLike like, HttpSession session, Model model) {
-//			int result = bService.deleteLike(like);
-//			if(result>0) {
-//				return "success";
-//			}else {
-//				return "fail";
-//			}
-//			
-//		}
-//		
-//		// 게시판 전체 좋아요
-//		@ResponseBody
-//		@RequestMapping(value="allLike.bo", produces="application/json; charset=utf-8")
-//		public String selectLikeCount(int reviewNo, HttpSession session, Model model) {
-//			
-//			ArrayList<UserLike> list = bService.selectLikeCount(reviewNo);
-//			return new Gson().toJson(list);
-//			
-//		}
-//		
 
 	
 	
