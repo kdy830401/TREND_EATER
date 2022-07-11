@@ -8,8 +8,7 @@
     <title>주문 내역</title>
     <script src="resources/js/jquery-3.6.0.min.js"></script>
     <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
-	
+	<link rel="stylesheet" href="${ contextPath }/resources/css/uikit.min.css" />
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
@@ -19,7 +18,6 @@
         #check td{text-align: center; border: 1px solid rgb(255, 92, 88);; width: 120px; height: 60px; 
                    color: black;}
         #list{width:800px; margin:auto;}
-        #qna{width:70px; background-color: rgb(255, 92, 88);}
         
         
         .click:hover{cursor: pointer;}
@@ -81,9 +79,9 @@
         </tr>
     </table>
     
-    <br>
-	<button onclick="location.href='qna.do'" id="qna">문의하기</button>
-    <br>
+    <div class="uk-margin">
+		<button class="uk-button uk-button-primary" onclick="location.href='qna.do'" id="qna">문의하기</button>
+    </div>
     
     <div id="list">
             <table class="uk-table uk-table-divider">
@@ -130,7 +128,7 @@
 	                                </p>
 	                            </td>
 	                            <td>
-	                            	<button class="orderDetail">상세보기</button>
+	                            	<button class="orderDetail uk-button uk-button-small uk-button-default">상세보기</button>
 	                            	<input type="hidden" id="orderNo" name="orderNo" value="${i.orderNo }">
 	                            </td>
 	                        </tr> 
@@ -223,6 +221,8 @@
 			</li>
 		</c:if>
 	</ul>
+    		</div>
+		</div>
     
     
     <script>

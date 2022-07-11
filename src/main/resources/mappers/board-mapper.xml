@@ -58,6 +58,7 @@
 		<result column="FILE_TYPE" property="fileType"/>
 		<result column="IDENTIFY_NO" property="identifyNo"/>
 	</resultMap>
+	
 	<!-- 시식신청  -->
 	<insert id="registerApplyTaste">
 		insert into apply_t
@@ -205,7 +206,6 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 		  from user_like
 		 where review_no = #{reviewNo}
 		   and email_Id = #{emailId}
-	
 	</select>
 	
 	<!-- 게시글 좋아요 -->
@@ -223,15 +223,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	</delete>
 	
 	
-	<!-- 좋아요 전체 카운트 -->
-	<select id="selectLikeCount" resultType = "_int">
-		select 
-			   review_no
-			 , email_id
-		  from
-		       user_like
-		 where review_no = #{reviewNo}
-	</select>
+
 	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
 

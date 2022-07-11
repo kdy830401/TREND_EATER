@@ -195,38 +195,41 @@ public class AdminController {
 			}
 			
 			for(MultipartFile mf : fileList) {
-				String fieldName = mf.getName();
-				System.out.println(fieldName);
-				Image nutInfoupload = new Image();
-				
-				switch(fieldName) {
-					case("productImg"):
-						
-						map = saveFile(mf, request);
-						originName = mf.getOriginalFilename();
-						savePath = map.get("savePath");
-						productupload.setOriginName(originName);
-						productupload.setChangeName(map.get("changeName"));
-						productupload.setFilePath(map.get("savePath"));
-						productupload.setFileLevel(1);
-						productupload.setFileType(1);
-						productupload.setBoardType(1);
-		//				productupload.setIdentifyNo(product.getProductNo());
-						imageList.add(productupload);
-						break;
-									
-					case("nutInfoImg"):
-						map = saveFile(mf, request);
-						originName = mf.getOriginalFilename();
-						savePath = map.get("savePath");
-						nutInfoupload.setOriginName(originName);
-						nutInfoupload.setChangeName(map.get("changeName"));
-						nutInfoupload.setFilePath(map.get("savePath"));
-						nutInfoupload.setFileLevel(2);
-						nutInfoupload.setFileType(2);
-						nutInfoupload.setBoardType(1);
-	//					nutInfoupload.setIdentifyNo(product.getProductNo());
-						imageList.add(nutInfoupload);
+				if(mf.getSize()>0) {
+					
+					String fieldName = mf.getName();
+					System.out.println(fieldName);
+					Image nutInfoupload = new Image();
+					
+					switch(fieldName) {
+						case("productImg"):
+							
+							map = saveFile(mf, request);
+							originName = mf.getOriginalFilename();
+							savePath = map.get("savePath");
+							productupload.setOriginName(originName);
+							productupload.setChangeName(map.get("changeName"));
+							productupload.setFilePath(map.get("savePath"));
+							productupload.setFileLevel(1);
+							productupload.setFileType(1);
+							productupload.setBoardType(1);
+			//				productupload.setIdentifyNo(product.getProductNo());
+							imageList.add(productupload);
+							break;
+										
+						case("nutInfoImg"):
+							map = saveFile(mf, request);
+							originName = mf.getOriginalFilename();
+							savePath = map.get("savePath");
+							nutInfoupload.setOriginName(originName);
+							nutInfoupload.setChangeName(map.get("changeName"));
+							nutInfoupload.setFilePath(map.get("savePath"));
+							nutInfoupload.setFileLevel(2);
+							nutInfoupload.setFileType(2);
+							nutInfoupload.setBoardType(1);
+		//					nutInfoupload.setIdentifyNo(product.getProductNo());
+							imageList.add(nutInfoupload);
+					}
 				}
 			}
 		}
@@ -235,6 +238,7 @@ public class AdminController {
 		
 		// 상품사진 이미지 정보 설정
 		
+		System.out.println("size :" + imageList.size());
 		
 		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
 		String adminName = ((Admin) request.getSession().getAttribute("adminUser")).getName();
@@ -247,7 +251,7 @@ public class AdminController {
 		int result2 = aService.registerImage(imageList, product.getProductNo());
 
 		System.out.println("imgresult : " + result2);
-		if (result1 + result2 > 2) {
+		if (result1 + result2 > 1 + imageList.size()) {
 			return "redirect:productList.ad";
 		} else {
 			// 상품 등록 실패시 저장소 파일 삭제

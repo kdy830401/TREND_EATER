@@ -382,7 +382,7 @@
 	<!-- 1. 페이징 -->
 	<select id="getMyOrderListCount" resultType="_int">
 		select count(*)
-		from order_list
+		from order_l
 		where email_id = #{emailId}
 	</select>
 	
@@ -390,8 +390,8 @@
 	<!-- 2.1 주문 내역 받기 -->
 	<select id="myOrderList" resultMap="orderStatusResultMap">
 		select *
-		from order_list
-			left join order_status on(order_list.order_status_no=order_status.order_status_no)
+		from order_l
+			left join order_status on(order_l.order_status_no=order_status.order_status_no)
 		where email_id = #{emailId}
 	</select>	
 </mapper>

@@ -307,10 +307,10 @@ border-color: rgba(255, 99, 132, 0.6);
 								</div>
 							</div>
 						</div>
-						<a href="#modal-center" uk-toggle>
+						<a href="#modal-center${ rev.reviewNo }" uk-toggle>
 							<img class="siren" src="resources/images/siren.png">
 						</a>
-							<div id="modal-center" class="uk-flex-top" uk-modal>
+							<div id="modal-center${ rev.reviewNo }" class="uk-flex-top" uk-modal>
 									<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 										<div class="uk-modal-header">
 											<h3 class="uk-modal-title">리뷰 신고하기</h3>
@@ -459,6 +459,8 @@ border-color: rgba(255, 99, 132, 0.6);
 <ul class="uk-iconnav uk-iconnav-vertical uk-icon-button uk-margin-small-right" id="write-review">
     <li><a href="rinsertView.bo" uk-icon="icon: file-edit; ratio: 1.5"></a></li>
     </ul>
+    
+    
     <script type="text/javascript">	
 $('.reportReview').on("click",function(){
 	var rpType = $('.reportType').val();
