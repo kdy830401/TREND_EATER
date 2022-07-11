@@ -173,7 +173,7 @@
          	<c:forEach var="i" items="${orderAdminList}">
 	            <tr>
 	                <td>${i.orderNo }</td>
-	                <td>${i.emailId }</td>
+	                <td>${i.email }</td>
 	                <td>카드 결제</td>
 	                <td>${i.totalPrice }</td>
 	                <td id="info">

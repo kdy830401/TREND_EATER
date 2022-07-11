@@ -1,0 +1,206 @@
+
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css); 
+
+
+
+body{
+    font-family: "Noto Sans";
+}
+
+.footerMain {
+    border-top: 1px solid lightgray;
+}
+
+.footerTop{
+    width: 100%;
+    height: 100%;
+    width: 1200px;
+    display: flex;
+    align-items: center; 
+    margin: 0 auto;  
+    justify-content: space-around;
+}
+
+/*************************footerLeft****************************/
+
+.footerLeft {
+    display: flex;
+    flex-direction: column;
+    width:600px;
+}
+
+.footerLeft > h2{  /* 고객센터 글씨 */
+    font-size: 20px;
+    padding:2%;
+    margin-top: 2%;
+}
+.footerLeft > div > div span{
+    display: flex;
+    line-height: normal;
+    padding-top: 8px;
+    width:150px; /************/
+}    
+
+.footerLeft > div{
+    display: flex;
+    /* flex-wrap: wrap;  */ /* flex-wrap: wrap : 길면 줄바꿈 */
+    text-align: start;
+} 
+.footerLeft > div > div > button{
+    background: white;
+    width: 145px;
+    height:50px;
+    border : 1px solid lightgray;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+    align-items: center;
+} 
+
+.callCenter div:first-child{ /* 고객행복센터 */
+    font-size: 28px;
+    font-weight: 800; 
+    padding : 2%;
+    width: 145px;
+}
+.footerLeftP{
+    line-height: normal;
+    padding-top:3%;
+    padding-left:2%;
+    width: 400px;
+}
+.kakaotalkQuestion div:first-child{
+    padding : 2%;
+    width: 145px;
+}
+.personalQuestion div:first-child{
+    padding : 2%;
+    width: 145px;
+}
+.bigOrderQuestion div:first-child{
+    padding : 2%;
+    width: 145px;
+}
+
+
+/* tbody td:nth-last-child(1) */
+/* .footerLeft{ 직접에는 안먹히고 상위 태그에서 적용됨
+    display: inline-block;
+    width: 600px;
+}
+.footerRighter{
+    display: inline-block;
+    width: 600px;
+} */
+
+
+/*************************footerRight****************************/
+.footerRight{
+    width:570px;
+}
+
+.footerRight > ul{
+    display: flex;
+    width:100%;
+}
+
+.footerRight li{
+    list-style:none;
+    display: inline-block;
+    width:80px;
+}
+
+.footerRightMiddle{
+    color:rgb(165, 164, 164);
+    font-size: 12px;
+    line-height: normal; /* 1px이나 1%로하면 세로줄이 좁게 압축되고 normal하니 적절히 상하 간격이 생김*/
+}
+.footerRightMiddle > a{
+    text-decoration:none;
+    color:#FE8F8F;
+}
+
+.footerRightSNS{
+    padding: 5% 0;
+}
+.footerRightSNS img{
+    padding:1%;
+    width:30px;
+}
+
+
+
+/*************************footerMiddle****************************/
+.footerMiddle{
+    display: flex;
+    justify-content: space-between;
+    
+    padding: 3% 5%;
+    width:100%; 
+    height: 100%;
+        max-width: 1100px;
+        max-height: 50px;
+    margin: 0 auto; /* 센터정렬 방법 : margin 0 auto* /
+    /* 부모태그의 넓이를 모르는데 자식태그가 어떤걸 기준을 줄지 모르기 때문에
+        부모태그의 width100%를 설정해줘야함
+
+        이미지 크기 조절 방법1
+        미디어쿼리
+        미디어쿼리로 웹사이트 크기마다 이미지크기를 고정크기로 줘서 움직이게 하면됨
+
+        이미지 크기 조절 방법2
+        이미지 하나마다 div태그로 컨테이너를 줘서 width100%로 이미지를 div태그 컨테이너 안에
+        꽉채우고 이미지를 채우는 방식이 반응형이나 모바일웹에도 유리함
+
+
+    */
+}
+.footerMiddle > div{
+    display: flex;
+    /* flex-basis: 33.3%; */
+    font-size: 10px;
+    font-weight: 500;
+    color: #999999;
+    /* width:33%; */
+    /* height:33%; */
+    align-items: center;
+    line-height: normal;
+
+}
+.footerMiddle > div img{
+    width:50px;
+}
+
+.footerMiddle div p{
+    margin: 8px;
+}
+
+.footerMiddle div.authentication3 > p{
+    display: inline-block;
+    width:200px;
+    
+}
+
+
+.footerBottom{
+    background-color: #f7f7f7;
+    color: #999999;
+    letter-spacing: -.2px;
+    font-weight: 400;
+    font-size: 10px;
+    
+    text-align: center;
+    line-height: normal;
+    letter-spacing: -1px;
+
+    padding: 2%;
+}
+
+
+
+
+
+
+
+
+

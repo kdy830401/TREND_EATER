@@ -19,6 +19,7 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 public interface BoardService {
@@ -88,12 +89,14 @@ public interface BoardService {
 	
 	Board adminNoticeSelect(Board b);
 	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
-
+	int adminQnaAnsWrite(Reply reply);
+  ArrayList<Reply> getQnaReplyListAdmin();
+  
 	int deleteBoardQna(BoardQnA b);
 
 	
 /********************************** Event Management *********************************/	
-	int getEListCount();	//페이징처리 1: 총게시물 수 
+istCount();	//페이징처리 1: 총게시물 수 
 	ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
 	
 	int insertEBoard(EventBoard b);// 이벤트 게시판 삽입 1 글내용 삽입
@@ -109,6 +112,22 @@ public interface BoardService {
 
 	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
 
+
+	ArrayList<EventBoard> getRecentEboard();//메인 최신글 불러오기
+
+	ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB);//메인 최신글 그림 불러오기
+
+	ArrayList<Product> getNewProducts();// 메인 최신제품 불러오기
+
+	ArrayList<Image> getNewPImages(ArrayList<Product> pList);//메인 최신제품이미지 불러오기
+
+	ArrayList<Product> getbProducts();// 메인 베스트 상품 불러오기
+
+	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
+
+	
+	
+	
 
 	
 

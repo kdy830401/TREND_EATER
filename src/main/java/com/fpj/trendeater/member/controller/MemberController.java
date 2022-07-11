@@ -220,7 +220,7 @@ public class MemberController {
 		System.out.println(newpw);
 		
 		
-		String setFrom = "kdkj1234@naver.com";
+		String setFrom = "kdkj12345@naver.com";
 		String toMail = email;
 		String title = "임시 비밀번호 발급입니다";
 		String content = "임시비밀번호 발급 후 비밀번호를 변경해주세요." + 
@@ -750,7 +750,6 @@ public class MemberController {
 			boolean check1 = false;
 			
 			String attendCheckTest = mService.attendCheckTest(email);
-			System.out.println(attendCheckTest);
 			
 			if (attendCheckTest != null) {
 				check1 = true;

@@ -163,9 +163,9 @@ li span {
   transition: left 0.8s ease, opacity 0.5s ease, transform 0s ease 1.5s;
 }
 .total p {
-   opacity: 0;
-   transform: translateY(10px);
-   transition: all 0s ease 1.5s;
+	opacity: 0;
+	transform: translateY(10px);
+	transition: all 0s ease 1.5s;
 }
 .total span {
   float: right;
@@ -265,9 +265,9 @@ footer svg {
   transition: transform 0.8s ease 2s, opacity 0.8s ease 2s;
 }
 .active .total p {
-   opacity: 1;
-   transform: translateY(0);
-   transition: all 0.8s ease 2.3s;
+	opacity: 1;
+	transform: translateY(0);
+	transition: all 0.8s ease 2.3s;
 }
 .active footer {
   transform: perspective(1000px) rotateX(0deg);
@@ -276,7 +276,7 @@ footer svg {
 </style>   
 </head>
 <body>
-<c:import url="../common/menubar.jsp"/>   
+<c:import url="../common/menubar.jsp"/>	
 <div class="uk-container">  
     <button>CLOSE</button>
 <div class="app active">
@@ -292,7 +292,7 @@ footer svg {
     <div class="cust-info">
     <c:set var="total" value="0"/>
          <c:forEach var='i' items='${carts}'>
-            <c:set var="total" value="${total + (i.productAmount * i.productPrice) }"/>                        
+            <c:set var="total" value="${total + (i.productAmount * i.productPrice) }"/>            				
      </c:forEach>
       <h3>고객님</h3>
       <p> 총 ${fn:length(carts)} 개의 품목을 결제하셨습니다</p>
@@ -304,7 +304,7 @@ footer svg {
     <h3 class="center">Cart :</h3>
     <ul>
       <c:forEach var="c" items="${ carts }" varStatus="status">
-      <li><i>item</i> ${ c.productName } * ${c.productAmount } <span>₩ ${(c.productPrice) * (c.productPrice)} </span></li>
+      <li><i>item</i> ${ c.productName } * ${c.productAmount } <span>₩ ${(c.productPrice) * (c.productAmount)} </span></li>
       </c:forEach>
     </ul>
     <div class="total">
@@ -332,10 +332,10 @@ footer svg {
 <rect x="375" y="239.3" class="st0" width="62.5" height="21.7"/>
 <rect x="218.8" y="239.3" class="st0" width="62.5" height="21.7"/>
 <path class="st0" d="M524.1,0h40.1v217.5h-40.1V0z M595.5,0h31.3v217.5h-31.3V0z M658,0h31.3v217.5H658V0z M751.8,0H783v217.5h-31.3
-   V0z M876.8,0H908v217.5h-31.3V0z M970.5,0h31.3v217.5h-31.3V0z M814.3,0h15.6v217.5h-15.6V0z M720.5,0h15.6v217.5h-15.6V0z M923.6,0
-   h15.6v217.5h-15.6V0z M529.8,239.3H561V261h-31.3V239.3z M595.5,239.3h31.3V261h-31.3V239.3z M658,239.3h31.3V261H658V239.3z
-    M814.3,239.3h31.3V261h-31.3V239.3z M970.5,239.3h31.3V261h-31.3V239.3z M876.8,239.3h62.5V261h-62.5V239.3z M720.5,239.3H783V261
-   h-62.5V239.3z"/>
+	V0z M876.8,0H908v217.5h-31.3V0z M970.5,0h31.3v217.5h-31.3V0z M814.3,0h15.6v217.5h-15.6V0z M720.5,0h15.6v217.5h-15.6V0z M923.6,0
+	h15.6v217.5h-15.6V0z M529.8,239.3H561V261h-31.3V239.3z M595.5,239.3h31.3V261h-31.3V239.3z M658,239.3h31.3V261H658V239.3z
+	 M814.3,239.3h31.3V261h-31.3V239.3z M970.5,239.3h31.3V261h-31.3V239.3z M876.8,239.3h62.5V261h-62.5V239.3z M720.5,239.3H783V261
+	h-62.5V239.3z"/>
 <rect x="33.9" y="0.4" class="st0" width="8.8" height="216.7"/>
 <rect x="74.3" y="2" class="st0" width="14.4" height="216.7"/>
 <rect x="47" y="1.4" class="st0" width="10.3" height="216.7"/>
@@ -353,8 +353,8 @@ button.addEventListener('click', function(e) {
 })
 </script>
 <a href="home.do">메인으로 </a>
-</div>   
-   
-   
+</div>	
+	
+	
 </body>
 </html>

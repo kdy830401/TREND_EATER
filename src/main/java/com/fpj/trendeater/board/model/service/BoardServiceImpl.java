@@ -25,6 +25,7 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 @Service("bSerivce")
@@ -234,8 +235,14 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.getBoardQnaListAdmin(sqlSession, pi);
 	}
 
-
-
+	@Override
+	public int adminQnaAnsWrite(Reply reply) {
+		return bDAO.adminQnaAnsWrite(sqlSession, reply);
+	}
+	@Override
+	public ArrayList<Reply> getQnaReplyListAdmin() {
+		return bDAO.getQnaReplyListAdmin(sqlSession);
+	}
 
 
 
@@ -254,6 +261,10 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<EventBoard> getEBoardList(PageInfo pi) {
 		return bDAO.getEBoardList(sqlSession, pi);
 	}
+
+
+	
+
 	
 	// 이벤트 게시판 삽입 1 글내용 삽입
 	@Override
@@ -319,10 +330,75 @@ public class BoardServiceImpl implements BoardService{
 
 	
 	
+/******************************MAIN*****************************************/
+	//이벤트게시판 최근 글 불러오기 
+	@Override
+	public ArrayList<EventBoard> getRecentEboard() {
+		return bDAO.getRecentEboard(sqlSession);
+	}
 	
+	//메인 최신글 그림 불러오기
+	@Override
+	public ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB) {
+		return bDAO.getEImgList(sqlSession, eventB);
+	}
+	
+	//메인 최신제품 불러오기
+	@Override
+	public ArrayList<Product> getNewProducts() {
+		return bDAO.getNewProucts(sqlSession);
+	}
+
+	//메인 최신제품 이미지 불러오기
+	@Override
+	public ArrayList<Image> getNewPImages(ArrayList<Product> pList) {
+		return bDAO.getNewPImages(sqlSession, pList);
+	}
+	//메인 베스트상품 불러오기
+	@Override
+	public ArrayList<Product> getbProducts() {
+		return bDAO.getbProducts(sqlSession);
+	}
+	//메인 베스트상품 이미지 불러오기
+	@Override
+	public ArrayList<Image> getbImgList(ArrayList<Product> bProducts) {
+		return bDAO.getbImgList(sqlSession, bProducts);
+	}
 	
 /***********************************************************************/
 
 	
-	
+
+	//좋아요
+	// 게시글 좋아요 count
+		@Override
+		public int likeCount(UserLike li) {
+			return bDAO.likeCount(sqlSession, li);
+		}
+		
+		// 게시글 좋아요
+		@Override
+		public int insertLike(UserLike like) {
+			return bDAO.insertLike(sqlSession, like);
+		}
+		
+		// 게시글 좋아요 취소
+		@Override
+		public int deleteLike(UserLike like) {
+			return bDAO.deleteLike(sqlSession, like);
+		}
+		
+		// 게시글 전체 좋아요 count
+		@Override
+		public ArrayList<UserLike>selectLikeCount(int reviewNo) {
+			return bDAO.selectLikeCount(sqlSession, reviewNo);
+		}
+		
+		
+		
+		
+		
+		
+		
+
 }
