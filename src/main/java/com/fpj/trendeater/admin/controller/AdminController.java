@@ -185,9 +185,9 @@ public class AdminController {
 		ArrayList<MultipartFile> fileList = new ArrayList<>();
 		HashMap<String, String> map = null;
 		String savePath = null;
-		Image productupload = new Image();
-		String originName = null;
-		ArrayList<Image> imageList = new ArrayList<Image>();
+			Image productupload = new Image();
+			String originName = null;
+			ArrayList<Image> imageList = new ArrayList<Image>();
 		
 		if(fileMap != null && !fileMap.isEmpty()) {
 			// fileMap에 담긴 MultipartFile 객체를 list에 담는다

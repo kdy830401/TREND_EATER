@@ -3,7 +3,7 @@ package com.fpj.trendeater.board.model.vo;
 import java.sql.Date;
 
 public class Review {
-	private int reviewNo;
+	private Integer reviewNo;
 	private int reviewRating;
 	private int recommend;
 	private int repurcharse;
@@ -27,10 +27,8 @@ public class Review {
 	
 	public Review() {}
 
-	public Review(int reviewNo, int reviewRating, int recommend, int repurcharse, int spicy, int sweet, int bitter,
-			int salty, int sour, String good, String bad, Date createDate, Date modifyDate, int likeCount,
-			int productNo, String emailId, String reviewStatus, String nickName, String flavor1, String flavor2,
-			String flavor3) {
+	public Review(Integer reviewNo, int reviewRating, int recommend, int repurcharse, int spicy, int sweet, int bitter, int salty, int sour, String good, String bad, Date createDate, Date modifyDate, int likeCount, int productNo, String emailId,
+			String reviewStatus, String nickName, String flavor1, String flavor2, String flavor3) {
 		super();
 		this.reviewNo = reviewNo;
 		this.reviewRating = reviewRating;
@@ -55,11 +53,11 @@ public class Review {
 		this.flavor3 = flavor3;
 	}
 
-	public int getReviewNo() {
+	public Integer getReviewNo() {
 		return reviewNo;
 	}
 
-	public void setReviewNo(int reviewNo) {
+	public void setReviewNo(Integer reviewNo) {
 		this.reviewNo = reviewNo;
 	}
 
@@ -225,13 +223,13 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "Review [reviewNo=" + reviewNo + ", reviewRating=" + reviewRating + ", recommend=" + recommend
-				+ ", repurcharse=" + repurcharse + ", spicy=" + spicy + ", sweet=" + sweet + ", bitter=" + bitter
-				+ ", salty=" + salty + ", sour=" + sour + ", good=" + good + ", bad=" + bad + ", createDate="
-				+ createDate + ", modifyDate=" + modifyDate + ", likeCount=" + likeCount + ", productNo=" + productNo
-				+ ", emailId=" + emailId + ", reviewStatus=" + reviewStatus + ", nickName=" + nickName + ", flavor1="
-				+ flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + "]";
+		return "Review [reviewNo=" + reviewNo + ", reviewRating=" + reviewRating + ", recommend=" + recommend + ", repurcharse=" + repurcharse + ", spicy=" + spicy + ", sweet=" + sweet + ", bitter=" + bitter + ", salty=" + salty + ", sour=" + sour
+				+ ", good=" + good + ", bad=" + bad + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", likeCount=" + likeCount + ", productNo=" + productNo + ", emailId=" + emailId + ", reviewStatus=" + reviewStatus + ", nickName="
+				+ nickName + ", flavor1=" + flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + "]";
 	}
+
+	
+
 
 	
 	}

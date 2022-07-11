@@ -37,12 +37,10 @@
  	background: #F3F5F7; 
  	font-family: noto sans; 
  } 
-
 #review-container {
 	margin-top: 120px;
 	background: white;
 }
-
 #review-header {
 	margin-top: 30px;
 	padding: 15px 15px;
@@ -50,42 +48,33 @@
 	font-size: 30px;
 	font-weight: 500;
 }
-
 #review-count {
 	font-size: 20px;
 	color: rgba(255, 99, 132, 0.6);
 }
-
 #total-arrange {
 	margin-left: 65%;
 }
-
 .arrange {
 	font-size: 8px;
 }
-
 .uk-text-light {
 	margin-top: 50px;
 	margin-bottom: 50px;
 	font-size: 25px;
 	padding: 30px;
 }
-
 .uk-comment {
 	/* 	margin-top: 100px; */
 	
 }
-
 .uk-child-width-expand {
 	font-size: 30px;
 }
-
 .star {
 	color: rgb(255, 99, 132);
 	font-size: 23px;
 }
-
-
 
 #chart-button {
 	margin-left: 700px;
@@ -109,15 +98,14 @@
 	font-size: 17px;
 	font-weight: bold;
 }
-
  textarea {
     resize: none;
   }
   
 .first-hr{
 margin-bottom: 50px;
-
 }
+
 .comment-hr{
 margin: 50px 0 50px 0; 
 }
@@ -131,11 +119,13 @@ margin-top: 150px;
 	font-weight: 700px;
 	font-color: rgb(255,99,132);
 }
+
 .bad{
 	font-size: 16px;
 	font-weight: 700px;
 	font-color: rgb(255,99,132);
 }
+
 #tothetop{
 /* background-color: rgba(255, 99, 132, 0.3); */
 position: fixed; 
@@ -181,7 +171,6 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
  
 }
 
-
 .thumb-like {
 	font-size: 12px;
 }
@@ -191,6 +180,7 @@ cursor: pointer;
 	margin: 0 7px 0 30px;
 	font-size: 20px;
 }
+
 .thumb:hover{
 border-color: rgba(255, 99, 132, 0.6);
 }
@@ -226,10 +216,14 @@ border-color: rgba(255, 99, 132, 0.6);
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
 					<div>
-						<img class="uk-border-circle" width="40" height="40" src="" alt="프로필사진">
+						<c:if test="${ empty loginUser.changeName }">
+							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/images/avatar.png" alt="프로필사진">
+						</c:if>
+						<c:if test="${ not empty loginUser.changeName }">
+							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/uploadFiled/${ loginUser.changeName }" alt="프로필사진">
+						</c:if>
 					</div>
 					<div class="uk-width-expand">
-						<span class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="someReviewList.bo">${ rev.nickName }</a></span>
 	<!--  						 <a><i class="fa-regular fa-thumbs-up" id="thumb"></i></a>  -->
 	<%--  							<span class="thumb-like">${ rev.likeCount }명이 좋아합니다.</span>  --%>
 						<c:forEach var="like" items="${ likeList }">
@@ -250,14 +244,17 @@ border-color: rgba(255, 99, 132, 0.6);
                          </c:forEach>
 					</div>
 				</div>
+					<div class="uk-inline">
+					<a href="someReviewList.bo">${ rev.nickName }</a>
+					</div>
 				
 			
 	                  
-
+					<div class="uk-margin uk-align-right">
 						<div class="uk-inline">
-							<button class="uk-button uk-button-default uk-button-small"
-								type="button" id="chart-button">맛 평가</button>
-							<div uk-drop="pos: right-bottom">
+							<button class="uk-button uk-button-default uk-button-small chart-button "
+								type="button" aria-haspopup="true" aria-expanded="false">맛 평가</button>
+							<div uk-drop="pos: left-center" class="uk-drop">
 								<div class="uk-card uk-card-body uk-card-default">
 									추천의사
 									<c:choose>
@@ -307,7 +304,7 @@ border-color: rgba(255, 99, 132, 0.6);
 								</div>
 							</div>
 						</div>
-						<a href="#modal-center${ rev.reviewNo }" uk-toggle>
+						<a href="#modal-center${ rev.reviewNo }" uk-toggle >
 							<img class="siren" src="resources/images/siren.png">
 						</a>
 							<div id="modal-center${ rev.reviewNo }" class="uk-flex-top" uk-modal>
@@ -333,57 +330,83 @@ border-color: rgba(255, 99, 132, 0.6);
 				            			<button class="reportReview uk-button uk-button-primary" type="submit">신고</button>
 				        			</div>
 									</div>
+								</div>
 							</div>
 <!-- 							신고 하기 끝 -->
-						<ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-							<li>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</li>
-						</ul>
-						<ul
-							class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-<%-- 							<li>${ 상품정보.productNo }</li> --%>
-							<li>${ rev.modifyDate }</li>
-						</ul>
-						<c:choose>
-							<c:when test="${ rev.repurcharse == 1 }">
-							<span class="star">★${ rev.reviewRating }</span>
-							</c:when>
-							<c:when test="${ rev.recommend == 2 }">
-							<span class="star">★★${ rev.reviewRating }</span>
-							</c:when>
-							<c:when test="${ rev.recommend == 3 }">
-							<span class="star">★★★${ rev.reviewRating }</span>
-							</c:when>
-							<c:when test="${ rev.recommend == 4 }">
-							<span class="star">★★★★${ rev.reviewRating }</span>
-							</c:when>
-							<c:when test="${ rev.recommend == 5 }">
-							<span class="star">★★★★★${ rev.reviewRating }</span>
-							</c:when>
-						</c:choose>
+						<div class="uk-margin">
+								<dl class="uk-description-list uk-description-list-divider">
+								<dt>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</dt>
+								<dd>${ rev.modifyDate }</dd>
+								</dl>
+						</div>
+							<c:choose>
+								<c:when test="${ rev.repurcharse == 1 }">
+								<span class="star">★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.recommend == 2 }">
+								<span class="star">★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.recommend == 3 }">
+								<span class="star">★★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.recommend == 4 }">
+								<span class="star">★★★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.recommend == 5 }">
+								<span class="star">★★★★★${ rev.reviewRating }</span>
+								</c:when>
+							</c:choose>
 <%-- 						<span class="star">★★★★★${ rev.reviewRating }</span> --%>
 <!-- 					</div> -->
 			</header>
+			
 			<!-- 슬라이더 -->
-			<div class="uk-position-relative uk-visible-toggle uk-light"
-				tabindex="-1" uk-slider>
-
-				<ul
-					class="uk-slider-items uk-child-width-1-2 uk-child-width-1-6@m uk-grid">
-					<li>
-						<span class="uk-panel">
-						<c:forEach var="img" items="${ reviewImageList }">
+			
+			
+			<div uk-slider="" class="uk-slider uk-slider-container" center="0" sets="0">
+                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
+                    <ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-4@m uk-grid" style="transform: translate3d(0px, 0px, 0px);">
+                    	<c:forEach var="img" items="${ reviewImageList }" varStatus="status">
 							<c:if test="${ img.reviewNo == rev.reviewNo }">
-								<img class="uk-align-center" src="${ contextPath }/resources/reviewImages/${ img.changeName }"  width="400" height="600" alt="리뷰이미지">
-							</c:if>
+                        <li tabindex="-1" class="uk-active" style="">
+                            <div class="uk-panel uk-transition-toggle uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
+                                <img src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="400" height="600" alt="리뷰사진">
+                                <div class="uk-position-center uk-panel"><h1 class="uk-transition-slide-bottom-small"></h1></div>
+                            </div>
+                        </li>
+                        	</c:if>
 						</c:forEach>
-						</span>
-					</li>
-				</ul>
-				<a class="uk-position-center-left uk-position-small uk-hidden-hover"
-					href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
-					class="uk-position-center-right uk-position-small uk-hidden-hover"
-					href="#" uk-slidenav-next uk-slider-item="next"></a>
-			</div>
+                    </ul>
+					 <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+				    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+                </div>
+
+            </div>
+			
+			_
+			
+			
+			
+			
+			
+<!-- 			<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider> -->
+
+<!-- 				<div class="uk-slider-items  uk-child-width-1-6 uk-grid"> -->
+<!-- 						<span class="uk-panel"> -->
+<%-- 						<c:forEach var="img" items="${ reviewImageList }"> --%>
+<%-- 							<c:if test="${ img.reviewNo == rev.reviewNo }"> --%>
+<%-- 								<img class="uk-align-center" src="${ contextPath }/resources/reviewImages/${ img.changeName }"  width="400" height="600" alt="리뷰이미지"> --%>
+<%-- 							</c:if> --%>
+<%-- 						</c:forEach> --%>
+<!-- 						</span> -->
+<!-- 					</li> -->
+<!-- 				</div> -->
+<!-- 				<a class="uk-position-center-left uk-position-small uk-hidden-hover" -->
+<!-- 					href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a -->
+<!-- 					class="uk-position-center-right uk-position-small uk-hidden-hover" -->
+<!-- 					href="#" uk-slidenav-next uk-slider-item="next"></a> -->
+<!-- 			</div> -->
 			<!-- 슬라이더 끝 -->
 			<div class="uk-comment-body">
 				<br>
@@ -454,10 +477,10 @@ border-color: rgba(255, 99, 132, 0.6);
 	
 	<!-- 고정 버튼 (탑버튼, 글쓰기 버튼) -->
 	<ul class="uk-iconnav uk-iconnav-vertical uk-icon-button uk-margin-small-right" id="tothetop">
-    <li><a href="#" uk-icon="icon: chevron-up; ratio: 2"></a></li>
-</ul>
-<ul class="uk-iconnav uk-iconnav-vertical uk-icon-button uk-margin-small-right" id="write-review">
-    <li><a href="rinsertView.bo" uk-icon="icon: file-edit; ratio: 1.5"></a></li>
+    	<li><a href="#" uk-icon="icon: chevron-up; ratio: 2"></a></li>
+	</ul>
+	<ul class="uk-iconnav uk-iconnav-vertical uk-icon-button uk-margin-small-right" id="write-review">
+  	 <li><a href="rinsertView.bo?productNo=${ pno }" uk-icon="icon: file-edit; ratio: 1.5"></a></li>
     </ul>
     
     
@@ -488,7 +511,6 @@ $('.reportReview').on("click",function(){
 	});
 	
 });
-
 	</script>
 		<!-- 좋아요 버튼 사용하는 script -->
                     <script>
@@ -598,9 +620,9 @@ $( '#tothetop' ).click( function() {
     var htmloffset = $( 'html' ).offset();
     $( 'html, body' ).animate( { scrollTop : review-header }, 400 );
 });
-
 </script>
 
 
 </body>
 </html>
+

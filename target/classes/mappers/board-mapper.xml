@@ -124,7 +124,7 @@
 <!--          join member m on (rl.email_id = m.email_id)     -->
 <!--      where review_status  = 'Y' -->
 <!--      order by review_no desc -->
-	select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3
+	select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3, nickname
      from review_list rl
          join member m on (rl.email_id = m.email_id)    
      where review_status  = 'Y' and product_no = #{ productNo }
@@ -156,7 +156,7 @@
 	<select id="getReviewImageList" resultMap="reviewImageResultSet">
 		select *
 		from review_img
-		where review_no=#{reviewNo}
+		
 	</select>
 	
 	<resultMap type="ReviewImage" id="reviewImageResultSet">
