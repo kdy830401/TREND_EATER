@@ -1844,6 +1844,7 @@ public class AdminController {
 		// 4. mv에 담아 이동
 		if(orderAdminList != null) {
 			mv.addObject("orderAdminList", orderAdminList);
+			mv.addObject("pi", pi);
 			mv.setViewName("orderAdminList");
 		} else {
 			throw new BoardException("주문 관리 조회에 실패했습니다.");
