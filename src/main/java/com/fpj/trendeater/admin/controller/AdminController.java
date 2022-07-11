@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -254,76 +253,7 @@ public class AdminController {
 		}
 
 	}
-//	// 상품등록 ver1
-//	@RequestMapping("registerProduct.ad")
-//	public String registerProduct(@ModelAttribute Product product, @RequestParam(value = "productImg", required = false) MultipartFile productImg, @RequestParam(value = "nutInfoImg", required = false) MultipartFile nutInfoImg, HttpServletRequest request) {
-//		
-////		System.out.println(product);
-////		System.out.println(productImg);
-////		System.out.println(nutInfoImg);
-//		ArrayList<Image> imageList = new ArrayList<Image>();
-//		String savePath = null;
-//		Image productupload = new Image();
-//		
-//		// 상품사진 이미지 정보 설정
-//		if (productImg != null && !productImg.isEmpty()) {
-//			
-//			HashMap<String, String> map = saveFile(productImg, request);
-//			String originName = productImg.getOriginalFilename();
-//			
-//			savePath = map.get("savePath");
-//			productupload.setOriginName(originName);
-//			productupload.setChangeName(map.get("changeName"));
-//			productupload.setFilePath(map.get("savePath"));
-//			productupload.setFileLevel(1);
-//			productupload.setFileType(1);
-//			productupload.setBoardType(1);
-////			productupload.setIdentifyNo(product.getProductNo());
-//			imageList.add(productupload);
-//		}
-//		
-//		Image nutInfoupload = new Image();
-//		// 상세정보 사진 이미지 정보 설정
-//		if (nutInfoImg != null && !nutInfoImg.isEmpty()) {
-//			HashMap<String, String> map = saveFile(nutInfoImg, request);
-//			String originName = nutInfoImg.getOriginalFilename();
-//			savePath = map.get("savePath");
-//			nutInfoupload.setOriginName(originName);
-//			nutInfoupload.setChangeName(map.get("changeName"));
-//			nutInfoupload.setFilePath(map.get("savePath"));
-//			nutInfoupload.setFileLevel(2);
-//			nutInfoupload.setFileType(2);
-//			nutInfoupload.setBoardType(1);
-////			nutInfoupload.setIdentifyNo(product.getProductNo());
-//			imageList.add(nutInfoupload);
-//		}
-//		
-//		String adminId = ((Admin) request.getSession().getAttribute("adminUser")).getId();
-//		String adminName = ((Admin) request.getSession().getAttribute("adminUser")).getName();
-//		product.setAdminId(adminId);
-//		product.setAdminName(adminName);
-//		
-//		// 상품 정보 등록(게시글 정보도 포함)
-//		int result1 = aService.registerProduct(product);
-//		// 상품 이미지 등록
-//		int result2 = aService.registerImage(imageList, product.getProductNo());
-//		
-//		System.out.println("imgresult : " + result2);
-//		if (result1 + result2 > 2) {
-//			return "redirect:productList.ad";
-//		} else {
-//			// 상품 등록 실패시 저장소 파일 삭제
-//			for (int i = 0; i < imageList.size(); i++) {
-////				File failFile = new File(savePath + "/" + imageList.get(i).getChangeName());
-////				failFile.delete();
-//				deleteFile(imageList.get(i).getChangeName(), request);
-//			}
-//			
-//			throw new AdminException("상품등록에 실패하였습니다.");
-//			
-//		}
-//		
-//	}
+	
 
 	// 파일 저장
 	private HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
@@ -612,10 +542,13 @@ public class AdminController {
 										  @RequestParam(value = "page", required = false) Integer page,ModelAndView mv) {
 
 		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("update", "update");
+		map.put("pno", productNo);
 		System.out.println(productNo);
 		// 상품 번호로 상품 정보 받아오기
-		Product p = bService.selectPrBoard(productNo);
-		System.out.println(p);
+		Product p = bService.selectPrBoard(map);
+//		System.out.println(p);
 		// 상품 이미지 정보 받아오기
 		ArrayList<Image> imgList = bService.selectPrImage(productNo);
 //		ModelAndView updateMv = bController.prbBoardDetail(productNo, 1, null, mv);
@@ -1468,7 +1401,7 @@ public class AdminController {
 			currentPage = page;
 		}
 		
-		int listCount = bService.reviewCount();
+		int listCount = bService.reviewCount(null);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		

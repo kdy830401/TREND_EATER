@@ -39,8 +39,8 @@ public class BoardServiceImpl implements BoardService{
 	
 	// 리뷰게시판 상세보기
 	@Override
-	public Product selectPrBoard(int pno) {
-		return bDAO.selectPrBoard(sqlSession, pno);
+	public Product selectPrBoard(HashMap<String, Object> map) {
+		return bDAO.selectPrBoard(sqlSession, map);
 	}
 	// 리뷰게시판 상세보기
 	@Override
@@ -87,13 +87,13 @@ public class BoardServiceImpl implements BoardService{
 
 	//이용준
 	@Override
-	public int reviewCount() {
-		return bDAO.reviewCount(sqlSession);
+	public int reviewCount(Integer productNo) {
+		return bDAO.reviewCount(sqlSession, productNo);
 	}
 
 	@Override
-	public ArrayList<Review> getReviewList(PageInfo pi) {
-		return bDAO.getReviewList(sqlSession, pi);
+	public ArrayList<Review> getReviewList(PageInfo pi, Integer productNo) {
+		return bDAO.getReviewList(sqlSession, pi, productNo);
 	}
 
 	@Override
@@ -115,6 +115,42 @@ public class BoardServiceImpl implements BoardService{
 	public int reportReview(Report rep) {
 		return bDAO.reportReview(sqlSession, rep);
 	}
+	
+	
+//	//좋아요
+//// 게시글 좋아요 count
+//	@Override
+//	public int likeCount(UserLike li) {
+//		return bDAO.likeCount(sqlSession, li);
+//	}
+//	
+//	// 게시글 좋아요
+//	@Override
+//	public int insertLike(UserLike like) {
+//		return bDAO.insertLike(sqlSession, like);
+//	}
+//	
+//	// 게시글 좋아요 취소
+//	@Override
+//	public int deleteLike(UserLike like) {
+//		return bDAO.deleteLike(sqlSession, like);
+//	}
+//	
+//	// 게시글 전체 좋아요 count
+//	@Override
+//	public ArrayList<UserLike>selectLikeCount(int reviewNo) {
+//		return bDAO.selectLikeCount(sqlSession, reviewNo);
+//	}
+	@Override
+	public ArrayList<UserLike> userLikeSelect(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return bDAO.userLikeSelect(sqlSession,map);
+	}
+	@Override
+	public int reviewLike(HashMap<String, Object> map) {
+		return bDAO.reviewLike(sqlSession, map);
+	}
+
 
 	// Notice 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
 	@Override
@@ -304,34 +340,13 @@ public class BoardServiceImpl implements BoardService{
 	public int eDeleteBoard(int eno) {
 		return bDAO.eDeleteBoard(sqlSession, eno);
 	}
+
+	
 	
 	
 	
 /***********************************************************************/
 
 	
-	//좋아요
-	// 게시글 좋아요 count
-		@Override
-		public int likeCount(UserLike li) {
-			return bDAO.likeCount(sqlSession, li);
-		}
-		
-		// 게시글 좋아요
-		@Override
-		public int insertLike(UserLike like) {
-			return bDAO.insertLike(sqlSession, like);
-		}
-		
-		// 게시글 좋아요 취소
-		@Override
-		public int deleteLike(UserLike like) {
-			return bDAO.deleteLike(sqlSession, like);
-		}
-		
-		// 게시글 전체 좋아요 count
-		@Override
-		public ArrayList<UserLike>selectLikeCount(int reviewNo) {
-			return bDAO.selectLikeCount(sqlSession, reviewNo);
-		}
+	
 }

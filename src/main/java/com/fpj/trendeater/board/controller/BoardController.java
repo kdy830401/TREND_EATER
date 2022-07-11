@@ -102,21 +102,21 @@ public class BoardController {
 
 		String emailId = null;
 		int scrapCheckNum = 0;
-		if(request.getSession().getAttribute("loginUser") != null) {
+		HashMap<String, Object> map = new HashMap<>();
+		
 			emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
-			HashMap<String, Object> map = new HashMap<>();
 			
-			map.put("pNo", pno);
+			map.put("pno", pno);
 			map.put("emailId", emailId);
 			
 			scrapCheckNum = bService.checkScrap(map);
-		}
-	
 		
-		System.out.println(scrapCheckNum);
-		System.out.println(pno);
-		Product p = bService.selectPrBoard(pno);
-
+		
+		
+//		System.out.println(scrapCheckNum);
+//		System.out.println(pno);
+		Product p = bService.selectPrBoard(map);
+		System.out.println(map);
 		// review rating 점수별 갯수 구하기
 		HashMap<String, Object> countMap = new HashMap<>();
 		countMap.put("pno", pno);
@@ -611,7 +611,9 @@ public class BoardController {
 	
 	//이용준@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("rlist.bo")
-	public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv, UserLike like, HttpSession session) {
+	public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, 
+								   @RequestParam(value="pno", required=false) Integer productNo,
+								   ModelAndView mv, UserLike like, HttpSession session) {
 		
 		int currentPage = 1;
 		
@@ -619,29 +621,34 @@ public class BoardController {
 			currentPage = page;			
 		}
 		
-		int listCount = bService.reviewCount();
+		int listCount = bService.reviewCount(productNo);
 		
-		int boardLimit = 10;
+		int boardLimit = 5;
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
-		ArrayList<Review> reviewList = bService.getReviewList(pi);
+		ArrayList<Review> reviewList = bService.getReviewList(pi, productNo);
 		
 		ArrayList<ReviewImage> reviewImageList = bService.getReviewImageList();
 		
-		String loginUser = (String)session.getAttribute("loginUser.email");
+		String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
 		
-		UserLike li = new UserLike();
-		li.setEmailId(loginUser);
-//		li.setReviewNo(reviewNo);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("emailId", emailId);
+//		System.out.println(map);
 		
-		int count = bService.likeCount(li);
+		ArrayList<UserLike> likeList = bService.userLikeSelect(map);
+//		System.out.println(likeList);
+//		System.out.println(reviewList);
+//		int count = bService.likeCount(li);
 		
+		System.out.println(pi);
 		
 		if(reviewList != null && reviewImageList != null) {
 			mv.addObject("reviewList", reviewList);
 			mv.addObject("pi", pi); 
 			mv.addObject("reviewImageList", reviewImageList);
-			mv.addObject(count);
+			mv.addObject("likeList",likeList);
+			mv.addObject("pno", productNo);
 			mv.setViewName("reviewListView");
 		} else {
 			throw new BoardException("리뷰 전체 조회에 실패하였습니다");
@@ -749,65 +756,96 @@ public class BoardController {
 	
 	
 	//리뷰 신고하기
-		@RequestMapping("reportReview.bo")
-		@ResponseBody
-		public String reportReview(@ModelAttribute Report rep, HttpSession session) {
-			
-			
-			String id = ((Member)session.getAttribute("loginUser")).getEmail();
+	@RequestMapping("reportReview.bo")
+	@ResponseBody
+	public String reportReview(@ModelAttribute Report rep, HttpSession session) {
+		
+		
+		String id = ((Member)session.getAttribute("loginUser")).getEmail();
 
-			rep.setEmailId(id);
-			
-			int result = bService.reportReview(rep);
-			
-			String repReview = Integer.toString(result);
+		rep.setEmailId(id);
 		
-			System.out.println("report : " + rep);
-			if(result > 0) {
-				return "success";
-			} else {
-				throw new BoardException("댓글 등록에 실패하였습니다.");
-			}
-				
-		}
-		// 좋아요 
-		// 게시판 좋아요
-		@ResponseBody
-		@RequestMapping("likeInsert.bo")
-		public String insertLike(UserLike like, HttpSession session, Model model) {
-			
-			int result = bService.insertLike(like);
-			if(result>0) {
-				return "success";
-			}else {
-				return "fail";
-			}
-			
-		}
+		int result = bService.reportReview(rep);
 		
-		// 게시판 좋아요 취소
-		@ResponseBody
-		@RequestMapping("likeDelete.bo")
-		public String deleteLike(UserLike like, HttpSession session, Model model) {
-			int result = bService.deleteLike(like);
-			if(result>0) {
-				return "success";
-			}else {
-				return "fail";
-			}
+		String repReview = Integer.toString(result);
+	
+		System.out.println("report : " + rep);
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("댓글 등록에 실패하였습니다.");
+		}
 			
+	}
+	// 좋아요 
+	@RequestMapping("reviewLike.bo")
+	public void reviewLike(@RequestParam(value="reviewNo", required=false) Integer reviewNo, HttpServletRequest request, HttpServletResponse response) {
+
+		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("emailId", emailId);
+		map.put("reviewNo", reviewNo);
+		
+		int result = bService.reviewLike(map);
+		
+		String data = null;
+		if(result > 1) {
+			data = "delete";
+		}  else {
+			data = "insert";
 		}
 		
-		// 게시판 전체 좋아요
-		@ResponseBody
-		@RequestMapping(value="allLike.bo", produces="application/json; charset=utf-8")
-		public String selectLikeCount(int reviewNo, HttpSession session, Model model) {
-			
-			ArrayList<UserLike> list = bService.selectLikeCount(reviewNo);
-			return new Gson().toJson(list);
-			
-		}
+		try {
+			PrintWriter pw = response.getWriter();
+			pw.print(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}			
 		
+	}
+		
+		
+		
+		
+//		// 게시판 좋아요
+//		@ResponseBody
+//		@RequestMapping("likeInsert.bo")
+//		public String insertLike(UserLike like, HttpSession session, Model model) {
+//			
+//			int result = bService.insertLike(like);
+//			if(result>0) {
+//				return "success";
+//			}else {
+//				return "fail";
+//			}
+//			
+//		}
+//		
+//		// 게시판 좋아요 취소
+//		@ResponseBody
+//		@RequestMapping("likeDelete.bo")
+//		public String deleteLike(UserLike like, HttpSession session, Model model) {
+//			int result = bService.deleteLike(like);
+//			if(result>0) {
+//				return "success";
+//			}else {
+//				return "fail";
+//			}
+//			
+//		}
+//		
+//		// 게시판 전체 좋아요
+//		@ResponseBody
+//		@RequestMapping(value="allLike.bo", produces="application/json; charset=utf-8")
+//		public String selectLikeCount(int reviewNo, HttpSession session, Model model) {
+//			
+//			ArrayList<UserLike> list = bService.selectLikeCount(reviewNo);
+//			return new Gson().toJson(list);
+//			
+//		}
+//		
 
 	
 	
