@@ -47,8 +47,8 @@
 						<tr>
 							<td>
 								<c:forEach var="j" items="${orderImgList }">
-									<c:if test="${i.productNo == j.productNo }">
-										<img src="resources/product_upload_images/${j.changeName}" width="200px" height="150px">
+									<c:if test="${i.productNo == j.identifyNo }">
+										<img src="resources/productImgUploadFiles/${j.changeName}" width="100px" height="100px">
 									</c:if>
 								</c:forEach>
 							</td>

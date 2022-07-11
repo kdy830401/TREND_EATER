@@ -23,7 +23,7 @@
 		<result column="TOTAL_PRICE" property="totalPrice"/>
 		<result column="ORDER_REQUEST" property="orderRequest"/>
 		<result column="EMAIL_ID" property="email"/>
-		<result column="ORDER_STATUS_NO" property="orderStatusName"/>
+		<result column="ORDER_STATUS_NO" property="orderStatusNo"/>
 
 		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
 		<result column="ORDER_AMOUNT" property="orderAmount"/>
@@ -119,7 +119,7 @@
 	<select id="getMyOrderImgList" resultMap="imageResultMap">
 		select *
 		from image
-		where product_no=#{productNo} and file_level = 0
+		where identify_no=#{productNo} and file_level = 1
 	</select>
 	
 	<!-- 3. 주문 품목 상세보기 리스트 받기 -->
