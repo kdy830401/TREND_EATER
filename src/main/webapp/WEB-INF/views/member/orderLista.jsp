@@ -24,7 +24,6 @@
         
         .click:hover{cursor: pointer;}
     </style>
-
 </head>
 <body>
 	<%-- <c:import url="../common/menubar.jsp"/> --%>

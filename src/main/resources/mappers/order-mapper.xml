@@ -23,7 +23,7 @@
 		<result column="TOTAL_PRICE" property="totalPrice"/>
 		<result column="ORDER_REQUEST" property="orderRequest"/>
 		<result column="EMAIL_ID" property="email"/>
-		<result column="ORDER_STATUS_NO" property="orderStatusName"/>
+		<result column="ORDER_STATUS_NO" property="orderStatusNo"/>
 
 		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
 		<result column="ORDER_AMOUNT" property="orderAmount"/>
@@ -81,7 +81,7 @@
 
 	<!-- 2. ORDER_LIST TABLE에 insert -->
 	<insert id="insertOrderList">
-		insert into ORDER_LIST
+		insert into ORDER_L
 		values(seq_oid.currval, SYSDATE, #{totalPrice}, #{orderRequest}, #{email}, seq_oid.currval)
 	</insert>
 
@@ -119,7 +119,7 @@
 	<select id="getMyOrderImgList" resultMap="imageResultMap">
 		select *
 		from image
-		where product_no=#{productNo} and file_level = 0
+		where identify_no=#{productNo} and file_level = 1
 	</select>
 	
 	<!-- 3. 주문 품목 상세보기 리스트 받기 -->
@@ -141,7 +141,7 @@
 	<select id="getAdminOrderList" resultMap="orderStatusResultMap">
 		select *
 		from order_l
-			left join order_status on(order_list.order_status_no = order_status.order_status_no)
+			left join order_status on(order_l.order_status_no = order_status.order_status_no)
 	</select>
 	
 	<!-- 주문 관리 - 주문 상태 변경 -->
@@ -155,14 +155,14 @@
 	<select id="getCategoryListCount" resultType="_int">
 		select count(*)
 		from order_l
-			left join order_status on(order_list.order_status_no = order_status.order_status_no)
+			left join order_status on(order_l.order_status_no = order_status.order_status_no)
 		where order_status_name = #{orderStatusName}
 	</select>
 	
 	<select id="getOrderedList" resultMap="orderStatusResultMap">
 		select *
 		from order_l
-			left join order_status on(order_list.order_status_no = order_status.order_status_no)
+			left join order_status on(order_l.order_status_no = order_status.order_status_no)
 		where order_status_name = #{orderStatusName}
 	</select>		
 </mapper>

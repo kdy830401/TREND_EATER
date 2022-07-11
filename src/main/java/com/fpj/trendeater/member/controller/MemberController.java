@@ -796,6 +796,7 @@ public class MemberController {
 			// 3. 특정 페이지의 주문 정보 가져오기 
 			// 3.1 Order에서 주문자의 주문 정보가져오기
 			ArrayList<OrderStatus> orderList = mService.getMyOrderList(emailId, pi);
+			System.out.println("orderList : " + orderList);
 			
 
 			// 4. mv에 담아 이동
