@@ -85,36 +85,6 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.getListCount(sqlSession);
 	}
 
-	//이용준
-	@Override
-	public int reviewCount() {
-		return bDAO.reviewCount(sqlSession);
-	}
-
-	@Override
-	public ArrayList<Review> getReviewList(PageInfo pi) {
-		return bDAO.getReviewList(sqlSession, pi);
-	}
-
-	@Override
-	public ArrayList<ReviewImage> getReviewImageList() {
-		return bDAO.getReviewImageList(sqlSession);
-	}
-
-	@Override
-	public int insertReview(Review r) {
-		return bDAO.insertReview(sqlSession, r);
-	}
-
-	@Override
-	public int insertReviewImage(ArrayList<ReviewImage> imageList) {
-		return bDAO.insertReviewImage(sqlSession, imageList);
-	}
-
-	@Override
-	public int reportReview(Report rep) {
-		return bDAO.reportReview(sqlSession, rep);
-	}
 
 	// Notice 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
 	@Override
@@ -308,7 +278,36 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 /***********************************************************************/
+	//이용준
+		@Override
+		public int reviewCount() {
+			return bDAO.reviewCount(sqlSession);
+		}
 
+		@Override
+		public ArrayList<Review> getReviewList(PageInfo pi) {
+			return bDAO.getReviewList(sqlSession, pi);
+		}
+
+		@Override
+		public ArrayList<ReviewImage> getReviewImageList() {
+			return bDAO.getReviewImageList(sqlSession);
+		}
+
+		@Override
+		public int insertReview(Review r) {
+			return bDAO.insertReview(sqlSession, r);
+		}
+
+		@Override
+		public int insertReviewImage(ArrayList<ReviewImage> imageList) {
+			return bDAO.insertReviewImage(sqlSession, imageList);
+		}
+
+		@Override
+		public int reportReview(Report rep) {
+			return bDAO.reportReview(sqlSession, rep);
+		}
 	
 	//좋아요
 	// 게시글 좋아요 count
@@ -333,5 +332,23 @@ public class BoardServiceImpl implements BoardService{
 		@Override
 		public ArrayList<UserLike>selectLikeCount(int reviewNo) {
 			return bDAO.selectLikeCount(sqlSession, reviewNo);
+		}
+		
+		//특정 회원 리뷰 
+		@Override
+		public int someReviewCount() {
+			return bDAO.someReviewCount(sqlSession);
+		}
+//		@Override
+//		public ArrayList<Review> someReviewList(PageInfo pi) {
+//			return bDAO.someReviewList(sqlSession, pi);
+//		}
+		@Override
+		public ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map) {
+			return bDAO.someReviewList(sqlSession, pi, map);
+		}
+		@Override
+		public ArrayList<ReviewImage> someReviewImageList() {
+			return bDAO.someReviewImageList(sqlSession);
 		}
 }

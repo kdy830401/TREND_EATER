@@ -92,59 +92,6 @@ public class BoardDAO {
 	}
 
 
-	//이용준
-	public int reviewCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.reviewCount");
-	}
-
-	public ArrayList<Review> getReviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("boardMapper.getReviewList", null, rowBounds);
-	}
-
-	public ArrayList<ReviewImage> getReviewImageList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("boardMapper.getReviewImageList");
-	}
-
-	public int insertReview(SqlSessionTemplate sqlSession, Review r) {
-		return sqlSession.insert("boardMapper.insertReview", r);
-	}
-
-
-	public int insertReviewImage(SqlSessionTemplate sqlSession, ArrayList<ReviewImage> imageList) {
-		int imgResult = 0;
-		for(int i = 0; i <imageList.size(); i++) {
-			sqlSession.insert("boardMapper.insertReviewImage", imageList.get(i));
-			imgResult++;
-		}
-		return imgResult;
-	}
-
-	public int reportReview(SqlSessionTemplate sqlSession, Report rep) {
-		return sqlSession.insert("boardMapper.reportReview", rep);
-	}
-	
-	// 좋아요
-	// 게시글 좋아요 count
-		public int likeCount(SqlSessionTemplate sqlSession, UserLike li) {
-			return sqlSession.selectOne("boardMapper.likeCount", li);
-		}
-		
-		// 게시글 좋아요
-		public int insertLike(SqlSessionTemplate sqlSession, UserLike like) {
-			return sqlSession.insert("boardMapper.insertLike", like);
-		}
-		
-		// 게시글 좋아요 취소
-		public int deleteLike(SqlSessionTemplate sqlSession, UserLike like) {
-			return sqlSession.delete("boardMapper.deleteLike", like);
-		}
-		
-		// 게시글 전체 좋아요 count
-		public ArrayList<UserLike> selectLikeCount(SqlSessionTemplate sqlSession, int reviewNo) {
-			return (ArrayList)sqlSession.selectList("boardMapper.selectLikeCount", reviewNo);
-		}
 
 
 
@@ -329,6 +276,95 @@ public class BoardDAO {
 		return sqlSession.update("boardMapper.eDeleteBoard", eno);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	//===============================이용준=================================================================
+	public int reviewCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.reviewCount");
+	}
+
+	public ArrayList<Review> getReviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.getReviewList", null, rowBounds);
+	}
+
+	public ArrayList<ReviewImage> getReviewImageList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getReviewImageList");
+	}
+
+	public int insertReview(SqlSessionTemplate sqlSession, Review r) {
+		return sqlSession.insert("boardMapper.insertReview", r);
+	}
+
+
+	public int insertReviewImage(SqlSessionTemplate sqlSession, ArrayList<ReviewImage> imageList) {
+		int imgResult = 0;
+		for(int i = 0; i <imageList.size(); i++) {
+			sqlSession.insert("boardMapper.insertReviewImage", imageList.get(i));
+			imgResult++;
+		}
+		return imgResult;
+	}
+	
+
+	public int reportReview(SqlSessionTemplate sqlSession, Report rep) {
+		return sqlSession.insert("boardMapper.reportReview", rep);
+	}
+	
+	// 좋아요
+	// 게시글 좋아요 count
+		public int likeCount(SqlSessionTemplate sqlSession, UserLike li) {
+			return sqlSession.selectOne("boardMapper.likeCount", li);
+		}
+		
+		// 게시글 좋아요
+		public int insertLike(SqlSessionTemplate sqlSession, UserLike like) {
+			return sqlSession.insert("boardMapper.insertLike", like);
+		}
+		
+		// 게시글 좋아요 취소
+		public int deleteLike(SqlSessionTemplate sqlSession, UserLike like) {
+			return sqlSession.delete("boardMapper.deleteLike", like);
+		}
+		
+		// 게시글 전체 좋아요 count
+		public ArrayList<UserLike> selectLikeCount(SqlSessionTemplate sqlSession, int reviewNo) {
+			return (ArrayList)sqlSession.selectList("boardMapper.selectLikeCount", reviewNo);
+		}
+		//특정 회원 리뷰 보기
+		public int someReviewCount(SqlSessionTemplate sqlSession) {
+			return sqlSession.selectOne("boardMapper.someReviewCount");
+		}
+//		public ArrayList<Review> someReviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
+//			int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+//			RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+//			return (ArrayList)sqlSession.selectList("boardMapper.someReviewList", null, rowBounds);
+//		}
+		public ArrayList<Review> someReviewList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
+			int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+			RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+			return (ArrayList)sqlSession.selectList("boardMapper.someReviewList", map, rowBounds);
+		}
+		public ArrayList<ReviewImage> someReviewImageList(SqlSessionTemplate sqlSession) {
+			return (ArrayList)sqlSession.selectList("boardMapper.someReviewImageList");
+		}
+	
+	
+	//===============================이용준=================================================================
 	
 	
 	

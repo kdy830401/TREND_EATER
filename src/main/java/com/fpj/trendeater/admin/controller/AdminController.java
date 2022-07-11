@@ -49,18 +49,13 @@ import com.fpj.trendeater.board.controller.BoardController;
 import com.fpj.trendeater.board.model.exception.BoardException;
 import com.fpj.trendeater.board.model.service.BoardService;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
-
-import com.fpj.trendeater.board.model.vo.Review;
-import com.fpj.trendeater.board.model.vo.ReviewImage;
-import com.fpj.trendeater.board.model.vo.UserLike;
-
-
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
-
+import com.fpj.trendeater.board.model.vo.Report;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.common.Pagination;
-import com.fpj.trendeater.common.ReviewPagination;
 import com.fpj.trendeater.member.model.vo.Member;
 
 @SessionAttributes("adminUser")
@@ -1473,15 +1468,60 @@ public class AdminController {
 //			mv.addObject(count);
 			mv.setViewName("adminReviewList");
 		} else {
-			throw new BoardException("관리자페이지 리뷰 조회에 실패하였습니다");
+			throw new AdminException("관리자페이지 리뷰 조회에 실패하였습니다");
 		}
 	
 		return mv;
 		}
 
 
-	//##########
+	//신고된 리뷰 리스트 뷰 이동
+	@RequestMapping("reportedReview.ad")
+	public ModelAndView reportedList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv) {
+
+		int currentPage = 1; 
+
+		if (page != null) { 
+			currentPage = page;
+		}
+		int boardLimit = 5;
+
+		int listCount = bService.getListCount();
+		
+		int reportCount = aService.reportCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount,boardLimit);
+		
+		ArrayList<Report> reportList = aService.getReportList(pi);
+		
+		if(reportList != null) {
+			mv.addObject("reportList", reportList);
+			mv.addObject("pi", pi); 
+			mv.addObject("reportCount", reportCount);
+			mv.setViewName("reportedList");
+		} else {
+			throw new AdminException("신고된 리뷰 리스트 조회에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
 	
+	//신고된 리뷰 확인
+	@RequestMapping("reportConfirm.ad")
+	public String reportConfirm(@RequestParam(value = "reportNo", required=false) int reportNo, @RequestParam("page") int page,
+								Report rp, Model model) {
+		
+		if(reportNo != 0) {
+			rp.setReportNo(reportNo);
+		}
+		
+		int result = aService.reportConfirm(rp);
+		if(result > 0) {
+			return "reportedReview.ad";
+		}	else {
+			throw new AdminException("신고 확인에 실패하였습니다..");
+		}
+	}
 	
 	
 	

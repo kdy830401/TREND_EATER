@@ -24,13 +24,14 @@ public class Review {
 	private String flavor1;
 	private String flavor2;
 	private String flavor3;
+	private String changeName;
 	
 	public Review() {}
 
 	public Review(int reviewNo, int reviewRating, int recommend, int repurcharse, int spicy, int sweet, int bitter,
 			int salty, int sour, String good, String bad, Date createDate, Date modifyDate, int likeCount,
 			int productNo, String emailId, String reviewStatus, String nickName, String flavor1, String flavor2,
-			String flavor3) {
+			String flavor3, String changeName) {
 		super();
 		this.reviewNo = reviewNo;
 		this.reviewRating = reviewRating;
@@ -53,6 +54,7 @@ public class Review {
 		this.flavor1 = flavor1;
 		this.flavor2 = flavor2;
 		this.flavor3 = flavor3;
+		this.changeName = changeName;
 	}
 
 	public int getReviewNo() {
@@ -223,6 +225,14 @@ public class Review {
 		this.flavor3 = flavor3;
 	}
 
+	public String getChangeName() {
+		return changeName;
+	}
+
+	public void setChangeName(String changeName) {
+		this.changeName = changeName;
+	}
+
 	@Override
 	public String toString() {
 		return "Review [reviewNo=" + reviewNo + ", reviewRating=" + reviewRating + ", recommend=" + recommend
@@ -230,7 +240,7 @@ public class Review {
 				+ ", salty=" + salty + ", sour=" + sour + ", good=" + good + ", bad=" + bad + ", createDate="
 				+ createDate + ", modifyDate=" + modifyDate + ", likeCount=" + likeCount + ", productNo=" + productNo
 				+ ", emailId=" + emailId + ", reviewStatus=" + reviewStatus + ", nickName=" + nickName + ", flavor1="
-				+ flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + "]";
+				+ flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + ", changeName=" + changeName + "]";
 	}
 
 	

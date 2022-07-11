@@ -177,7 +177,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 	<div class="floating">
 		<div class="uk-margin uk-border-circle floating-button edit" uk-tooltip="리뷰작성하기">
-			<a href="#">
+<!-- 			<a href="rinsertView.bo"> -->
+			<a href="rlist.bo">
 				<span class="material-symbols-outlined icon">edit</span>
 			</a>
 		</div>

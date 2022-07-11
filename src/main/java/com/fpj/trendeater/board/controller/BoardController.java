@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -641,8 +642,10 @@ public class BoardController {
 			mv.addObject("reviewList", reviewList);
 			mv.addObject("pi", pi); 
 			mv.addObject("reviewImageList", reviewImageList);
-			mv.addObject(count);
+//			mv.addObject(count);
 			mv.setViewName("reviewListView");
+			System.out.println("reviewList : " + reviewList);
+			System.out.println("reviewImageList : " + reviewImageList);
 		} else {
 			throw new BoardException("리뷰 전체 조회에 실패하였습니다");
 		}
@@ -657,38 +660,37 @@ public class BoardController {
 	
 
 	@RequestMapping("rinsert.bo")
-	public String insertReview(@ModelAttribute Review r,@ModelAttribute ReviewImage rImg, @RequestParam("uploadFile") ArrayList<MultipartFile> uploadFile,
+	public String insertReview(@ModelAttribute Review r,@ModelAttribute ReviewImage rImg, @RequestParam("uploadFile[]") ArrayList<MultipartFile> uploadFiles,
 			HttpServletRequest request)  {
 		
 		ArrayList<ReviewImage> imageList = new ArrayList<ReviewImage>();
 		String savePath = null;
-		ReviewImage reviewImage = new ReviewImage();
-		if(uploadFile != null && !uploadFile.isEmpty()) {
+//		ReviewImage reviewImage = new ReviewImage();
+		if(uploadFiles != null && !uploadFiles.isEmpty()) {
 
-			ArrayList<String> r2nameFileNames =saveFile(uploadFile, request);//변경파일명
+			ArrayList<String> r2nameFileNames =saveFile(uploadFiles, request);//변경파일명
 	         ArrayList<String> originFiles = new ArrayList<String>();//원본파일명
 	         
 	         savePath = request.getSession().getServletContext().getRealPath("resources")+ "\\reviewImages";
 	         //원본파일명 집어넣을 for문
-	         for(int i=0; i<uploadFile.size(); i++ ) {
-	            originFiles.add(uploadFile.get(i).getOriginalFilename());
-	            //System.out.println("원본파일명"+originFiles);// 원본파일 제대로 뜨나 확인
+	         for(int i=0; i<uploadFiles.size(); i++ ) {
+	            originFiles.add(uploadFiles.get(i).getOriginalFilename());
+	            System.out.println("원본파일명"+originFiles);// 원본파일 제대로 뜨나 확인
 	         }
 	         
-	         
-	         for(int i = 0; i<uploadFile.size(); i++ ) {
+	         for(int i = 0; i<uploadFiles.size(); i++ ) {
 	            rImg.setOriginName(originFiles.get(i));
 	            rImg.setChangeName(r2nameFileNames.get(i));
 	            rImg.setFilePath(savePath);
 	           
 	            imageList.add(rImg);
 	         }
-	         
 	      }
 	      int result1 = bService.insertReview(r);
 	      int result2 = bService.insertReviewImage(imageList);
 	      System.out.println("insert con : " + r + "++ imageList/" + imageList);
 	      if( result1 + result2 > 1) {
+	    	  System.out.println();
 	         return "redirect:rlist.bo";
 	      } else {
 	         for(int i = 0; i < imageList.size(); i++) {
@@ -751,22 +753,36 @@ public class BoardController {
 	//리뷰 신고하기
 		@RequestMapping("reportReview.bo")
 		@ResponseBody
-		public String reportReview(@ModelAttribute Report rep, HttpSession session) {
-			
+		public String reportReview(@ModelAttribute Report rep, HttpSession session,
+									@RequestParam(value = "reportType", required=false) Integer reportType,
+									@RequestParam(value = "reportContent", required=false) String reportContent,
+									@RequestParam(value = "emailId", required=false) String emailId,
+									@RequestParam(value = "reviewNo", required=false) Integer reviewNo
+				) {
 			
 			String id = ((Member)session.getAttribute("loginUser")).getEmail();
+			
 
 			rep.setEmailId(id);
+			rep.setReportContent(reportContent);
+			rep.setReportType(reportType);
+			rep.setReviewNo(reviewNo);
+			
+//			HashMap<String, Object> map = new HashMap<>();
+//			map.put("rep", rep);
 			
 			int result = bService.reportReview(rep);
+//			int result = bService.reportReview(map);
 			
 			String repReview = Integer.toString(result);
 		
 			System.out.println("report : " + rep);
 			if(result > 0) {
+				System.out.println("sssss report : " + rep);
 				return "success";
 			} else {
-				throw new BoardException("댓글 등록에 실패하였습니다.");
+				System.out.println("fffff report : " + rep);
+				throw new BoardException("신고에 실패하였습니다!!!!!!!.");
 			}
 				
 		}
@@ -808,8 +824,55 @@ public class BoardController {
 			
 		}
 		
-
-	
+		@RequestMapping("someReviewList.bo")
+	  	public ModelAndView someReviewList(@RequestParam(value = "page", required=false) Integer page,
+	  										@RequestParam(value = "emailId", required=false) String emailId,
+	  										ModelAndView mv, UserLike like, HttpSession session) {
+	  		
+	  		int currentPage = 1;
+	  		
+	  		if(page != null) {
+	  			currentPage = page;			
+	  		}
+	  		
+	  		int listCount = bService.someReviewCount();
+	  		
+	  		int boardLimit = 10;
+	  		
+	  		HashMap<String, String> map = new HashMap<>();
+	  		map.put("emailId", emailId);
+	  		
+	  		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+	  		
+	  		
+	  		ArrayList<Review> reviewList = bService.someReviewList(pi, map);
+	  		
+	  		ArrayList<ReviewImage> reviewImageList = bService.someReviewImageList();
+	  		
+	  		String loginUser = (String)session.getAttribute("loginUser.email");
+	  		
+	  		UserLike li = new UserLike();
+	  		li.setEmailId(loginUser);
+//	  		li.setReviewNo(reviewNo);
+	  		
+	  		int count = bService.likeCount(li);
+	  		
+	  		
+	  		if(reviewList != null && reviewImageList != null) {
+	  			mv.addObject("reviewList", reviewList);
+	  			mv.addObject("pi", pi); 
+	  			mv.addObject("reviewImageList", reviewImageList);
+	  			mv.addObject(count);
+	  			mv.addObject(emailId);
+	  			mv.setViewName("someMemberReviewList");
+	  			System.out.println("someReviewList : " + reviewList);
+	  		} else {
+//	  			System.out.println("실패 someReviewList : " + reviewList);
+	  			throw new BoardException("특정 회원 리뷰 전체 조회에 실패하였습니다");
+	  		}
+	  	
+	  		return mv;
+	  	}
 	
 	
 	

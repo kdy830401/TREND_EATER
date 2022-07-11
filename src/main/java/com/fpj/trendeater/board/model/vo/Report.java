@@ -10,12 +10,11 @@ public class Report {
 	private Date reportDate;
 	private String emailId;
 	private int reviewNo;
-	private int categoryNo;
 	
 	public Report() {}
 
 	public Report(int reportNo, int reportType, String reportContent, String reportResult, Date reportDate,
-			String emailId, int reviewNo, int categoryNo) {
+			String emailId, int reviewNo) {
 		super();
 		this.reportNo = reportNo;
 		this.reportType = reportType;
@@ -24,7 +23,6 @@ public class Report {
 		this.reportDate = reportDate;
 		this.emailId = emailId;
 		this.reviewNo = reviewNo;
-		this.categoryNo = categoryNo;
 	}
 
 	public int getReportNo() {
@@ -83,20 +81,13 @@ public class Report {
 		this.reviewNo = reviewNo;
 	}
 
-	public int getCategoryNo() {
-		return categoryNo;
-	}
-
-	public void setCategoryNo(int categoryNo) {
-		this.categoryNo = categoryNo;
-	}
-
 	@Override
 	public String toString() {
 		return "Report [reportNo=" + reportNo + ", reportType=" + reportType + ", reportContent=" + reportContent
 				+ ", reportResult=" + reportResult + ", reportDate=" + reportDate + ", emailId=" + emailId
-				+ ", reviewNo=" + reviewNo + ", categoryNo=" + categoryNo + "]";
+				+ ", reviewNo=" + reviewNo + "]";
 	}
+
 	
 	
 }

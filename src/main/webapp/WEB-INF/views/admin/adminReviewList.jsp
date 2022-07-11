@@ -106,7 +106,7 @@
 }
 
 #delete-button {
-	margin-left: 700px;
+	margin-left: 600px;
 	/* 	color: rgb(255,99,132); */
 	border-radius: 35%;
 	border-radius: 15px;
@@ -178,7 +178,9 @@ width: 50px;
 height: 50px;
 box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
-
+.profileImg{
+background: gray; width: 50px; height: 50px; border-radius: 50px;
+}
 </style>
 </head>
 <body>
@@ -214,32 +216,26 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 			<header class="uk-comment-header">
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
-					<div>
-						<a href=""><img class="uk-border-circle" width="40" height="40" src="" alt="프로필사진"></a>
+						<div>
+						<c:if test="${ not empty rev.changeName }">
+						<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/uploadFiled/${rev.changeName}" class="profileImg">
+						</c:if>
+						<c:if test="${ empty rev.changeName }">
+							<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/images/hapu.jpg" class="profileImg">
+						</c:if>
 					</div>
 					<div class="uk-width-expand">
-						<span class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">${ rev.nickName }</a></span>
+						<span class="uk-comment-title uk-margin-remove">${ rev.nickName }</span>
 					</div>
-				</div>
-
-								<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }"></a>
-								<c:forEach var="img" items="${ imgList }">
-								<c:if test="${ p.productNo == img.identifyNo and img.fileType == 1}">
-								<input type="hidden" name="imgName" value="${ img.changeName }">
-								<input type="hidden" name="imgNo" value="${ img.imageNo }">
-								</c:if>
-								<c:if test="${ p.productNo == img.identifyNo and img.fileType == 2}">
-								<input type="hidden" name="imgName" value="${ img.changeName }">
-								<input type="hidden" name="imgNo" value="${ img.imageNo }">
-								</c:if>
-								</c:forEach>
-								
-
-							</form>
 							<button class="uk-button uk-button-default uk-button-small"
 								type="button" id="delete-button" onclick="deleteReview();">리뷰 삭제</button>
+				</div>
+
+<!-- 							</form> -->
+								
 								  <script>
 		function deleteReview(){
+			
 			if(confirm('정말 삭제하시겠습니까?')){
 				location.href="<%= request.getContextPath()%>/delete.ad?reviewNo=" + ${ rev.reviewNo };
 			}
@@ -340,45 +336,48 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 		</div>
 <!-- ############ PAGE END 끝~ -->
 
-    </div>
-  </div>
-  <!-- / -->
+	</div>
+	</div>
+	<!-- / -->
 
-  <!-- theme switcher -->
+	<!-- theme switcher -->
 
-<!-- ############ LAYOUT END-->
+	<!-- ############ LAYOUT END-->
+
+	</div>
 
 
-  </div>
-<!-- build:js scripts/app.html.js -->
-<!-- jQuery -->
-  <script src="../libs/jquery/jquery/dist/jquery.js"></script>
-<!-- Bootstrap -->
-  <script src="../libs/jquery/tether/dist/js/tether.min.js"></script>
-  <script src="../libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
-<!-- core -->
-  <script src="../libs/jquery/underscore/underscore-min.js"></script>
-  <script src="../libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
-  <script src="../libs/jquery/PACE/pace.min.js"></script>
 
-  <script src="scripts/config.lazyload.js"></script>
+	<!-- build:js scripts/app.html.js -->
+	<!-- jQuery -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/libs/jquery/jquery/dist/jquery.js"></script>
+	<!-- Bootstrap -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/libs/jquery/tether/dist/js/tether.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- core -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/libs/jquery/underscore/underscore-min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/libs/jquery/PACE/pace.min.js"></script>
 
-  <script src="scripts/palette.js"></script>
-  <script src="scripts/ui-load.js"></script>
-  <script src="scripts/ui-jp.js"></script>
-  <script src="scripts/ui-include.js"></script>
-  <script src="scripts/ui-device.js"></script>
-  <script src="scripts/ui-form.js"></script>
-  <script src="scripts/ui-nav.js"></script>
-  <script src="scripts/ui-screenfull.js"></script>
-  <script src="scripts/ui-scroll-to.js"></script>
-  <script src="scripts/ui-toggle-class.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/config.lazyload.js"></script>
 
-  <script src="scripts/app.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/palette.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-load.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-jp.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-include.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-device.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-form.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-nav.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+		<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-scroll-to.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ui-toggle-class.js"></script>
 
-  <!-- ajax -->
-  <script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
-  <script src="scripts/ajax.js"></script>
-<!-- endbuild -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/app.js"></script>
+
+	<!-- ajax -->
+	<%-- <script src="${ pageContext.servletContext.contextPath }/resources/admin/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/admin/scripts/ajax.js"></script>
+	<!-- endbuild -->
 </body>
 </html>

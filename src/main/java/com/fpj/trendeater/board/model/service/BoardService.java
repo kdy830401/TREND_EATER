@@ -43,6 +43,7 @@ public interface BoardService {
 //	int insertReviewImage(ArrayList<ReviewImage> imageList, int reviewNo);
 	int insertReviewImage(ArrayList<ReviewImage> imageList);
 
+//	int reportReview(Report rep);
 	int reportReview(Report rep);
 
 		// 게시글 좋아요 여부 카운트
@@ -55,6 +56,14 @@ public interface BoardService {
 		
 		// 전체 좋아요 개수
 		ArrayList<UserLike> selectLikeCount(int ReviewNo);
+		
+		int someReviewCount();
+
+		ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map);
+
+		ArrayList<ReviewImage> someReviewImageList();
+		
+		
 
 	// 시식신청
 	int registerApplyTaste(ApplyTastePerson applyPerson);
@@ -112,6 +121,9 @@ public interface BoardService {
 	int reuploadEImage(ArrayList<Image> imageList);// 이벤트게시판 수정하기 3 : 새로운 이미지 삽입
 
 	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
+
+
+
 	
 	
 	

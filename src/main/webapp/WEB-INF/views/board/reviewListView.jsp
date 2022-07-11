@@ -169,6 +169,9 @@ height: 50px;
 box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
+.profileImg{
+background: gray; width: 50px; height: 50px; border-radius: 50px;
+}
 </style>
 <%--   <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }resources/assets/reviewCss/reviewList.css" type="text/css" /> --%>
 </head>
@@ -198,12 +201,21 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 		<article class="uk-comment">
 			<header class="uk-comment-header">
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
+<%-- 				<input type="hidden" class="review" name="emailId" value="${ rev.emailId }"> --%>
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
 					<div>
-						<img class="uk-border-circle" width="40" height="40" src="" alt="프로필사진">
+<!-- 						<a><img class="uk-border-circle" width="40" height="40" src="" alt="프로필사진"></a> -->
+						<c:if test="${ not empty rev.changeName }">
+						<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/uploadFiled/${rev.changeName}" class="profileImg">
+						</c:if>
+						<c:if test="${ empty rev.changeName }">
+							<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/images/hapu.jpg" class="profileImg">${rev.reviewNo }
+						</c:if>
 					</div>
 					<div class="uk-width-expand">
-						<span class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="someReviewList.bo">${ rev.nickName }</a></span>
+<!-- 						<span class="uk-comment-title uk-margin-remove"> -->
+			<span  class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="someReviewList.bo?emailId=${rev.emailId}">${ rev.emailId}</a></span>
+<!-- 						</span> -->
 <!--  						 <a><i class="fa-regular fa-thumbs-up" id="thumb"></i></a>  -->
 <%--  							<span class="thumb-like">${ rev.likeCount }명이 좋아합니다.</span>  --%>
 							<c:choose>
@@ -217,13 +229,8 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 		                                	<img id = "thumb" onclick = "likeDelete();" src="${ pageContext.servletContext.contextPath }/resources/images/thumb.png" style="width: 20px;">
 		                                </c:otherwise>
 	                       </c:choose>
-	                                
 	                                	<span>좋아요</span> <span id="rcount">0</span>
-					</div>
-				</div>
-	                  
-
-						<div class="uk-inline">
+						<span class="uk-inline">
 							<button class="uk-button uk-button-default uk-button-small"
 								type="button" id="chart-button">맛 평가</button>
 							<div uk-drop="pos: right-bottom">
@@ -239,22 +246,27 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 									<div>신맛 ${ rev.sour }</div>
 								</div>
 							</div>
-						</div>
-						<a href="#modal-center" uk-toggle>
-							<img class="siren" src="resources/images/siren.png">
+						</span>
+						<a href="#modal-center${ rev.reviewNo }" uk-toggle>
+<%-- 						<a style="cursor:pointer"  href="reportReview.bo?reviewNo=${rev.reviewNo}"> --%>
+							<img class="siren" src="resources/images/siren.png" >
 						</a>
-							<div id="modal-center" class="uk-flex-top" uk-modal>
+					</div>
+				</div>
+	                  
+
+							<div id="modal-center${ rev.reviewNo }" class="uk-flex-top" uk-modal>
 									<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 										<div class="uk-modal-header">
 											<h3 class="uk-modal-title">리뷰 신고하기</h3>
 				       					</div>
 				        			<div class="uk-modal-body">
 				        				<p class="reportQuestion">신고하시는 사유가 무엇인가요?</p>
-								        	<div><input type="radio" name="reportType" value="1" class="reportType" id="reportType">  욕설/비방</div>
-								        	<div><input type="radio" name="reportType" value="2" class="reportType" id="reportType">  스팸/광고</div>
-								        	<div><input type="radio" name="reportType" value="3" class="reportType" id="reportType">  음란성</div>
-								        	<div><input type="radio" name="reportType" value="4" class="reportType" id="reportType">  양식 위반</div>
-								        	<div><input type="radio" name="reportType" value="5" class="reportType" id="reportType">  기타</div>
+								        	<div><input type="radio" name="reportType" value="1" class="reportType">  욕설/비방</div>
+								        	<div><input type="radio" name="reportType" value="2" class="reportType">  스팸/광고</div>
+								        	<div><input type="radio" name="reportType" value="3" class="reportType">  음란성</div>
+								        	<div><input type="radio" name="reportType" value="4" class="reportType">  양식 위반</div>
+								        	<div><input type="radio" name="reportType" value="5" class="reportType">  기타</div>
 							        	<br>
 											<div class="uk-margin">
 				        					<p class="reportQuestion">신고하시는 이유를 알려주세요</p>
@@ -263,11 +275,14 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 									</div>   
 				        			<div class="uk-modal-footer uk-text-right">
 				            			<button class="uk-button uk-button-default uk-modal-close" type="button">취소</button>
-				            			<button class="reportReview uk-button uk-button-primary" type="submit">신고</button>
+				            			<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
+				            			<button class="reportReview uk-button uk-button-primary" type="button" id="reportReview_${rev.reviewNo}">신고</button>
+				            			
 				        			</div>
 									</div>
 							</div>
 <!-- 							신고 하기 끝 -->
+  
 						<ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
 							<li>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</li>
 						</ul>
@@ -276,31 +291,41 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 <%-- 							<li>${ 상품정보.productNo }</li> --%>
 							<li>${ rev.modifyDate }</li>
 						</ul>
+						
 						<span class="star">★★★★★${ rev.reviewRating }</span>
-<!-- 					</div> -->
 			</header>
 			<!-- 슬라이더 -->
-			<div class="uk-position-relative uk-visible-toggle uk-light"
-				tabindex="-1" uk-slider>
+			<div class="uk-position-relative uk-visible-toggle uk-light " tabindex="-1" uk-slider>
+<!-- 			 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1"> -->
 
-				<ul
-					class="uk-slider-items uk-child-width-1-2 uk-child-width-1-6@m uk-grid">
-					<li>
-						<span class="uk-panel">
-						<c:forEach var="img" items="${ reviewImageList }">
-							<c:if test="${ img.reviewNo == rev.reviewNo }">
-								<img class="uk-align-center" src="${ contextPath }/resources/reviewImages/${ img.changeName }"  width="400" height="600" alt="리뷰이미지">
+		    <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-3@m uk-grid">
+		                <c:forEach var="img" items="${ reviewImageList }">
+		        <li>
+		            <div class="uk-panel">
+							<c:if test="${ img.reviewNo eq rev.reviewNo }">
+								<img class="uk-align-center" src="${ pageContext.servletContext.contextPath }/resources/reviewImages/${ img.changeName }"  width="300" height="450" alt="리뷰이미지">
 							</c:if>
+		            </div>
+		        </li>
 						</c:forEach>
-						</span>
-					</li>
+		        
+<!-- 					<li> -->
+<!-- 						<span class="uk-panel"> -->
+<%-- 						<c:forEach var="img" items="${ reviewImage }"> --%>
+<%-- 							<c:if test="${ img.reviewNo == rev.reviewNo }"> --%>
+<%-- 								<img class="uk-align-center" src="${ pageContext.servletContext.contextPath }/resources/reviewImages/${ img.changeName }"  width="400" height="600" alt="리뷰이미지"> --%>
+<%-- 							</c:if> --%>
+<%-- 						</c:forEach> --%>
+<!-- 						</span> -->
+<!-- 					</li> -->
 				</ul>
-				<a class="uk-position-center-left uk-position-small uk-hidden-hover"
-					href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
-					class="uk-position-center-right uk-position-small uk-hidden-hover"
-					href="#" uk-slidenav-next uk-slider-item="next"></a>
+				<a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+   				 <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
 			</div>
+
 			<!-- 슬라이더 끝 -->
+			
+			
 			<div class="uk-comment-body">
 				<br>
 
@@ -373,35 +398,7 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 <ul class="uk-iconnav uk-iconnav-vertical uk-icon-button uk-margin-small-right" id="write-review">
     <li><a href="rinsertView.bo" uk-icon="icon: file-edit; ratio: 1.5"></a></li>
     </ul>
-    <script type="text/javascript">	
-$('.reportReview').on("click",function(){
-	var rpType = $('.reportType').val();
-	var rpContent = $('.reportContent').val();
-	
-	$.ajax({
-		url:"reportReview.bo",
-		type:"post",
-		data:{	reportType:rpType, reportContent:rpContent},
-		success:function(data){
-		if(data == 'success'){
-			alert("신고가 완료되었습니다.");
-		} 
-			
-		},error:function(data){
-			alert("신고에 실패하였습니다.");
-			console.log(data);
-			console.log(rpType);
-			console.log(rpContent);
-			console.log($('#reportContent1').val());
-			
-		}
-		
-		
-	});
-	
-});
-
-	</script>
+ 
 	
     <script>
 // 		탑버튼
@@ -415,6 +412,8 @@ $( '#tothetop' ).click( function() {
 	                    <script>
 	                    $(function(){
 	                    	selectLikeCount();
+	                    	var reviewNo = ${ rev.reviewNo};
+	                    	var emailId = ${ loginUser.email};
 	                    });
 	                    
 	                    function selectLikeCount(){
@@ -422,7 +421,7 @@ $( '#tothetop' ).click( function() {
 	                    		url : "allLike.bo",
 	                    		type : "post",
 	                    		data : {
-	                    			reviewNo : ${rev.reviewNo}
+	                    			reviewNo : reviewNo
 	                    		},
 	                    		success : function(list){
 	                    			$("#rcount").html(list.length);
@@ -436,8 +435,8 @@ $( '#tothetop' ).click( function() {
 	                    		url : "likeInsert.bo",
 	                    		type : "post",
 	                    		data : {
-	                    			reviewNo : ${rev.reviewNo},
-	                    			email : ${loginUser.email}
+	                    			reviewNo : reviewNo,
+	                    			email : emailId
 	                    		},
 	                    		success : function(status){
 	                    			if(status == "success"){ // 좋아요 성공
@@ -455,8 +454,8 @@ $( '#tothetop' ).click( function() {
 	                    		url : "likeDelete.bo",
 	                    		type : "post",
 	                    		data : {
-	                    			reviewNo : ${rev.reviewNo},
-	                    			email : ${loginUser.email}
+	                    			reviewNo : reviewNo,
+	                    			email : emailId
 	                    		},
 	                    		success : function(status){ // 좋아요 취소
 	                    			$("#thumb").attr("src", '${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png');
@@ -468,6 +467,42 @@ $( '#tothetop' ).click( function() {
 	                    	})
 	                    }
 	                    </script>
+		
+	 <script defer type="text/javascript">	
+// 	$(document).on("click",".reportReview", function(){
+// 	$('.reportReview${rev.reviewNo}').on('click',function(){
+	$("button[id^='reportReview']").on("click", function(e) {
+		var rpType = $("input[name='reportType']:checked").val();
+		var reviewNo = $(this).prev().val();
+		var rpContent = $(this).parent().prev().children().children('textarea').val();
+	
+		$.ajax({
+			url:'reportReview.bo',
+			type:'post',
+			data:{reviewNo:reviewNo, reportType:rpType, reportContent:rpContent },
+			success:function(data){
+			if(data == 'success'){
+				alert("신고가 완료되었습니다.");
+				console.log(rpType);
+				console.log(rpContent);
+				console.log(reviewNo);
+				console.log($('#reportContent').val());
+			} 
+				
+			},error:function(data){
+				alert("신고에 실패하였습니다.");
+				console.log(rpType);
+				console.log(rpContent);
+				console.log(reviewNo);
+				
+			}
+			
+			
+		});
+		
+	});
 
+	</script>
+ 
 </body>
 </html>

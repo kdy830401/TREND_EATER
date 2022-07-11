@@ -3,6 +3,8 @@ package com.fpj.trendeater.admin.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import com.fpj.trendeater.admin.model.vo.Admin;
 import com.fpj.trendeater.admin.model.vo.ApplyTaste;
 import com.fpj.trendeater.admin.model.vo.Image;
@@ -14,7 +16,7 @@ import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
 
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
-
+import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.member.model.vo.Member;
 
 public interface AdminService {
@@ -87,6 +89,12 @@ public interface AdminService {
 	//관리자 페이지 리뷰 조회
 	ArrayList<Review> reviewList(PageInfo pi);
 	ArrayList<ReviewImage> reviewImageList();
+	//신고된 리뷰 조회
+	ArrayList<Report> getReportList(PageInfo pi);
+	//신고된 리뷰 개수 조회
+	int reportCount();
+	//신고된 리뷰 확인 
+	int reportConfirm(Report rp);
 
 	
 
