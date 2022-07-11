@@ -44,6 +44,7 @@ public class HomeController {
 		//System.out.println(pList);
 		ArrayList<Image> pIList = bService.getNewPImages(pList);//그림 불러오기
 		System.out.println("제품이미지 : "+pIList);
+		System.out.println("신제품:목록" + pList);
 		model.addAttribute("pList", pList);
 		model.addAttribute("pIList", pIList);
 		

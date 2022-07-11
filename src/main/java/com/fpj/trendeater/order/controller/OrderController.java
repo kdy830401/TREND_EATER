@@ -3,6 +3,10 @@ package com.fpj.trendeater.order.controller;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.cart.model.vo.Cart;
+import com.fpj.trendeater.member.model.vo.Member;
 import com.fpj.trendeater.order.model.exception.OrderException;
 import com.fpj.trendeater.order.model.service.OrderService;
 import com.fpj.trendeater.order.model.vo.Order;
@@ -30,11 +35,6 @@ public class OrderController {
 			@RequestParam("productAmount") ArrayList<Integer> productAmount, @RequestParam("productNo") ArrayList<Integer> productNo,
 			@RequestParam("productPrice") ArrayList<Integer> productPrice, @RequestParam("productName") ArrayList<String> productName,
 			Model model){
-		System.out.println(cart);
-		System.out.println(order);
-		System.out.println(cartNo);
-		System.out.println(productAmount);
-		System.out.println(productNo);
 		
 		int pointUpdate =pointPlus - pointUse;
 		String orderStatus = "1-주문";
@@ -105,6 +105,34 @@ public class OrderController {
 		}
 		return mv;
 	}	
+	
+	
+	
+	// 바로구매  뷰이동
+	
+	@RequestMapping("direct.or")
+	public String directOrder(@RequestParam("productNo")int productNo, @RequestParam("productName") String productName,
+			@RequestParam("productPrice") int productPrice, @RequestParam("productAmount") int productAmount, HttpSession session, Model model,
+			HttpServletRequest request) {
+//		System.out.println(productNo);
+//		System.out.println(productName);
+//		System.out.println(productPrice);
+//		System.out.println(productAmount);
+		String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
+		Cart cart = new Cart();
+		cart.setProductName(productName);
+		cart.setProductAmount(productAmount);
+		cart.setProductNo(productNo);
+		cart.setProductPrice(productPrice);
+		cart.setEmailId(emailId);
+		
+		System.out.println(cart);
+		// model에 cart 담은후 뷰이동
+		model.addAttribute("cart", cart);
+		
+		//경로 설정해주기
+		return "redirect:../views/order/dOrder.jsp";
+	}
 	
 	
 	

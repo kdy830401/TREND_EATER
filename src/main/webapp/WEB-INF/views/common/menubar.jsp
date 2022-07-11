@@ -122,7 +122,7 @@ a:hover {
 
 							<li><a href="applyTasteBoard.bo" style="font-family: 'Gowun Dodum', sans-serif;">시식</a></li>
 
-							<li><a href="#" style="font-family: 'Gowun Dodum', sans-serif;">이벤트</a></li>
+							<li><a href="elist.bo" style="font-family: 'Gowun Dodum', sans-serif;">이벤트</a></li>
 						</ul>
 					</div>
 					<div class="uk-navbar-right">

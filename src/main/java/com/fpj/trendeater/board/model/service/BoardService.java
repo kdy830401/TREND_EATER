@@ -106,7 +106,7 @@ public interface BoardService {
 
 	
 /********************************** Event Management *********************************/	
-istCount();	//페이징처리 1: 총게시물 수 
+	int getEListCount();	//페이징처리 1: 총게시물 수 
 	ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
 	
 	int insertEBoard(EventBoard b);// 이벤트 게시판 삽입 1 글내용 삽입
@@ -134,6 +134,8 @@ istCount();	//페이징처리 1: 총게시물 수
 	ArrayList<Product> getbProducts();// 메인 베스트 상품 불러오기
 
 	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
+
+	
 
 	
 	
