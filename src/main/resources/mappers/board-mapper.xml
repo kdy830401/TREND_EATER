@@ -526,10 +526,132 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	where BOARD_NO =#{eno}
 	</update>	 	 	
 
+<!--메인페이지 이벤트게시판 최근 글 5개 가져오기  -->
+	<select id="getRecentEboard" resultMap="eBoardResultSet">
+		<![CDATA[
+			select *
+			from(select *  from board
+			where board_status= 'Y'
+			order by board_NO desc)
+			where rownum <=5
+		]]>
+	</select>
+<!-- 메인페이지 이벤트게시판 이미지 가져오기 -->
+	<select id="getEImgList" resultMap="eBoardImages">
+	select * 
+	from image
+	where board_type = 2 and file_level =1 and identify_no =#{boardNo}
+	</select>
+<!-- 메인페이지 최신제품 내용 가져오기 -->
+	<select id="getNewProucts" resultMap="mProductResultSet">
+	<![CDATA[
+		select *
+		from(SELECT* 
+		FROM product
+		WHERE PRODUCT_STATUS ='Y'
+		order by PRODUCT_NO DESC)
+		where ROWNUM <=10
+	]]>
+	</select>
+	<resultMap type="Product" id="mProductResultSet">
+		<id column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_NAME" property="productName"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="PRODUCT_STOCK" property="productStock"/>
+		<result column="PRODUCT_ONELINE" property="productOneLine"/>
+		<result column="PRODUCT_TYPE" property="productType"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="REVIEW_COUNT" property="reviewCount"/>
+		<result column="SCRAP_COUNT" property="scrapCount"/>
+		<result column="BOARD_STATUS" property="boardStatus"/>
+		<result column="ADMIN_ID" property="adminId"/>
+		<result column="ADMIN_NAME" property="adminName"/>
+		<result column="TOTAL_AVG" property="totalAvg"/>
+		<result column="RECOMMEND_AVG" property="recommendAvg"/>
+		<result column="REORDER_AVG" property="reorderAvg"/>
+		<result column="SPICY_AVG" property="spicyAvg"/>
+		<result column="SWEET_AVG" property="sweetAvg"/>
+		<result column="BITTER_AVG" property="bitterAvg"/>
+		<result column="SALTY_AVG" property="saltyAvg"/>
+		<result column="SOUR_AVG" property="sourAvg"/>
+
+	</resultMap>
+<!-- 메인페이지 최신제품리스트 이미지 -->
+	<select id="getNewPImages" resultMap="eBoardImages">
+	select * 
+	from image
+	where board_type=1 and file_level = 1 and identify_no = #{ProductNo}
+	</select>		
+
+<!-- 메인페이지 베스트 제품 리스트  -->
+	<select id="getbProducts" resultMap="mProductResultSet">
+		<![CDATA[	
+			select *
+			from (SELECT* 
+			FROM product
+			WHERE PRODUCT_STATUS ='Y'
+			order by TOTAL_AVG DESC)
+			where ROWNUM <=10
+		]]>	
+	</select>
 
 
-
-
+<!-- 메인페이지 베스트 제품 이미지리스트 -->	
+	<select id="getbImgList" resultMap="eBoardImages">
+	select * 
+	from image
+	where board_type=1 and file_level = 1 and identify_no = #{ProductNo}
+	</select>
+	
+	
+	
+       <!-- 좋아요 카운트 -->
+	<select id="likeCount" resultType = "_int">
+		select count(*) 
+		  from user_like
+		 where review_no = #{reviewNo}
+		   and email_Id = #{emailId}
+	
+	</select>
+	
+	<!-- 게시글 좋아요 -->
+	<insert id="insertLike">
+		insert
+		  into user_like
+		  (
+		  	review_no
+		  , email_id
+		  )
+		  values
+		  (
+		  	#{reviewNo}
+		  , #{emailId}
+		  )
+	</insert>
+	
+	<!-- 게시글 좋아요 취소 -->
+	<delete id="deleteLike">
+		delete
+		  from user_like
+		 where review_no = #{reviewNo}
+		   and email_id = #{emailId}
+	</delete>
+	
+	
+	<!-- 좋아요 전체 카운트 -->
+	<select id="selectLikeCount" resultType = "_int">
+		select 
+			   review_no
+			 , email_id
+		  from
+		       user_like
+		 where review_no = #{reviewNo}
+	</select>
+	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 </mapper>
 

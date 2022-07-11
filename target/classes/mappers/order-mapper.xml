@@ -81,7 +81,7 @@
 
 	<!-- 2. ORDER_LIST TABLE에 insert -->
 	<insert id="insertOrderList">
-		insert into ORDER_LIST
+		insert into ORDER_L
 		values(seq_oid.currval, SYSDATE, #{totalPrice}, #{orderRequest}, #{email}, seq_oid.currval)
 	</insert>
 
