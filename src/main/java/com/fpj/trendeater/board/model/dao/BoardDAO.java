@@ -115,6 +115,7 @@ public class BoardDAO {
 
 	public int insertReviewImage(SqlSessionTemplate sqlSession, ArrayList<ReviewImage> imageList) {
 		int imgResult = 0;
+		System.out.println(imageList.size());
 		for(int i = 0; i <imageList.size(); i++) {
 			sqlSession.insert("boardMapper.insertReviewImage", imageList.get(i));
 			imgResult++;
@@ -134,7 +135,7 @@ public class BoardDAO {
 	
 	public int reviewLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		
-		int checkCount = sqlSession.selectOne("boardMapper.likeCount", map);
+		int checkCount = sqlSession.selectOne("boardMapper.likeCheck", map);
 		int result = 0;
 		if( checkCount > 0) {
 			result = sqlSession.delete("boardMapper.deleteLike", map);
@@ -414,23 +415,6 @@ public class BoardDAO {
 	}
 	
 	
-
-	public int reviewLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-			
-			int checkCount = sqlSession.selectOne("boardMapper.likeCount", map);
-			int result = 0;
-			if( checkCount > 0) {
-				result = sqlSession.delete("boardMapper.deleteLike", map);
-				if(result > 0) {
-					result = 2;
-				}
-			} else {
-				result = sqlSession.delete("boardMapper.insertLike", map);
-			}
-		
-		return result;
-	}
-
 
 	
 	

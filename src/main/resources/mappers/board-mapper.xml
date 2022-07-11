@@ -116,7 +116,7 @@
      <if test="productNo != null">
      where REVIEW_STATUS = 'Y' and product_no = #{ productNo }
      </if>
-  </select>
+  	</select>
   
   <select id="getReviewList" resultMap="reviewResultSet">
 <!--      select * -->
@@ -124,7 +124,7 @@
 <!--          join member m on (rl.email_id = m.email_id)     -->
 <!--      where review_status  = 'Y' -->
 <!--      order by review_no desc -->
-select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3
+	select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3
      from review_list rl
          join member m on (rl.email_id = m.email_id)    
      where review_status  = 'Y' and product_no = #{ productNo }
@@ -170,7 +170,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	 <insert id="insertReview" >
        insert into review_list
        values (seq_rid.nextval, #{reviewRating}, #{recommend}, #{repurcharse}, #{spicy}, #{sweet}, #{bitter}, #{salty}, #{sour}, #{good},
-       			#{bad}, sysdate, sysdate, default,	'Y', #{emailId}, 1)
+       			#{bad}, sysdate, sysdate, default,	'Y', #{emailId}, #{productNo})
 <!--        			 productNo가 패런트가 없다고 안돼서 임시번호 .... -->
     </insert>
     
@@ -200,26 +200,25 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
  		<result column="EMAIL_ID" property="emailId"/>
  	</resultMap>
  	
-       <!-- 좋아요 카운트 -->
-	<select id="likeCount" resultType = "_int">
+      <!-- 좋아요 카운트 -->
+	<select id="likeCheck" resultType="_int">
 		select count(*) 
-		  from user_like
-		 where review_no = #{reviewNo}
-		   and email_Id = #{emailId}
+		from user_like
+		where review_no = #{reviewNo} and email_Id = #{emailId}
 	</select>
 	
 	<!-- 게시글 좋아요 -->
 	<insert id="insertLike">
 		insert into user_like
-		   values(seq_likeid.nextval, #{reviewNo}, #{emailId})
+		values(seq_likeid.nextval, #{reviewNo}, #{emailId})
 	</insert>
 	
 	<!-- 게시글 좋아요 취소 -->
 	<delete id="deleteLike">
 		delete
-		  from user_like
-		 where review_no = #{reviewNo}
-		   and email_id = #{emailId}
+		from user_like
+		where review_no = #{reviewNo}
+		and email_id = #{emailId}
 	</delete>
 	
 	
@@ -601,49 +600,7 @@ select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, s
 	
 	
 	
-       <!-- 좋아요 카운트 -->
-	<select id="likeCount" resultType = "_int">
-		select count(*) 
-		  from user_like
-		 where review_no = #{reviewNo}
-		   and email_Id = #{emailId}
-	
-	</select>
-	
-	<!-- 게시글 좋아요 -->
-	<insert id="insertLike">
-		insert
-		  into user_like
-		  (
-		  	review_no
-		  , email_id
-		  )
-		  values
-		  (
-		  	#{reviewNo}
-		  , #{emailId}
-		  )
-	</insert>
-	
-	<!-- 게시글 좋아요 취소 -->
-	<delete id="deleteLike">
-		delete
-		  from user_like
-		 where review_no = #{reviewNo}
-		   and email_id = #{emailId}
-	</delete>
-	
-	
-	<!-- 좋아요 전체 카운트 -->
-	<select id="selectLikeCount" resultType = "_int">
-		select 
-			   review_no
-			 , email_id
-		  from
-		       user_like
-		 where review_no = #{reviewNo}
-	</select>
-	<!-- 이용준 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+  
 
 </mapper>
 

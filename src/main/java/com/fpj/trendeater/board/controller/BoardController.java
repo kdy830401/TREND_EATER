@@ -583,7 +583,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping("rinsertView.bo")
-	public String reviewInsertForm() {
+	public String reviewInsertForm(@RequestParam("productNo") Integer productNo, Model model) {
+		System.out.println(productNo);
+		model.addAttribute("productNo", productNo);
 		return "reviewInsertForm";
 	}
 	
@@ -620,6 +622,7 @@ public class BoardController {
 	      int result1 = bService.insertReview(r);
 	      int result2 = bService.insertReviewImage(imageList);
 	      System.out.println("insert con : " + r + "++ imageList/" + imageList);
+	      
 	      if( result1 + result2 > 1) {
 	         return "redirect:rlist.bo";
 	      } else {
