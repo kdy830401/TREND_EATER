@@ -116,10 +116,11 @@ public class BoardDAO {
 	public int insertReviewImage(SqlSessionTemplate sqlSession, ArrayList<ReviewImage> imageList) {
 		int imgResult = 0;
 		System.out.println(imageList.size());
-		for(int i = 0; i <imageList.size(); i++) {
-			sqlSession.insert("boardMapper.insertReviewImage", imageList.get(i));
-			imgResult++;
+		
+		for(ReviewImage r :  imageList ) {
+		imgResult += sqlSession.insert("boardMapper.insertReviewImage", r);
 		}
+		System.out.println(imgResult);
 		return imgResult;
 	}
 

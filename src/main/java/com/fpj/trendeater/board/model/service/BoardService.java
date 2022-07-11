@@ -125,7 +125,7 @@ public interface BoardService {
 	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
 
 	
-	
+	int getEListCount();
 	
 
 	

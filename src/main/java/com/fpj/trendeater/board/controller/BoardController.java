@@ -562,10 +562,8 @@ public class BoardController {
 //		System.out.println(map);
 		
 		ArrayList<UserLike> likeList = bService.userLikeSelect(map);
-//		System.out.println(likeList);
-//		System.out.println(reviewList);
-//		int count = bService.likeCount(li);
 		
+		System.out.println(reviewImageList);
 		System.out.println(pi);
 		
 		if(reviewList != null && reviewImageList != null) {
@@ -591,39 +589,42 @@ public class BoardController {
 	
 
 	@RequestMapping("rinsert.bo")
-	public String insertReview(@ModelAttribute Review r,@ModelAttribute ReviewImage rImg, @RequestParam("uploadFile") ArrayList<MultipartFile> uploadFile,
-			HttpServletRequest request)  {
+	public String insertReview(@ModelAttribute Review r, @RequestParam("uploadFile") ArrayList<MultipartFile> uploadFile,
+			HttpServletRequest request, Model model)  {
+		
 		
 		ArrayList<ReviewImage> imageList = new ArrayList<ReviewImage>();
 		String savePath = null;
-		ReviewImage reviewImage = new ReviewImage();
+//		ReviewImage reviewImage = new ReviewImage();
+//		ArrayList<String> originFiles = new ArrayList<String>();//원본파일명
+		System.out.println("업로드 파일:" + uploadFile);
 		if(uploadFile != null && !uploadFile.isEmpty()) {
-
 			ArrayList<String> r2nameFileNames =saveFile(uploadFile, request);//변경파일명
-	         ArrayList<String> originFiles = new ArrayList<String>();//원본파일명
-	         
-	         savePath = request.getSession().getServletContext().getRealPath("resources")+ "\\reviewImages";
-	         //원본파일명 집어넣을 for문
-	         for(int i=0; i<uploadFile.size(); i++ ) {
-	            originFiles.add(uploadFile.get(i).getOriginalFilename());
+			savePath = request.getSession().getServletContext().getRealPath("resources")+ "\\reviewImages";
+			
+			System.out.println(r2nameFileNames);
+			for(int i=0; i<uploadFile.size(); i++ ) {
+	         ReviewImage rImg = new ReviewImage();
+				//원본파일명 집어넣을 for문
+//	            originFiles.add(uploadFile.get(i).getOriginalFilename());
 	            //System.out.println("원본파일명"+originFiles);// 원본파일 제대로 뜨나 확인
-	         }
-	         
-	         
-	         for(int i = 0; i<uploadFile.size(); i++ ) {
-	            rImg.setOriginName(originFiles.get(i));
+	            rImg.setOriginName(uploadFile.get(i).getOriginalFilename());
 	            rImg.setChangeName(r2nameFileNames.get(i));
 	            rImg.setFilePath(savePath);
-	           
 	            imageList.add(rImg);
+	            System.out.println(("이미지 리스트 " + imageList));
 	         }
 	         
+	         
+	         
 	      }
+		System.out.println(imageList);
 	      int result1 = bService.insertReview(r);
 	      int result2 = bService.insertReviewImage(imageList);
 	      System.out.println("insert con : " + r + "++ imageList/" + imageList);
 	      
 	      if( result1 + result2 > 1) {
+	    	  model.addAttribute("pno", r.getProductNo());
 	         return "redirect:rlist.bo";
 	      } else {
 	         for(int i = 0; i < imageList.size(); i++) {
@@ -652,21 +653,21 @@ public class BoardController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		ArrayList<String> r2nameFileNames = new ArrayList<String>();
 		for(int i = 0; i < file.size(); i++) {
-		String originName = file.get(i).getOriginalFilename();
+			String originName = file.get(i).getOriginalFilename();
+			
+			String ext = null;
+			
+			int dot = originName.lastIndexOf(".");
+			if(dot == -1) {
+				ext = "";
+			} else {
+				ext = originName.substring(dot);
+			}
 		
-		String ext = null;
-		
-		int dot = originName.lastIndexOf(".");
-		if(dot == -1) {
-			ext = "";
-		} else {
-			ext = originName.substring(dot);
-		}
-		
-		// 날짜 + 시간 + 랜덤번호 + 확장자로 파일명 생성
-		String changeName = sdf.format(new Date(System.currentTimeMillis())) + ranNum + ext;
-		
-		String renamePath = folder + "/" + changeName;
+			// 날짜 + 시간 + 랜덤번호 + 확장자로 파일명 생성
+			String changeName = sdf.format(new Date(System.currentTimeMillis())) + ranNum + ext;
+			
+			String renamePath = folder + "/" + changeName;
 		
 		
 		try {
@@ -676,9 +677,9 @@ public class BoardController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		r2nameFileNames.add(changeName);
+			r2nameFileNames.add(changeName);
 		}
-		System.out.println(r2nameFileNames);
+		System.out.println("저장: " +r2nameFileNames);
 		return r2nameFileNames;
 	}
 	

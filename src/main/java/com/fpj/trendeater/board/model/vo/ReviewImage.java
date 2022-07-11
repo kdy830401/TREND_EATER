@@ -8,12 +8,11 @@ public class ReviewImage {
 	private String originName;
 	private String filePath;
 	private Date uploadDate;
-	private int reviewNo;
+	private Integer reviewNo;
 
 	public ReviewImage() {}
 
-	public ReviewImage(int imageNo, String changeName, String originName, String filePath, Date uploadDate,
-			int reviewNo) {
+	public ReviewImage(int imageNo, String changeName, String originName, String filePath, Date uploadDate, Integer reviewNo) {
 		super();
 		this.imageNo = imageNo;
 		this.changeName = changeName;
@@ -63,18 +62,19 @@ public class ReviewImage {
 		this.uploadDate = uploadDate;
 	}
 
-	public int getReviewNo() {
+	public Integer getReviewNo() {
 		return reviewNo;
 	}
 
-	public void setReviewNo(int reviewNo) {
+	public void setReviewNo(Integer reviewNo) {
 		this.reviewNo = reviewNo;
 	}
 
 	@Override
 	public String toString() {
-		return "ReviewImage [imageNo=" + imageNo + ", changeName=" + changeName + ", originName=" + originName
-				+ ", filePath=" + filePath + ", uploadDate=" + uploadDate + ", reviewNo=" + reviewNo + "]";
+		return "ReviewImage [imageNo=" + imageNo + ", changeName=" + changeName + ", originName=" + originName + ", filePath=" + filePath + ", uploadDate=" + uploadDate + ", reviewNo=" + reviewNo + "]";
 	}
+
+	
 	
 }
