@@ -148,7 +148,7 @@
 	<update id="changeOrderStatus">
 		update order_status
 		set order_status_name=#{orderStatusName}
-		where order_no = #{orderNo}
+		where order_status_no = #{orderNo}
 	</update>
 	
 	<!-- 주문 관리 - 주문 목록 -->

@@ -802,6 +802,7 @@ public class MemberController {
 			// 4. mv에 담아 이동
 			if(orderList != null) {
 				mv.addObject("orderList", orderList);
+				mv.addObject("pi", pi);
 				mv.setViewName("orderList");
 			} else {
 				throw new MemberException("주문 내역 조회에 실패했습니다.");
