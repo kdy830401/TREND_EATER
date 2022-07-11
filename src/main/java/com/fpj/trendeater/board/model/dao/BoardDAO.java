@@ -26,6 +26,7 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 @Repository("bDAO")
@@ -253,10 +254,12 @@ public class BoardDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());  // 임포트 RowBounds 
 		return (ArrayList)sqlSession.selectList("boardMapper.getBoardQnaListAdmin", null, rowBounds);
 	}
-
+	public int adminQnaAnsWrite(SqlSessionTemplate sqlSession, Reply reply) {
+		return sqlSession.insert("boardMapper.adminQnaAnsWrite",reply);
+	}
 
 	
-
+	
 
 	
 
@@ -275,6 +278,10 @@ public class BoardDAO {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.getEBoardList", null, rowBounds);
+	}
+
+	public ArrayList<Reply> getQnaReplyListAdmin(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getQnaReplyListAdmin");
 	}
 
 	
@@ -351,9 +358,6 @@ public class BoardDAO {
 		
 		return result;
 	}
-	
-	
-
 	
 	
 	

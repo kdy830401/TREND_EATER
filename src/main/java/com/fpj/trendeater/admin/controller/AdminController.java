@@ -54,6 +54,7 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.common.Pagination;
@@ -1613,10 +1614,13 @@ public class AdminController {
 		ArrayList<BoardQnA> list = bService.getBoardQnaListAdmin(pi);
 		System.out.println("adQnA조회_pi=" + pi);
 		System.out.println("adQnA조회_list=" + list); // 항상 디버깅 찍어보기
-
+		ArrayList<Reply> replyList = bService.getQnaReplyListAdmin();
+		System.out.println("replyList="+replyList);
+		
 		if (list != null) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
+			mv.addObject("replyList", replyList);
 			mv.setViewName("adminQnaList");
 		} else {
 			throw new BoardException("문의사항 전체 조회에 실패했습니다");
@@ -1626,20 +1630,24 @@ public class AdminController {
 
 /********************************************** admin QnA : 쓰기  *******************************************************/
 
-	// QnA : 쓰기
-	@RequestMapping("adminQnaAnsView.ad")
-	public String boardQnaWriteForm() {
-		return "adminQnaAnsForm";
-		
-		// 댓글로 하기로함
-		// 수정폼이 필요할까? ajax로 한번?
-		
-	}
+//	// QnA : 쓰기
+//	@RequestMapping("adminQnaAnsView.ad")
+//	public String boardQnaWriteForm() {
+//		return "adminQnaAnsView";
+//	}
 	
-	@RequestMapping("adminQnaAnsForm.ad")
-	public String insertBoardQna(@ModelAttribute BoardQnA b) {
-
-		int result = bService.insertBoardQna(b);
+	@RequestMapping("adminQnaAnsWrite.ad")
+	public String adminQnaAnsWrite(@ModelAttribute Reply reply, HttpSession session) {
+		
+		// 보낼꺼 : adminId, refQnaNo,  replyContent
+		// adminId는 아래 세션 어드민에서 받아옴. replyContent는 textarea에서 보내고 refQnaNo는 인풋히든에서 보냄
+		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
+		reply.setAdminId(id); // adminId 
+		
+		
+		System.out.println("admin QnA쓰기_reply="+reply);
+		int result = bService.adminQnaAnsWrite(reply);
+		System.out.println("admin QnA쓰기_result="+result);
  
 		if (result > 0) {
 			return "redirect:adminQnaList.ad";
@@ -1648,6 +1656,36 @@ public class AdminController {
 		}
 	}
 	
+//	@RequestMapping("adminQnaAnsWrite.ad")
+////	@ResponseBody
+//	public String addReply(@ModelAttribute Reply r, HttpSession session) {
+//			// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
+//		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
+//		r.set(id);
+//		
+//		int result = bService.insertReply(r);
+//		
+//		if(result > 0) {
+//			return "success";	// "success"를 str으로 넘기고 있기에 view이름이 아니라는걸 알려주기 위하여 @ResponseBody 어노테이션 필요
+//		}else {
+//			throw new BoardException("댓글 등록에 실패하였습니다.");
+//		}
+//	}
+//	@RequestMapping("adminQnaAnsWrite.ad")
+////@ResponseBody
+//public String addReply(@ModelAttribute Reply r, HttpSession session) {
+//		// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
+//	String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
+//	r.set(id);
+//	
+//	int result = bService.insertReply(r);
+//	
+//	if(result > 0) {
+//		return "success";	// "success"를 str으로 넘기고 있기에 view이름이 아니라는걸 알려주기 위하여 @ResponseBody 어노테이션 필요
+//	}else {
+//		throw new BoardException("댓글 등록에 실패하였습니다.");
+//	}
+//}
 	
 /********************************************** admin QnA : 수정  *******************************************************/
 	
@@ -1747,8 +1785,8 @@ public class AdminController {
 	
 	
 		
-//	@RequestMapping("addReply.bo")
-//	@ResponseBody
+//	@RequestMapping("adminQnaAnsWrite.ad")
+////	@ResponseBody
 //	public String addReply(@ModelAttribute Reply r, HttpSession session) {
 //			// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
 //		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
@@ -1762,8 +1800,8 @@ public class AdminController {
 //			throw new BoardException("댓글 등록에 실패하였습니다.");
 //		}
 //	}
-//	
-//	
+	
+	
 	
 	
 	/*********************************** 주문 관리  ***********************************/		

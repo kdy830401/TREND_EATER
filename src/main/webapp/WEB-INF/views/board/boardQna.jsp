@@ -38,6 +38,9 @@ pageEncoding="UTF-8"%>
     
 <body>
 
+	<c:import url="../common/menubar.jsp" />
+	
+
 <div class="container">
 <!-- 헤더푸터는 클래스명 신경써야함
 다른 페이지 임포트 되는거에는 css 선택자 적용안됨
@@ -220,11 +223,12 @@ pageEncoding="UTF-8"%>
 			</c:url> 
 		}
 	}); */
-	$('.deleteBtn').on('click',function(){
+	/* $('.deleteBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		$('#qnaNo').val(qnaNo); 
 		$('#boardQnaUpdateViewForm').submit();
-	});	
+	}); */	
+
 	$('.updateBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		// parent() : 상위태그로 // prev() : 동급의 이전태그(같은 띄어쓰기 단계의 바로 앞에 쓰인 태그) // children() : 하위태그로 // eq(0) : 해당 태그의 0번째있는 태그 // text() : 텍스트만 끌어오는 태그
@@ -239,6 +243,9 @@ pageEncoding="UTF-8"%>
 		$('#boardQnaUpdateViewForm').submit(); // 맨 위 form태그의 id="boardQnaUpdateViewForm"를 submit 시키겠다는 의미
 	});
 </script>
+
+
+<c:import url="../common/footer.jsp" />
 
 </body>
 </html>

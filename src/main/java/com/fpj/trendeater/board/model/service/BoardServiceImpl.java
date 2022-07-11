@@ -25,6 +25,7 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Reply;
 
 
 @Service("bSerivce")
@@ -258,8 +259,14 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.getBoardQnaListAdmin(sqlSession, pi);
 	}
 
-
-
+	@Override
+	public int adminQnaAnsWrite(Reply reply) {
+		return bDAO.adminQnaAnsWrite(sqlSession, reply);
+	}
+	@Override
+	public ArrayList<Reply> getQnaReplyListAdmin() {
+		return bDAO.getQnaReplyListAdmin(sqlSession);
+	}
 
 
 
@@ -278,6 +285,10 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<EventBoard> getEBoardList(PageInfo pi) {
 		return bDAO.getEBoardList(sqlSession, pi);
 	}
+
+
+	
+
 	
 	// 이벤트 게시판 삽입 1 글내용 삽입
 	@Override

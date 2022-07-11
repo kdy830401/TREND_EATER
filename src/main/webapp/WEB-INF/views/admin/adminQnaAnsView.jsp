@@ -31,6 +31,8 @@ pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/admin/adminQnaList.css">
   
+
+
 </head>
     
 <body>
@@ -60,7 +62,7 @@ pageEncoding="UTF-8"%>
                 </table>
                 <br>
             </div>
-        <form action="adminQnaAnsWrite.ad" method="post" id="adminQnaAnsWrite">
+        <form action="adminQnaAnsUpdateViewForm.ad" method="post" id="adminQnaAnsUpdateViewForm">
             <c:forEach var="b" items="${ list }" varStatus="vs">
 	            <details>
 	                <summary> 
@@ -95,57 +97,47 @@ pageEncoding="UTF-8"%>
 	                                   <%-- ${fn:contains(b.qnaContent, "\\r\\n")} --%> <!-- b.qnaContent 안에 내용 중에 개행문자가 포함되어있는지 확인 디버깅용 -->
 		                                   <%-- <input type="hidden" name="qnaContent" value="${b.qnaContent}">${b.qnaContent} --%>
 		                                   <!--타이틀도. 전체를 폼으로 감싸야함. href를 안주고 액션에 주소값 주는 것. 버튼을 누르면 폼에 감싸져있음. 서브밋 필요없이 버튼 누르면 제출됨. vo에 세터값이랑이랑 일치하니   -->
-		                            </div>
-		                            <br>
-		               				<div>
-		                                <!-- 답변 상태 b.QnAAnsStatus가 Y이면 A아이콘이 나타나는 c:if 사용 -->
-		                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_a-solid.svg" style="width: 15px;">
-		                                
-
-		                                
-	                                	<div id="dis${ vs.index }" style="display:none;" >
-	                                			qnaReply 
-	                                			 <c:forEach var="reply" items="${replyList}">
-			                                 <!-- 글번호 맞는거만 불러오게 반복문 사용 -->
-				                                <c:if test="${reply.refQnaNo eq b.qnaNo }"> <!-- 현재보고 있는 글번호랑  ref로해서 가져온 글번호랑 같아야함 -->
-				                                	<p>{reply.replyContent}</p>
-				                                	<!-- 해당 댓글이 달린 게시글번호 필요
-				                                		뒤에 게시글 번호도 같이 입력되니 
-				                                		조건 게시글번호, 
-				                                	  -->
-				                                </c:if>
-			                         		      </c:forEach>		
-	                                		<div class="replyTable">
-													<button class="rSubmit" >등록하기</button>
-													<textarea name="replyContent" cols="100" rows="5" id="replyContent${ vs.index }" style="resize:none"></textarea>
-											</div>
-											
-											<table class="replyTable" id="rtb${ vs.index }">
-												<thead>	
-													<tr>
-														<td colspan="2"><b id="rCount${ vs.index }"></b></td>
-													</tr>
-												</thead>
-												<tbody>
-												
-												</tbody>
-											</table>
-	                                	</div>
-	                            	</div>
+		                            </div><br>
+			                            <div>
+			                                <!-- 답변 상태 b.QnAAnsStatus가 Y이면 A아이콘이 나타나는 c:if 사용 -->
+			                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_a-solid.svg" style="width: 15px;">
+			                                	
+			                                	
+			                                	<div id="dis">
+			                                		<table class="replyTable">
+														<tr>
+															<td><textarea cols="100" rows="4" id="replyContent" align="left">${Reply.replyContent}</textarea></td>
+															<td><button id="rSubmit">등록하기</button></td>
+														</tr>
+													</table>
+													<table class="replyTable" id="rtb">
+														<thead>	
+															<tr>
+																<td colspan="2"><b id="rCount"></b></td>
+															</tr>
+														</thead>
+														<tbody>
+														
+														</tbody>
+													</table>
+			                                	</div>
+			                                	
+			                            </div>
 		                        </li>
 	                        </div>  
 	                    </ul>
 	                    <div class="QnaToggleOpen_Button">
-	                        <button type="button" name="page" id="btnReply${ vs.index }" class="btnReply">답변하기</button> <!-- { vs.index } == 위의 varStatus -->
-	                       <%--  <button type="button" name="page" id="ReplyBtn${ vs.index }" class="btnReplyUpdate">수정</button> <!-- { vs.index } == 위의 varStatus -->
-	                        <button type="button" name="page" id="deleteBtn${ vs.index }" class="btnReplydelete">삭제</button>
-		                    <button type="submit" name="page" value="${pi.currentPage}" onclick="location.href='boardQnaDeleteForm.bo'">삭제</button> --%>
-	                    </div><br>																
+	                       <button type="button" name="page" id="BtnReplyUpdate${ vs.index }" class="BtnReplyUpdate">수정</button> <!-- { vs.index } == 위의 varStatus -->
+	                       <button type="button" name="page" id="BtnReplydelete${ vs.index }" class="BtnReplydelete">삭제</button>
+	                        		
+<%-- 	                        <button type="submit" name="page" value="${pi.currentPage}" id="boardQnaDelete"
+	                        		onclick="boardQnaDelete()">삭제</button>
+ --%>	                        <%-- <button type="submit" name="page" value="${pi.currentPage}" onclick="location.href='boardQnaDeleteForm.bo'">삭제</button> --%>
+	                    </div><br>																<!-- location.href = 'bdetail.bo?bId=' + bId + "&page=" + ${pi.currentPage}; -->
 	                </div>
 	            </details>  
-            	<input type="hidden" id="refQnaNo" name="refQnaNo" value="${ b.qnaNo }">
             </c:forEach>
-            <!-- <input type="hidden" name="qnaNo" id="qnaNo"> -->
+            <input type="hidden" name="qnaNo" id="qnaNo">
        </form>
        <br>     
 
@@ -212,22 +204,14 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-	$('.btnReply').on('click',function(){
-		var dis = $(this).parent().prev().children().children().children().eq(2).children().eq(1);
-			/* $(this).parent().parent().children().eq(0).children().children().children().eq(1).children().eq(1); */
-		console.log(dis);
-		dis.show();	// 숨기고 싶은 부분의 태그에 style="display:none으로 미리 숨김
-	});
-	
-	$('.rSubmit').on('click',function(){
-		// rSubmit에서 name속성 지정됐으므로 form태그 안에 데이터값이 가게되고 vo클래스랑 매칭되서 컨트롤러러 갈 것임
-		/* $('#refQnaNo').val; */
-		$('#adminQnaAnsWrite').submit();
-	});
-	
 
+	$('.ReplyBtn').on('click',function(){
+		
+		$('#adminQnaAnsView.ad').submit(); // 맨 위 form태그의 id="boardQnaUpdateViewForm"를 submit 시키겠다는 의미
+		
+	});
 
-/* 	$('.btnReplydelete').on('click',function(){
+/* 	$('.BtnReplydelete').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		$('#qnaNo').val(qnaNo); // value(qnaNo)의 값을 id="qnaNo"에 넣겠다는 의미
 		console.log(qnaNo);
@@ -348,9 +332,6 @@ pageEncoding="UTF-8"%>
 <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<%-- <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
-
 <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 
