@@ -748,7 +748,6 @@ public class MemberController {
 			boolean check1 = false;
 			
 			String attendCheckTest = mService.attendCheckTest(email);
-			System.out.println(attendCheckTest);
 			
 			if (attendCheckTest != null) {
 				check1 = true;
