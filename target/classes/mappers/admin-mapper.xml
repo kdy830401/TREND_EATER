@@ -568,6 +568,8 @@
 	<select id="reportedList" resultMap="reportResultSet">
 		select * 
 		from report
+		left JOIN review_list 
+        USING (review_no)
 		where report_result = 'N'
 		order by report_no desc
 	</select>
@@ -591,5 +593,27 @@
 		update report
 		set report_result = 'Y'
 		where report_no = #{reportNo}
+	</update>
+	
+	<select id="reportListCount" resultType="_int">
+		 select count(*)
+		from report
+        left JOIN review_list 
+           USING (review_no)
+		where report_result = 'N' and review_status = 'Y'
+	</select>
+	
+	<!-- 	신고 리스트에서 리뷰 삭제 -->
+	<update id="reviewDelete">
+		update review_list
+		set review_status = 'N'
+		where review_no = #{reviewNo}
+	</update>
+	
+	<!-- 	회원 리뷰 리스트에서 리뷰 삭제 -->
+	<update id="deleteReview">
+		update review_list
+		set review_status = 'N'
+		where review_no = #{reviewNo}
 	</update>
 </mapper>

@@ -22,6 +22,7 @@ import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.ReviewList;
 
 @Service("aService")
 public class AdminServiceImpl implements AdminService{
@@ -214,6 +215,20 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int reportConfirm(Report rp) {
 		return aDAO.reportConfirm(sqlSession, rp);
+	}
+
+	@Override
+	public int getListCount(Integer reportNo) {
+		return aDAO.getListCount(sqlSession, reportNo);
+	}
+
+	@Override
+	public int reviewDelete(Review reviewList) {
+		return aDAO.reviewDelete(sqlSession, reviewList);
+	}
+	@Override
+	public int deleteReview(Review reviewList) {
+		return aDAO.deleteReview(sqlSession, reviewList);
 	}
 
 

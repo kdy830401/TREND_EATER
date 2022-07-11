@@ -18,6 +18,7 @@ import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.ReviewList;
 
 public interface AdminService {
 	
@@ -91,10 +92,15 @@ public interface AdminService {
 	ArrayList<ReviewImage> reviewImageList();
 	//신고된 리뷰 조회
 	ArrayList<Report> getReportList(PageInfo pi);
+	int getListCount(Integer reportNo);
 	//신고된 리뷰 개수 조회
 	int reportCount();
 	//신고된 리뷰 확인 
 	int reportConfirm(Report rp);
+	//리뷰 삭제
+	int reviewDelete(Review reviewList);
+	int deleteReview(Review reviewList);
+	
 
 	
 
