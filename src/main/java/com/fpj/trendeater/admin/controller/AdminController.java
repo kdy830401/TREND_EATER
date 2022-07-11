@@ -1483,7 +1483,7 @@ public class AdminController {
 	
 	//신고된 리뷰 확인
 	@RequestMapping("reportConfirm.ad")
-	public String reportConfirm(@RequestParam(value = "reportNo", required=false) int reportNo, @RequestParam("page") int page,
+	public String reportConfirm(@RequestParam(value = "reportNo", required=false) int reportNo, @RequestParam(value="page", required=false) int page,
 								Report rp, Model model) {
 		
 		if(reportNo != 0) {
@@ -1942,7 +1942,7 @@ public class AdminController {
 		int boardLimit = 10;
 		
 		// 2.4 페이징 계산		
-		PageInfo pi = new Pagination().getPageInfo(currentPage, listCount, boardLimit);		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);		
 		
 		// 3. 주문(ordered) 목록 가져오기
 		ArrayList<OrderDetail> categoryList = oService.getCategoryList(pi, orderStatusName);
