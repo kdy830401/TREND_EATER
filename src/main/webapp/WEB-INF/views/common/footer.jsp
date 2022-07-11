@@ -82,7 +82,7 @@
                 팩스: 070 - 7500 - 6098 <span class="bar">I</span> 이메일 : <a href="mailto:help@TRENDEATERcorp.com" class="link">help@TRENDEATERcorp.com</a><br>
                 대량주문 문의 : <a href="mailto:TRENDEATERgift@TRENDEATERcorp.com" class="link">TRENDEATERgift@TRENDEATERcorp.com</a><br>
             </div>      
-            <div class="footerRightSNS">
+            <div class="footerRightSNS uk-inline">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns1_instagram.webp">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns2_facebook.webp">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns3_naverBlog.webp">

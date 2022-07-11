@@ -235,21 +235,14 @@ public class Review {
 		this.changeName = changeName;
 	}
 
+
 	@Override
 	public String toString() {
-
-		return "Review [reviewNo=" + reviewNo + ", reviewRating=" + reviewRating + ", recommend=" + recommend
-				+ ", repurcharse=" + repurcharse + ", spicy=" + spicy + ", sweet=" + sweet + ", bitter=" + bitter
-				+ ", salty=" + salty + ", sour=" + sour + ", good=" + good + ", bad=" + bad + ", createDate="
-				+ createDate + ", modifyDate=" + modifyDate + ", likeCount=" + likeCount + ", productNo=" + productNo
-				+ ", emailId=" + emailId + ", reviewStatus=" + reviewStatus + ", nickName=" + nickName + ", flavor1="
-				+ flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + ", changeName=" + changeName + "]";
-
 		return "Review [reviewNo=" + reviewNo + ", reviewRating=" + reviewRating + ", recommend=" + recommend + ", repurcharse=" + repurcharse + ", spicy=" + spicy + ", sweet=" + sweet + ", bitter=" + bitter + ", salty=" + salty + ", sour=" + sour
 				+ ", good=" + good + ", bad=" + bad + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", likeCount=" + likeCount + ", productNo=" + productNo + ", emailId=" + emailId + ", reviewStatus=" + reviewStatus + ", nickName="
-				+ nickName + ", flavor1=" + flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + "]";
-
+				+ nickName + ", flavor1=" + flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + ", changeName=" + changeName + "]";
 	}
+
 
 	
 

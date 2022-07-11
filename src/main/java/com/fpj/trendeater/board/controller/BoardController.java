@@ -734,7 +734,6 @@ public class BoardController {
 
 		}
 			
-	}
 	// 좋아요 
 	@RequestMapping("reviewLike.bo")
 	public void reviewLike(@RequestParam(value="reviewNo", required=false) Integer reviewNo, HttpServletRequest request, HttpServletResponse response) {
@@ -794,14 +793,14 @@ public class BoardController {
 	  		li.setEmailId(loginUser);
 //	  		li.setReviewNo(reviewNo);
 	  		
-	  		int count = bService.likeCount(li);
+//	  		int count = bService.likeCount(li);
 	  		
 	  		
 	  		if(reviewList != null && reviewImageList != null) {
 	  			mv.addObject("reviewList", reviewList);
 	  			mv.addObject("pi", pi); 
 	  			mv.addObject("reviewImageList", reviewImageList);
-	  			mv.addObject(count);
+//	  			mv.addObject(count);
 	  			mv.addObject(emailId);
 	  			mv.setViewName("someMemberReviewList");
 	  			System.out.println("someReviewList : " + reviewList);

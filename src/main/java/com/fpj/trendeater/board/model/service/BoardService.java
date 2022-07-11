@@ -64,23 +64,15 @@ public interface BoardService {
 //	int reportReview(Report rep);
 	int reportReview(Report rep);
 
+	int someReviewCount();
 
-		// 게시글 좋아요 여부 카운트
-		int likeCount(UserLike li);
-		// 게시글 좋아요
-		int insertLike(UserLike like);
-		
-		// 게시글 좋아요 취소
-		int deleteLike(UserLike like);
-		
-		// 전체 좋아요 개수
-		ArrayList<UserLike> selectLikeCount(int ReviewNo);
-		
-		int someReviewCount();
+	ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map);
 
-		ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map);
+	ArrayList<ReviewImage> someReviewImageList();
 
-		ArrayList<ReviewImage> someReviewImageList();
+	
+		
+
 		
 		
 
