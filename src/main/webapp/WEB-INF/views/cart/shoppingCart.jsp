@@ -7,9 +7,10 @@
 <head>
 <meta charset="UTF-8">
     <title>장바구니</title>
-<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
-<!-- UIkit CSS -->
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+    <script src="resources/js/jquery-3.6.0.min.js"></script>
+	<%-- <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script> --%>
+	<!-- UIkit CSS -->
+	<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
 
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
@@ -156,25 +157,28 @@
 		    
 		    <!-- 선택 상품 삭제 -->
 		    <script>
-		    	var cartNo = $(this).prev().val();
-		    
 		    	$('#cartDelete').on('click', function(){
-		    		$.ajax({
-		    			url:'deleteCart.ct',
-		    			data : {cartNo:cartNo},
-		    			type:'post',
-		    			async : false,
-		    			success : function(data){
-		    				if(data == 'true'){
-		    					alert('선택 상품이 장바구니에서 삭제되었습니다.');
-		    				}else{
-		    					throw new CartException("장바구니 삭제에 실패하였습니다.");
-		    				}
-		    			},
-		    			error : function(data){
-		    				console.log(data);
-		    			}
-		    		});
+			    	var cartNo = $(this).prev().val();
+/* 			    	console.log('cartNo : ' + cartNo); */
+	
+			    		$.ajax({
+			    			url:'deleteCart.ct',
+			    			data : {cartNo:cartNo},
+			    			type:'post',
+			    			async : false,
+			    			success : function(data){
+			    				if(data == 'true'){
+			    					alert('선택 상품이 장바구니에서 삭제되었습니다.');
+			    					window.location.reload();
+			    				}else{
+			    					throw new CartException("장바구니 삭제에 실패하였습니다.");
+			    				}
+			    			},
+			    			error : function(data){
+			    				console.log(data);
+			    			}
+			    		});
+    		
 		    	});
 		    </script>
 </body>
