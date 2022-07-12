@@ -193,8 +193,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	//이용준 관리자페이지 리뷰 리스트
 	@Override
-	public ArrayList<Review> reviewList(PageInfo pi) {
-		return aDAO.reviewList(sqlSession,pi);
+	public ArrayList<Review> reviewList(PageInfo pi, String value) {
+		return aDAO.reviewList(sqlSession,pi,value);
 	}
 
 	@Override
@@ -203,8 +203,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 	//신고된 리뷰 리스트
 	@Override
-	public ArrayList<Report> getReportList(PageInfo pi) {
-		return aDAO.reportedList(sqlSession, pi);
+	public ArrayList<Report> getReportList(PageInfo pi, HashMap<String, Object> map) {
+		return aDAO.reportedList(sqlSession, pi, map);
 	}
 
 	@Override

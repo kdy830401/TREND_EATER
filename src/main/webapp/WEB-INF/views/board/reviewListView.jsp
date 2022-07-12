@@ -44,7 +44,6 @@
 #review-header {
 	margin-top: 30px;
 	padding: 15px 15px;
-	/*  상자내부 간격 : 위아래 5px, 오른쪽왼쪽 15px  */
 	font-size: 30px;
 	font-weight: 500;
 }
@@ -53,7 +52,7 @@
 	color: rgba(255, 99, 132, 0.6);
 }
 #total-arrange {
-	margin-left: 65%;
+	margin-left: 59%;
 }
 .arrange {
 	font-size: 8px;
@@ -210,14 +209,17 @@ height: 180px;
 		<ul
 			class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"
 			id="total-arrange">
-			<li class="arrange"><a href="rlist.bo">최신순</a></li>
-<!-- 			<li class="arrange"><a href="rlist.bo?value=reviewNo">추천순</a></li> -->
-			<li class="arrange"><a href="rlist.bo?value=reviewRating">높은 평점순</a></li>
-			<li class="arrange"><a href="rlist.bo?value=reviewRating">낮은 평점순</a></li>
+			 <c:url var="nes" value="rlist.bo">
+                    <c:param name="page" value="${ p }"/>
+                    <c:param name="pno" value="${ pno }"/>
+               </c:url>
+               <li><a href="${ nes }"><span>최신순</span></a></li>
+               <li><a href="${ nes }&value=old"><span>오래된순</span></a></li>
+               <li><a href="${ nes }&value=likeCount"><span>좋아요순</span></a></li>
+               <li><a href="${ nes }&value=reviewRatingHigh"><span>높은 평점순</span></a></li>
+               <li><a href="${ nes }&value=reviewRatingLow"><span>낮은 평점순</span></a></li>
 		</ul>
-				
 			<hr class="first-hr">
-			
 <!-- 		<div style="margin-right:1px;"> -->
 	
 		<!-- 내용 -->
@@ -225,7 +227,6 @@ height: 180px;
 		<article class="uk-comment">
 			<header class="uk-comment-header">
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
-<%-- 				<input type="hidden" class="review" name="emailId" value="${ rev.emailId }"> --%>
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
 					<div>
 						<c:if test="${ empty loginUser.changeName }">
@@ -235,10 +236,10 @@ height: 180px;
 							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/uploadFiled/${ loginUser.changeName }" alt="프로필사진">
 						</c:if>
 						<div class="uk-inline" >
-						<a href="someReviewList.bo" class="uk-text-emphasis uk-text-normal uk-text-default">${ rev.nickName }</a>
+				<input type="hidden" class="review" name="nickName" value="${ rev.nickName }">
+						<a href="someReviewList.bo?nickName=${rev.nickName }" class="uk-text-emphasis uk-text-normal uk-text-default" id="someMember">${ rev.nickName } </a>
 						</div>
 					</div>
-					
 			  
 					<div class="uk-width-expand">
 						<c:forEach var="like" items="${ likeList }">
@@ -410,31 +411,6 @@ height: 180px;
 			
 			
 			
-			
-			
-<!-- 			<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider> -->
-
-<!-- 				<div class="uk-slider-items  uk-child-width-1-6 uk-grid"> -->
-<!-- 						<span class="uk-panel"> -->
-<%-- 						<c:forEach var="img" items="${ reviewImageList }"> --%>
-<%-- 							<c:if test="${ img.reviewNo == rev.reviewNo }"> --%>
-<%-- 								<img class="uk-align-center" src="${ contextPath }/resources/reviewImages/${ img.changeName }"  width="400" height="600" alt="리뷰이미지"> --%>
-
-<%-- 							</c:if> --%>
-<%-- 						</c:forEach> --%>
-<!-- 						</span> -->
-<!-- 					</li> -->
-
-<!-- 				</div> -->
-<!-- 				<a class="uk-position-center-left uk-position-small uk-hidden-hover" -->
-<!-- 					href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a -->
-<!-- 					class="uk-position-center-right uk-position-small uk-hidden-hover" -->
-<!-- 					href="#" uk-slidenav-next uk-slider-item="next"></a> -->
-<!-- 			</div> -->
-
-			<!-- 슬라이더 끝 -->
-			
-			
 			<div class="uk-comment-body">
 				<br>
 
@@ -557,63 +533,7 @@ height: 180px;
                         })
                     });
                     
-                    // 대장님 코드
-//                     $(function(){
-//                     	selectLikeCount();
-//                     });
-                    
-//                     function selectLikeCount(){
-//                     	$.ajax({
-//                     		url : "allLike.bo",
-//                     		type : "post",
-//                     		data : {
-//                     			reviewNo : ${rev.reviewNo}
-//                     		},
-//                     		success : function(list){
-//                     			$("#rcount").html(list.length);
-//                     		}, error:function(){
-//                     			console.log("좋아요 기능 통신 실패!");
-//                     		}
-//                     	})
-//                     }
-//                     function likeReview(){
-//                     	$.ajax({
-//                     		url : "likeInsert.bo",
-//                     		type : "post",
-//                     		data : {
-//                     			reviewNo : ${rev.reviewNo},
-//                     			email : ${loginUser.email}
-//                     		},
-//                     		success : function(status){
-//                     			if(status == "success"){ // 좋아요 성공
-//                     				$("#thumb").attr("src", '${ pageContext.servletContext.contextPath }/resources/images/thumb.png');
-//                     				$("#thumb").attr("onclick", "likeDelete();");
-//                     				selectLikeCount();
-//                     			}
-//                     		}, error:function(){
-//                     			console.log("좋아요 실패");
-//                     		}
-//                     	})
-//                     }
-                    
-//                     function likeDelete(){
-//                     	$.ajax({
-//                     		url : "likeDelete.bo",
-//                     		type : "post",
-//                     		data : {
-//                     			reviewNo : ${rev.reviewNo},
-//                     			email : ${loginUser.email}
-//                     		},
-//                     		success : function(status){ // 좋아요 취소
-//                     			$("#thumb").attr("src", '${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png');
-//                     			$("#thumb").attr("onclick", "likeReview();")
-//                     			selectLikeCount();
-//                     		}, error : function(){
-//                     			console.log("좋아요 취소 실패");
-//                     		}
-//                     	})
-//                     }
-                    </script>
+     </script>
 
     <script>
 // 		탑버튼

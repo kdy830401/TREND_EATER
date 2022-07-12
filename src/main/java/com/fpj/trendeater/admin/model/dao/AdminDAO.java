@@ -204,20 +204,20 @@ public class AdminDAO {
 	
 
 
-	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, PageInfo pi, String value) {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("adminMapper.reviewList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("adminMapper.reviewList", value, rowBounds);
 	}
 
 	public ArrayList<ReviewImage> reviewImageList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.reviewImageList");
 	}
 
-	public ArrayList<Report> reportedList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Report> reportedList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("adminMapper.reportedList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("adminMapper.reportedList", map, rowBounds);
 	}
 
 	public int reportCount(SqlSessionTemplate sqlSession) {
