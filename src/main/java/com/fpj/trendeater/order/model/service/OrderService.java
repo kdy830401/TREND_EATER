@@ -43,8 +43,12 @@ public interface OrderService {
 	// 주문 관리 - 주문 상태 변경
 	int changeOrderStatus(OrderStatus os);
 	
-	// 주문 관리 - 주문 목록
+	// 주문 관리 
+	// 1. 특정카테고리 주문 목록
 	int getCategoryListCount(String orderStatusName);
 	
-	ArrayList<OrderDetail> getCategoryList(PageInfo pi, String orderStatusName);	
+	ArrayList<OrderDetail> getCategoryList(PageInfo pi, String orderStatusName);
+
+	// 2. 전체 주문 목록
+	ArrayList<OrderStatus> getOrderAdminList();	
 }

@@ -38,7 +38,7 @@
     	<c:set var="complete" value="0"/>
     	<c:set var="refund" value="0"/>
     	<c:set var="cancel" value="0"/>
-    	<c:forEach var="i" items='${orderList }'>
+    	<c:forEach var="i" items='${allOrderList }'>
     		<c:if test="${i.orderStatusName == '주문' || i.orderStatusName == '상품 준비' || i.orderStatusName =='배송 준비' }">
     			<c:set var= "ordered" value="${ordered + 1 }"/>
     		</c:if>
@@ -208,8 +208,6 @@
 			</li>
 		</c:if>
 	</ul>
-    		</div>
-		</div>
     
     
     <script>

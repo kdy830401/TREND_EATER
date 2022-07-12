@@ -105,6 +105,7 @@ public class CartController {
 		if(cartList!=null) {
 			mv.addObject("cartList", cartList);
 			mv.addObject("thmbList", thmbList);
+			mv.addObject("pi", pi);
 			mv.setViewName("shoppingCart");
 		} else {
 			throw new CartException("장바구니 목록 불러오기에 실패했습니다.");
