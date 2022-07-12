@@ -95,7 +95,7 @@
                     </thead>
                     <tbody>
                     
-                    	<c:forEach var="i" items="${orderList }">
+                    	<c:forEach var='i' items='${orderList }'>
 	                        <tr>
 	                        	<td align="center">
 	                        		<div> ${i.orderNo }</div>

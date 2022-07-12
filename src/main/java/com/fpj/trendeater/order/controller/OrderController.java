@@ -37,7 +37,7 @@ public class OrderController {
 			Model model){
 		
 		int pointUpdate =pointPlus - pointUse;
-		String orderStatus = "1-주문";
+		String orderStatus = "주문";
 		// ArrayList<Cart> cartList 에 필요한 정보담기
 		ArrayList<Cart> cartList = new ArrayList<>();
 		for(int i = 0; i < cartNo.size(); i++ ) {
