@@ -393,6 +393,7 @@
 		from order_l
 			left join order_status on(order_l.order_status_no=order_status.order_status_no)
 		where email_id = #{emailId}
+		order by order_no desc
 	</select>	
 	
 
@@ -410,6 +411,7 @@
 		from order_l
 			left join order_status on(order_l.order_status_no=order_status.order_status_no)
 		where email_id = #{emailId}		
+		order by order_no desc
 	</select>
 
 	<!-- 포인트 멤버 업데이트 -->
