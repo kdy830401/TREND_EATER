@@ -20,7 +20,6 @@ public class OrderDAO {
 
 	//1.ORDER_STATUS TABLE에 insert
 	public int insertOrderStatus(SqlSessionTemplate sqlSession, String orderStatus) {
-		
 		return sqlSession.insert("orderMapper.insertOrderStatus", orderStatus);
 	}
 

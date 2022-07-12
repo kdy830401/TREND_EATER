@@ -72,6 +72,8 @@
 	</resultMap>	
 	
 	<!-- 결제 후 주문 정보 db 저장 -->
+
+	
 	<!--1.ORDER_STATUS TABLE에 insert  -->
 	<insert id="insertOrderStatus">
 		insert into ORDER_STATUS
@@ -84,7 +86,7 @@
 		insert into ORDER_L
 		values(seq_oid.currval, SYSDATE, #{totalPrice}, #{orderRequest}, #{email}, seq_oid.currval)
 	</insert>
-
+	
 	
 	<!-- 3. ORDER_DETAIL TABLE에 insert -->
 	<insert id="insertOrderDetail">
