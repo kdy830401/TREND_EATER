@@ -92,6 +92,9 @@ public interface MemberService {
 	
 	// 2. 주문 정보 받기
 	ArrayList<OrderStatus> getMyOrderList(String emailId, PageInfo pi);
+
+	int addPoint(Member m);
+
 	
 	// 3. 사용자의 전체 주문 정보 받기
 	ArrayList<OrderStatus> getAllOrderList(String emailId);

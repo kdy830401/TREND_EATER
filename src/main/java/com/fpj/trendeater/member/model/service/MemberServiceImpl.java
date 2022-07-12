@@ -399,4 +399,10 @@ public void kakaoLogout(String access_Token) {
 		return mDAO.getAllOrderList(sqlSession, emailId);
 	}
 
+	@Override
+	public int addPoint(Member m) {
+		return mDAO.addPoint(sqlSession,m);
+		
+	}
+
 }

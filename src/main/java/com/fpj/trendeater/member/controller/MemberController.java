@@ -140,6 +140,7 @@ public class MemberController {
 	 
 		 
 		 if(result > 0 ) {
+			 mService.addPoint(m);
 			 return "redirect:home.do";
 			 
 		 } else {
