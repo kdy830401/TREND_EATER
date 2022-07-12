@@ -202,18 +202,17 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 						<input type="hidden" name="reviewNo" value="${ rev.reviewNo }">
 					
 					</div>
-				</div>
 
-<!-- 							</form> -->
-								
-			 	 <script>
-						function deleteReview(e){
-							var reviewNo = $(e).next().val();
-							if(confirm('정말 삭제하시겠습니까?')){
-								location.href="<%= request.getContextPath()%>/delete.ad?reviewNo=" + reviewNo;
-							}
-						}
-				</script>
+					 <c:url var="reviewDelete" value="reviewDelete.ad">
+		         		<c:param name="reviewNo" value="${ rev.reviewNo }"/>
+		         		<c:param name="page" value="${ pi.currentPage }"/> 
+      				</c:url>
+      				<input type="hidden" class="reviewNo" name="reviewNo" value="${ rev.reviewNo }">
+							<button class="uk-button-small uk-button-default" type="button" onclick="location.href='${ reviewDelete }'">삭제</button>
+					</div>
+
+
+				</div>
 				
 						<div class="uk-margin">
 								<dl class="uk-description-list uk-description-list-divider">
@@ -238,6 +237,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 								<span class="star">★★★★★${ rev.reviewRating }</span>
 								</c:when>
 							</c:choose>
+
 <!-- 					</div> -->
 			</header>
 			<!-- 슬라이더 -->
@@ -289,7 +289,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
                <li><a href="#" onclick="return false;"><span uk-pagination-previous></span></a></li> &nbsp;
             </c:if>
             <c:if test="${ pi.currentPage > 1 }">
-               <c:url var="before" value="rlist.bo">
+               <c:url var="before" value="reviewList.ad">
                   <c:param name="page" value="${ pi.currentPage - 1 }"/>
                </c:url>
                <li><a href="${ before }"><span uk-pagination-previous></span></a></li>
@@ -302,7 +302,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
                </c:if>
                
                <c:if test="${ p ne pi.currentPage }">
-                  <c:url var="pagination" value="rlist.bo">
+                  <c:url var="pagination" value="reviewList.ad">
                      <c:param name="page" value="${ p }"/>
                   </c:url>
                    <li><a href="${ pagination }">${ p }</a></li>&nbsp;
@@ -314,7 +314,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
                <li><a href="#" onclick="return false;"><span uk-pagination-next></span></a></li> &nbsp;
             </c:if>
             <c:if test="${ pi.currentPage < pi.maxPage }">
-               <c:url var="after" value="rlist.bo">
+               <c:url var="after" value="reviewList.ad">
                   <c:param name="page" value="${ pi.currentPage + 1 }"/>
                </c:url> 
                <li><a href="${ after }"><span uk-pagination-next></span></a></li>

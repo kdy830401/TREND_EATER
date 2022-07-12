@@ -578,8 +578,7 @@ public class BoardController {
 			mv.addObject("pno", productNo);
 
 			mv.setViewName("reviewListView");
-			System.out.println("reviewList : " + reviewList);
-			System.out.println("reviewImageList : " + reviewImageList);
+			System.out.println("page : " + page);
 		} else {
 			throw new BoardException("리뷰 전체 조회에 실패하였습니다");
 		}

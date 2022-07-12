@@ -21,6 +21,7 @@ import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.ReviewList;
 
 @Repository("aDAO")
 public class AdminDAO {
@@ -214,7 +215,9 @@ public class AdminDAO {
 	}
 
 	public ArrayList<Report> reportedList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		return (ArrayList)sqlSession.selectList("adminMapper.reportedList");
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.reportedList", null, rowBounds);
 	}
 
 	public int reportCount(SqlSessionTemplate sqlSession) {
@@ -223,6 +226,18 @@ public class AdminDAO {
 
 	public int reportConfirm(SqlSessionTemplate sqlSession, Report rp) {
 		return sqlSession.update("adminMapper.reportConfirm", rp);
+	}
+
+	public int getListCount(SqlSessionTemplate sqlSession, Integer reportNo) {
+		return sqlSession.selectOne("adminMapper.reportListCount", reportNo);
+	}
+
+	public int reviewDelete(SqlSessionTemplate sqlSession, Review reviewList) {
+		return sqlSession.update("adminMapper.reviewDelete", reviewList);
+	}
+
+	public int deleteReview(SqlSessionTemplate sqlSession, Review reviewList) {
+		return sqlSession.update("adminMapper.deleteReview", reviewList);
 	}
 
 

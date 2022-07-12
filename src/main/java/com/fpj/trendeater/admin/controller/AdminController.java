@@ -54,16 +54,13 @@ import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
-
-import com.fpj.trendeater.board.model.vo.Report;
-
 import com.fpj.trendeater.board.model.vo.Reply;
-
+import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.board.model.vo.Review;
 import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.model.vo.Member;
-import com.fpj.trendeater.order.model.exception.OrderException;
+import com.fpj.trendeater.member.model.vo.ReviewList;
 import com.fpj.trendeater.order.model.service.OrderService;
 import com.fpj.trendeater.order.model.vo.OrderDetail;
 import com.fpj.trendeater.order.model.vo.OrderStatus;
@@ -1452,16 +1449,17 @@ public class AdminController {
 
 	//신고된 리뷰 리스트 뷰 이동
 	@RequestMapping("reportedReview.ad")
-	public ModelAndView reportedList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv) {
+	public ModelAndView reportedList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv,
+									@RequestParam(value="reportNo", required=false) Integer reportNo 
+			) {
 
 		int currentPage = 1; 
+		int boardLimit = 10;
 
 		if (page != null) { 
 			currentPage = page;
 		}
-		int boardLimit = 5;
-
-		int listCount = bService.getListCount();
+		int listCount = aService.getListCount(reportNo);
 		
 		int reportCount = aService.reportCount();
 		
@@ -1474,6 +1472,8 @@ public class AdminController {
 			mv.addObject("pi", pi); 
 			mv.addObject("reportCount", reportCount);
 			mv.setViewName("reportedList");
+			System.out.println("pi:"+pi);
+			System.out.println("page : " + page);
 		} else {
 			throw new AdminException("신고된 리뷰 리스트 조회에 실패하였습니다.");
 		}
@@ -1483,21 +1483,59 @@ public class AdminController {
 	
 	//신고된 리뷰 확인
 	@RequestMapping("reportConfirm.ad")
-	public String reportConfirm(@RequestParam(value = "reportNo", required=false) int reportNo, @RequestParam(value="page", required=false) int page,
+
+	public String reportConfirm(@RequestParam("reportNo") int reportNo, @RequestParam(value = "page", required=false) Integer page,
+
 								Report rp, Model model) {
 		
+		System.out.println(reportNo);
 		if(reportNo != 0) {
 			rp.setReportNo(reportNo);
 		}
 		
 		int result = aService.reportConfirm(rp);
 		if(result > 0) {
-			return "reportedReview.ad";
+			return "redirect:reportedReview.ad";
 		}	else {
 			throw new AdminException("신고 확인에 실패하였습니다..");
 		}
 	}
 	
+	@RequestMapping(value="deleteReview.ad", method=RequestMethod.GET)
+	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam(value = "page", required=false) Integer page,
+								 Review reviewList) {
+			
+		System.out.println("리뷰 삭제 reviewNo : " + reviewNo);		
+		if(reviewNo != 0) {
+			reviewList.setReviewNo(reviewNo);
+		}
+		System.out.println("리뷰 삭제 reviewList : " + reviewList);		
+		
+		int result = aService.reviewDelete(reviewList);
+		if(result > 0) {
+			return "redirect:reportedReview.ad";
+		} else {
+			throw new AdminException("리뷰 삭제에 실패하였습니다..");
+		}
+	}
+	//회원 리뷰 리스트에서 삭제
+	@RequestMapping(value="reviewDelete.ad", method=RequestMethod.GET)
+	public String reviewDelete(@RequestParam("reviewNo") int reviewNo, @RequestParam(value = "page", required=false) Integer page,
+								 Review reviewList) {
+			
+		System.out.println("리뷰 삭제 reviewNo : " + reviewNo);		
+		if(reviewNo != 0) {
+			reviewList.setReviewNo(reviewNo);
+		}
+		System.out.println("리뷰 삭제 reviewList : " + reviewList);		
+		
+		int result = aService.deleteReview(reviewList);
+		if(result > 0) {
+			return "redirect:reviewList.ad";
+		} else {
+			throw new AdminException("리뷰 삭제에 실패하였습니다..");
+		}
+	}
 	
 	
 	
