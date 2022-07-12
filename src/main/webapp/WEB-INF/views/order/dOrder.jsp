@@ -544,24 +544,23 @@ transition: opacity 0.3s;
 
 <!-- 받아오는목록 start -->
 <!-- 결제 목록 -->
-<form id="form" name="frmOrder" action="orderEnd.or" method="post" class="order_view">
-       <c:forEach var="c" items="${ carts }">
-          <input type="hidden" value="${c.cartNo}" name="cartNo">
-          <input type="hidden" value="${ c.productName }" name="productName">
-          <input type="hidden" value="${ c.productPrice }" name="productPrice">
-          <input type="hidden" value="${ c.productAmount }" name="productAmount">
-          <input type="hidden" value="${ c.emailId }" name="emailId">
-          <input type="hidden" value="${ c.productNo}" name="productNo">
-        </c:forEach>
+<form id="form" name="frmOrder" action="dOrderEnd.or" method="post" class="order_view">
+       
+          <input type="hidden" value="${cart.cartNo}" name="cartNo">
+          <input type="hidden" value="${ cart.productName }" name="productName">
+          <input type="hidden" value="${ cart.productPrice }" name="productPrice">
+          <input type="hidden" value="${ cart.productAmount }" name="productAmount">
+          <input type="hidden" value="${ cart.emailId }" name="emailId">
+          <input type="hidden" value="${ cart.productNo}" name="productNo">
+       
        
             	
        <div>
          <c:set var="total" value="0"/>
-         <c:forEach var='i' items='${carts}'>
-            <c:set var="total" value="${total + (i.productAmount * i.productPrice) }"/>            				
-          </c:forEach>
+         
+           <c:set var="total" value="${total + (cart.productAmount * cart.productPrice) }"/>            				
       </div>
-            
+      
             
           
 
@@ -581,17 +580,17 @@ transition: opacity 0.3s;
         
         <h2 class="tit_section fst">주문상품</h2>
         <div id="itemList" class="page_aticle order_goodslist"><div class="info_product"><a class="btn" href="#none"><span class="screen_out">펼침 / 닫힘</span></a>
-          <div class="short_info">${carts[0].productName} 외  <span class="num">${cSize}개</span>상품을 주문합니다.</div></div>
+          <div class="short_info">${cart.productName}     <span class="num">${cart.productAmount}개</span>상품을 주문합니다.</div></div>
           <ul class="list_product">
             
-            <c:forEach var="c" items="${ carts }" varStatus="status">
-            <c:set var="eaCost" value="${( c.productAmount) * (c.productPrice) }"/>
+            
+            <c:set var="eaCost" value="${( cart.productAmount) * (cart.productPrice) }"/>
             <li>
-              <div class="thumb"><img src="${ contextPath }/resources/productImgUploadFiles/${ images[status.index].changeName }" alt="상품이미지"></div>
+              <div class="thumb"><img src="${ contextPath }/resources/productImgUploadFiles/${ image.changeName }" alt="상품이미지"></div>
               <div class="name">
                 <div class="inner_name">${ c.productName }</div>
               </div>
-              <div class="ea">${ c.productAmount }개</div>
+              <div class="ea">${ cart.productAmount }개</div>
               <div class="info_price">
                 <span class="num">
                   <span class="price">${eaCost}</span>
@@ -599,7 +598,7 @@ transition: opacity 0.3s;
                 </span>
               </div>
             </li>
-            </c:forEach>
+           
           </ul>
          </div>
         
@@ -1178,10 +1177,7 @@ transition: opacity 0.3s;
 			console.log(rsp);
 		    if ( rsp.success ) {
 		    	var msg = '결제가 완료되었습니다.';
-		        msg += '고유ID : ' + rsp.imp_uid;
-		        msg += '상점 거래ID : ' + rsp.merchant_uid;
 		        msg += '결제 금액 : ' + rsp.paid_amount;
-		        msg += '카드 승인번호 : ' + rsp.apply_num;
 		    	
 		        $('form[name=frmOrder]').submit();
 			   

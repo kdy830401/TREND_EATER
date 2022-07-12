@@ -62,7 +62,10 @@ public class OrderDAO {
 		}
 		return images;
 	}
-	
+	//바로구매 3. ORDER_DETAIL TABLE에 insert
+			public int insertOrderDetail(SqlSessionTemplate sqlSession, Cart cart) {
+				return sqlSession.insert("orderMapper.insertOrderDetail", cart);
+			}	
 	// 주문 내역, 주문 관리 - 상세보기
 	// 1. 상세보기 리스트 가져오기
 	public ArrayList<OrderDetail> getMyOrderDetailList(SqlSessionTemplate sqlSession, int orderNo) {

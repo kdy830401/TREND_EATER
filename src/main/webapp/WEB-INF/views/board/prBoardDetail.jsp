@@ -210,6 +210,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 	<div class="uk-container">
 		<br>
+		<!--form 태그 시작  -->
+		<form action="direct.or" method="post">
 		<div class="uk-grid uk-grid-divider uk-child-width-1-2@m uk-margin" uk-grid>
 			<div class="uk-margin">
 				<c:forEach var="img" items="${ imgList }">
@@ -499,14 +501,15 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<c:if test="${ p.productType == 1 }">
 
 							<!-- 장바구니 -->
-							<button class="uk-button uk-button-default uk-width-auto@m" id="addCart">장바구니</button>
+							<input type="button" class="uk-button uk-button-default uk-width-auto@m" id="addCart" value="장바구니"/>
 							<!-- Cart(장바구니)에 추가할 정보 2-->
 							<!-- 구매 상품 번호, 가격, 이름 -->
 							<input type="hidden" name="productNo" id="productNo" value="${p.productNo}">
 							<input type="hidden" name="productPrice" id="productPrice" value="${p.productPrice}">
 							<input type="hidden" name="productName" id="productName" value="${p.productName}">	
 							<!-- 구매하기 -->
-						
+							<!--hidden  -->
+							<input type="hidden" name="changeName" value="${ imgList[0].changeName }">
 							<button class="uk-button uk-button-primary uk-width-1-2@m" id="buyBtn">구매하기</button>
 <script>
 	 $('#buyBtn').on('click', function(){
@@ -530,6 +533,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<!-- </form> -->
 			</div>
 		</div>
+		</form>
+		<!-- form태그 end -->
 	</div>
 
 
