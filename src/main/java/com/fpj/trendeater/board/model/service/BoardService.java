@@ -141,6 +141,12 @@ public interface BoardService {
 
 	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
 
+	ArrayList<Review> getbReview();//메인페이지 좋아요가장많은 리뷰내용 불러오기
+
+	ArrayList<ReviewImage> getbRImage(ArrayList<Review> bReview);//메인페이지 리뷰이미지 불러오기
+
+	//메인페이지 리뷰내용 이미지 불러오기
+
 
 	
 

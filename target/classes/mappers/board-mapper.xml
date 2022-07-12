@@ -606,9 +606,26 @@
 	from image
 	where board_type=1 and file_level = 1 and identify_no = #{ProductNo}
 	</select>
+
+<!--메인페이지 좋아요 가장 많은리뷰리스트 받아오기  -->	
+	<select id="getbReview" resultMap="reviewResultSet">
+	<![CDATA[
+		select *
+		from(select * 
+		from REVIEW_LIST
+		order by LIKE_COUNT DESC)
+		where ROWNUM <= 10
+	]]>
+	</select>
+<!-- 메인페이지 좋아요 가장많이 받은 리뷰리스트 이미지 받아오기 -->	
+	<select id="getbRImgList" resultMap="reviewImageResultSet">
+	select *
+	from (select *
+	from REVIEW_IMG
+	where REVIEW_NO = #{reviewNo})
+	where RowNum =1
 	
-	
-	
+	</select>
 
 	<!-- 좋아요 전체 카운트 -->
 	<select id="selectLikeCount" resultType = "_int">
