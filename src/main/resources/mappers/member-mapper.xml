@@ -412,4 +412,10 @@
 		where email_id = #{emailId}		
 	</select>
 
+	<!-- 포인트 멤버 업데이트 -->
+	<update id="updatePoint">
+		update member
+		set point = #{ point }
+		where email_id = #{ email }
+	</update>
 </mapper>

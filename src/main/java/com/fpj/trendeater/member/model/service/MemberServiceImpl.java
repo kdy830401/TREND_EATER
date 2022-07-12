@@ -405,4 +405,8 @@ public void kakaoLogout(String access_Token) {
 		
 	}
 
+	@Override
+	public int updatePoint(Member m) {
+		return mDAO.updatePoint(sqlSession, m);
+	}
 }

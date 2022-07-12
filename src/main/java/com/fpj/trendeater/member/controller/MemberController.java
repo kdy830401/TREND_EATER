@@ -616,13 +616,23 @@ public class MemberController {
 		
 		/// 출석 체크
 		@RequestMapping("insertAttendCheck.me")
-		public String insertAttendCheck(HttpSession session) {
+		public String insertAttendCheck(HttpSession session, Member m) {
 			String email = ((Member)session.getAttribute("loginUser")).getEmail();
 			
 			int result = mService.insertAttendCheck(email);
 			int result2 = mService.insertAttendPoint(email);
 			
-			if(result+result2 > 1 ) {
+			int plusPoint = mService.getPlusPoint(email);
+			int minusPoint = mService.getMinusPoint(email);
+			int totalPoint = plusPoint-minusPoint;
+			
+			m.setEmail(email);
+			m.setPoint(totalPoint);
+			
+			// 멤버 포인트 업데이트
+			int result3 = mService.updatePoint(m);
+			
+			if(result+result2+result3 > 2 ) {
 				return "attendCalendarView";
 
 			} else {
@@ -738,7 +748,7 @@ public class MemberController {
 	
 		//마이 페이지 메뉴
 		@RequestMapping("myPageMenu.me")
-		public String myPageMenu(HttpSession session) {
+		public String myPageMenu(HttpSession session, Member m) {
 			
 			String email = ((Member)session.getAttribute("loginUser")).getEmail();
 			
@@ -747,6 +757,12 @@ public class MemberController {
 			int plusPoint = mService.getPlusPoint(email);
 			int minusPoint = mService.getMinusPoint(email);
 			int totalPoint = plusPoint-minusPoint;
+			
+			m.setEmail(email);
+			m.setPoint(totalPoint);
+			
+			// 멤버 포인트 업데이트
+			int result = mService.updatePoint(m);
 			
 			boolean check1 = false;
 			
