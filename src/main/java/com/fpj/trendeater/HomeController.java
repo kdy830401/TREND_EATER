@@ -17,6 +17,8 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.service.BoardService;
 import com.fpj.trendeater.board.model.vo.EventBoard;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 
 /**
  * Handles requests for the application home page.
@@ -57,6 +59,16 @@ public class HomeController {
 		model.addAttribute("bProducts", bProducts);
 		model.addAttribute("bList", bList);
 		
+		
+		
+		//좋아요수가 가장 많은 리뷰 불러오기 
+		ArrayList<Review> bReview = bService.getbReview();//리뷰글 불러오기
+		System.out.println(bReview);
+		//리뷰 그림 불러오기
+		ArrayList<ReviewImage> bRImage = bService.getbRImage(bReview);
+		System.out.println(bRImage);
+		model.addAttribute("review", bReview);
+		model.addAttribute("rImage", bRImage);
 		return "home";
 		
 	}
