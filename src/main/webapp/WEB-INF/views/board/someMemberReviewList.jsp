@@ -180,19 +180,22 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 	<div class="uk-container uk-container-midium" id="review-container">
 
 		<h1  id="review-header" class="review-header">
-			${rev.emailId }리뷰 목록<span id="review-count">${ pi.listCount }</span>
+			${nickName }님의 리뷰 목록<span id="review-count">(${ pi.listCount })</span>
 		</h1>
 		<ul
 			class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"
 			id="total-arrange">
-			<li class="arrange"><a href="rlist.bo">최신순</a></li>
-<!-- 			<li class="arrange"><a href="rlist.bo?value=reviewNo">추천순</a></li> -->
-			<li class="arrange"><a href="rlist.bo?value=reviewRating">높은 평점순</a></li>
-			<li class="arrange"><a href="rlist.bo?value=reviewRating">낮은 평점순</a></li>
+			 <c:url var="nes" value="rlist.bo">
+                    <c:param name="page" value="${ p }"/>
+                    <c:param name="pno" value="${ pno }"/>
+               </c:url>
+               <li><a href="${ nes }"><span>최신순</span></a></li>
+               <li><a href="${ nes }&value=old"><span>오래된순</span></a></li>
+               <li><a href="${ nes }&value=likeCount"><span>좋아요순</span></a></li>
+               <li><a href="${ nes }&value=reviewRatingHigh"><span>높은 평점순</span></a></li>
+               <li><a href="${ nes }&value=reviewRatingLow"><span>낮은 평점순</span></a></li>
 		</ul>
-				
 			<hr class="first-hr">
-			
 <!-- 		<div style="margin-right:1px;"> -->
 	
 		<!-- 내용 -->
@@ -202,42 +205,86 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
 					<div>
-						<c:if test="${ not empty rev.changeName }">
-						<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/uploadFiled/${rev.changeName}" class="profileImg">
+						<c:if test="${ empty loginUser.changeName }">
+							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/images/avatar.png" alt="프로필사진">
 						</c:if>
-						<c:if test="${ empty rev.changeName }">
-							<img name="profileImg" src="${ pageContext.servletContext.contextPath }/resources/images/hapu.jpg" class="profileImg">
+						<c:if test="${ not empty loginUser.changeName }">
+							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/uploadFiled/${ loginUser.changeName }" alt="프로필사진">
 						</c:if>
+						<div class="uk-inline" >
+				<input type="hidden" class="review" name="nickName" value="${ rev.nickName }">
+						<a href="someReviewList.bo?nickName=${rev.nickName }" class="uk-text-emphasis uk-text-normal uk-text-default" id="someMember">${ rev.nickName } </a>
+						</div>
 					</div>
+			  
 					<div class="uk-width-expand">
-						<span class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="someReviewList.bo">${ rev.emailId }</a></span>
-<!--  						 <a><i class="fa-regular fa-thumbs-up" id="thumb"></i></a>  -->
-<%--  							<span class="thumb-like">${ rev.likeCount }명이 좋아합니다.</span>  --%>
-							<c:choose>
-		                            	<c:when test = "${empty loginUser }">
-		                                	<img id = "thumb" onclick = "alert('로그인 후 이용가능한 서비스 입니다')" src="${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png" style="width: 20px;">
-		                                </c:when>
-		                                <c:when test = "${count == 0}">
-		                                	<img id = "thumb" onclick = "likeReview();" src="${ pageContext.servletContext.contextPath }/resources/images/emptyThumb.png" style="width: 20px;">
-		                                </c:when>
-		                                <c:otherwise>
-		                                	<img id = "thumb" onclick = "likeDelete();" src="${ pageContext.servletContext.contextPath }/resources/images/thumb.png" style="width: 20px;">
-		                                </c:otherwise>
-	                       </c:choose>
-	                                
-	                                	<span>좋아요</span> <span id="rcount">0</span>
+						<c:forEach var="like" items="${ likeList }">
+							<c:if test="${ like.reviewNo == rev.reviewNo and like.emailId == loginUser.email}">
+							<a href="javascript:void(0)" class="thumb">
+								<span class="material-symbols-outlined fill">thumb_up</span>
+								<span>좋아요</span> <span class="rcount">${ rev.likeCount }</span>
+							</a>
+							</c:if>
+							<c:if test ="${ like.reviewNo == rev.reviewNo and like.emailId != loginUser.email }">
+							<a href="javascript:void(0)" class="thumb">
+								<span class="material-symbols-outlined nofill">thumb_up</span>
+								<span>좋아요</span> <span class="rcount">${ rev.likeCount }</span>
+							</a>
+	                         </c:if>
+	                       
+                         </c:forEach>
 					</div>
 				</div>
+				
+				
+			
 	                  
-
+					<div class="uk-margin uk-align-right">
 						<div class="uk-inline">
-							<button class="uk-button uk-button-default uk-button-small"
-								type="button" id="chart-button">맛 평가</button>
-							<div uk-drop="pos: right-bottom">
+							<button class="uk-button uk-button-default uk-button-small chart-button "
+								type="button" aria-haspopup="true" aria-expanded="false">맛 평가</button>
+							<div uk-drop="pos: left-center" class="uk-drop">
+
 								<div class="uk-card uk-card-body uk-card-default">
-									추천의사<div class="star">★★★★★ ${ rev.recommend }</div>
+									추천의사
+									<c:choose>
+									<c:when test="${ rev.recommend == 1 }">
+									<div class="star">★ ${  rev.recommend }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 2 }">
+									<div class="star">★★ ${  rev.recommend }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 3 }">
+									<div class="star">★★★ ${  rev.recommend }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 4 }">
+									<div class="star">★★★★ ${  rev.recommend }</div>
+									</c:when>
+									<c:when test="${ rev.recommend == 5 }">
+									<div class="star">★★★★★ ${  rev.recommend }</div>
+									</c:when>
+									</c:choose>
+<%-- 									<div class="star">★★★★★ ${  rev.recommend }</div> --%>
 									<br> 
-									재구매의사<div class="star">★★★★★ ${ rev.repurcharse }</div>
+									재구매의사
+									<c:choose>
+									<c:when test="${ rev.repurcharse == 1 }">
+									<div class="star">★ ${  rev.repurcharse }</div>
+									</c:when>
+									<c:when test="${ rev.repurcharse == 2 }">
+									<div class="star">★★ ${  rev.repurcharse }</div>
+									</c:when>
+									<c:when test="${ rev.repurcharse == 3 }">
+									<div class="star">★★★ ${  rev.repurcharse }</div>
+									</c:when>
+									<c:when test="${ rev.repurcharse == 4 }">
+									<div class="star">★★★★ ${  rev.repurcharse }</div>
+									</c:when>
+									<c:when test="${ rev.repurcharse == 5 }">
+									<div class="star">★★★★★ ${  rev.repurcharse }</div>
+									</c:when>
+									</c:choose>
+<%-- 									<div class="star">★★★★★ ${ rev.repurcharse }</div> --%>
 									<br>
 									<div>매운맛 ${ rev.spicy } </div>
 									<div>단맛  ${ rev.sweet }</div>
@@ -246,68 +293,100 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 									<div>신맛 ${ rev.sour }</div>
 								</div>
 							</div>
-						</div>
-						<a href="#modal-center" uk-toggle>
-							<img class="siren" src="resources/images/siren.png">
+
+						
+						<a href="#modal-center${ rev.reviewNo }" uk-toggle>
+							<img class="siren" src="resources/images/siren.png" >
 						</a>
-							<div id="modal-center" class="uk-flex-top" uk-modal>
+					</div>
+				</div>
+	                  
+
+
+							<div id="modal-center${ rev.reviewNo }" class="uk-flex-top" uk-modal>
 									<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+									<button class="uk-modal-close-default" id="close${ rev.reviewNo }" type="button" uk-close></button>
 										<div class="uk-modal-header">
 											<h3 class="uk-modal-title">리뷰 신고하기</h3>
 				       					</div>
 				        			<div class="uk-modal-body">
 				        				<p class="reportQuestion">신고하시는 사유가 무엇인가요?</p>
-								        	<div><input type="radio" name="reportType" value="1" class="reportType" id="reportType">  욕설/비방</div>
-								        	<div><input type="radio" name="reportType" value="2" class="reportType" id="reportType">  스팸/광고</div>
-								        	<div><input type="radio" name="reportType" value="3" class="reportType" id="reportType">  음란성</div>
-								        	<div><input type="radio" name="reportType" value="4" class="reportType" id="reportType">  양식 위반</div>
-								        	<div><input type="radio" name="reportType" value="5" class="reportType" id="reportType">  기타</div>
+								        	<div><input type="radio" name="reportType" value="1" class="reportType">  욕설/비방</div>
+								        	<div><input type="radio" name="reportType" value="2" class="reportType">  스팸/광고</div>
+								        	<div><input type="radio" name="reportType" value="3" class="reportType">  음란성</div>
+								        	<div><input type="radio" name="reportType" value="4" class="reportType">  양식 위반</div>
+								        	<div><input type="radio" name="reportType" value="5" class="reportType">  기타</div>
 							        	<br>
 											<div class="uk-margin">
-				        					<p class="reportQuestion">신고하시는 이유를 알려주세요</p>
-				            				<textarea id="reportContent" class="reportContent uk-textarea" name="reportContent" rows="10" placeholder="최소 20자 이상 입력해주세요."></textarea>
+					        					<p class="reportQuestion">신고하시는 이유를 알려주세요</p>
+					            				<textarea id="reportContent" class="reportContent uk-textarea" name="reportContent" rows="10" placeholder="최소 20자 이상 입력해주세요."></textarea>
 									        </div>
 									</div>   
 				        			<div class="uk-modal-footer uk-text-right">
 				            			<button class="uk-button uk-button-default uk-modal-close" type="button">취소</button>
-				            			<button class="reportReview uk-button uk-button-primary" type="submit">신고</button>
+				            			<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
+				            			<button class="reportReview uk-button uk-button-primary" type="button" id="reportReview_${rev.reviewNo}">신고</button>
+				            			
 				        			</div>
 									</div>
-							</div>
+								</div>
 <!-- 							신고 하기 끝 -->
-						<ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-							<li>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</li>
-						</ul>
-						<ul
-							class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-<%-- 							<li>${ 상품정보.productNo }</li> --%>
-							<li>${ rev.modifyDate }</li>
-						</ul>
-						<span class="star">★★★★★${ rev.reviewRating }</span>
-<!-- 					</div> -->
-			</header>
-			<!-- 슬라이더 -->
-			<div class="uk-position-relative uk-visible-toggle uk-light"
-				tabindex="-1" uk-slider>
 
-				<ul
-					class="uk-slider-items uk-child-width-1-2 uk-child-width-1-6@m uk-grid">
-					<li>
-						<span class="uk-panel">
-						<c:forEach var="img" items="${ reviewImageList }">
+						<div class="uk-margin">
+								<dl class="uk-description-list uk-description-list-divider">
+								<dt>${ rev.flavor1 } / ${ rev.flavor2 } / ${ rev.flavor3 }</dt>
+								<dd>${ rev.modifyDate }</dd>
+								</dl>
+						</div>
+							<c:choose>
+								<c:when test="${ rev.reviewRating == 1 }">
+								<span class="star">★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.reviewRating == 2 }">
+								<span class="star">★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.reviewRating == 3 }">
+								<span class="star">★★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.reviewRating == 4 }">
+								<span class="star">★★★★${ rev.reviewRating }</span>
+								</c:when>
+								<c:when test="${ rev.reviewRating == 5 }">
+								<span class="star">★★★★★${ rev.reviewRating }</span>
+								</c:when>
+							</c:choose>
+<%-- 						<span class="star">★★★★★${ rev.reviewRating }</span> --%>
+<!-- 					</div> -->
+
+			</header>
+			
+			<!-- 슬라이더 -->
+			
+			<div uk-slider="" class="uk-slider uk-slider-container" center="0" sets="0">
+                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
+                    <ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-4@m uk-grid" style="transform: translate3d(0px, 0px, 0px);">
+                    	<c:forEach var="img" items="${ reviewImageList }" varStatus="status">
 							<c:if test="${ img.reviewNo == rev.reviewNo }">
-								<img class="uk-align-center" src="${ contextPath }/resources/reviewImages/${ img.changeName }"  width="400" height="600" alt="리뷰이미지">
-							</c:if>
+                        <li tabindex="-1" class="uk-active" style="">
+                            <div class="uk-panel uk-transition-toggle uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
+                                <img class="img" src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="400" height="600" alt="리뷰사진">
+                                <div class="uk-position-center uk-panel"><h1 class="uk-transition-slide-bottom-small"></h1></div>
+                            </div>
+                        </li>
+                        	</c:if>
 						</c:forEach>
-						</span>
-					</li>
-				</ul>
-				<a class="uk-position-center-left uk-position-small uk-hidden-hover"
-					href="#" uk-slidenav-previous uk-slider-item="previous"></a> <a
-					class="uk-position-center-right uk-position-small uk-hidden-hover"
-					href="#" uk-slidenav-next uk-slider-item="next"></a>
-			</div>
-			<!-- 슬라이더 끝 -->
+                    </ul>
+					 <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+				    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+                </div>
+
+            </div>
+			
+			
+			
+			
+			
 			<div class="uk-comment-body">
 				<br>
 
@@ -337,6 +416,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
             <c:if test="${ pi.currentPage > 1 }">
                <c:url var="before" value="rlist.bo">
                   <c:param name="page" value="${ pi.currentPage - 1 }"/>
+                    <c:param name="pno" value="${ pno }"/>
                </c:url>
                <li><a href="${ before }"><span uk-pagination-previous></span></a></li>
             </c:if>
@@ -350,6 +430,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
                <c:if test="${ p ne pi.currentPage }">
                   <c:url var="pagination" value="rlist.bo">
                      <c:param name="page" value="${ p }"/>
+                     <c:param name="pno" value="${ pno }"/>
                   </c:url>
                    <li><a href="${ pagination }">${ p }</a></li>&nbsp;
                </c:if>
@@ -362,13 +443,17 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
             <c:if test="${ pi.currentPage < pi.maxPage }">
                <c:url var="after" value="rlist.bo">
                   <c:param name="page" value="${ pi.currentPage + 1 }"/>
+                    <c:param name="pno" value="${ pno }"/>
                </c:url> 
                <li><a href="${ after }"><span uk-pagination-next></span></a></li>
             </c:if>
      	 </ul>
 	
 		</div>
+	
 	</div>
+	</div>
+	<!-- container -->
 	
 	
 	<!-- container -->

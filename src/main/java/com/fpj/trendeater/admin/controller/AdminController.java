@@ -147,7 +147,6 @@ public class AdminController {
 		// 요청을 보낸 url 위치 확인
 		String url = (String)request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 //		System.out.println(url);
-		
 		if (list != null && imgList != null) {
 			mv.addObject("list", list);
 			mv.addObject("imgList", imgList);
@@ -1407,8 +1406,8 @@ public class AdminController {
 
 	//이용준 관리자페이지 리뷰 리스트
 	@RequestMapping("reviewList.ad")
-//	public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv, UserLike like, HttpSession session) {
-		public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv) {
+		public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv,
+										@RequestParam(value="value", required=false) String value) {
 		
 		int currentPage = 1;
 		int boardLimit = 10;
@@ -1421,7 +1420,7 @@ public class AdminController {
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
-		ArrayList<Review> reviewList = aService.reviewList(pi);
+		ArrayList<Review> reviewList = aService.reviewList(pi, value);
 		
 		ArrayList<ReviewImage> reviewImageList = aService.reviewImageList();
 		
@@ -1437,6 +1436,7 @@ public class AdminController {
 		if(reviewList != null && reviewImageList != null) {
 			mv.addObject("reviewList", reviewList);
 			mv.addObject("pi", pi); 
+			mv.addObject("value", value); 
 			mv.addObject("reviewImageList", reviewImageList);
 //			mv.addObject(count);
 			mv.setViewName("adminReviewList");
@@ -1451,7 +1451,9 @@ public class AdminController {
 	//신고된 리뷰 리스트 뷰 이동
 	@RequestMapping("reportedReview.ad")
 	public ModelAndView reportedList(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv,
-									@RequestParam(value="reportNo", required=false) Integer reportNo 
+									@RequestParam(value="value", required=false) String value,
+									@RequestParam(value="reportNo", required=false) Integer reportNo,
+									@RequestParam(value="reportType", required=false) Integer reportType
 			) {
 
 		int currentPage = 1; 
@@ -1464,13 +1466,19 @@ public class AdminController {
 		
 		int reportCount = aService.reportCount();
 		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("value", value);
+		map.put("reportNo", reportNo);
+		map.put("reportType", reportType);
+		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount,boardLimit);
 		
-		ArrayList<Report> reportList = aService.getReportList(pi);
+		ArrayList<Report> reportList = aService.getReportList(pi, map);
 		
 		if(reportList != null) {
 			mv.addObject("reportList", reportList);
 			mv.addObject("pi", pi); 
+			mv.addObject("map", map); 
 			mv.addObject("reportCount", reportCount);
 			mv.setViewName("reportedList");
 			System.out.println("pi:"+pi);
