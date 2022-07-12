@@ -202,4 +202,8 @@ public class MemberDAO {
 		return (ArrayList)sqlSession.selectList("memberMapper.getAllOrderList", emailId);
 
 	}	
+	
+	public int updatePoint(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updatePoint", m);
+	}
 }
