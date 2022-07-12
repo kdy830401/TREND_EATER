@@ -326,7 +326,7 @@
 			and product_name like '%'||#{searchValue}||'%'
 		</if>
 		<if test='value == null or value.equals("tasteNo")'>
-		order by taste_no
+		order by taste_ing desc, taste_no
 		</if>
 		<if test='value != null and value.equals("applyCount")'>
 		order by apply_count desc
@@ -414,7 +414,15 @@
 	<!-- 상품 이미지 삭제 -->
 	<delete id="delImage">
 		delete image
-		where image_no = #{delProductImgNo}
+		<if test="arr == null">
+		where image_no = #{imgNo}
+		</if>
+		<if test="arr != null">
+		where image_no in
+		<foreach collection="imgNo" item="arr" open="(" close=")" separator=",">
+		#{arr}
+		</foreach>
+		</if>
 	</delete>
 
 	<!-- 상품 테이블 및 상품 게시판 테이블 수정 -->
@@ -447,23 +455,22 @@
 				<if test="bool.equals('false')">
 					set board_status = 'N'
 				</if>
-				where product_no = #{pno}
+				where taste_no = #{pno}
 			</when>
 		</choose>
 	</update>
 	
 	<!--관리자 게시판 게시물 삭제 -->
-	<update id="deleteAdminBoard">
+	<update id="deleteAdminBoard" statementType="CALLABLE">
 		<choose>
 			<when test="type.equals('product')">
-				update product
-				set product_status = 'N'
-				where product_no = #{pno}
+				{#{result, mode=OUT, jdbcType=INTEGER} = call deleteproductadminfn(#{pno})}
 			</when>
 			<when test="type.equals('taste')">
 				update taste_board
-				set admin_status = 'N'
-				where product_no = #{pno}
+				set admin_status = 'N',
+					board_status = 'N'
+				where taste_no = #{pno}
 			</when>
 		</choose>
 	</update>
@@ -501,6 +508,51 @@
 		</if>
 	</select>
 
+
+<!-- 	이용준 리뷰 리스트 보기 -->
+	<select id="reviewList" resultMap="reviewResultSet">
+     select *
+     from review_list rl
+         join member m on (rl.email_id = m.email_id)    
+     where review_status  = 'Y'
+     order by review_no desc
+  </select>
+  <resultMap type="Review" id="reviewResultSet">
+       <id column="REVIEW_NO" property="reviewNo"/>
+       <result column="REVIEW_RATING" property="reviewRating"/>
+       <result column="RECOMMEND" property="recommend"/>
+       <result column="REPURCHARSE" property="repurcharse"/>
+       <result column="SPICY" property="spicy"/>
+       <result column="SWEET" property="sweet"/>
+       <result column="BITTER" property="bitter"/>
+       <result column="SALTY" property="salty"/>
+       <result column="SOUR" property="sour"/>
+       <result column="GOOD" property="good"/>
+       <result column="BAD" property="bad"/>
+       <result column="CREATE_DATE" property="createDate"/>
+       <result column="MODIFY_DATE" property="modifyDate"/>
+       <result column="LIKE_COUNT" property="likeCount"/>
+       <result column="REVIEW_STATUS" property="reviewStatus"/>
+       <result column="PRODUCT_NO" property="productNo"/>
+       <result column="EMAIL_ID" property="emailId"/>
+       <result column="NICKNAME" property="nickName"/>
+    </resultMap>
+    
+
+
+<select id="reviewImageList" resultMap="reviewImageResultSet">
+		select *
+		from review_img
+	</select>
+	
+		<resultMap type="ReviewImage" id="reviewImageResultSet">
+		<id column="IMAGE_NO" property="imageNo"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="REVIEW_NO" property="reviewNo"/>
+		</resultMap>
+		
 	<resultMap type="ApplyPerson" id="applyTastePersonResultSet">
 		<id column="APPLY_NO" property="applyNo" />
 		<result column="ADDRESS" property="address" />
@@ -510,5 +562,58 @@
 		<result column="APPLY_DATE" property="applyDate" />
 		<result column="PRODUCT_NAME" property="productName" />
 		<result column="USER_NAME" property="name" />
+
 	</resultMap>
+	
+	<select id="reportedList" resultMap="reportResultSet">
+		select * 
+		from report
+		left JOIN review_list 
+        USING (review_no)
+		where report_result = 'N'
+		order by report_no desc
+	</select>
+	<resultMap type="Report" id="reportResultSet">
+		<id column="REPORT_NO" property="reportNo"/>
+		<result column="REPORT_TYPE" property="reportType"/>
+		<result column="REPORT_CONTENT" property="reportContent"/>
+		<result column="REPORT_RESULT" property="reportResult"/>
+		<result column="REPORT_DATE" property="reportDate"/>
+		<result column="EMAIL_ID" property="emailId"/>
+		<result column="REVIEW_NO" property="reviewNo"/>
+		</resultMap>
+		
+	<select id="reportCount" resultType="_int">
+		select count(*)
+		from report
+		where report_result = 'N'
+	</select>
+	
+	<update id="reportConfirm">
+		update report
+		set report_result = 'Y'
+		where report_no = #{reportNo}
+	</update>
+	
+	<select id="reportListCount" resultType="_int">
+		 select count(*)
+		from report
+        left JOIN review_list 
+           USING (review_no)
+		where report_result = 'N' and review_status = 'Y'
+	</select>
+	
+	<!-- 	신고 리스트에서 리뷰 삭제 -->
+	<update id="reviewDelete">
+		update review_list
+		set review_status = 'N'
+		where review_no = #{reviewNo}
+	</update>
+	
+	<!-- 	회원 리뷰 리스트에서 리뷰 삭제 -->
+	<update id="deleteReview">
+		update review_list
+		set review_status = 'N'
+		where review_no = #{reviewNo}
+	</update>
 </mapper>

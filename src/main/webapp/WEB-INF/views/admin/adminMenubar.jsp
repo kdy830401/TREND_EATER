@@ -43,7 +43,6 @@
 a {
 	color: rgba(255, 255, 255, 0.87);
 }
-
 a:hover {
 	text-decoration: none;
 	color: white;
@@ -56,7 +55,7 @@ a:hover {
 		<!-- ############ LAYOUT START-->
 
 		<!-- aside -->
-		<div id="aside" class="app-aside modal nav-dropdown">
+		<div id="aside" class="app-aside modal fade nav-dropdown">
 			<!-- fluid app aside -->
 			<div class="left navside dark dk" data-layout="column">
 				<div class="navbar no-radius">
@@ -109,10 +108,15 @@ a:hover {
 									</span>
 									<span class="nav-text">게시판 관리</span>
 								</a>
-								<ul class="nav-sub">
+								<ul class="nav-sub nav-mega nav-mega-3">
 									<li>
 										<a href="prbAdminList.ad">
 											<span class="nav-text">제품/리뷰 게시판</span>
+										</a>
+									</li>
+									<li>
+										<a href="reviewList.ad">
+											<span class="nav-text">리뷰 리스트</span>
 										</a>
 									</li>
 									<li>
@@ -149,16 +153,11 @@ a:hover {
 							</li>
 
 							<li>
-								<a href="#">
+								<a href="orderAdminList.ad">
 									<span class="nav-text">주문 관리</span>
 								</a>
 							</li>
 
-							<li>
-								<a href="#">
-									<span class="nav-text">반품 관리</span>
-								</a>
-							</li>
 
 							<li>
 								<a href="productList.ad">
@@ -167,21 +166,12 @@ a:hover {
 							</li>
 
 							<li>
-								<a href="#">
+								<a href="reportedReview.ad">
 									<span class="nav-text">신고 리뷰 현황</span>
 								</a>
 							</li>
 
 
-							<li class="nav-header hidden-folded">
-								<small class="text-muted">Help</small>
-							</li>
-
-							<li class="hidden-folded">
-								<a href="#">
-									<span class="nav-text">Documents</span>
-								</a>
-							</li>
 
 						</ul>
 					</nav>

@@ -34,11 +34,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fpj.trendeater.admin.controller.AdminController;
 import com.fpj.trendeater.admin.model.service.AdminService;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.exception.BoardException;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.common.Pagination;
 import com.fpj.trendeater.member.exception.MemberException;
 import com.fpj.trendeater.member.model.service.MemberService;
+import com.fpj.trendeater.member.model.vo.LikeScrapList;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.PointList;
+import com.fpj.trendeater.member.model.vo.ReviewList;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
 
 
 @SessionAttributes("loginUser")
@@ -134,6 +140,7 @@ public class MemberController {
 	 
 		 
 		 if(result > 0 ) {
+			 mService.addPoint(m);
 			 return "redirect:home.do";
 			 
 		 } else {
@@ -214,7 +221,7 @@ public class MemberController {
 		System.out.println(newpw);
 		
 		
-		String setFrom = "kdkj1234@naver.com";
+		String setFrom = "kdkj12345@naver.com";
 		String toMail = email;
 		String title = "임시 비밀번호 발급입니다";
 		String content = "임시비밀번호 발급 후 비밀번호를 변경해주세요." + 
@@ -551,9 +558,6 @@ public class MemberController {
 	}
 		 
 	
-	
-	//*****박미리*****//
-	
 	@RequestMapping("scrapListView.me")
 	public ModelAndView myScrapListView(@RequestParam(value = "page", required=false) Integer page, ModelAndView mv, HttpServletRequest request) {
 		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
@@ -590,6 +594,226 @@ public class MemberController {
 		return mv;
 		
 	}
+	
+	
+	//*****박미리*****//
+	// 출석 체크 조회
+		@RequestMapping("attendCalendar.me")
+		public ModelAndView attendCalendar(HttpSession session, ModelAndView mv) {
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			ArrayList<String> list = mService.getAttendCheck(email);
+			
+			if (list != null) {
+				mv.addObject("list", list);
+				mv.setViewName("attendCalendarView");
+			} else {
+				throw new MemberException("내 출석체크 조회에 실패했습니다.");
+			}
+			
+			return mv;
+		}
+		
+		/// 출석 체크
+		@RequestMapping("insertAttendCheck.me")
+		public String insertAttendCheck(HttpSession session) {
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			int result = mService.insertAttendCheck(email);
+			int result2 = mService.insertAttendPoint(email);
+			
+			if(result+result2 > 1 ) {
+				return "attendCalendarView";
+
+			} else {
+			throw new MemberException("출석체크에 실패했습니다.");
+			}
+		}
+		
+		// 내 리뷰 리스트
+		@RequestMapping("myReview.me")
+		public ModelAndView myReview(@RequestParam(value="page", required = false) Integer page,
+										HttpSession session, ModelAndView mv) {
+			int currentPage = 1;
+			if (page != null) {	
+				currentPage = page;
+			}
+			
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			int listCount = mService.getReviewListCount(email);
+			int boardLimit = 5;
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			
+			ArrayList<ReviewList> list = mService.getReviewList(pi, email);
+			ArrayList<ReviewImage> reviewImageList = mService.getReviewImageList(email);
+			
+			if (list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.addObject("reviewImageList", reviewImageList);
+				mv.setViewName("myReviewListView");
+			} else {
+				throw new MemberException("내 리뷰 리스트 조회에 실패했습니다.");
+			}
+			
+			return mv;
+		}
+		
+		// 내 리뷰 삭제
+		@RequestMapping("deleteMyReview.me")
+		public String deleteMyReview(@RequestParam("rNo") int rNo) {
+			int result = mService.deleteMyReview(rNo);
+			
+			if(result > 0 ) {
+				return "myReviewListView";
+
+			} else {
+			throw new MemberException("리뷰 삭제에 실패했습니다.");
+			}
+		}
+		
+		
+		// 리뷰 스크랩 리스트
+		@RequestMapping("reviewScrapList.me")
+		public ModelAndView reviewScrapList(@RequestParam(value="page", required = false) Integer page,
+												HttpSession session, ModelAndView mv) {
+				int currentPage = 1;
+				if (page != null) {	
+					currentPage = page;
+				}
+				
+				String email = ((Member)session.getAttribute("loginUser")).getEmail();
+				
+				int listCount = mService.getReviewScrapListCount(email);
+				int boardLimit = 5;
+				
+				PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+				
+				ArrayList<LikeScrapList> list = mService.getReviewScrapList(pi, email);
+				ArrayList<ReviewImage> scrapReviewImageList = mService.getScrapReviewImageList(email);
+
+				
+				if (list != null) {
+					mv.addObject("list", list);
+					mv.addObject("scrapReviewImageList", scrapReviewImageList);
+					mv.setViewName("reviewScrapListView");
+				} else {
+					throw new MemberException("내 좋아요한 리뷰 리스트 조회에 실패했습니다.");
+				}
+				
+				return mv;
+		}
+		
+		// 리뷰 스크랩 삭제
+		@RequestMapping("deleteLikeScrap.me")
+		public String deleteLikeScrap(@RequestParam("lNo") int lNo) {
+			int result = mService.deleteLikeScrap(lNo);
+			
+			if(result > 0 ) {
+				return "reviewScrapListView";
+
+			} else {
+			throw new MemberException("리뷰 삭제에 실패했습니다.");
+			}
+		}
+		
+		
+		@RequestMapping("pointList.me")
+		public ModelAndView pointList(HttpSession session, ModelAndView mv) {
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			ArrayList<PointList> list = mService.getPointList(email);
+			
+			if (list != null) {
+				mv.addObject("list", list);
+				mv.setViewName("pointListView");
+			} else {
+				throw new MemberException("포인트 리스트 조회에 실패했습니다.");
+			}
+			
+			return mv;
+		}
+	
+		//마이 페이지 메뉴
+		@RequestMapping("myPageMenu.me")
+		public String myPageMenu(HttpSession session) {
+			
+			String email = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			int reviewCount = mService.getReviewListCount(email);
+
+			int plusPoint = mService.getPlusPoint(email);
+			int minusPoint = mService.getMinusPoint(email);
+			int totalPoint = plusPoint-minusPoint;
+			
+			boolean check1 = false;
+			
+			String attendCheckTest = mService.attendCheckTest(email);
+			
+			if (attendCheckTest != null) {
+				check1 = true;
+			} else {
+				check1 = false;
+			}
+			
+			if(reviewCount >= 0 ) {
+				session.setAttribute("reviewCount", reviewCount);
+				session.setAttribute("totalPoint", totalPoint);
+				session.setAttribute("check1", check1);
+				return "myPageMenu";
+			} else {
+				throw new MemberException("마이 페이지 메뉴 조회에 실패했습니다.");
+			}
+		}	
+	
+	
+		// 주문 내역
+		@RequestMapping("orderList.me")
+		public ModelAndView orderList(@RequestParam(value="page", required=false) Integer page,
+				HttpSession session, ModelAndView mv) {	
+			// 1. 주문자 이메일 가져오기
+			String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
+
+			// 2. 페이징	
+			// 2.1 주문 정보 리스트 숫자 구하기
+			int listCount = mService.getMyOrderListCount(emailId);
+			System.out.println("listCount : " + listCount);
+			
+			// 2.2 현재 페이지 구하기
+			int currentPage=1;
+			if(page != null) {
+				currentPage = page;
+			}
+			
+			// 2.3 한 페이지에 들어갈 게시물 수
+			int boardLimit = 10;
+			
+			// 2.4 페이징 계산		
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
+			
+			// 3. 특정 페이지의 주문 정보 가져오기 
+			// 3.1 Order에서 주문자의 주문 정보가져오기
+			ArrayList<OrderStatus> orderList = mService.getMyOrderList(emailId, pi);
+			System.out.println("orderList : " + orderList);
+			
+			// 3.2 전체 OrderStatus 정보 받아오기(for 현황박스)
+			ArrayList<OrderStatus> allOrderList = mService.getAllOrderList(emailId);
+
+			// 4. mv에 담아 이동
+			if(orderList != null) {
+				mv.addObject("orderList", orderList);
+				mv.addObject("pi", pi);
+				mv.addObject("allOrderList", allOrderList);
+				mv.setViewName("orderList");
+			} else {
+				throw new MemberException("주문 내역 조회에 실패했습니다.");
+			}
+			return mv;
+		}		
+		
+		
 	
 	//***김주희*****//
 	//회원 탈퇴

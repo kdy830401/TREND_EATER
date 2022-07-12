@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fpj.trendeater.admin.model.vo.Admin;
 import com.fpj.trendeater.admin.model.vo.ApplyTaste;
@@ -13,8 +14,14 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
+
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.ReviewList;
 
 @Repository("aDAO")
 public class AdminDAO {
@@ -97,8 +104,8 @@ public class AdminDAO {
 	}
 	
 	// 이미지 삭제
-	public int delImage(SqlSessionTemplate sqlSession, int imgNo) {
-		return sqlSession.delete("adminMapper.delImage", imgNo);
+	public int delImage(SqlSessionTemplate sqlSession, HashMap<String, Object> imgMap) {
+		return sqlSession.delete("adminMapper.delImage", imgMap);
 	}	
 	
 	// 상품 업데이트
@@ -132,7 +139,15 @@ public class AdminDAO {
 	// 관리자 게시글 삭제
 	public int deleteAdminBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("adminMapper.deleteAdminBoard", map);
+		int result = 0;
+		System.out.println(map);
+		result = sqlSession.update("adminMapper.deleteAdminBoard", map);
+		System.out.println(result);
+		if(map.get("result") != null) {
+			result = (int) map.get("result");
+		}
+		
+		return result;
 	}
 
 
@@ -188,6 +203,42 @@ public class AdminDAO {
 	}
 	
 
+
+	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.reviewList", null, rowBounds);
+	}
+
+	public ArrayList<ReviewImage> reviewImageList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.reviewImageList");
+	}
+
+	public ArrayList<Report> reportedList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.reportedList", null, rowBounds);
+	}
+
+	public int reportCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.reportCount");
+	}
+
+	public int reportConfirm(SqlSessionTemplate sqlSession, Report rp) {
+		return sqlSession.update("adminMapper.reportConfirm", rp);
+	}
+
+	public int getListCount(SqlSessionTemplate sqlSession, Integer reportNo) {
+		return sqlSession.selectOne("adminMapper.reportListCount", reportNo);
+	}
+
+	public int reviewDelete(SqlSessionTemplate sqlSession, Review reviewList) {
+		return sqlSession.update("adminMapper.reviewDelete", reviewList);
+	}
+
+	public int deleteReview(SqlSessionTemplate sqlSession, Review reviewList) {
+		return sqlSession.update("adminMapper.deleteReview", reviewList);
+	}
 
 
 

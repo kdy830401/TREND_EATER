@@ -121,6 +121,7 @@ pageEncoding="UTF-8"%>
 			                         		      		
 	                                		<div class="replyTable">
 													<button class="rSubmit" >등록하기</button>
+
 													<textarea name="replyContent" cols="100" rows="5" id="replyContent${ vs.index }" style="resize:none"></textarea>
 											</div>
 											
@@ -228,6 +229,7 @@ pageEncoding="UTF-8"%>
 		/* $('#refQnaNo').val; */
 		$('#adminQnaAnsWrite').submit();
 	});
+
 	$('.deleteBtn').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		$('#qnaNo').val(qnaNo);

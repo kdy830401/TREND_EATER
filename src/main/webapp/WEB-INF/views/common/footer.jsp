@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>footer</title>
 
+<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+
     <!-- CSS보다 상위에 둬야함 -->
 <link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/board/reset.css">
 <link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/footer.css">
@@ -82,7 +84,8 @@
                 팩스: 070 - 7500 - 6098 <span class="bar">I</span> 이메일 : <a href="mailto:help@TRENDEATERcorp.com" class="link">help@TRENDEATERcorp.com</a><br>
                 대량주문 문의 : <a href="mailto:TRENDEATERgift@TRENDEATERcorp.com" class="link">TRENDEATERgift@TRENDEATERcorp.com</a><br>
             </div>      
-            <div class="footerRightSNS">
+
+            <div class="footerRightSNS uk-inline">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns1_instagram.webp">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns2_facebook.webp">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns3_naverBlog.webp">
@@ -100,7 +103,8 @@
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_imsm.webp" alt="isms 로고" >
             </div>  
             <p>
-                [인증범위] 마켓컬리 쇼핑몰 서비스 개발·운영<br>
+                [인증범위] TREND EATER 서비스 개발·운영<br>
+
                 (심사받지 않은 물리적 인프라 제외)<br>
                 [유효기간] 2022.01.19 ~ 2025.01.18
             </p>

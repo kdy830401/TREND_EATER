@@ -21,8 +21,8 @@ public class CartServiceImpl implements CartService{
 	private CartDAO ctDAO;
 
 	@Override
-	public Cart checkCart(int productNo) {
-		return ctDAO.checkCart(sqlSession, productNo);
+	public Cart checkCart(Cart crt) {
+		return ctDAO.checkCart(sqlSession, crt);
 	}
 
 	@Override
