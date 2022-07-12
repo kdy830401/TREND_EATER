@@ -34,6 +34,10 @@
 </head>
 
 <style>
+
+*{
+	 word-break: keep-all;
+}
 .uk-breadcrumb>:nth-child(n+2):not(.uk-first-column)::before {
 	margin: 0 5px 0 calc(5px - 4px) !important;
 }
@@ -45,6 +49,16 @@
 .uk-icon-link svg:hover path {
 	fill: white !important;
 	transition: all ease 0.5s !important;
+}
+
+.productImg{
+	width: 373.18px;
+	height: 373.18px;
+
+}
+
+.uk-card-header{
+	height: 117px;
 }
 </style>
 <body>
@@ -201,7 +215,7 @@
 								<div class="uk-transition-toggle" tabindex="0">
 									<c:forEach var="img" items="${ imgList }">
 										<c:if test="${ img.identifyNo == b.productNo && img.fileType == 1 }">
-											<img class="uk-transition-scale-up uk-transition-opaque" src="${ contextPath }/resources/productImgUploadFiles/${ img.changeName }" width="1800" height="1200" alt="상품사진">
+											<img class="uk-transition-scale-up uk-transition-opaque productImg" src="${ contextPath }/resources/productImgUploadFiles/${ img.changeName }" width="1800" height="1200" alt="상품사진">
 										</c:if>
 									</c:forEach>
 								</div>

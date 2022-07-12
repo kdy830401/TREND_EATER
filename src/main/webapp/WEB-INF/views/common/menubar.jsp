@@ -117,15 +117,16 @@ a:hover {
 				<div class="uk-navbar">
 					<div class="uk-navbar-left">
 						<a class="uk-navbar-item uk-logo" href="home.do">TREND EATER</a>
-						<ul class="uk-navbar-nav">
-							<li><a href="prBoardList.bo" style="font-family: 'Gowun Dodum', sans-serif;">리뷰</a></li>
-
-							<li><a href="applyTasteBoard.bo" style="font-family: 'Gowun Dodum', sans-serif;">시식</a></li>
-
-							<li><a href="elist.bo" style="font-family: 'Gowun Dodum', sans-serif;">이벤트</a></li>
-						</ul>
+					
 					</div>
 					<div class="uk-navbar-right">
+						<ul class="uk-navbar-nav">
+							<li><a href="prBoardList.bo" style="font-family: 'Gowun Dodum', sans-serif;">EATER FOOD</a></li>
+
+							<li><a href="applyTasteBoard.bo" style="font-family: 'Gowun Dodum', sans-serif;">EATER TASTE</a></li>
+
+							<li><a href="elist.bo" style="font-family: 'Gowun Dodum', sans-serif;">EATER EVENT</a></li>
+						</ul>
 						<div class="uk-navbar-item">
 							<form action="searchProduct.bo" class="uk-search uk-search-default">
 								<span class="uk-search-icon-flip" uk-search-icon style="color: black;"></span>

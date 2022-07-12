@@ -93,7 +93,7 @@
                   <a href="myReview.me">내 리뷰</a>
                </li>
                <li>
-                  <a href="reviewScrapList.me">리뷰 스크랩</a>
+                  <a href="reviewScrapList.me">좋아요한 리뷰</a>
                </li>
                <li>
                   <a href="scrapListView.me">게시글 스크랩</a>

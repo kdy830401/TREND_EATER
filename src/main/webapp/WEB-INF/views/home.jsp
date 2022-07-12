@@ -10,10 +10,27 @@
   
   width: 100%;
   height: 100%;
+  
 }
+
 * {
 	 font-family: "Noto Sans KR", sans-serif !important;
+	 word-break: keep-all;
 }
+.banner{
+	max-width:100%;
+	 height: 100%;
+/*  	object-fit: cover; */
+}
+.uk-overlay-primary{
+	background:rgba(34,34,34,.3) !important;
+}
+
+.product{
+	width:270px;
+	height:348px !important;
+}
+
 </style> 
 <html>
 <head>
@@ -22,29 +39,29 @@
 <body>
 	<c:import url="common/menubar.jsp"/>
 	<div class="uk-container">
-        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="min-height: 370; max-height: 370; animation: slide">
+		<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="min-height: 300; max-height: 300; animation: push">
 
-            <ul class="uk-slideshow-items">
-                
-                <c:forEach var="list" items="${eIList}">
-                <li>
+		    <ul class="uk-slideshow-items">
+		    	  <c:forEach var="list" items="${eIList}">
+		    	   <li>
                 	<c:url var="edetail" value="edetail.bo">
                 		<c:param name="eNo" value="${list.identifyNo}"/>
                 	</c:url>
-                    <img src="${ contextPath }/resources/buploadFiles/${list.changeName}" alt="" onclick="location.href='${edetail}'" uk-cover>
+                	<div class="uk-position-cover uk-slideshow-parallax="scale: 1.2,1.2,1">
+		                <img class="banner" src="${ contextPath }/resources/buploadFiles/${list.changeName}" alt="" onclick="location.href='${edetail}'" uk-cover>
+		            </div>
                     
                 </li>
                 </c:forEach>
             </ul>
-        
             <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
             <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-        
         </div>
 
         <br><br><br><br><br>
+        
+        <h3 class="uk-heading-bullet uk-h3 uk-text-center uk-text-bold">new 신상품 새로나왔어요</h3>	
 
-        <h2 class="uk-text-center"> new 신상품 새로나왔어요</h2>
         <br><br>
         <div uk-slider>
 
@@ -58,8 +75,11 @@
                 		<c:param name="pno" value="${pList[status.index].productNo}"/>
                 		</c:url> 
                         <li class="uk-transition-toggle" tabindex="0">
-                            <img src="${ contextPath }/resources/productImgUploadFiles/${pIList.changeName}" width="400" height="600" alt="" onclick="location.href='${prdetail}'">
-                            <div class="uk-position-center uk-panel"><h1>${pList[status.index].productName}</h1></div>
+                        <div class="uk-inline">
+                            <img class="product" src="${ contextPath }/resources/productImgUploadFiles/${pIList.changeName}" width="400" height="600" alt="" onclick="location.href='${prdetail}'">
+                            <div class="uk-overlay-primary uk-position-cover"></div>
+                            <div class="uk-overlay uk-position-bottom uk-light"><h1>${pList[status.index].productName}</h1></div>
+                        </div>
                         </li>
                         </c:forEach>
                     </ul>
@@ -81,7 +101,7 @@
         
         </div>
         <br><br><br><br><br><br>
-        <h2 class="uk-text-center"> HOT 평점이 가장 높은 상품 </h2>
+        <h3 class="uk-heading-bullet uk-h3 uk-text-center uk-text-bold">HOT 평점이 가장 높은 상품 </h3>	
         <br><br>
         <div uk-slider>
 
@@ -94,8 +114,11 @@
                          <c:url var="prdetail2" value="prbdetail.bo">
                 		<c:param name="pno" value="${bProducts[status.index].productNo}"/>
                 		</c:url> 
-                            <img src="${ contextPath }/resources/productImgUploadFiles/${bList.changeName}" width="400" height="600" alt="" onclick="location.href='${prdetail2}'">
-                            <div class="uk-position-center uk-panel"><h1>${bProducts[status.index].productName}</h1></div>
+                		<div class="uk-inline">
+                            <img class="product" src="${ contextPath }/resources/productImgUploadFiles/${bList.changeName}" alt="" onclick="location.href='${prdetail2}'">
+                            <div class="uk-overlay-primary uk-position-cover"></div>
+                            <div class="uk-overlay uk-position-bottom uk-light"><h1>${bProducts[status.index].productName}</h1></div>
+                         </div>
                         </li>
                         </c:forEach>
                     </ul>
@@ -117,7 +140,7 @@
         
         </div>
         <br><br><br><br><br><br>
-        <h2 class="uk-text-center"> Eater's Pick Best Review</h2>
+         <h3 class="uk-heading-bullet uk-h3 uk-text-center uk-text-bold">Eater's Pick Best Review </h3>	
         <br><br>
         <div uk-slider>
 
