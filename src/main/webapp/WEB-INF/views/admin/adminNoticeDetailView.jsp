@@ -67,6 +67,7 @@
         <button type="submit" onclick="javascript:form.action='adminNoticeUpdateForm.ad'">수정</button> 
         <button type="button" onclick="ConfirmDelete()">삭제</button> 
         <button type="submit" onclick="javascript:form.action='adminNoticeList.ad'">목록</button> 
+
         <!-- <button type="submit" onclick="javascript:form.action='adminNoticeDelete.ad'">삭제</button> -->
         <!-- <button class="updateBtn">수정</button> --> 
         <!-- <button onclick="location.href='adminNoticeUpdateForm.ad'">수정</button> -->
@@ -100,6 +101,7 @@
 
 </script>    
     
+
 
 <%--        <div class="QnaToggleOpen_Button">
              <button type="button" name="page" id="updateBtn${ vs.index }" class="updateBtn">수정</button> <!-- { vs.index } == 위의 varStatus -->

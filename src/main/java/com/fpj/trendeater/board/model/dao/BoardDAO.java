@@ -317,7 +317,6 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.getQnaReplyListAdmin");
 	}
 
-	
 	// 이벤트 게시판 삽입 1 글내용 삽입
 	public int insertEBoard(SqlSessionTemplate sqlSession, EventBoard b) {
 		
@@ -439,13 +438,6 @@ public class BoardDAO {
 	
 	
 	
-	
-	
-	
-	
-	
-
-
 	
 	
 	

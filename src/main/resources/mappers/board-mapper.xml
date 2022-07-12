@@ -253,7 +253,7 @@
 	<select id="getBoardList" resultMap="boardResultSet">
 		select *
 		from board 
-		where board_status = 'Y'
+		where board_status = 'Y' and board_type = 1 
 		order by board_no desc
 	</select>
 	<resultMap type="Board" id="boardResultSet">	<!-- type="" 속성 별칭 설정하면 Board도 가능 -->

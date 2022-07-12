@@ -103,8 +103,8 @@ public interface BoardService {
 	Board adminNoticeSelect(Board b);
 	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
 	int adminQnaAnsWrite(Reply reply);
-  ArrayList<Reply> getQnaReplyListAdmin();
-  
+	ArrayList<Reply> getQnaReplyListAdmin();
+
 	int deleteBoardQna(BoardQnA b);
 
 	

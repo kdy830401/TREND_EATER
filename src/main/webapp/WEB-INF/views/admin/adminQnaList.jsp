@@ -104,19 +104,24 @@ pageEncoding="UTF-8"%>
 
 		                                
 	                                	<div id="dis${ vs.index }" style="display:none;" >
-	                                			qnaReply 
-	                                			 <c:forEach var="reply" items="${replyList}">
-			                                 <!-- 글번호 맞는거만 불러오게 반복문 사용 -->
+                                			 <c:forEach var="reply" items="${replyList}">
+			                                 	<!-- 글번호 맞는거만 불러오게 반복문 사용 -->
 				                                <c:if test="${reply.refQnaNo eq b.qnaNo }"> <!-- 현재보고 있는 글번호랑  ref로해서 가져온 글번호랑 같아야함 -->
-				                                	<p>{reply.replyContent}</p>
-				                                	<!-- 해당 댓글이 달린 게시글번호 필요
-				                                		뒤에 게시글 번호도 같이 입력되니 
-				                                		조건 게시글번호, 
-				                                	  -->
+					                                	<p>
+						                                	 ${reply.replyContent}
+						                                	<c:if test="${reply.replyContent ne null }">
+						                                	 	<div class="replyButton">
+						                                	 		<button type="button">수정</button>
+						                                	 		<button type="button">삭제</button>
+						                                	 	</div>
+						                                	</c:if>
+					                                	</p>
 				                                </c:if>
-			                         		      </c:forEach>		
+			                         		      </c:forEach>
+			                         		      		
 	                                		<div class="replyTable">
-													<button class="rSubmit">등록하기</button>
+													<button class="rSubmit" >등록하기</button>
+
 													<textarea name="replyContent" cols="100" rows="5" id="replyContent${ vs.index }" style="resize:none"></textarea>
 											</div>
 											
@@ -223,6 +228,15 @@ pageEncoding="UTF-8"%>
 		// rSubmit에서 name속성 지정됐으므로 form태그 안에 데이터값이 가게되고 vo클래스랑 매칭되서 컨트롤러러 갈 것임
 		/* $('#refQnaNo').val; */
 		$('#adminQnaAnsWrite').submit();
+	});
+
+	$('.deleteBtn').on('click',function(){
+		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
+		$('#qnaNo').val(qnaNo);
+		console.log(qnaNo);
+		if(confirm("정말로 삭제하시겠습니까?")){
+			location.href="boardQnaDeleteForm.bo"
+		}
 	});
 	
 
@@ -350,7 +364,6 @@ pageEncoding="UTF-8"%>
 <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <%-- <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
-
 <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 <script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 
