@@ -189,5 +189,10 @@ public class MemberDAO {
 		// 2. Rowbounds
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());	
 		return (ArrayList)sqlSession.selectList("memberMapper.myOrderList", emailId, rowBounds);
+	}
+	//회원가입 시 포인트 적립
+	public int addPoint(SqlSessionTemplate sqlSession, Member m) {
+		
+		return sqlSession.insert("memberMapper.addPoint", m);
 	}	
 }
