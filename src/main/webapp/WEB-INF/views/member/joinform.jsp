@@ -247,7 +247,7 @@
 		       		<div class = "checkemail3" style = " font-size:12px; font-weight:bold;margin-left:160px;"></div>
 		       		
 		        </div> 
-	           	<!-- <input  class ="input" id = "email" name="email" type="text" placeholder="이메일 형식으로 입력해주세요" style = "height:44px;width:300px;text-align:left;padding-left:10px;margin-left:100px;" required> -->
+	           	 <!-- <input  class ="input" id = "email" name="email" type="text" placeholder="이메일 형식으로 입력해주세요" style = "height:44px;width:300px;text-align:left;padding-left:10px;margin-left:100px;" required> -->
 	 			
 	        	
 	       		
@@ -686,7 +686,7 @@
 		//이메일 인증
 		 var emailChecked = false; //이메일 인증
 		
-	/*  	var code = "";
+	  	var code = "";
  	   $(".email").on("click",function(){
 				var email = $('#email').val();
 				 $("#emailin").append(
@@ -714,7 +714,7 @@
  			
  			});
  			$(".email").off("click");
- 	   }); */
+ 	   }); 
  	   
  	   
 
@@ -854,7 +854,7 @@
 	    console.log(pwdChecked2);
 	    console.log(emailChecked);
 	    
-/*     function insertValidate(){
+     function insertValidate(){
 			 if(!isUsable  || !isIdChecked || !emailChecked){
 				 alert("이메일을 확인해 주세요.");
 				 return false;
@@ -866,7 +866,7 @@
 				 return true;
 				 
 			 }
-		 }   */
+		 }   
 	    
 	   	</script> 
 	   	  
