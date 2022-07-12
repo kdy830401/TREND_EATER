@@ -8,6 +8,11 @@ import java.util.Map;
 import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
+//import com.fpj.trendeater.board.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Report;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+import com.fpj.trendeater.board.model.vo.UserLike;
 
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 
@@ -21,7 +26,7 @@ public interface BoardService {
 
 	
 	// 리뷰 게시판 상세보기
-	Product selectPrBoard(int pno);
+	Product selectPrBoard(HashMap<String, Object> map);
 
 	// 리뷰 게시판 상세보기
 	ArrayList<Image> selectPrImage(int pno);
@@ -40,6 +45,41 @@ public interface BoardService {
 	// 리뷰 평점 점수별 갯수 카운트
 	int[] getCountReviewPoint(HashMap<String, Object> countMap);
 
+	//이용준
+	int reviewCount(Integer productNo);
+	ArrayList<UserLike> userLikeSelect(HashMap<String, Object> map);
+
+	int reviewLike(HashMap<String, Object> map);
+	
+	
+	ArrayList<Review> getReviewList(PageInfo pi, Integer productNo);
+
+	ArrayList<ReviewImage> getReviewImageList();
+
+	int insertReview(Review r);
+
+//	int insertReviewImage(ArrayList<ReviewImage> imageList, int reviewNo);
+	int insertReviewImage(ArrayList<ReviewImage> imageList);
+
+//	int reportReview(Report rep);
+	int reportReview(Report rep);
+
+	int someReviewCount();
+
+	ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map);
+
+	ArrayList<ReviewImage> someReviewImageList();
+
+	
+		
+
+		
+		
+
+
+
+
+	
 
 /*********************************** notice *********************************/	
 	int getListCount(); // 페이징처리1 :총게시물수 가져오기
@@ -71,9 +111,48 @@ public interface BoardService {
 
 	
 /********************************** Event Management *********************************/	
-int getEListCount();	//페이징처리 1: 총게시물 수 
-ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
 
+	int getEListCount();	//페이징처리 1: 총게시물 수 
+
+	ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
+	
+	int insertEBoard(EventBoard b);// 이벤트 게시판 삽입 1 글내용 삽입
+	int insertEImgList(ArrayList<Image> imageList); // 이벤트 게시판 삽입2 그림 내용 삽입
+	int insertEcategory(Integer category);// 이벤트 게시판 삽입 3 :카테고리 삽입
+	
+	EventBoard selectEBoard(int eNo);//이벤트게시판 상세보기 1 : 글
+	ArrayList<Image> selectEFiles(int eNo);//이벤트게시판 상세보기 2: 그림
+
+	int updateEBoard(EventBoard b);//이벤트 게시판 수정하기 1 : 글
+	int deleteEOriginImage(EventBoard b);//이벤트 게시판 수정하기 2: 새로운 이미지 삽입 시 원본이미지 삭제
+	int reuploadEImage(ArrayList<Image> imageList);// 이벤트게시판 수정하기 3 : 새로운 이미지 삽입
+
+	int eDeleteBoard(int eno);//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
+
+
+
+	ArrayList<EventBoard> getRecentEboard();//메인 최신글 불러오기
+
+	ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB);//메인 최신글 그림 불러오기
+
+	ArrayList<Product> getNewProducts();// 메인 최신제품 불러오기
+
+	ArrayList<Image> getNewPImages(ArrayList<Product> pList);//메인 최신제품이미지 불러오기
+
+	ArrayList<Product> getbProducts();// 메인 베스트 상품 불러오기
+
+	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
+
+	ArrayList<Review> getbReview();//메인페이지 좋아요가장많은 리뷰내용 불러오기
+
+	ArrayList<ReviewImage> getbRImage(ArrayList<Review> bReview);//메인페이지 리뷰이미지 불러오기
+
+	//메인페이지 리뷰내용 이미지 불러오기
+
+
+	
+
+	
 
 
 

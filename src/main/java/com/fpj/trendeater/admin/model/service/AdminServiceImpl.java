@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fpj.trendeater.admin.model.dao.AdminDAO;
 import com.fpj.trendeater.admin.model.vo.Admin;
@@ -14,8 +15,14 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.admin.model.vo.ProductRequest;
+
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
+import com.fpj.trendeater.board.model.vo.Report;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.ReviewList;
 
 @Service("aService")
 public class AdminServiceImpl implements AdminService{
@@ -88,8 +95,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	// 이미지 삭제
 	@Override
-	public int delImage(int imgNo) {
-		return aDAO.delImage(sqlSession, imgNo);
+	public int delImage(HashMap<String, Object> imgMap) {
+		return aDAO.delImage(sqlSession, imgMap);
 	}
 	
 	// 상품 정보 업데이트
@@ -182,6 +189,46 @@ public class AdminServiceImpl implements AdminService{
 	public int adminCount(Admin admin) {
 		
 		return aDAO.adminCount(sqlSession,admin);
+	}
+	
+	//이용준 관리자페이지 리뷰 리스트
+	@Override
+	public ArrayList<Review> reviewList(PageInfo pi) {
+		return aDAO.reviewList(sqlSession,pi);
+	}
+
+	@Override
+	public ArrayList<ReviewImage> reviewImageList() {
+		return aDAO.reviewImageList(sqlSession);
+	}
+	//신고된 리뷰 리스트
+	@Override
+	public ArrayList<Report> getReportList(PageInfo pi) {
+		return aDAO.reportedList(sqlSession, pi);
+	}
+
+	@Override
+	public int reportCount() {
+		return aDAO.reportCount(sqlSession);
+	}
+
+	@Override
+	public int reportConfirm(Report rp) {
+		return aDAO.reportConfirm(sqlSession, rp);
+	}
+
+	@Override
+	public int getListCount(Integer reportNo) {
+		return aDAO.getListCount(sqlSession, reportNo);
+	}
+
+	@Override
+	public int reviewDelete(Review reviewList) {
+		return aDAO.reviewDelete(sqlSession, reviewList);
+	}
+	@Override
+	public int deleteReview(Review reviewList) {
+		return aDAO.deleteReview(sqlSession, reviewList);
 	}
 
 

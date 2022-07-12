@@ -31,6 +31,13 @@
 			<mvc:mapping path = "/applyTasteBoard.bo"/>
 			<!-- 상품 상세보기 -->
 			<mvc:mapping path = "/prbdetail.bo"/>
+			<!-- 공지사항 -->
+			<mvc:mapping path = "/noticeList.bo"/>
+			<!-- 문의사항 -->
+			<mvc:mapping path = "/boardQna.bo"/>	
+			
+			<!-- 이벤트 게시판 -->		
+			<mvc:mapping path = "/elist.bo"/>
 			<bean id = "boardInterceptor" class = "com.fpj.trendeater.common.interceptor.BoardInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

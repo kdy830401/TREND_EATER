@@ -20,29 +20,29 @@
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">시식게시판 관리</h2>
 		<form class="uk-child-width-auto " uk-grid>
 			<div class="uk-align-center">
-<!-- 				<div class="uk-inline"> -->
-<!-- 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition"> -->
-<!-- 						<option value="" disabled selected>검색조건을 선택하세요</option> -->
-<!-- 						<option value="requestProduct">상품명</option> -->
-<!-- 						<option value="manufacturer">제조사</option> -->
-<!-- 					</select> -->
-<!-- 				</div> -->
+				<!-- 				<div class="uk-inline"> -->
+				<!-- 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition"> -->
+				<!-- 						<option value="" disabled selected>검색조건을 선택하세요</option> -->
+				<!-- 						<option value="requestProduct">상품명</option> -->
+				<!-- 						<option value="manufacturer">제조사</option> -->
+				<!-- 					</select> -->
+				<!-- 				</div> -->
 				<div class="uk-inline">
 					<a class="uk-form-icon uk-form-icon-flip" id="searchBtn" href="javascript:void(0)" uk-icon="icon: search"></a>
 					<input class="uk-input uk-width-medium" id="searchValue" name="searchValue" type="search" placeholder="상품명을 입력하세요">
 				</div>
-<!-- 				<div class="uk-inline"> -->
-<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
-<!-- 				</div> -->
+				<!-- 				<div class="uk-inline"> -->
+				<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
+				<!-- 				</div> -->
 			</div>
 			<script>
-			$('#searchBtn').on('click', function(){
-				var searchValue = $('#searchValue').val();
-				
-				location.href="applyTastSearch.ad?searchValue=" + searchValue;
-			    
-			});
-			</script>
+                $('#searchBtn').on('click', function() {
+                    var searchValue = $('#searchValue').val();
+
+                    location.href = "applyTastSearch.ad?searchValue=" + searchValue;
+
+                });
+            </script>
 		</form>
 
 
@@ -67,13 +67,20 @@
 		</ul>
 		<table class="table table-hover b-t">
 			<thead>
+				<tr class="contentTr">
+					<th colspan="10" style="color: black; font-weight: bold;">
+						전체 시식
+						<span style="color: #FF5C58;"> ${pi.listCount}</span>
+						건
+					</th>
+				</tr>
 				<tr>
-					<th>게시글번호</th>
+					<th>글번호</th>
 					<th>상품번호</th>
 					<th>상품명</th>
 					<th>시작일</th>
 					<th>마감일</th>
-					<th>진행상황</th>
+					<th>진행</th>
 					<th>작성자</th>
 					<th>신청수</th>
 					<th>수정/삭제</th>
@@ -95,7 +102,7 @@
 						</c:if>
 						<c:if test="${ p.tasteIng == 2 }">
 							<td>종료</td>
-						</c:if>						
+						</c:if>
 						<td>${ p.adminId }</td>
 						<td>${ p.applyCount }</td>
 						<td>
@@ -122,14 +129,14 @@
 													<div class="label warning m-b-sm uk-align-left inline">상태</div>
 													<div class="uk-margin">
 														<select name="tasteIng" class="uk-select">
-														<c:if test="${ p.tasteIng == 1 }">
-															<option value="1" selected="selected">진행</option>
-															<option value="2">종료</option>
-														</c:if>
-														<c:if test="${ p.tasteIng == 2 }">
-															<option value="1">진행</option>
-															<option value="2" selected="selected">종료</option>
-														</c:if>
+															<c:if test="${ p.tasteIng == 1 }">
+																<option value="1" selected="selected">진행</option>
+																<option value="2">종료</option>
+															</c:if>
+															<c:if test="${ p.tasteIng == 2 }">
+																<option value="1">진행</option>
+																<option value="2" selected="selected">종료</option>
+															</c:if>
 														</select>
 													</div>
 
@@ -150,42 +157,48 @@
 
 
 
-							<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }" ></a>
+							<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.tasteNo }"></a>
 							<script>
-								let selectNo = ${ p.productNo };
-								var $deleteAdmin = $('#delete'+selectNo);
-								console.log($deleteAdmin);
-								
-									$deleteAdmin.on('click', function(){
-										var pno = $(this).parent().parent().children().eq(1).text();
-										console.log(this);
-										var td = $(this).parent().parent();
-										
-										console.log(td);
-										console.log(pno);
-										if(confirm("해당 시식게시정보를 관리자 게시판에서 삭제하시겠습니까?") == true){
-										   $.ajax({
-										      url: 'deleteTasteAdmin.ad',
-										      data: {pno:pno},
-										      type:'post',
-										      success:function(data){
-										          console.log(data);
-										          td.hide();
-										      },
-										      error:function(data){
-										          console.log(data);
-										          
-										      }
-										      
-										   });
-								    
-									} 
-								
-								});
-								    
-							</script>
-							
-							
+                                var selectNo = ${ p.tasteNo };
+                                var $deleteAdmin = $('#delete' + selectNo);
+                                console.log($deleteAdmin);
+
+                                $deleteAdmin.on('click', function() {
+                                    var pno = $(this).parent().parent().children().eq(0).text();
+                                    console.log(this);
+                                    var td = $(this).parent().parent();
+
+                                    console.log(td);
+                                    console.log(pno);
+                                    if (confirm("해당 시식게시정보를 관리자 게시판에서 삭제하시겠습니까?") == true) {
+                                        $.ajax({
+                                            url : 'deleteTasteAdmin.ad',
+                                            data : {
+                                                pno : pno
+                                            },
+                                            type : 'post',
+                                            success : function(data) {
+                                                console.log(data);
+                                                if(data=="true"){
+                                                    td.hide();
+                                                    alert("게시물 삭제에 성공하였습니다.")
+                                                } else{
+                                                    alert("게시물 삭제에 실패하였습니다.")
+                                                }
+                                            },
+                                            error : function(data) {
+                                                console.log(data);
+
+                                            }
+
+                                        });
+
+                                    }
+
+                                });
+                            </script>
+
+
 						</td>
 						<td>
 							<c:if test="${ p.tasteIng == 1 }">
@@ -199,43 +212,44 @@
 						<td>
 							<c:if test="${ p.boardStatus == 'Y'}">
 								<label class="ui-switch warning m-t-xs m-r">
-									<input type="checkbox" name="boardStatus" checked id="boardStatus${ p.productNo }" class="has-value status">
+									<input type="checkbox" name="boardStatus" checked id="boardStatus${ p.tasteNo }" class="has-value status">
 									<i></i>
 								</label>
 							</c:if>
 							<c:if test="${ p.boardStatus == 'N'}">
 								<label class="ui-switch warning m-t-xs m-r">
-									<input type="checkbox" name="boardStatus" id="boardStatus${ p.productNo }" class="has-value status">
+									<input type="checkbox" name="boardStatus" id="boardStatus${ p.tasteNo }" class="has-value status">
 									<i></i>
 								</label>
 							</c:if>
 							<script>
-							let selectNo = ${ p.productNo };
-							var $inputStatus = $('#boardStatus'+selectNo);
-							console.log($inputStatus);
-							$inputStatus.on('change', function(){
-								var pno = $(this).parent().parent().parent().children().eq(1).text();
-								console.log(pno);
-								
-								var bool = $(this).is(":checked");
-								console.log(bool);
-								
-								$.ajax({
-									url: 'deleteTasteBoard.ad',
-									data: {bool:bool, pno:pno},
-									type: 'post',
-									success: function(data){
-										console.log(data);
-									},
-									error: function(data){
-										console.log(data);
-									}
-								});
-								
-							});
-	
-							
-						</script>
+                                var selectNo = ${ p.tasteNo };
+                                var $inputStatus = $('#boardStatus' + selectNo);
+                                console.log($inputStatus);
+                                $inputStatus.on('change', function() {
+                                    var pno = $(this).parent().parent().parent().children().eq(0).text();
+                                    console.log(pno);
+
+                                    var bool = $(this).is(":checked");
+                                    console.log(bool);
+
+                                    $.ajax({
+                                        url : 'deleteTasteBoard.ad',
+                                        data : {
+                                            bool : bool,
+                                            pno : pno
+                                        },
+                                        type : 'post',
+                                        success : function(data) {
+                                            console.log(data);
+                                        },
+                                        error : function(data) {
+                                            console.log(data);
+                                        }
+                                    });
+
+                                });
+                            </script>
 						</td>
 
 					</tr>
@@ -264,7 +278,7 @@
                                 $thisBtn.attr('disabled', true);
                                 $thisBtn.text("종료됨");
                                 $tasteIng.text("종료");
-                               	
+
                             }
                         },
                         error : function(data) {
@@ -278,7 +292,7 @@
 
 
 
-				<!-- 페이징 처리 -->
+		<!-- 페이징 처리 -->
 		<ul class="uk-pagination uk-flex-right uk-margin-medium-top" uk-margin>
 			<c:if test="${ pi.currentPage <= 1 }">
 				<li>
@@ -291,7 +305,10 @@
 				<c:url var="before" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage -1 }" />
 					<c:if test="${ searchValue ne null }">
-						<c:param name="searchValue" value="${ searchValue }"/>
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
 					</c:if>
 				</c:url>
 				<li>
@@ -311,7 +328,10 @@
 					<c:url var="pagination" value="${ loc }">
 						<c:param name="page" value="${ p }" />
 						<c:if test="${ searchValue ne null }">
-							<c:param name="searchValue" value="${ searchValue }"/>
+							<c:param name="searchValue" value="${ searchValue }" />
+						</c:if>
+						<c:if test="${ value ne null }">
+							<c:param name="value" value="${ value }" />
 						</c:if>
 					</c:url>
 					<li>
@@ -331,7 +351,10 @@
 				<c:url var="after" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }" />
 					<c:if test="${ searchValue ne null }">
-						<c:param name="searchValue" value="${ searchValue }"/>
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
 					</c:if>
 				</c:url>
 				<li>
@@ -378,7 +401,7 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 

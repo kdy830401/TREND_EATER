@@ -14,6 +14,13 @@ import com.fpj.trendeater.admin.model.vo.Image;
 import com.fpj.trendeater.admin.model.vo.PageInfo;
 import com.fpj.trendeater.admin.model.vo.Product;
 import com.fpj.trendeater.board.model.dao.BoardDAO;
+
+//import com.fpj.trendeater.board.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.Report;
+import com.fpj.trendeater.board.model.vo.Review;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
+import com.fpj.trendeater.board.model.vo.UserLike;
+
 import com.fpj.trendeater.board.model.vo.ApplyTastePerson;
 import com.fpj.trendeater.board.model.vo.Board;
 import com.fpj.trendeater.board.model.vo.BoardQnA;
@@ -32,8 +39,8 @@ public class BoardServiceImpl implements BoardService{
 	
 	// 리뷰게시판 상세보기
 	@Override
-	public Product selectPrBoard(int pno) {
-		return bDAO.selectPrBoard(sqlSession, pno);
+	public Product selectPrBoard(HashMap<String, Object> map) {
+		return bDAO.selectPrBoard(sqlSession, map);
 	}
 	// 리뷰게시판 상세보기
 	@Override
@@ -77,6 +84,82 @@ public class BoardServiceImpl implements BoardService{
 	public int getListCount() {
 		return bDAO.getListCount(sqlSession);
 	}
+
+	//이용준
+	@Override
+	public int reviewCount(Integer productNo) {
+		return bDAO.reviewCount(sqlSession, productNo);
+	}
+	
+
+
+	@Override
+	public ArrayList<Review> getReviewList(PageInfo pi, Integer productNo) {
+		return bDAO.getReviewList(sqlSession, pi, productNo);
+	}
+	
+
+
+	@Override
+	public ArrayList<ReviewImage> getReviewImageList() {
+		return bDAO.getReviewImageList(sqlSession);
+	}
+	
+
+
+	@Override
+	public int insertReview(Review r) {
+		return bDAO.insertReview(sqlSession, r);
+	}
+	
+
+
+
+	@Override
+	public int insertReviewImage(ArrayList<ReviewImage> imageList) {
+		return bDAO.insertReviewImage(sqlSession, imageList);
+	}
+
+	@Override
+	public int reportReview(Report rep) {
+		return bDAO.reportReview(sqlSession, rep);
+	}
+
+
+	@Override
+	public ArrayList<UserLike> userLikeSelect(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return bDAO.userLikeSelect(sqlSession,map);
+	}
+	@Override
+	public int reviewLike(HashMap<String, Object> map) {
+		return bDAO.reviewLike(sqlSession, map);
+	}
+	
+	
+
+
+
+	//특정 회원 리뷰 
+	@Override
+	public int someReviewCount() {
+		return bDAO.someReviewCount(sqlSession);
+	}
+//	@Override
+//	public ArrayList<Review> someReviewList(PageInfo pi) {
+//		return bDAO.someReviewList(sqlSession, pi);
+//	}
+	@Override
+	public ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map) {
+		return bDAO.someReviewList(sqlSession, pi, map);
+	}
+	@Override
+	public ArrayList<ReviewImage> someReviewImageList() {
+		return bDAO.someReviewImageList(sqlSession);
+	}
+
+	
+
 
 	// Notice 읽기(조회) - 페이징처리2 : 필요한 게시판 가져오기
 	@Override
@@ -150,13 +233,10 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteBoardQna(int qnaNo) {
 		return bDAO.deleteBoardQna(sqlSession, qnaNo);
 	}
-
-
-	
-
-
-
-
+	@Override
+	public int deleteBoardQna(BoardQnA b) {
+		return 0;
+	}
 
 
 
@@ -215,11 +295,124 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
+	// 이벤트 게시판 삽입 1 글내용 삽입
+	@Override
+	public int insertEBoard(EventBoard b) {
+		return bDAO.insertEBoard(sqlSession, b);
+	}
+	
+	// 이벤트 게시판 삽입2 그림 내용 삽입 
+	@Override
+	public int insertEImgList(ArrayList<Image> imageList) {
+		return bDAO.insertEImgList(sqlSession, imageList);
+	}
+	
+	//이벤트 게시판 삽입 3 카테고리 삽입
+	@Override
+	public int insertEcategory(Integer category) {
+		return bDAO.insertEcategory(sqlSession, category);
+	}
+	
+	//이벤트게시판 상세보기 1 : 글
+	@Override
+	public EventBoard selectEBoard(int eNo) {
+		//조회수증가 
+		int result = bDAO.addEReadCount(sqlSession, eNo);
+		EventBoard b = null;
+		if(result >0 ) {
+			b = bDAO.selectEBoard(sqlSession, eNo);// 글내용 불러오기
+		}
+		return b;
+	}
+	
+	//이벤트게시판 상세보기 2 : 그림
+	@Override
+	public ArrayList<Image> selectEFiles(int eNo) {
+		return bDAO.selectEFiles(sqlSession, eNo);
+	}
+	
+	//이벤트 게시판 수정하기 1 : 글
+	@Override
+	public int updateEBoard(EventBoard b) {
+		return bDAO.updateEBoard(sqlSession, b);
+	}
+	
+	//이벤트 게시판 수정하기 2: 새로운 이미지 삽입 시 원본이미지 삭제
+	@Override
+	public int deleteEOriginImage(EventBoard b) {
+		return bDAO.deleteEOriginImage(sqlSession, b);
+		
+	}
+	
+	// 이벤트게시판 수정하기 3 : 새로운 이미지 삽입
+	@Override
+	public int reuploadEImage(ArrayList<Image> imageList) {
+		return bDAO.reuploadEImage(sqlSession, imageList);
+		
+	}
+	
+	//이벤트 게시판 삭제 (Status=N 파일삭제는 안함 )
+	@Override
+	public int eDeleteBoard(int eno) {
+		return bDAO.eDeleteBoard(sqlSession, eno);
+	}
 
 
+
+/******************************MAIN*****************************************/
+	//이벤트게시판 최근 글 불러오기 
+	@Override
+	public ArrayList<EventBoard> getRecentEboard() {
+		return bDAO.getRecentEboard(sqlSession);
+	}
+	
+	//메인 최신글 그림 불러오기
+	@Override
+	public ArrayList<Image> getEImgList(ArrayList<EventBoard> eventB) {
+		return bDAO.getEImgList(sqlSession, eventB);
+	}
+	
+	//메인 최신제품 불러오기
+	@Override
+	public ArrayList<Product> getNewProducts() {
+		return bDAO.getNewProucts(sqlSession);
+	}
+
+	//메인 최신제품 이미지 불러오기
+	@Override
+	public ArrayList<Image> getNewPImages(ArrayList<Product> pList) {
+		return bDAO.getNewPImages(sqlSession, pList);
+	}
+	//메인 베스트상품 불러오기
+	@Override
+	public ArrayList<Product> getbProducts() {
+		return bDAO.getbProducts(sqlSession);
+	}
+	//메인 베스트상품 이미지 불러오기
+	@Override
+	public ArrayList<Image> getbImgList(ArrayList<Product> bProducts) {
+		return bDAO.getbImgList(sqlSession, bProducts);
+	}
+	
+	//메인페이지 좋아요가장 많은 리뷰 내용불러오기
+	@Override
+	public ArrayList<Review> getbReview() {
+		return bDAO.getbReview(sqlSession);
+	}
+	//메인페이지 리뷰이미지 불러오기
+	@Override
+	public ArrayList<ReviewImage> getbRImage(ArrayList<Review> bReview) {
+		return bDAO.getbRImage(sqlSession, bReview);
+	}
+	
 	
 
 	
-	
-	
+/***********************************************************************/
+
+		
+		
+		
+
+
 }

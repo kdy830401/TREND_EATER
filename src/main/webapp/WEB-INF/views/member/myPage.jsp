@@ -322,10 +322,10 @@ h5 {
 								<input class="uk-input" id="email" name="email" type="text" value="${loginUser.email}" placeholder="이메일 형식으로 입력해주세요" style="height: 44px; width: 300px; text-align: left; padding-left: 10px;" readonly>
 
 
-								<button class="uk-button uk-button-primary email" type="button">이메일 인증</button>
+								
 							</div>
 
-							<div class="checkemail3" style="font-size: 12px; font-weight: bold; margin-left: 160px;"></div>
+							
 						</div>
 					</div>
 				</div>
@@ -449,7 +449,7 @@ h5 {
 					<!-- for문을 전체로 돌릴 경우 br과 버튼도 반복되어 2번 출력되게됨 -->
 					<c:forTokens var="a" items="${ loginUser.address}" delims="/" varStatus="vs">
 						<c:if test="${Integer.parseInt(vs.count) == 1}">
-							<input class="uk-input" type="text" id="sample6_address" value="${a}" name="address1" placeholder="주소" required>
+							<input class="uk-input" type="text" id="sample6_address" value="${a}" name="address1" placeholder="주소">
 						</c:if>
 
 					</c:forTokens>
@@ -457,7 +457,7 @@ h5 {
 					<br>
 					<c:forTokens var="a" items="${ loginUser.address}" delims="/" varStatus="as">
 						<c:if test="${Integer.parseInt(as.count) == 2}">
-							<input class=" uk-input" type="text" id="sample6_detailAddress" value="${a}" name="address2" placeholder="상세주소" style="margin-left: 154px; margin-top: 5px;" required>
+							<input class=" uk-input" type="text" id="sample6_detailAddress" value="${a}" name="address2" placeholder="상세주소" style="margin-left: 154px; margin-top: 5px;">
 						</c:if>
 					</c:forTokens>
 
@@ -716,50 +716,13 @@ h5 {
 
 
 	<script>   	
- 	   	//이메일 인풋 창 클릭 시 
-	 	 $(function(){
-	 		$("#email").on("focus",function(){
-	 		
-	 			
-	 			
-	 			 
-	 		});
-	 	});
-	 	
+
 	 	 
 		
-		 var emailChecked = false; //이메일 인증
+		
 		 var pwdChecked = false; //현재 비밀번호입력한게 맞는지?
 		 var pwdChecked2 = false; //비밀번호 유효성 검사 
-	//이메일 인증
-	 	var code = "";
- 	   $(".email").on("click",function(){
-				var email = $('#email').val();
-				$(".checkemail3").html("✓ 이메일 인증").css("color","red");
-				 $("#emailin").append(
-				   "<input class ='uk-input checkemail4' type = 'text'  placeholder ='인증번호를 입력해주세요' style = 'width:200px;margin-left:160px;' disabled='disabled'>");
- 			$.ajax({
- 				type : 'GET',
- 				url:"emailcheck.me?email=" + email,
- 				success:function(data){
- 					alert('해당 이메일로 인증번호가 발송되었습니다.');
- 					console.log("data:" + data);
- 					$(".checkemail4").attr("disabled",false);
- 					code=data;
- 					$(".checkemail4").keyup(function(){
- 			    		   if($(".checkemail4").val() == code){
- 			    			   $(".checkemail3").css("color",'green');
- 			    			  emailChecked = true;
- 			    		   } else{
- 			    			   $(".checkemail3").css("color",'red');
- 			    			  emailChecked = false;
- 			    		   }
- 			    	  });
- 				}
- 			
- 			});
- 			$(".email").off("click");
- 	   });
+	
  	   
  	   
 
@@ -914,26 +877,16 @@ h5 {
 	        }).open();
 	    };
 	    
-	 /*    var emailChecked = false; //이메일 인증
-		 var pwdChecked = false; //현재 비밀번호입력한게 맞는지?
-		 var pwdChecked2 = false; //비밀번호 유효성 검사  */
-	    function insertValidate(){
-			 if(pwdChecked){
-				 return true;
-			 } else if(!emailChecked){
-				 alert("이메일을 인증해주세요");
-				 return false;
-			 } else if(!pwdChecked){
-				 alert("현재 비밀번호가 올바르지 않습니다.");
-				 return false;
-			 } 
+	   function insertValidate(){
+			if(!pwdChecked) {
+			 alert("비밀번호를 확인해주세요.");
+			 return false;
+		 } else{
+			 alert("개인정보 수정이 완료되었습니다.");
+			 return true;
 			 
-			 else{
-				 
-				 alert("이메일 또는 비밀번호가 올바르지 않습니다.");
-				 return false;
-			 }
 		 }
+	 }   
 	    
 	   	</script>
 

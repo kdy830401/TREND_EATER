@@ -65,7 +65,7 @@
 								<label>ID</label>
 							</div>
 							<div class="md-form-group float-label">
-								<input class="md-input" name="pwd" required="">
+								<input class="md-input" type="password" name="pwd" required="">
 								<label>PASSWORD</label>
 							</div>
 							<button class="btn  btn-block btn-fw success uk-align-center" style="cursor: pointer;">LOGIN</button>

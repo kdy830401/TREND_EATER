@@ -55,6 +55,7 @@
 	    </div>
 	    <div class="listButton">
 	        <button id="send">작성완료</button>
+
 	        <a href="adminNoticeList.ad"><button type="button">목록보기</button></a>
 <!-- 	        <button type="submit" onclick="javascript:form.">작성 완료</button>  -->
 <!-- 	        <button type="button" onclick="javascript:form.action='adminNoticeList.ad'">목 록</button> -->

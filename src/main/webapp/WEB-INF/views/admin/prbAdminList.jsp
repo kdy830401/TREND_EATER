@@ -20,6 +20,7 @@
 * {
 	word-break: keep-all;
 }
+
 .productNo {
 	display: none;
 }
@@ -33,39 +34,39 @@
 	<!-- ############ PAGE START 여기에 내용 넣어주세요 -->
 	<div class="uk-container uk-tile uk-tile-default uk-padding-small">
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">제품 및 리뷰 게시판 관리</h2>
-			<div class="margin uk-width-1-1 uk-text-center">
-<!-- 			<form id="searchForm" action="searchProduct.ad" method="get" class="uk-text-center"> -->
-				<!-- 			<div class="inline"> -->
-				<!-- 				<div class="uk-align-center"> -->
-				<!-- 					<div class="uk-inline"> -->
-				<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01"> -->
-				<!-- 					</div> -->
-				<!-- 					<span>~</span> -->
-				<!-- 					<div class="uk-inline"> -->
-				<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01"> -->
-				<!-- 					</div> -->
-				<!-- 				</div> -->
-				<!-- 				<div class="uk-inline"> -->
-				<!-- 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition"> -->
-				<!-- 						<option value="" disabled selected>검색조건을 선택하세요</option> -->
-				<!-- 						<option value="requestProduct">제품명</option> -->
-				<!-- 						<option value="manufacturer">제조사</option> -->
-				<!-- 					</select> -->
-				<!-- 				</div> -->
-				<div class="uk-inline">
-					<input class="uk-input uk-width-medium" id="searchValue" name="seachValue" type="search" placeholder="상품명 입력">
-					<a class="uk-form-icon uk-form-icon-flip" id="search" href="javascript:void(0)" uk-icon="icon: search"></a>
-				</div>
-				<script>
+		<div class="margin uk-width-1-1 uk-text-center">
+			<!-- 			<form id="searchForm" action="searchProduct.ad" method="get" class="uk-text-center"> -->
+			<!-- 			<div class="inline"> -->
+			<!-- 				<div class="uk-align-center"> -->
+			<!-- 					<div class="uk-inline"> -->
+			<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01"> -->
+			<!-- 					</div> -->
+			<!-- 					<span>~</span> -->
+			<!-- 					<div class="uk-inline"> -->
+			<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01"> -->
+			<!-- 					</div> -->
+			<!-- 				</div> -->
+			<!-- 				<div class="uk-inline"> -->
+			<!-- 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition"> -->
+			<!-- 						<option value="" disabled selected>검색조건을 선택하세요</option> -->
+			<!-- 						<option value="requestProduct">제품명</option> -->
+			<!-- 						<option value="manufacturer">제조사</option> -->
+			<!-- 					</select> -->
+			<!-- 				</div> -->
+			<div class="uk-inline">
+				<input class="uk-input uk-width-medium" id="searchValue" name="seachValue" type="search" placeholder="상품명 입력">
+				<a class="uk-form-icon uk-form-icon-flip" id="search" href="javascript:void(0)" uk-icon="icon: search"></a>
+			</div>
+			<script>
 					$('#search').on('click', function(){
 					    var searchValue = $('#searchValue').val();
 					    location.href="searchPrbAdmin.ad?searchValue="+searchValue;
 					});
 				</script>
-				<!-- 				<div class="uk-inline"> -->
-				<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
-				<!-- 				</div> -->
-				<!-- 			</div> -->
+			<!-- 				<div class="uk-inline"> -->
+			<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
 			</form>
 		</div>
 		<script>
@@ -92,12 +93,19 @@
 			<li>
 				<a href="prbAdminList.ad?value=scrapCount">스크랩순</a>
 			</li>
-			
+
 		</ul>
 		<table class="table table-hover b-t">
 			<thead>
+				<tr class="contentTr">
+					<th colspan="10" style="color: black; font-weight: bold;">
+						전체 상품
+						<span style="color: #FF5C58;"> ${pi.listCount}</span>
+						건
+					</th>
+				</tr>
 				<tr>
-<!-- 					<th>상품No.</th> -->
+					<!-- 					<th>상품No.</th> -->
 					<th>상품명</th>
 					<th>가격</th>
 					<th>판매여부</th>
@@ -188,7 +196,7 @@
 						</script>
 						</td>
 
-						
+
 					</tr>
 
 				</c:forEach>
@@ -231,7 +239,7 @@
 		</script>
 
 
-			<!-- 페이징 처리 -->
+		<!-- 페이징 처리 -->
 		<ul class="uk-pagination uk-flex-right uk-margin-medium-top" uk-margin>
 			<c:if test="${ pi.currentPage <= 1 }">
 				<li>
@@ -244,7 +252,10 @@
 				<c:url var="before" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage -1 }" />
 					<c:if test="${ searchValue ne null }">
-						<c:param name="searchValue" value="${ searchValue }"/>
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
 					</c:if>
 				</c:url>
 				<li>
@@ -264,7 +275,10 @@
 					<c:url var="pagination" value="${ loc }">
 						<c:param name="page" value="${ p }" />
 						<c:if test="${ searchValue ne null }">
-							<c:param name="searchValue" value="${ searchValue }"/>
+							<c:param name="searchValue" value="${ searchValue }" />
+						</c:if>
+						<c:if test="${ value ne null }">
+							<c:param name="value" value="${ value }" />
 						</c:if>
 					</c:url>
 					<li>
@@ -284,7 +298,10 @@
 				<c:url var="after" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }" />
 					<c:if test="${ searchValue ne null }">
-						<c:param name="searchValue" value="${ searchValue }"/>
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
 					</c:if>
 				</c:url>
 				<li>
@@ -334,7 +351,7 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>

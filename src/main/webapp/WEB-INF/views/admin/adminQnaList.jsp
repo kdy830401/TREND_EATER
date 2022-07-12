@@ -19,6 +19,7 @@
 <script src="https://kit.fontawesome.com/76295929c4.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/admin/adminQnaList.css">
+
 </head>
 <body>
 	<c:import url="adminMenubar.jsp" />
@@ -141,6 +142,7 @@
        		</form>
       		<br>     
 
+
 		<!--UI kit pagination -->
 	        <ul class="uk-pagination uk-flex-center" uk-margin>
 	           <!-- [이전] -->
@@ -238,6 +240,16 @@
 		console.log(replyNo);
 		if(confirm("정말로 삭제하시겠습니까?")){
 			location.href="adminQnaAnsDelete.ad?replyNo="+replyNo;
+		}
+	});
+	
+
+/* 	$('.btnReplydelete').on('click',function(){
+		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
+		$('#qnaNo').val(qnaNo);
+		console.log(qnaNo);
+		if(confirm("정말로 삭제하시겠습니까?")){
+			location.href="boardQnaDeleteForm.bo"
 		}
 	});
 	

@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.Scrap;
+import com.fpj.trendeater.member.model.vo.LikeScrapList;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.PointList;
+import com.fpj.trendeater.member.model.vo.ReviewList;
+import com.fpj.trendeater.member.model.vo.ScrapList;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
 
 public interface MemberService {
 
@@ -46,6 +52,53 @@ public interface MemberService {
 
 	ArrayList<Scrap> getMyScrapList(PageInfo pi, HashMap<String, Object> map);
 
+	int getReviewListCount(String email);
 
+	ArrayList<ReviewList> getReviewList(PageInfo pi, String email);
+
+	int getReviewScrapListCount(String email);
+
+	ArrayList<LikeScrapList> getReviewScrapList(PageInfo pi, String email);
+
+	int getScrapListCount(String email);
+
+	ArrayList<ScrapList> getScrapList(PageInfo pi, String email);
+
+	ArrayList getAttendCheck(String email);
+
+	int insertAttendCheck(String email);
+
+	int insertAttendPoint(String email);
+
+	int deleteMyReview(int rNo);
+
+	ArrayList<PointList> getPointList(String email);
+
+	int deleteLikeScrap(int lNo);
+
+	int getPlusPoint(String email);
+
+	int getMinusPoint(String email);
+
+	String attendCheckTest(String email);
+
+	ArrayList<ReviewImage> getReviewImageList(String email);
+
+	ArrayList<ReviewImage> getScrapReviewImageList(String email);
+
+	// 주문 내역
+	// 1. 페이징
+	int getMyOrderListCount(String emailId);
+	
+	// 2. 주문 정보 받기
+	ArrayList<OrderStatus> getMyOrderList(String emailId, PageInfo pi);
+
+	int addPoint(Member m);
+
+	
+	// 3. 사용자의 전체 주문 정보 받기
+	ArrayList<OrderStatus> getAllOrderList(String emailId);
+
+	int updatePoint(Member m);
 	
 }

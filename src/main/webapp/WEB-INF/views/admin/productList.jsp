@@ -12,11 +12,9 @@
 .uk-breadcrumb>:nth-child(n+2):not(.uk-first-column)::before {
 	margin: 0 5px 0 calc(5px - 4px) !important;
 }
-
 .date {
 	width: 355px;
 }
-
 * {
 	word-break: keep-all;
 }
@@ -31,50 +29,50 @@
 	<div class="uk-container uk-tile uk-tile-default uk-padding-small">
 		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">상품관리</h2>
 		<div class="margin uk-width-1-1 uk-text-center">
-<!-- 			<form id="searchForm" action="searchProduct.ad" method="get" class="uk-text-center"> -->
-				<!-- 			<div class="inline"> -->
-				<!-- 				<div class="uk-align-center"> -->
-				<!-- 					<div class="uk-inline"> -->
-				<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01"> -->
-				<!-- 					</div> -->
-				<!-- 					<span>~</span> -->
-				<!-- 					<div class="uk-inline"> -->
-				<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01"> -->
-				<!-- 					</div> -->
-				<!-- 				</div> -->
-				<!-- 				<div class="uk-inline"> -->
-				<!-- 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition"> -->
-				<!-- 						<option value="" disabled selected>검색조건을 선택하세요</option> -->
-				<!-- 						<option value="requestProduct">제품명</option> -->
-				<!-- 						<option value="manufacturer">제조사</option> -->
-				<!-- 					</select> -->
-				<!-- 				</div> -->
-				<div class="uk-inline">
-					<input class="uk-input uk-width-medium" id="searchValue" name="seachValue" type="search" placeholder="상품명 입력">
-					<a class="uk-form-icon uk-form-icon-flip" id="search" href="javascript:void(0)" uk-icon="icon: search"></a>
-				</div>
-				<script>
-					$('#search').on('click', function(){
-					    var searchValue = $('#searchValue').val();
-					    location.href="searchProduct.ad?searchValue="+searchValue;
-					});
-				</script>
-				<!-- 				<div class="uk-inline"> -->
-				<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
-				<!-- 				</div> -->
-				<!-- 			</div> -->
-<!-- 			</form> -->
+			<!-- 			<form id="searchForm" action="searchProduct.ad" method="get" class="uk-text-center"> -->
+			<!-- 			<div class="inline"> -->
+			<!-- 				<div class="uk-align-center"> -->
+			<!-- 					<div class="uk-inline"> -->
+			<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date1" type="date" placeholder="1970-01-01"> -->
+			<!-- 					</div> -->
+			<!-- 					<span>~</span> -->
+			<!-- 					<div class="uk-inline"> -->
+			<!-- 						<input class="uk-input uk-width-medium date" id="form-s-date" name="date2" type="date" placeholder="1970-01-01"> -->
+			<!-- 					</div> -->
+			<!-- 				</div> -->
+			<!-- 				<div class="uk-inline"> -->
+			<!-- 					<select class="uk-select uk-width-medium" id="seachCondition" name="searchCondition"> -->
+			<!-- 						<option value="" disabled selected>검색조건을 선택하세요</option> -->
+			<!-- 						<option value="requestProduct">제품명</option> -->
+			<!-- 						<option value="manufacturer">제조사</option> -->
+			<!-- 					</select> -->
+			<!-- 				</div> -->
+			<div class="uk-inline">
+				<input class="uk-input uk-width-medium" id="searchValue" name="seachValue" type="search" placeholder="상품명 입력">
+				<a class="uk-form-icon uk-form-icon-flip" id="search" href="javascript:void(0)" uk-icon="icon: search"></a>
+			</div>
+			<script>
+                $('#search').on('click', function() {
+                    var searchValue = $('#searchValue').val();
+                    location.href = "searchProduct.ad?searchValue=" + searchValue;
+                });
+            </script>
+			<!-- 				<div class="uk-inline"> -->
+			<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색하기</button> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
+			<!-- 			</form> -->
 		</div>
 		<div class="margin uk-width-1-1">
 			<button class="btn btn-outline rounded b-warning text-warning uk-align-center" id="registerProduct">상품등록</button>
 		</div>
 		<script>
-			$(function() {
-				$('#registerProduct').on('click', function() {
-					location.href = 'productRegistrationView.ad'
-				});
-			});
-		</script>
+            $(function() {
+                $('#registerProduct').on('click', function() {
+                    location.href = 'productRegistrationView.ad'
+                });
+            });
+        </script>
 
 
 	</div>
@@ -95,6 +93,13 @@
 		</ul>
 		<table class="table table-hover b-t">
 			<thead>
+				<tr class="contentTr">
+					<th colspan="10" style="color: black; font-weight: bold;">
+						전체 상품
+						<span style="color: #FF5C58;"> ${pi.listCount}</span>
+						건
+					</th>
+				</tr>
 				<tr>
 					<th>상품번호</th>
 					<th>등록일</th>
@@ -134,50 +139,76 @@
 								<input type="hidden" name="productNo" value="${ p.productNo }">
 
 								<script>
-								function edit(e){
-									var formId = "productForm" + $(e).next().val();
-									var $selectForm = $('#'+ formId);
-									$selectForm.submit();
-								}
-							</script>
+                                    function edit(e) {
+                                        var formId = "productForm" + $(e).next().val();
+                                        var $selectForm = $('#' + formId);
+                                        $selectForm.submit();
+                                    }
+                                </script>
 
 
-								<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }" ></a>
-							<script>
-								var selectNo = ${ p.productNo };
-								var $deleteAdmin = $('#delete'+selectNo);
-								console.log($deleteAdmin);
-								
-									$deleteAdmin.on('click', function(){
-										var pno = $(this).parent().parent().parent().children().eq(0).text();
-										console.log(this);
-										var td = $(this).parent().parent().parent();
-										
-										console.log(td);
-										console.log(pno);
-										if(confirm("해당 게시물 관리자 게시판에서 삭제하시겠습니까?") == true){
-										   $.ajax({
-										      url: 'deleteProductAdmin.ad',
-										      data: {pno:pno},
-										      type:'post',
-										      success:function(data){
-										          console.log(data);
-										          td.hide();
-										      },
-										      error:function(data){
-										          console.log(data);
-										          
-										      }
-										      
-										   });
-								    
-									} 
-								
-								});
-								    
-							</script>
-								
-								
+								<a href="javascript:void(0)" uk-icon="trash" id="delete${ p.productNo }"></a>
+								<c:forEach var="img" items="${ imgList }">
+								<c:if test="${ p.productNo == img.identifyNo and img.fileType == 1}">
+								<input type="hidden" name="imgName" value="${ img.changeName }">
+								<input type="hidden" name="imgNo" value="${ img.imageNo }">
+								</c:if>
+								<c:if test="${ p.productNo == img.identifyNo and img.fileType == 2}">
+								<input type="hidden" name="imgName" value="${ img.changeName }">
+								<input type="hidden" name="imgNo" value="${ img.imageNo }">
+								</c:if>
+								</c:forEach>
+								<script>
+                                    var selectNo = ${ p.productNo };
+                                    var $deleteAdmin = $('#delete' + selectNo);
+
+//                                     console.log($deleteAdmin);
+
+
+                                    $deleteAdmin.on('click', function() {
+                                        var pno = $(this).parent().parent().parent().children().eq(0).text();
+                                        console.log(this);
+                                        var td = $(this).parent().parent().parent();
+                                        var imgName = new Array();
+                                        $(this).siblings('input[name=imgName]').each(function(index, item){
+                                        	imgName.push($(item).val());
+                                            
+                                        });
+                                     
+                                        var imgNo = new Array();
+                                        $(this).siblings('input[name=imgNo]').each(function(index, item){
+  	                                    	imgNo.push($(item).val());
+                                            
+                                        });
+//                                         console.log(imgNo);
+//                                         console.log(imgName);
+                                        
+//                                         console.log(td);
+//                                         console.log(pno);
+                                        if (confirm("해당 게시물 관리자 게시판에서 삭제하시겠습니까?") == true) {
+                                            $.ajax({ url : 'deleteProductAdmin.ad',
+                                            data : { pno : pno, imgName : imgName, imgNo : imgNo},
+                                            type : 'post',
+                                            success : function(data) {
+                                                console.log(data);
+                                                if(data == "true"){
+	                                                td.hide();
+	                                                alert("게시물 삭제에 성공하였습니다.")
+                                                } else{
+                                                    alert("게시물 삭제에 실패하였습니다.")
+                                                    
+                                                }
+                                                
+                                            },
+                                            error : function(data) {
+                                                console.log(data);
+                                            }
+                                            });
+                                        }
+                                    });
+                                </script>
+
+
 							</form>
 						</td>
 						<td>
@@ -193,34 +224,39 @@
 									<i></i>
 								</label>
 							</c:if>
-							
+
 							<script>
-							var selectNo = ${ p.productNo };
-							var $inputStatus = $('#boardStatus'+selectNo);
-							console.log($inputStatus);
-							$inputStatus.on('change', function(){
-								var pno = $(this).parent().parent().parent().children().eq(0).text();
-								console.log(pno);
-								
-								var bool = $(this).is(":checked");
-								console.log(bool);
-								
-								$.ajax({
-									url: 'deleteProductBoard.ad',
-									data: {bool:bool, pno:pno},
-									type: 'post',
-									success: function(data){
-										console.log(data);
-									},
-									error: function(data){
-										console.log(data);
-									}
-								});
-								
-							});
-	
-							
-						</script>
+                                var selectNo = ${ p.productNo };
+                                var $inputStatus = $('#boardStatus' + selectNo);
+//                                 console.log($inputStatus);
+                                $inputStatus.on('change', function() {
+                                    var pno = $(this).parent().parent().parent().children().eq(0).text();
+
+//                                     console.log(pno);
+
+                                    var bool = $(this).is(":checked");
+//                                     console.log(bool);
+
+
+                                    $.ajax({ url : 'deleteProductBoard.ad',
+                                    data : { bool : bool,
+                                    pno : pno },
+                                    type : 'post',
+                                    success : function(data) {
+                                        console.log(data);
+                                        if(data > 0){
+                                           if(bool){
+                                        	alert('해당 상품을 게시하였습니다..')
+                                           } else{
+                                        	alert('해당 상품 게시글을 삭제하였습니다.')
+                                           }
+                                        } 
+                                    },
+                                    error : function(data) {
+                                        console.log(data);
+                                    } });
+                                });
+                            </script>
 						</td>
 
 						<td class='registerTaste'>
@@ -261,40 +297,31 @@
 			</tbody>
 		</table>
 		<script>
-			$(function() {
-				var btn = $('.tasteBtn');
-// 				console.log(btn);
-				btn.each(function(index, element) {
-					var checkBtn = $(this);
-					var productNo = $(this).parent().parent().children().eq(0)
-							.text();
-// 					console.log(productNo);
-					$.ajax({
-						url : 'checkTasteIng.ad',
-						data : {
-							productNo : productNo
-						},
-						success : function(data) {
-							console.log(data);
-							if (parseInt(data) > 0) {
-								console.log(checkBtn);
-								checkBtn.attr('disabled', true)
-								checkBtn.text("진행중");
-							} else {
-
-							}
-
-						},
-						error : function(data) {
-							console.log(data);
-
-						}
-
-					});
-				})
-
-			})
-		</script>
+            $(function() {
+                var btn = $('.tasteBtn');
+                // 				console.log(btn);
+                btn.each(function(index, element) {
+                    var checkBtn = $(this);
+                    var productNo = $(this).parent().parent().children().eq(0).text();
+                    // 					console.log(productNo);
+                    $.ajax({ url : 'checkTasteIng.ad',
+                    data : { productNo : productNo },
+                    success : function(data) {
+                        console.log(data);
+                        if (parseInt(data) > 0) {
+//                             console.log(checkBtn);
+                            checkBtn.attr('disabled', true)
+                            checkBtn.text("진행중");
+                        } else {
+                        }
+                    },
+                    error : function(data) {
+                        console.log(data);
+                    }
+                    });
+                })
+            })
+        </script>
 
 
 		<!-- 페이징 처리 -->
@@ -310,7 +337,10 @@
 				<c:url var="before" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage -1 }" />
 					<c:if test="${ searchValue ne null }">
-						<c:param name="searchValue" value="${ searchValue }"/>
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
 					</c:if>
 				</c:url>
 				<li>
@@ -330,7 +360,10 @@
 					<c:url var="pagination" value="${ loc }">
 						<c:param name="page" value="${ p }" />
 						<c:if test="${ searchValue ne null }">
-							<c:param name="searchValue" value="${ searchValue }"/>
+							<c:param name="searchValue" value="${ searchValue }" />
+						</c:if>
+						<c:if test="${ value ne null }">
+							<c:param name="value" value="${ value }" />
 						</c:if>
 					</c:url>
 					<li>
@@ -350,7 +383,10 @@
 				<c:url var="after" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }" />
 					<c:if test="${ searchValue ne null }">
-						<c:param name="searchValue" value="${ searchValue }"/>
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
 					</c:if>
 				</c:url>
 				<li>
@@ -400,7 +436,7 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 

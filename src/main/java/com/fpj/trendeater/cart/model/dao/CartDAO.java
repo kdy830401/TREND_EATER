@@ -13,8 +13,8 @@ import com.fpj.trendeater.cart.model.vo.Cart;
 @Repository
 public class CartDAO {
 	// 상품페이지에서 장바구니에 상품 추가 전 장바구니에 같은 상품 존재 여부 확인
-	public Cart checkCart(SqlSessionTemplate sqlSession, int productNo) {
-		return sqlSession.selectOne("cartMapper.checkCart", productNo);
+	public Cart checkCart(SqlSessionTemplate sqlSession, Cart crt) {
+		return sqlSession.selectOne("cartMapper.checkCart", crt);
 	}
 	
 	// 상품페이지에서 장바구니 상품 추가

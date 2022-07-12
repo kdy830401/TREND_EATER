@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>footer</title>
 
+<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+
     <!-- CSS보다 상위에 둬야함 -->
 <link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/board/reset.css">
 <link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/footer.css">
@@ -28,7 +30,8 @@
             <div class="callCenter">
                 <div>
                     <span>1644-1107</span></div>
-                <div>
+
+                <div class="uk-margin-left">
                     <p class="footerLeftP">365고객센터</p>
                     <p class="footerLeftP">오전7시-오후7시</p>
                 </div>
@@ -37,7 +40,8 @@
                 <div>
                     <button>카카오톡 문의</button>
                 </div>
-                <div>
+
+                <div class="uk-margin-left">
                     <p class="footerLeftP">365고객센터</p>
                     <p class="footerLeftP">오전7시-오후7시</p>
                 </div>    
@@ -46,7 +50,8 @@
                 <div>
                     <button> 1:1 문의</button>
                 </div>
-                <div>
+
+                <div class="uk-margin-left">
                     <p class="footerLeftP">24시간 접수 가능</p>
                     <p class="footerLeftP">고객센터 운영시간에 순차적으로 답변해드립니다.</p>
                 </div>   
@@ -54,14 +59,13 @@
             <div class="bigOrderQuestion">
                 <div>
                     <button>대량주문 문의</button></div>
-                <div>
+
+                <div class="uk-margin-left">
                     <p class="footerLeftP"> </p>
                     <p class="footerLeftP">비회원의 경우 메일로 문의바랍니다</p>
                 </div>    
             </div>
-          
-
-            
+              
             
         </div>
         <div class="footerRight">
@@ -82,7 +86,8 @@
                 팩스: 070 - 7500 - 6098 <span class="bar">I</span> 이메일 : <a href="mailto:help@TRENDEATERcorp.com" class="link">help@TRENDEATERcorp.com</a><br>
                 대량주문 문의 : <a href="mailto:TRENDEATERgift@TRENDEATERcorp.com" class="link">TRENDEATERgift@TRENDEATERcorp.com</a><br>
             </div>      
-            <div class="footerRightSNS">
+
+            <div class="footerRightSNS uk-inline">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns1_instagram.webp">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns2_facebook.webp">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/ico_sns3_naverBlog.webp">
@@ -95,17 +100,21 @@
 
     <!-- footerMiddle -->
     <div class="footerMiddle">
-        <div class="authentication1">
+
+        <div class="authentication1 m-r-lg">
             <div>
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_imsm.webp" alt="isms 로고" >
             </div>  
             <p>
-                [인증범위] 마켓컬리 쇼핑몰 서비스 개발·운영<br>
+
+                [인증범위] TREND EATER 서비스 개발·운영<br>
+
                 (심사받지 않은 물리적 인프라 제외)<br>
                 [유효기간] 2022.01.19 ~ 2025.01.18
             </p>
         </div>
-        <div class="authentication2">
+
+        <div class="authentication2 m-l-lg">
             <div>
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_eprivacy.webp" alt="eprivacy plus 로고" class="logo">
             </div>
@@ -114,7 +123,8 @@
             개인정보처리시스템 인증 (ePRIVACY PLUS)
             </p>  
         </div>
-        <div class="authentication3">
+
+        <div class="authentication3 m-l-lg">
             <div class="iconPayments">
                 <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_payments.webp" alt="payments 로고" style="width:fit-content">
             </div>

@@ -32,19 +32,18 @@
 					<input class="uk-input uk-width-medium" id="searchValue" name="searchValue" type="search" placeholder="검색어 입력">
 				</div>
 				<script>
-					$('#searchBtn').on('click', function(){
-						var searchCondition = $('#searchCondition').val();
-						var searchValue = $('#searchValue').val();
-						
-						location.href="requestProductSearch.ad?searchCondition=" + searchCondition + "&searchValue=" + searchValue;
-					    
-					});
-				
-				</script>
-				
-<!-- 				<div class="uk-inline"> -->
-<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색</button> -->
-<!-- 				</div> -->
+                    $('#searchBtn').on('click', function() {
+                        var searchCondition = $('#searchCondition').val();
+                        var searchValue = $('#searchValue').val();
+
+                        location.href = "requestProductSearch.ad?searchCondition=" + searchCondition + "&searchValue=" + searchValue;
+
+                    });
+                </script>
+
+				<!-- 				<div class="uk-inline"> -->
+				<!-- 					<button class="uk-text-bottom uk-button uk-button-primary">검색</button> -->
+				<!-- 				</div> -->
 			</div>
 		</form>
 
@@ -67,7 +66,13 @@
 		</ul>
 		<table class="table table-hover b-t">
 			<thead>
-
+				<tr class="contentTr">
+					<th colspan="5" style="color: black; font-weight: bold;">
+						전체 상품 요청
+						<span style="color: #FF5C58;"> ${pi.listCount}</span>
+						건
+					</th>
+				</tr>
 				<tr>
 					<th>요청번호</th>
 					<th>상품명</th>
@@ -101,7 +106,7 @@
 
 
 
-			<!-- 페이징 처리 -->
+		<!-- 페이징 처리 -->
 		<ul class="uk-pagination uk-flex-right uk-margin-medium-top" uk-margin>
 			<c:if test="${ pi.currentPage <= 1 }">
 				<li>
@@ -114,8 +119,11 @@
 				<c:url var="before" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage -1 }" />
 					<c:if test="${ searchCondition ne null }">
-						<c:param name="searchCondition" value="${ searchCondition }"/>
-						<c:param name="searchValue" value="${ searchValue }"/>
+						<c:param name="searchCondition" value="${ searchCondition }" />
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
 					</c:if>
 				</c:url>
 				<li>
@@ -135,8 +143,11 @@
 					<c:url var="pagination" value="${ loc }">
 						<c:param name="page" value="${ p }" />
 						<c:if test="${ searchCondition ne null }">
-							<c:param name="searchCondition" value="${ searchCondition }"/>
-							<c:param name="searchValue" value="${ searchValue }"/>
+							<c:param name="searchCondition" value="${ searchCondition }" />
+							<c:param name="searchValue" value="${ searchValue }" />
+						</c:if>
+						<c:if test="${ value ne null }">
+							<c:param name="value" value="${ value }" />
 						</c:if>
 					</c:url>
 					<li>
@@ -156,8 +167,11 @@
 				<c:url var="after" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }" />
 					<c:if test="${ searchCondition ne null }">
-						<c:param name="searchCondition" value="${ searchCondition }"/>
-						<c:param name="searchValue" value="${ searchValue }"/>
+						<c:param name="searchCondition" value="${ searchCondition }" />
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
 					</c:if>
 				</c:url>
 				<li>
@@ -203,8 +217,9 @@
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script>
-	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+		<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
 
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>

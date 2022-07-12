@@ -7,9 +7,10 @@
 <head>
 <meta charset="UTF-8">
     <title>장바구니</title>
-<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
-<!-- UIkit CSS -->
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+    <script src="resources/js/jquery-3.6.0.min.js"></script>
+	<%-- <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script> --%>
+	<!-- UIkit CSS -->
+	<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
 
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
@@ -91,16 +92,78 @@
 		    
 
 
-		    <ul class="uk-pagination uk-flex-center" uk-margin>
-		            <li><a href="#"><span uk-pagination-previous></span></a></li>
-		            <li><a href="#">1</a></li>
-		            <li class="uk-disabled"><span>...</span></li>
-		            <li><a href="#">5</a></li>
-		            <li><a href="#">6</a></li>
-		            <li class="uk-active"><span>7</span></li>
-		            <li><a href="#">8</a></li>
-		            <li><a href="#"><span uk-pagination-next></span></a></li>
-		    </ul>
+    	<!-- 페이징 처리 -->
+		<ul class="uk-pagination uk-flex-center uk-margin-medium" uk-margin>
+			<c:if test="${ pi.currentPage <= 1 }">
+				<li>
+					<a href="javascript:void(0);">
+						<span uk-pagination-previous></span>
+					</a>
+				</li>
+			</c:if>
+			<c:if test="${ pi.currentPage > 1 }">
+				<c:url var="before" value="${ loc }">
+					<c:param name="page" value="${ pi.currentPage -1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
+					</c:if>
+				</c:url>
+				<li>
+					<a href="${ before }">
+						<span uk-pagination-previous></span>
+					</a>
+				</li>
+			</c:if>
+	
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<li class="uk-active">
+						<span>${ p }</span>
+					</li>
+				</c:if>
+				<c:if test="${p ne pi.currentPage }">
+					<c:url var="pagination" value="${ loc }">
+						<c:param name="page" value="${ p }" />
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchValue" value="${ searchValue }" />
+						</c:if>
+						<c:if test="${ value ne null }">
+							<c:param name="value" value="${ value }" />
+						</c:if>
+					</c:url>
+					<li>
+						<a href="${ pagination }">${ p }</a>
+					</li>
+				</c:if>
+			</c:forEach>
+	
+			<c:if test="${ pi.currentPage >= pi.maxPage }">
+				<li>
+					<a href="#">
+						<span uk-pagination-next></span>
+					</a>
+				</li>
+			</c:if>
+			<c:if test="${ pi.currentPage < pi.maxPage }">
+				<c:url var="after" value="${ loc }">
+					<c:param name="page" value="${ pi.currentPage + 1 }" />
+					<c:if test="${ searchValue ne null }">
+						<c:param name="searchValue" value="${ searchValue }" />
+					</c:if>
+					<c:if test="${ value ne null }">
+						<c:param name="value" value="${ value }" />
+					</c:if>
+				</c:url>
+				<li>
+					<a href="javascript:void(0);">
+						<span uk-pagination-next></span>
+					</a>
+				</li>
+			</c:if>
+		</ul>
 		
 		    <!-- 전체 선택버튼 누르면 전체 선택 됨 -->
 		    <script>
@@ -139,8 +202,16 @@
 		    			cartList.push($(item).val());
 		    			cartAmountArr.push($(item).parent().siblings('#second').find('#productAmount').val());
 		    		}
-		    	});		    	
-		    	location.href = 'order.or?cartList='+cartList+"&cartAmountArr="+cartAmountArr; 
+		    	});		
+		    	
+		    	console.log(cartList);
+		    	
+		    	if(cartList.length == 0){
+		    		alert('결제할 상품을 선택하세요.');		
+		    		
+		    	} else{
+		    		location.href = 'order.or?cartList='+cartList+"&cartAmountArr="+cartAmountArr; 
+		    	}
 		    });
 		    </script>
 		    
@@ -148,25 +219,28 @@
 		    
 		    <!-- 선택 상품 삭제 -->
 		    <script>
-		    	var cartNo = $(this).prev().val();
-		    
 		    	$('#cartDelete').on('click', function(){
-		    		$.ajax({
-		    			url:'deleteCart.ct',
-		    			data : {cartNo:cartNo},
-		    			type:'post',
-		    			async : false,
-		    			success : function(data){
-		    				if(data == 'true'){
-		    					alert('선택 상품이 장바구니에서 삭제되었습니다.');
-		    				}else{
-		    					throw new CartException("장바구니 삭제에 실패하였습니다.");
-		    				}
-		    			},
-		    			error : function(data){
-		    				console.log(data);
-		    			}
-		    		});
+			    	var cartNo = $(this).prev().val();
+/* 			    	console.log('cartNo : ' + cartNo); */
+	
+			    		$.ajax({
+			    			url:'deleteCart.ct',
+			    			data : {cartNo:cartNo},
+			    			type:'post',
+			    			async : false,
+			    			success : function(data){
+			    				if(data == 'true'){
+			    					alert('선택 상품이 장바구니에서 삭제되었습니다.');
+			    					window.location.reload();
+			    				}else{
+			    					throw new CartException("장바구니 삭제에 실패하였습니다.");
+			    				}
+			    			},
+			    			error : function(data){
+			    				console.log(data);
+			    			}
+			    		});
+    		
 		    	});
 		    </script>
 </body>

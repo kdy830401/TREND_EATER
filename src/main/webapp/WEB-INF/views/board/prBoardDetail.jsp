@@ -44,9 +44,9 @@
 </head>
 <style>
 * {
-	word-break: keep-all !important;
+	font-family: "Noto Sans KR", sans-serif !important;
+	word-break: keep-all;
 }
-
 .floating-button {
 	width: 40px;
 	height: 40px;
@@ -177,17 +177,19 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 	<div class="floating">
 		<div class="uk-margin uk-border-circle floating-button edit" uk-tooltip="리뷰작성하기">
-			<a href="#">
+
+			<a href="rinsertView.bo?productNo=${ p.productNo }">
+
 				<span class="material-symbols-outlined icon">edit</span>
 			</a>
 		</div>
 		<div class="uk-margin uk-border-circle floating-button addCart" uk-tooltip="장바구니">
-			<a href="#">
+			<a href="javascript:void(0)" id="addCartSide">
 				<span class="material-symbols-outlined icon">shopping_cart</span>
 			</a>
 		</div>
 		<div class="uk-margin uk-border-circle floating-button buy" uk-tooltip="구매하기">
-			<a href="#">
+			<a href="javascript:void(0)">
 				<span class="material-symbols-outlined icon changColor">credit_card</span>
 			</a>
 		</div>
@@ -205,8 +207,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 
 
+
 	<div class="uk-container">
 		<br>
+		<!--form 태그 시작  -->
+		<form action="direct.or" method="post">
 		<div class="uk-grid uk-grid-divider uk-child-width-1-2@m uk-margin" uk-grid>
 			<div class="uk-margin">
 				<c:forEach var="img" items="${ imgList }">
@@ -491,18 +496,34 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
                                         });
                                     });
                             </script>
+                            
+                         
 							<c:if test="${ p.productType == 1 }">
 
 							<!-- 장바구니 -->
-							<button class="uk-button uk-button-default uk-width-auto@m" id="addCart">장바구니</button>
+							<input type="button" class="uk-button uk-button-default uk-width-auto@m" id="addCart" value="장바구니"/>
 							<!-- Cart(장바구니)에 추가할 정보 2-->
 							<!-- 구매 상품 번호, 가격, 이름 -->
 							<input type="hidden" name="productNo" id="productNo" value="${p.productNo}">
 							<input type="hidden" name="productPrice" id="productPrice" value="${p.productPrice}">
 							<input type="hidden" name="productName" id="productName" value="${p.productName}">	
 							<!-- 구매하기 -->
-							<button class="uk-button uk-button-primary uk-width-1-2@m">구매하기</button>
+							<!--hidden  -->
+							<input type="hidden" name="changeName" value="${ imgList[0].changeName }">
+							<button class="uk-button uk-button-primary uk-width-1-2@m" id="buyBtn">구매하기</button>
+<script>
+	 $('#buyBtn').on('click', function(){
+	var productNo = $(this).siblings('#productNo').val();
+	var productName = $(this).siblings('#productName').val();
+	var productPrice = $(this).siblings('#productPrice').val();
+	var productAmount = $(this).parent().parent().siblings('#pdtAmount').find('#amount').val();
+	
+	location.href ='direct.or?productNo='+productNo+'&productName='+productName+'&productPrice='+productPrice+'&productAmount='+productAmount; 	
+		
+}); 
+	
 
+</script>
 							</c:if>
 							<c:if test="${ p.productType == 2 }">
 								<button class="uk-button uk-button-default uk-width-4-5@m" disabled>미판매 상품입니다.</button>
@@ -512,6 +533,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<!-- </form> -->
 			</div>
 		</div>
+		</form>
+		<!-- form태그 end -->
 	</div>
 
 
@@ -543,6 +566,13 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			});
 		});
 	</script>
+	<script type="text/javascript">
+		$('#addCartSide').on('click', function(){
+		   $('#addCart').click(); 
+		});
+	</script>
+	
+	
 
 
 
@@ -561,7 +591,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 	<c:if test="${ p.reviewCount != 0  }">
 	<div class="uk-text-center uk-margin-large-bottom">
-	<button class="btn btn-outline rounded p-x-md b-warning text-warning">리뷰 보러 가기</button>
+	<button class="btn btn-outline rounded p-x-md b-warning text-warning" onclick="location.href='rlist.bo?pno=${ p.productNo }'">리뷰 보러 가기</button>
 	</div>
 		<div class="uk-container">
 			<div class="uk-child-width-1-4@s uk-grid" uk-grid uk-height-match="target: > .uk-card-body">
@@ -874,6 +904,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	</c:if>
 	<script>
 	// highChart 
+	
  	var data = [ ${p.spicyAvg}, ${p.sweetAvg}, ${p.bitterAvg}, ${p.saltyAvg}, ${p.sourAvg} ];
 
 			data.forEach(function(element, index) {

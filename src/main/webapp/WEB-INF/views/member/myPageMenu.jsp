@@ -50,19 +50,26 @@
          <div class="uk-width-1-5">
             <div class="uk-card uk-card-default uk-card-body ">
                <h3 class="uk-card-title">출석</h3>
-               <a href="#">출석완료</a>
+               <a href="attendCalendar.me">
+         			<c:if test="${ check1 ne true }">
+         				출석체크하기
+         			</c:if>
+         			<c:if test="${ check1 eq true }">
+         				출석완료
+         			</c:if>
+              </a>
             </div>
          </div>
          <div class="uk-width-1-5">
             <div class="uk-card uk-card-default uk-card-body">
                <h3 class="uk-card-title">포인트</h3>
-               <a href="#">0point</a>
+               <a href="pointList.me">${ totalPoint }point</a>
             </div>
          </div>
          <div class="uk-width-1-5">
             <div class="uk-card uk-card-default uk-card-body ">
                <h3 class="uk-card-title">내 리뷰</h3>
-               <a href="#">2,000개</a>
+               <a href="myReview.me">${ reviewCount }개</a>
             </div>
          </div>
       </div>
@@ -83,22 +90,25 @@
                   <a href="myApplyTaste.me">나의 시식 신청</a>
                </li>
                <li>
-                  <a href="#">내 리뷰</a>
+                  <a href="myReview.me">내 리뷰</a>
                </li>
                <li>
-                  <a href="scrapListView.me">내 스크랩</a>
+                  <a href="reviewScrapList.me">좋아요한 리뷰</a>
                </li>
                <li>
-                  <a href="#">내 출석</a>
+                  <a href="scrapListView.me">게시글 스크랩</a>
                </li>
                <li>
-                  <a href="#">내 포인트</a>
+                  <a href="attendCalendar.me">내 출석</a>
+               </li>
+               <li>
+                  <a href="pointList.me">내 포인트</a>
                </li>
                <li>
                   <a href="#">내 문의사항</a>
                </li>
                <li>
-                  <a href="#">주문 관리</a>
+                  <a href="orderList.me">주문 관리</a>
                </li>
             </ul>
          </aside>
@@ -109,7 +119,7 @@
 
             <!-- ------------------------------------------------여기까지 넣어야함------------------------------------------------------------------->
 
-
+		
 
 
 </body>

@@ -16,9 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fpj.trendeater.admin.model.vo.PageInfo;
+import com.fpj.trendeater.board.model.vo.ReviewImage;
 import com.fpj.trendeater.board.model.vo.Scrap;
 import com.fpj.trendeater.member.model.dao.MemberDAO;
+import com.fpj.trendeater.member.model.vo.LikeScrapList;
 import com.fpj.trendeater.member.model.vo.Member;
+import com.fpj.trendeater.member.model.vo.PointList;
+import com.fpj.trendeater.member.model.vo.ReviewList;
+import com.fpj.trendeater.member.model.vo.ScrapList;
+import com.fpj.trendeater.order.model.vo.OrderStatus;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -282,7 +288,125 @@ public void kakaoLogout(String access_Token) {
 
 	
 	
+	// 내가 쓴 리뷰 갯수
+	@Override
+	public int getReviewListCount(String email) {
+		return mDAO.getReviewListCount(sqlSession, email);
+	}
+		
+	// 내가 쓴 리뷰 리스트
+	@Override
+	public ArrayList<ReviewList> getReviewList(PageInfo pi, String email) {
+		return mDAO.getReviewList(sqlSession, pi, email);
+	}
 
+	// 내가 좋아요한 리뷰 갯수
+	@Override
+	public int getReviewScrapListCount(String email) {
+		return mDAO.getReviewScrapListCount(sqlSession, email);
+	}
 
+	// 내가 좋아요한 리뷰 리스트
+	@Override
+	public ArrayList<LikeScrapList> getReviewScrapList(PageInfo pi, String email) {
+		return mDAO.getReviewScrapList(sqlSession, pi, email);
+	}
 
+	// 내가 스크랩한 게시물 갯수
+	@Override
+	public int getScrapListCount(String email) {
+		return mDAO.getScrapListCount(sqlSession, email);
+	}
+	
+	// 내가 스크랩한 게시물 리스트
+	@Override
+	public ArrayList<ScrapList> getScrapList(PageInfo pi, String email) {
+		return mDAO.getScrapList(sqlSession, pi, email);
+	}
+
+	@Override
+	public ArrayList getAttendCheck(String email) {
+		return mDAO.getAttendCheck(sqlSession, email);
+	}
+
+	@Override
+	public int insertAttendCheck(String email) {
+		return mDAO.insertAttendCheck(sqlSession, email);
+	}
+
+	@Override
+	public int insertAttendPoint(String email) {
+		return mDAO.insertAttendPoint(sqlSession, email);
+	}
+
+	@Override
+	public int deleteMyReview(int rNo) {
+		return mDAO.deleteMyReview(sqlSession, rNo);
+	}
+
+	@Override
+	public ArrayList<PointList> getPointList(String email) {
+		return mDAO.getPointList(sqlSession, email);
+	}
+	
+	@Override
+	public int deleteLikeScrap(int lNo) {
+		return mDAO.deleteLikeScrap(sqlSession, lNo);
+	}
+
+	@Override
+	public int getPlusPoint(String email) {
+		return mDAO.getPlusPoint(sqlSession, email);
+	}
+
+	@Override
+	public int getMinusPoint(String email) {
+		return mDAO.getMinusPoint(sqlSession, email);
+	}
+
+	@Override
+	public String attendCheckTest(String email) {
+		return mDAO.attendCheckTest(sqlSession, email);
+	}
+	
+	@Override
+	public ArrayList<ReviewImage> getReviewImageList(String email) {
+		return mDAO.getReviewImageList(sqlSession, email);
+	}
+
+	@Override
+	public ArrayList<ReviewImage> getScrapReviewImageList(String email) {
+		return mDAO.getScrapReviewImageList(sqlSession, email);
+	}
+
+	// 주문 내역
+	// 1. 페이징
+	@Override
+	public int getMyOrderListCount(String emailId) {
+		return mDAO.getMyOrderListCount(sqlSession, emailId);
+	}	
+
+	// 2. 사용자 주문 정보 가져오기
+	// 2.1 주문 내역 가져오기
+	@Override
+	public ArrayList<OrderStatus> getMyOrderList(String emailId, PageInfo pi) {
+		return mDAO.getMyOrderList(sqlSession, emailId, pi);
+	}
+	
+	// 3. 사용자의 전체 주문 정보 가져오기
+	@Override
+	public ArrayList<OrderStatus> getAllOrderList(String emailId) {
+		return mDAO.getAllOrderList(sqlSession, emailId);
+	}
+
+	@Override
+	public int addPoint(Member m) {
+		return mDAO.addPoint(sqlSession,m);
+		
+	}
+
+	@Override
+	public int updatePoint(Member m) {
+		return mDAO.updatePoint(sqlSession, m);
+	}
 }
