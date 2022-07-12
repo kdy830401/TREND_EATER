@@ -91,7 +91,7 @@ pageEncoding="UTF-8"%>
 		                            <div>
 		                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_q-solid.svg" style="width: 15px;">
 
-	                                   <c:set var="newLineChar" value="ᚘ"/>	 
+	                                   <c:set var="newLineChar" value="㉾"/>	 
 	                                  	 ${fn:replace(b.qnaContent, newLineChar, "<br>") }
 	                                   <input type="hidden" name="qnaContent" value="${b.qnaContent}">
 		                            </div><br>
@@ -113,10 +113,7 @@ pageEncoding="UTF-8"%>
 	                    </ul>
 	                    <div class="QnaToggleOpen_Button">
 	                        <button type="button" name="page" id="updateBtn${ vs.index }" class="updateBtn">수정</button> <!-- { vs.index } == 위의 varStatus -->
-
 	                        <button type="button" name="page" id="deleteBtn${ vs.index }" class="deleteBtn">삭제</button>
-
-	                
 
 	                        		
 <%-- 	                        <button type="submit" name="page" value="${pi.currentPage}" id="boardQnaDelete"

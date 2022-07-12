@@ -104,7 +104,7 @@
 // 			$('#tt').text($('input[name=qnaContent]').val());
 			var v = document.getElementById('textarea').value
 			console.log(v);
-			v = v.replace('\n', 'ᚘ');
+			v = v.replace('\n', '㉾');
 			$('#boardQnaWriteForm').submit();
 		}
 	// 텍스트 애리어 부분의 개행 데이터를 잘 안쓰는 특수기호로 바꾸고 이를 db 보내고 다시 db에서 뷰로 뿌릴 때 특수기호를 개행문자로 변환

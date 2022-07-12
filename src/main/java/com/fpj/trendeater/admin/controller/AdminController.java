@@ -1201,17 +1201,28 @@ public class AdminController {
 //	}
 	
 	@RequestMapping("adminQnaAnsWrite.ad")
-	public String adminQnaAnsWrite(@ModelAttribute Reply reply, HttpSession session) {
+	public String adminQnaAnsWrite(@ModelAttribute Reply reply, HttpSession session, @RequestParam("lastFor") int lastFor) {
 		
 		// 보낼꺼 : adminId, refQnaNo,  replyContent
 		// adminId는 아래 세션 어드민에서 받아옴. replyContent는 textarea에서 보내고 refQnaNo는 인풋히든에서 보냄
 		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
 		reply.setAdminId(id); // adminId 
 		
+		System.out.println();
+		System.out.println("controller reply : " + reply);
+		System.out.println("lastFor="+lastFor);
 		
-		System.out.println("admin QnA쓰기_reply="+reply);
+		String replyContent = reply.getReplyContent();
+		for(int i = 0; i < lastFor; i++) {
+			int index = replyContent.lastIndexOf(",");
+			replyContent = replyContent.substring(0, index);
+		}
+		System.out.println(replyContent);
+		reply.setReplyContent(replyContent);
+		
+//		System.out.println("admin답변 쓰기_reply="+reply);
 		int result = bService.adminQnaAnsWrite(reply);
-		System.out.println("admin QnA쓰기_result="+result);
+//		System.out.println("admin답변 쓰기_result="+result);
  
 		if (result > 0) {
 			return "redirect:adminQnaList.ad";
@@ -1253,111 +1264,68 @@ public class AdminController {
 	
 /********************************************** admin QnA : 수정  *******************************************************/
 	
-	// QnA : 수정
 	
-	@RequestMapping("adminQnaAnsUpdateView.bo")
-	public String boardUpdateForm(@RequestParam("qnaNo") int qnaNo, Model model) {
-																
-		BoardQnA b = new BoardQnA();
-		b.setQnaNo(qnaNo);
-		BoardQnA qna = bService.selectBoardQna(b);
+	@RequestMapping("adminQnaAnsUpdateView.ad")
+	public ModelAndView adminQnaAnsUpdate(@ModelAttribute Reply r, ModelAndView mv){
+//	public String boardUpdateForm(@RequestParam("qnaNo") int qnaNo, Model model) {
+								
+		System.out.println("admin 수정 뷰_r="+r); // replyNo가 나와야함
+		Reply reply = bService.adminQnaAnsSelect(r);
+//		model.addAttribute("replyNo", reply);
+//		return "adminQnaAnsUpdateForm";
 		
-		model.addAttribute("qna", qna);
+		if (reply != null) {
+			mv.addObject("Reply",r);
+			mv.setViewName("adminQnaList");
+		} else {
+			throw new BoardException("공지사항 조회에 실패했습니다");
+		}
+		return mv;
 		
-		return "adminQnaAnsUpdateForm";
-		
+//		ArrayList<Board> list = bService.getBoardList(pi);
+//
+//		if (list != null) {
+//			mv.addObject("list", list);
+//			mv.addObject("pi", pi);
+//			mv.setViewName("adminNoticeList");
+//		} else {
+//			throw new BoardException("공지사항 조회에 실패했습니다");
+//		}
+//		return mv;
 	}
-
-		// 뷰에서 데이터를 받아와야함 파라미터 데이터 가져오기 데이터를 다시 폼으로 뿌려줘야함 
-		// 포스트방식, 인풋히든 밸류값, 
-		
-		
-		// 인풋 히든,네임, 폼태그감싸고, 파람 으로 컨트롤에서 받아서 다시 뷰로보내서 모델앤뷰 뿌려주고
-		// 업데이트폼에서 el로 받음. 수저
-		
-		// 강사님이 위험하다는거는 보드아이디를 보내서 보드아이디를 가지고 서비스
-		// 디테일 불러온거 그냥 뿌려주는거
-		// 방법1
-		// 해당 피케이값 받아오는 로직필요 번호를 받아와서 db에서 값 가져와서 객체를 다시 뿌려주는 방법
-		// 방법2
-		// 인풋 히든 방법
-		// 폼태그에 보드아이디를 가지는 인풋히든창 하나 만들고 보드 아이디를 가지고 서비스를 dao,db가지고
-		// 폼으로 감싸서 보내 파람으로 데이터 받아와 (디테일 상세보기 불러오는것처럼) 메소드에 bid보내서 보드 객체를 가져와서 뿌려주면 됨. 주소창 보내는 곳 리턴만 바뀌는 것
-		
-
 	
 	@RequestMapping("adminQnaAnsUpdateForm.ad") 
-	public String updateBoardQna(@ModelAttribute BoardQnA b, Model model){
+	public String adminQnaAnsUpdate(@RequestParam("replyNo") int replyNo) {
 
-		int result = bService.updateBoardQna(b); 
+		System.out.println("admin 수정_replyNo="+replyNo);
+		int result = bService.adminQnaAnsUpdate(replyNo); 
+		System.out.println("admin 수정_result="+result);
 		
 		if(result > 0) {
-			//model.addAttribute("board", b)...;
-			// 보드 보낼 필요없음. 화면 상세보기 페이지로 가기 때문에 상세보기 페이지로 가는 bdetail.bo 이용하면 됨
-			//return "redirect:bdetail.bo?bId=" + b.getBoardId() + "&page=" + page;
-			
-			// 리다이렉트인데 데이터보존됨
-//			model.addAttribute("qna",qnaNo);
-//			model.addAttribute("qna",b.getQnaTitle());
-//			model.addAttribute("qna",b.getQnaContent());
-//			model.addAttribute("qna",b.getQnaAnsStatus());
 			return "redirect:adminQnaList.ad";
 		} else {
-			throw new BoardException("문의사항 수정에 실패하였습니다.");
+			throw new BoardException("답변 수정에 실패하였습니다.");
 		}
 	}
 	
 	
 /********************************************** admin QnA : 삭제  *******************************************************/
 	
-	// QnA : 삭제
-	@RequestMapping("adminQnaAnsDeleteForm.ad")
-	public String deleteBoard(/* @ModelAttribute BoardQnA b, */ @RequestParam("qnaNo") int qnaNo
-							/* ,HttpSession session */) {  
+	@RequestMapping("adminQnaAnsDelete.ad")
+	public String adminQnaAnsDelete(@RequestParam("replyNo") int replyNo) {
 			
-		// 해당 id가 쓴 글 전체 삭제 가능한 기능
-//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-//		b.setEmailId(id);
+		System.out.println("admin 삭제_replyNo="+replyNo);
 		
-//		System.out.println("삭제 id="+id);
-//		System.out.println("삭제 b="+b);
-		System.out.println("삭제 qnaNo="+qnaNo);
-		
-		int result = bService.deleteBoardQna(qnaNo);
-//		int result = bService.deleteBoardQna(b);
-		
-		System.out.println("삭제 result="+result);
+		int result = bService.adminQnaAnsDelete(replyNo);
+		System.out.println("admin 삭제_result="+result);
 		
 		if(result > 0) {
 			return "redirect:adminQnaList.ad";
 		}else {
-			throw new BoardException("QnA 삭제에 실패하였습니다.");
+			throw new BoardException("답변 삭제에 실패하였습니다.");
 		}
 	}
 		
-	
-	
-/*********************************** 댓글  ***********************************/		
-	
-	
-	
-		
-//	@RequestMapping("adminQnaAnsWrite.ad")
-////	@ResponseBody
-//	public String addReply(@ModelAttribute Reply r, HttpSession session) {
-//			// 누가 썼는지 알아야하기 때문에 모델어트리뷰트나 HttpSession을 통해서 가져올 수 있음
-//		String id = ((Admin)session.getAttribute("adminUser")).getId(); // session영역에서 로그인 중인 유저의 id정보를 얻어서 vo Member타입으로 형변환
-//		r.set(id);
-//		
-//		int result = bService.insertReply(r);
-//		
-//		if(result > 0) {
-//			return "success";	// "success"를 str으로 넘기고 있기에 view이름이 아니라는걸 알려주기 위하여 @ResponseBody 어노테이션 필요
-//		}else {
-//			throw new BoardException("댓글 등록에 실패하였습니다.");
-//		}
-//	}
-	
 	
 	
 	

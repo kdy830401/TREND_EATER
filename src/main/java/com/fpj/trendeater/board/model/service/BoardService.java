@@ -65,12 +65,16 @@ public interface BoardService {
 	int adminQnaAnsWrite(Reply reply);
 	ArrayList<Reply> getQnaReplyListAdmin();
 
-	int deleteBoardQna(BoardQnA b);
+	Reply adminQnaAnsSelect(Reply r);	// 수정폼에서 보여줄 데이터 가져오기(조회)
+	int adminQnaAnsUpdate(int replyNo);
+	int adminQnaAnsDelete(int replyNo);
 
 	
 /********************************** Event Management *********************************/	
 int getEListCount();	//페이징처리 1: 총게시물 수 
 ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
+
+
 
 
 
