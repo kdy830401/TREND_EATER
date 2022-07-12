@@ -98,6 +98,19 @@
 	font-size: 30px;
 	font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 30
 }
+.productImg{
+	width: 293.18px;
+	height: 293.18px;
+}
+
+.productName{
+	width: 293.18px;
+	height: 83px;
+}
+
+*{
+	word-break: keep-all;
+}
 
 /* .btn { */
 /* 	background: #FF5C58; */
@@ -137,7 +150,7 @@
 										<div class="uk-transition-toggle" tabindex="0">
 											<c:forEach var="img" items="${ imgList }">
 												<c:if test="${ a.productNo == img.identifyNo && img.fileType == 1}">
-													<img class="uk-transition-scale-up uk-transition-opaque" src="${ contextPath }/resources/productImgUploadFiles/${ img.changeName }" width="800" height="600" alt="상품사진">
+													<img class="uk-transition-scale-up uk-transition-opaque productImg" src="${ contextPath }/resources/productImgUploadFiles/${ img.changeName }" width="800" height="600" alt="상품사진">
 												</c:if>
 											</c:forEach>
 										</div>
