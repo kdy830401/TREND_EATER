@@ -7,24 +7,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<title>TREND EATER</title>
+<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
 <!-- UIkit CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+
 
 <!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/animate.css/animate.min.css" type="text/css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/glyphicons/glyphicons.css" type="text/css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/material-design-icons/material-design-icons.css" type="text/css" />
 
-<!-- font awesome -->
-<script src="https://kit.fontawesome.com/76295929c4.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+<!-- build:css ../assets/styles/app.min.css  -->
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/app.css" type="text/css" />
+<!-- endbuild -->
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/font.css" type="text/css" />
 
-<link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/board/boardNoticeList.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<%-- <link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/board/boardNoticeList.css"> --%>
 <style>
+
 /*a태그 스타일 없애기  */
+
 td >a {
   text-decoration: none;
   color: black ;
@@ -34,6 +44,19 @@ td >a:hover{
 	text-decoration: none;
 	color:#FF5C58
 }
+
+table{
+    width: 100%;
+    height: 2rem;
+        min-height: 20px;
+        max-height: 50px;
+    border-top: 2px solid rgb(254, 143, 143)  ;
+    border-bottom: 2px solid #FE8F8F  ;
+}
+
+table{
+	font-size: 16px;
+}
 </style>	  
 
 </head>
@@ -42,20 +65,19 @@ td >a:hover{
 
 	<c:import url="../common/menubar.jsp" />
 
-    <div class="container">
 
+	<div class="uk-container uk-margin-large">
+		<h2 class="uk-heading-bullet uk-h2 uk-text-center uk-text-bold">이벤트</h2>
+		<div class="uk-heading-bullet uk-text-muted uk-text-center ">트렌드이터의 새로운 소식들과 유용한 정보들을 한곳에서 확인하세요.</div>
+	</div>
+	
 
+    <div class="uk-container">
 
         <div class="main">
             <div class="infoContainer">
-                <div class="titleArea">
-                    <h3 >이벤트</h3>
-                    <span>
-                        	트렌드이터의 새로운 소식들과 유용한 정보들을 한곳에서 확인하세요.
-                    </span>
-                </div>
                 <div>
-                    <table>
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>번호</th>
@@ -68,17 +90,17 @@ td >a:hover{
                         <tbody>
                             <c:forEach var="b" items="${ list }">
                                 <tr class="tbodyContent">
-                                    <td class="tbodyTd1" width="65">${b.boardNo}</td>        
-                                    <td class="tbodyTd2" style="text-align:left">
+                                    <td>${b.boardNo}</td>        
+                                    <td style="text-align:left">
                                     <c:url var="edetail" value="edetail.bo">
 									<c:param name="eNo" value="${ b.boardNo }"/>
 									<c:param name="page" value="${ pi.currentPage }"/>
 									</c:url>
 									<a href="${ edetail }">${ b.boardTitle }</a>
                                     </td>
-                                    <td class="tbodyTd3" width="100"> ${ b.adminId } </td>
-                                    <td class="tbodyTd4" width="100">${ b.createDate }</td>
-                                    <td class="tbodyTd5" width="50">${ b.boardCount }</td>
+                                    <td> ${ b.adminId } </td>
+                                    <td>${ b.createDate }</td>
+                                    <td>${ b.boardCount }</td>
                                 </tr>
                             </c:forEach>
     
@@ -127,7 +149,9 @@ td >a:hover{
         </c:if>
       </ul>
 <!-- ############ PAGE END 끝~ -->          
-       				
+    </div>
+    </div>
+    </div>
  
 		
 </body>

@@ -20,7 +20,8 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 * {
-	font-family: 'Noto Sans KR', sans-serif;
+	font-family: "Noto Sans KR", sans-serif !important;
+	word-break: keep-all;
 }
 
 body { /* position: relative;  */
