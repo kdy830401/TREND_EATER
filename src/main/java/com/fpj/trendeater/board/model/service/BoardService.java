@@ -103,8 +103,8 @@ public interface BoardService {
 	Board adminNoticeSelect(Board b);
 	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
 	int adminQnaAnsWrite(Reply reply);
-  ArrayList<Reply> getQnaReplyListAdmin();
-  
+	ArrayList<Reply> getQnaReplyListAdmin();
+
 	int deleteBoardQna(BoardQnA b);
 
 	
@@ -140,6 +140,12 @@ public interface BoardService {
 	ArrayList<Product> getbProducts();// 메인 베스트 상품 불러오기
 
 	ArrayList<Image> getbImgList(ArrayList<Product> bProducts);//메인 베스트상품 이미지 불러오기
+
+	ArrayList<Review> getbReview();//메인페이지 좋아요가장많은 리뷰내용 불러오기
+
+	ArrayList<ReviewImage> getbRImage(ArrayList<Review> bReview);//메인페이지 리뷰이미지 불러오기
+
+	//메인페이지 리뷰내용 이미지 불러오기
 
 
 	

@@ -62,7 +62,10 @@ public class OrderDAO {
 		}
 		return images;
 	}
-	
+	//바로구매 3. ORDER_DETAIL TABLE에 insert
+			public int insertOrderDetail(SqlSessionTemplate sqlSession, Cart cart) {
+				return sqlSession.insert("orderMapper.insertOrderDetail", cart);
+			}	
 	// 주문 내역, 주문 관리 - 상세보기
 	// 1. 상세보기 리스트 가져오기
 	public ArrayList<OrderDetail> getMyOrderDetailList(SqlSessionTemplate sqlSession, int orderNo) {
@@ -110,7 +113,8 @@ public class OrderDAO {
 		return sqlSession.update("orderMapper.changeOrderStatus", os);
 	}
 	
-	// 주문 관리 - 주문 목록
+	// 주문 관리
+	// 1. 특정 카테고리의 주문 목록
 	public int getCategoryListCount(SqlSessionTemplate sqlSession, String orderStatusName) {
 		return sqlSession.selectOne("orderMapper.getCategoryListCount", orderStatusName);
 	}
@@ -122,6 +126,11 @@ public class OrderDAO {
 		// 2. Rowbounds
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());	
 		return (ArrayList)sqlSession.selectList("orderMapper.getOrderedList", orderStatusName, rowBounds);
+	}
+
+	// 2. 전체 주문 목록
+	public ArrayList<OrderStatus> getOrderAdminList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("orderMapper.getOrderAdminList");
 	}	
 	
 }

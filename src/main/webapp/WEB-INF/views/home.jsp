@@ -165,90 +165,39 @@
 	</div>
 
 	<div class="uk-container uk-margin-large">
-		<div uk-slider>
+		 <div uk-slider>
 
-			<div class="uk-position-relative">
+            <div class="uk-position-relative">
+        
+                <div class="uk-slider-container uk-light ">
+                    <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid">
+                    	<c:forEach var="review" items="${review}" varStatus="status">
+                        <li>
+                            <img src="${ contextPath }/resources/reviewImages/${rImage[status.index].changeName}" width="400" height="600" alt="">
+                            <div class="uk-position-center uk-panel"><h1>좋아요 갯수 : ${review.likeCount }</h1></div>
+                        </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+        
+                <div class="uk-hidden@s uk-light">
+                    <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                    <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                </div>
+        
+                <div class="uk-visible@s">
+                    <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                    <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                </div>
+        
+            </div>
+        
+            <!-- <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul> -->
+        
+        </div>
+        <br><br><br><br><br><br>
 
-				<div class="uk-slider-container uk-light ">
-					<ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid">
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/1619661214577l0.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>1</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/163944357879l0.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>2</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/1637923254757l0.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>3</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/1465441159271l0.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>4</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/16393772232l0.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>5</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/1616051159263l0.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>6</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/1622450417295l0.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>7</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/big/201508/417_shop1_389287.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>8</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/big/201512/706_shop1_196633.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>9</h1>
-							</div>
-						</li>
-						<li>
-							<img src="https://img-cf.kurly.com/shop/data/goods/1491195959158l0.jpg" width="400" height="600" alt="">
-							<div class="uk-position-center uk-panel">
-								<h1>10</h1>
-							</div>
-						</li>
-					</ul>
-				</div>
-
-				<div class="uk-hidden@s uk-light">
-					<a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-					<a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
-				</div>
-
-				<div class="uk-visible@s">
-					<a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-					<a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
-				</div>
-
-			</div>
-
-			<!-- <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul> -->
-
-		</div>
+    </div>
 
 	</div>
 
@@ -282,9 +231,12 @@
 
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
 
+
 	<!-- ajax -->
 	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
 	<!-- endbuild -->
+
+
 </body>
 </html>

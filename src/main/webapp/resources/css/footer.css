@@ -113,6 +113,7 @@ body{
 
 .footerRightMiddle{
     color:rgb(165, 164, 164);
+    /*line-height: normal;  1px이나 1%로하면 세로줄이 좁게 압축되고 normal하니 적절히 상하 간격이 생김*/
     font-size: 12px;
     line-height: 25px; /* 1px이나 1%로하면 세로줄이 좁게 압축되고 normal하니 적절히 상하 간격이 생김*/
 }
@@ -196,15 +197,6 @@ body{
 
     padding: 2%;
 }
-
-
-
-
-
-
-
-
-
 
 
 

@@ -140,6 +140,7 @@ public class MemberController {
 	 
 		 
 		 if(result > 0 ) {
+			 mService.addPoint(m);
 			 return "redirect:home.do";
 			 
 		 } else {
@@ -615,13 +616,23 @@ public class MemberController {
 		
 		/// 출석 체크
 		@RequestMapping("insertAttendCheck.me")
-		public String insertAttendCheck(HttpSession session) {
+		public String insertAttendCheck(HttpSession session, Member m) {
 			String email = ((Member)session.getAttribute("loginUser")).getEmail();
 			
 			int result = mService.insertAttendCheck(email);
 			int result2 = mService.insertAttendPoint(email);
 			
-			if(result+result2 > 1 ) {
+			int plusPoint = mService.getPlusPoint(email);
+			int minusPoint = mService.getMinusPoint(email);
+			int totalPoint = plusPoint-minusPoint;
+			
+			m.setEmail(email);
+			m.setPoint(totalPoint);
+			
+			// 멤버 포인트 업데이트
+			int result3 = mService.updatePoint(m);
+			
+			if(result+result2+result3 > 2 ) {
 				return "attendCalendarView";
 
 			} else {
@@ -737,7 +748,7 @@ public class MemberController {
 	
 		//마이 페이지 메뉴
 		@RequestMapping("myPageMenu.me")
-		public String myPageMenu(HttpSession session) {
+		public String myPageMenu(HttpSession session, Member m) {
 			
 			String email = ((Member)session.getAttribute("loginUser")).getEmail();
 			
@@ -746,6 +757,12 @@ public class MemberController {
 			int plusPoint = mService.getPlusPoint(email);
 			int minusPoint = mService.getMinusPoint(email);
 			int totalPoint = plusPoint-minusPoint;
+			
+			m.setEmail(email);
+			m.setPoint(totalPoint);
+			
+			// 멤버 포인트 업데이트
+			int result = mService.updatePoint(m);
 			
 			boolean check1 = false;
 			
@@ -797,11 +814,14 @@ public class MemberController {
 			ArrayList<OrderStatus> orderList = mService.getMyOrderList(emailId, pi);
 			System.out.println("orderList : " + orderList);
 			
+			// 3.2 전체 OrderStatus 정보 받아오기(for 현황박스)
+			ArrayList<OrderStatus> allOrderList = mService.getAllOrderList(emailId);
 
 			// 4. mv에 담아 이동
 			if(orderList != null) {
 				mv.addObject("orderList", orderList);
 				mv.addObject("pi", pi);
+				mv.addObject("allOrderList", allOrderList);
 				mv.setViewName("orderList");
 			} else {
 				throw new MemberException("주문 내역 조회에 실패했습니다.");

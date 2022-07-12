@@ -317,7 +317,6 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.getQnaReplyListAdmin");
 	}
 
-	
 	// 이벤트 게시판 삽입 1 글내용 삽입
 	public int insertEBoard(SqlSessionTemplate sqlSession, EventBoard b) {
 		
@@ -428,6 +427,24 @@ public class BoardDAO {
 		}
 		return imgList;
 	}
+	//메인페이지 좋아요가장 많은 리뷰 내용불러오기
+	public ArrayList<Review> getbReview(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getbReview") ;
+	}
+	//메인페이지 리뷰이미지 불러오기
+	public ArrayList<ReviewImage> getbRImage(SqlSessionTemplate sqlSession, ArrayList<Review> bReview) {
+		ArrayList<ReviewImage> imgList = new ArrayList<>();
+		for(int i =0; i < bReview.size(); i++) {
+			int reviewNo = bReview.get(i).getReviewNo();
+			ReviewImage img =	sqlSession.selectOne("boardMapper.getbRImgList", reviewNo);
+			imgList.add(img);
+		}
+		
+		return imgList;
+	}
+
+	
+	
 	
 	
 
@@ -439,13 +456,6 @@ public class BoardDAO {
 	
 	
 	
-	
-	
-	
-	
-	
-
-
 	
 	
 	

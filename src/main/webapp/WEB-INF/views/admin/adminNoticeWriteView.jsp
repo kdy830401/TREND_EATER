@@ -23,7 +23,6 @@
         <h2>공지사항</h2>   
     </div>    
     
-
 	<form action='adminNoticeWriteForm.ad' method="post" id="adminNoticeWriteForm">
 
 	    <table class="tableWhole">
@@ -52,7 +51,8 @@
     
 
 	    <div class="content">
-	        <textarea name="boardContent" value="${board.boardContent}" id="textarea" placeholder="   내용을 입력해주세요."></textarea>  
+	        <textarea name="boardContent" value="${board.boardContent}" id="textarea" placeholder="   내용을 입력해주세요."></textarea>
+	       
 	    </div>
 	    <div class="listButton">
 	        <button id="send">작성완료</button>
@@ -63,7 +63,6 @@
 	    </div>
 	 </form> 
     
-
 <script>
 	$('#send').on('click',function(){
 	    var v = document.getElementById('textarea').value
@@ -73,7 +72,6 @@
 	});
 
 </script>
-
 
 
 

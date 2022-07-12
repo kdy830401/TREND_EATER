@@ -27,7 +27,6 @@ import com.fpj.trendeater.board.model.vo.BoardQnA;
 import com.fpj.trendeater.board.model.vo.EventBoard;
 import com.fpj.trendeater.board.model.vo.Reply;
 
-
 @Service("bSerivce")
 public class BoardServiceImpl implements BoardService{
 
@@ -296,9 +295,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
-	
 
-	
 	// 이벤트 게시판 삽입 1 글내용 삽입
 	@Override
 	public int insertEBoard(EventBoard b) {
@@ -361,7 +358,7 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.eDeleteBoard(sqlSession, eno);
 	}
 
-	
+
 	
 /******************************MAIN*****************************************/
 	//이벤트게시판 최근 글 불러오기 
@@ -397,6 +394,19 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Image> getbImgList(ArrayList<Product> bProducts) {
 		return bDAO.getbImgList(sqlSession, bProducts);
 	}
+	
+	//메인페이지 좋아요가장 많은 리뷰 내용불러오기
+	@Override
+	public ArrayList<Review> getbReview() {
+		return bDAO.getbReview(sqlSession);
+	}
+	//메인페이지 리뷰이미지 불러오기
+	@Override
+	public ArrayList<ReviewImage> getbRImage(ArrayList<Review> bReview) {
+		return bDAO.getbRImage(sqlSession, bReview);
+	}
+	
+	
 
 	
 /***********************************************************************/

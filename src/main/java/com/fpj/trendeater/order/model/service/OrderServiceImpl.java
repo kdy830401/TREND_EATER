@@ -52,7 +52,11 @@ public class OrderServiceImpl implements OrderService {
 	public ArrayList<Image> selectImgList(ArrayList<Cart> cartList) {
 		return oDAO.selectImgList(sqlSession, cartList);
 	}
-	
+	//바로구매 3. ORDER_DETAIL TABLE에 insert
+		@Override
+		public int insertOrderDetail(Cart cart) {
+			return oDAO.insertOrderDetail(sqlSession, cart);
+		}
 	
 	// 주문 내역, 주문 관리 - 상세보기
 	// 1. 상세보기 리스트 가져오기
@@ -90,7 +94,8 @@ public class OrderServiceImpl implements OrderService {
 		return oDAO.changeOrderStatus(sqlSession, os);
 	}
 	
-	// 주문 관리 - 주문 목록
+	// 주문 관리 
+	// 1. 특정 카테고리 주문 목록
 	@Override
 	public int getCategoryListCount(String orderStatusName) {
 		return oDAO.getCategoryListCount(sqlSession, orderStatusName);
@@ -99,6 +104,12 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public ArrayList<OrderDetail> getCategoryList(PageInfo pi, String orderStatusName) {
 		return oDAO.getCategoryList(sqlSession, pi, orderStatusName);
+	}
+
+	// 2. 전체 주문 목록
+	@Override
+	public ArrayList<OrderStatus> getOrderAdminList() {
+		return oDAO.getOrderAdminList(sqlSession);
 	}	
 	
 	

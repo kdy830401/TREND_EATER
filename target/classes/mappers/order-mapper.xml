@@ -115,6 +115,7 @@
 		from order_l
 			left join order_detail using(order_no)
 		where order_no = #{orderNo}
+		order by order_no desc
 	</select>
 	
 	<!-- 2. 주문 상세보기 이미지 받기 -->
@@ -133,7 +134,7 @@
 
 
 	<!-- 주문 관리 -->
-	<!-- 1. 페이징 -->
+ 	<!-- 1. 페이징 -->
 	<select id="getOrderListCount" resultType="_int">
 		select count(*)
 		from order_l
@@ -144,7 +145,9 @@
 		select *
 		from order_l
 			left join order_status on(order_l.order_status_no = order_status.order_status_no)
-	</select>
+		order by order_no desc
+	</select> 
+	
 	
 	<!-- 주문 관리 - 주문 상태 변경 -->
 	<update id="changeOrderStatus">
@@ -152,8 +155,9 @@
 		set order_status_name=#{orderStatusName}
 		where order_status_no = #{orderNo}
 	</update>
-	
-	<!-- 주문 관리 - 주문 목록 -->
+
+	<!-- 주문 관리  -->
+	<!-- 1. 특정 카테고리의 주문 목록 -->
 	<select id="getCategoryListCount" resultType="_int">
 		select count(*)
 		from order_l
@@ -166,5 +170,15 @@
 		from order_l
 			left join order_status on(order_l.order_status_no = order_status.order_status_no)
 		where order_status_name = #{orderStatusName}
-	</select>		
+		order by order_no desc
+	</select>
+	
+	<!-- 2. 전체 주문 목록 -->
+	<select id="getOrderAdminList" resultMap="orderStatusResultMap">
+		select *
+		from order_l
+			left join order_status on(order_l.order_status_no = order_status.order_status_no)
+		order by order_no desc
+	</select>
+		
 </mapper>

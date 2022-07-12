@@ -392,5 +392,21 @@ public void kakaoLogout(String access_Token) {
 	public ArrayList<OrderStatus> getMyOrderList(String emailId, PageInfo pi) {
 		return mDAO.getMyOrderList(sqlSession, emailId, pi);
 	}
+	
+	// 3. 사용자의 전체 주문 정보 가져오기
+	@Override
+	public ArrayList<OrderStatus> getAllOrderList(String emailId) {
+		return mDAO.getAllOrderList(sqlSession, emailId);
+	}
 
+	@Override
+	public int addPoint(Member m) {
+		return mDAO.addPoint(sqlSession,m);
+		
+	}
+
+	@Override
+	public int updatePoint(Member m) {
+		return mDAO.updatePoint(sqlSession, m);
+	}
 }

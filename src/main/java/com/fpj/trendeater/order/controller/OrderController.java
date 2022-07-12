@@ -109,33 +109,62 @@ public class OrderController {
 	}	
 	
 	
-	
 	// 바로구매  뷰이동
 	
-	@RequestMapping("direct.or")
-	public String directOrder(@RequestParam("productNo")int productNo, @RequestParam("productName") String productName,
-			@RequestParam("productPrice") int productPrice, @RequestParam("productAmount") int productAmount, HttpSession session, Model model,
-			HttpServletRequest request) {
-//		System.out.println(productNo);
-//		System.out.println(productName);
-//		System.out.println(productPrice);
-//		System.out.println(productAmount);
-		String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
-		Cart cart = new Cart();
-		cart.setProductName(productName);
-		cart.setProductAmount(productAmount);
-		cart.setProductNo(productNo);
-		cart.setProductPrice(productPrice);
-		cart.setEmailId(emailId);
+		@RequestMapping("direct.or")
+		public String directOrder(@RequestParam("productNo")int productNo, @RequestParam("productName") String productName,
+				@RequestParam("productPrice") int productPrice, @RequestParam("productAmount") int productAmount, HttpSession session, Model model,
+				HttpServletRequest request, @ModelAttribute Image image) {
+//			System.out.println(productNo);
+//			System.out.println(productName);
+//			System.out.println(productPrice);
+//			System.out.println(productAmount);
+			String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
+			Cart cart = new Cart();
+			cart.setProductName(productName);
+			cart.setProductAmount(productAmount);
+			cart.setProductNo(productNo);
+			cart.setProductPrice(productPrice);
+			cart.setEmailId(emailId);
+			
+			System.out.println(cart);
+			System.out.println("이미지 : " + image);
+			// model에 cart 담은후 뷰이동
+			model.addAttribute("cart", cart);
+			model.addAttribute("image", image);
+			
+			//경로 설정해주기
+			return "dOrder";
+		}
 		
-		System.out.println(cart);
-		// model에 cart 담은후 뷰이동
-		model.addAttribute("cart", cart);
-		
-		//경로 설정해주기
-		return "redirect:../views/order/dOrder.jsp";
-	}
-	
-	
+		//바로구매 구매완료 DB거친 후  뷰이동
+		@RequestMapping("dOrderEnd.or")
+		public String dOrderEnd(@ModelAttribute Cart cart, @ModelAttribute Order order, Model model) {
+			System.out.println(cart);
+			System.out.println(order);
+			String orderStatus = "주문";
+			
+			//1.ORDER_STATUS TABLE에 insert
+			int result1 = oService.insertOrderStatus(orderStatus);
+			
+			//2. ORDER_LIST TABLE에 insert
+			int result2 = oService.insertOrderList(order);
+			
+			//3. ORDER_DETAIL TABLE에 insert
+			int result3 = oService.insertOrderDetail(cart);
+			
+			//바로구매이므로 별도의  카트내용 삭제는 불필요
+			
+			//결과 출력
+			if(result1 + result2 + result3 > 2 ) {
+				model.addAttribute("cart", cart);
+				model.addAttribute("order", order);
+				return "dOrderEndView";
+				
+			}else {
+				 throw new OrderException("구매에 실패하였습니다.");
+			}
+			
+		}	
 	
 }
