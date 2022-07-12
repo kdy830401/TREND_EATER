@@ -44,9 +44,9 @@
 </head>
 <style>
 * {
-	word-break: keep-all !important;
+	font-family: "Noto Sans KR", sans-serif !important;
+	word-break: keep-all;
 }
-
 .floating-button {
 	width: 40px;
 	height: 40px;

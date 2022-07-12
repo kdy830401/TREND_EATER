@@ -35,9 +35,11 @@
 
 <style>
 
-*{
-	 word-break: keep-all;
+* {
+	font-family: "Noto Sans KR", sans-serif !important;
+	word-break: keep-all;
 }
+
 .uk-breadcrumb>:nth-child(n+2):not(.uk-first-column)::before {
 	margin: 0 5px 0 calc(5px - 4px) !important;
 }
@@ -222,9 +224,10 @@
 							</div>
 							<hr class="uk-margin-remove-bottom">
 							<div class="uk-card-body uk-padding-small">
-								<P class="uk-text-meta uk-margin-remove-top">${ b.productOneLine }</P>
-								<i class="fa-regular fa-comments"></i>
+<!-- 								<i class="fa-regular fa-comments"></i> -->
+								<span uk-icon="comments"></span>
 								<span class="uk-badge uk-text-top">${ b.reviewCount }</span>
+								<P class="uk-text-muted m-t-md">${ b.productOneLine }</P>
 							</div>
 						</div>
 					</div>
@@ -326,6 +329,8 @@
 		<br>
 
 	</c:if>
+	
+	<c:import url="../common/footer.jsp" />
 
 	<!-- build:js scripts/app.html.js -->
 	<!-- jQuery -->
