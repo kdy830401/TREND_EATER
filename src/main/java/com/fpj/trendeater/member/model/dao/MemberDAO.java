@@ -189,5 +189,10 @@ public class MemberDAO {
 		// 2. Rowbounds
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());	
 		return (ArrayList)sqlSession.selectList("memberMapper.myOrderList", emailId, rowBounds);
+	}
+	
+	// 3. 사용자의 전체 주문 정보 받기
+	public ArrayList<OrderStatus> getAllOrderList(SqlSessionTemplate sqlSession, String emailId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.getAllOrderList", emailId);
 	}	
 }
