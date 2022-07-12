@@ -90,7 +90,8 @@ public class OrderServiceImpl implements OrderService {
 		return oDAO.changeOrderStatus(sqlSession, os);
 	}
 	
-	// 주문 관리 - 주문 목록
+	// 주문 관리 
+	// 1. 특정 카테고리 주문 목록
 	@Override
 	public int getCategoryListCount(String orderStatusName) {
 		return oDAO.getCategoryListCount(sqlSession, orderStatusName);
@@ -99,6 +100,12 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public ArrayList<OrderDetail> getCategoryList(PageInfo pi, String orderStatusName) {
 		return oDAO.getCategoryList(sqlSession, pi, orderStatusName);
+	}
+
+	// 2. 전체 주문 목록
+	@Override
+	public ArrayList<OrderStatus> getOrderAdminList() {
+		return oDAO.getOrderAdminList(sqlSession);
 	}	
 	
 	

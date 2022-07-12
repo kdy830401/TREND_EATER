@@ -45,7 +45,7 @@
     	<c:set var="complete" value="0"/>
     	<c:set var="refund" value="0"/>
     	<c:set var="cancel" value="0"/>
-    	<c:forEach var="i" items='${categoryList }'>
+    	<c:forEach var="i" items='${orderCountList }'>
     		<c:if test="${i.orderStatusName == '주문'}">
     			<c:set var= "ordered" value="${ordered + 1 }"/>
     		</c:if>
@@ -288,7 +288,7 @@
     	$('.selectedList').on('click', function(){
     		var orderStatusName = $(this).next().val();
     		
-    		location.href="categoryList.ad?orderStatusName="+orderStatusName;
+    		location.href="categoryList.ad?orderStatusNam="+orderStatusName;
     	});
     </script>
    

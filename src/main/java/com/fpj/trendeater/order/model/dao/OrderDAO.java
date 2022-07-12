@@ -110,7 +110,8 @@ public class OrderDAO {
 		return sqlSession.update("orderMapper.changeOrderStatus", os);
 	}
 	
-	// 주문 관리 - 주문 목록
+	// 주문 관리
+	// 1. 특정 카테고리의 주문 목록
 	public int getCategoryListCount(SqlSessionTemplate sqlSession, String orderStatusName) {
 		return sqlSession.selectOne("orderMapper.getCategoryListCount", orderStatusName);
 	}
@@ -122,6 +123,11 @@ public class OrderDAO {
 		// 2. Rowbounds
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());	
 		return (ArrayList)sqlSession.selectList("orderMapper.getOrderedList", orderStatusName, rowBounds);
+	}
+
+	// 2. 전체 주문 목록
+	public ArrayList<OrderStatus> getOrderAdminList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("orderMapper.getOrderAdminList");
 	}	
 	
 }
