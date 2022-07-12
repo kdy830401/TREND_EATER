@@ -63,6 +63,7 @@ public interface BoardService {
 	Board adminNoticeSelect(Board b);
 	ArrayList<BoardQnA> getBoardQnaListAdmin(PageInfo pi);
 	int adminQnaAnsWrite(Reply reply);
+	ArrayList<Reply> getQnaReplyListAdmin();
 
 	int deleteBoardQna(BoardQnA b);
 
@@ -70,7 +71,6 @@ public interface BoardService {
 /********************************** Event Management *********************************/	
 int getEListCount();	//페이징처리 1: 총게시물 수 
 ArrayList<EventBoard> getEBoardList(PageInfo pi);//페이징처리 2 : 이벤트관리목록 불러오기
-ArrayList<Reply> getQnaReplyListAdmin();
 
 
 

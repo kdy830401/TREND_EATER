@@ -91,19 +91,16 @@ pageEncoding="UTF-8"%>
 		                            <div>
 		                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_q-solid.svg" style="width: 15px;">
 
-		                                <p>${ b.qnaContent }</p>
-	                                  <%--  <c:set var="newLineChar" value="1"/> --%>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
-	                                   <c:set var="newLineChar" value="ᚘ"/>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
-	                                   <%-- ${fn:contains(b.qnaContent, "\\r\\n")} --%> <!-- b.qnaContent 안에 내용 중에 개행문자가 포함되어있는지 확인 디버깅용 -->
+	                                   <c:set var="newLineChar" value="ᚘ"/>	 
 	                                  	 ${fn:replace(b.qnaContent, newLineChar, "<br>") }
 	                                   <input type="hidden" name="qnaContent" value="${b.qnaContent}">
+		                            </div><br>
 		                                   
-
-		                                
-
+										<%-- <p>${ b.qnaContent }</p> --%>
+	                                  <%--  <c:set var="newLineChar" value="1"/> --%>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
+	                                   <%-- ${fn:contains(b.qnaContent, "\\r\\n")} --%> <!-- b.qnaContent 안에 내용 중에 개행문자가 포함되어있는지 확인 디버깅용 -->
 		                                   <%-- <input type="hidden" name="qnaContent" value="${b.qnaContent}">${b.qnaContent} --%>
 		                                   <!--타이틀도. 전체를 폼으로 감싸야함. href를 안주고 액션에 주소값 주는 것. 버튼을 누르면 폼에 감싸져있음. 서브밋 필요없이 버튼 누르면 제출됨. vo에 세터값이랑이랑 일치하니   -->
-		                            </div><br>
 		                            <c:if test="${b.qnaAnsStatus eq 'Y'}">
 			                            <div>
 			                                <!-- 답변 상태 b.QnAAnsStatus가 Y이면 A아이콘이 나타나는 c:if 사용 -->

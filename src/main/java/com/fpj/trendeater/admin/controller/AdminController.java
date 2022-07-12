@@ -1086,14 +1086,12 @@ public class AdminController {
 		String adId = ((Admin)session.getAttribute("adminUser")).getId();
 		b.setAdminId(adId);
 		model.addAttribute("b",b);
-//		System.out.println("ad공지사항 쓰기_b라이트뷰="+b);
 		
 		return "adminNoticeWriteView";
 	}
 	@RequestMapping("adminNoticeWriteForm.ad")
 	public String insertNotice(@ModelAttribute Board b) {
 		
-//		System.out.println("ad공지사항 쓰기_b="+b);
 		int result = bService.insertNotice(b);
 
 		if (result > 0) {
@@ -1256,17 +1254,20 @@ public class AdminController {
 /********************************************** admin QnA : 수정  *******************************************************/
 	
 	// QnA : 수정
+	
 	@RequestMapping("adminQnaAnsUpdateView.bo")
-	public String boardUpdateForm(@RequestParam("qnaNo") int qnaNo,  // qnaNo 하나만 받아옴
-																Model model) {
+	public String boardUpdateForm(@RequestParam("qnaNo") int qnaNo, Model model) {
+																
 		BoardQnA b = new BoardQnA();
 		b.setQnaNo(qnaNo);
-		BoardQnA qna = bService.selectBoardQna(b); // select one
+		BoardQnA qna = bService.selectBoardQna(b);
 		
-//		System.out.println("qna="+qna);
 		model.addAttribute("qna", qna);
 		
 		return "adminQnaAnsUpdateForm";
+		
+	}
+
 		// 뷰에서 데이터를 받아와야함 파라미터 데이터 가져오기 데이터를 다시 폼으로 뿌려줘야함 
 		// 포스트방식, 인풋히든 밸류값, 
 		
@@ -1283,22 +1284,12 @@ public class AdminController {
 		// 폼태그에 보드아이디를 가지는 인풋히든창 하나 만들고 보드 아이디를 가지고 서비스를 dao,db가지고
 		// 폼으로 감싸서 보내 파람으로 데이터 받아와 (디테일 상세보기 불러오는것처럼) 메소드에 bid보내서 보드 객체를 가져와서 뿌려주면 됨. 주소창 보내는 곳 리턴만 바뀌는 것
 		
-	}
+
 	
 	@RequestMapping("adminQnaAnsUpdateForm.ad") 
-	public String updateBoardQna(@ModelAttribute BoardQnA b, /* @RequestParam("page") int page, */
-								/* @RequestParam("qnaNo") int qnaNo, */
-								 Model model/* , HttpSession session */) { 
+	public String updateBoardQna(@ModelAttribute BoardQnA b, Model model){
 
-//		String id = ((Member)session.getAttribute("loginUser")).getEmail();
-//		b.setEmailId(id);
-//		System.out.println("id="+id); 			// id=1@a.com
-//		System.out.println("b1="+b);			    // b=BoardQnA [qnaNo=0, qnaTitle=null, qnaContent=null, qnaCreateDate=null, qnaModifyDate=null, qnaStatus=null, qnaAnsStatus=null, emailId=1@a.com]
-
-		
 		int result = bService.updateBoardQna(b); 
-//		System.out.println("b2="+b);			  // b=BoardQnA [qnaNo=0, qnaTitle=null, qnaContent=null, qnaCreateDate=null, qnaModifyDate=null, qnaStatus=null, qnaAnsStatus=null, emailId=1@a.com]
-//		System.out.println("result333="+result); // 0
 		
 		if(result > 0) {
 			//model.addAttribute("board", b)...;
