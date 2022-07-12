@@ -1591,7 +1591,7 @@ public class AdminController {
 //		System.out.println("ad상세_boardId="+boardId);
 //		Board board = bService.selectBoard(boardId);
 		
-=
+
 //		System.out.println("ad상세_board="+board);
 		
 		if (board != null) {

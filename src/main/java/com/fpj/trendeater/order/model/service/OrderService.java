@@ -26,7 +26,8 @@ public interface OrderService {
 
 	//카트리스트에 따른 이미지 다시 받아오기
 	ArrayList<Image> selectImgList(ArrayList<Cart> cartList);
-
+	//바로구매 3. ORDER_DETAIL TABLE에 insert
+	int insertOrderDetail(Cart cart);
 	
 	// 주문 내역, 주문 관리 - 상세보기
 	ArrayList<OrderDetail> getMyOrderDetailList(int orderNo);
