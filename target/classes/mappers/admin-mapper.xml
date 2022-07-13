@@ -326,7 +326,7 @@
 			and product_name like '%'||#{searchValue}||'%'
 		</if>
 		<if test='value == null or value.equals("tasteNo")'>
-		order by taste_ing desc, taste_no
+		order by taste_ing asc, taste_no
 		</if>
 		<if test='value != null and value.equals("applyCount")'>
 		order by apply_count desc

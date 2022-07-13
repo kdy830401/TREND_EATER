@@ -7,9 +7,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Trend Eater</title>
+<title>TREND EATER</title>
 <!-- CSS Link  -->
-<link href=""${ pageContext.servletContext.contextPath }/resources/css/pay/order.css" rel="stylesheet"/>
+<link href="${ pageContext.servletContext.contextPath }/resources/css/pay/order.css" rel="stylesheet"/>
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
 
 <!-- JQuery 최신버젼 CDN 링크  -->
@@ -594,7 +594,7 @@ transition: opacity 0.3s;
               <div class="ea">${ c.productAmount }개</div>
               <div class="info_price">
                 <span class="num">
-                  <span class="price">${eaCost}</span>
+                  <span class="price"><fmt:formatNumber value="${eaCost}" pattern="#,###" /></span>
                   <!-- <span class="cost"></span> -->
                 </span>
               </div>
@@ -676,7 +676,7 @@ transition: opacity 0.3s;
         </h3>
         <div class="section_full">
         
-        <div class="receiving off" id="receiverInfo"><input type="text" placeholder="요청사항을 입력해 주세요" name="orderRequest"></div>
+        <div class="receiving off" id="receiverInfo"><input type="text" placeholder="요청사항을 입력해 주세요" name="orderRequest" required="required"></div>
         <div class="way" id="wayPlace" style="display: none;">
         <span class="place" id="areaInfo" style="display: none;"></span>
         
@@ -712,7 +712,7 @@ transition: opacity 0.3s;
         <div id="orderitem_money_info">
         <dl class="amount fst">
         <dt class="tit">주문금액</dt>
-        <dd class="price"><span id="productsTotalPrice">${total}</span> 원</dd>
+        <dd class="price"><span id="productsTotalPrice"><fmt:formatNumber value="${total}" pattern="#,###" /></span> 원</dd>
         </dl>
         <!-- 할인률부분 -->
         <dl class="amount sub">
@@ -760,14 +760,14 @@ transition: opacity 0.3s;
         <input type="hidden" value="${pointUse}" name="pointUse">
         <dt class="tit">적립금사용</dt>
         <dd class="price">
-        <span class="num pay_sum" id="paper_reserves">${pointUse} 원</span>
+        <span class="num pay_sum" id="paper_reserves"><fmt:formatNumber value="${pointUse}" pattern="#,###" /> 원</span>
         <input type="hidden" name="coupon_emoney" size="12" value="0" readonly>
         </dd>
         </dl>
         <dl class="amount lst">
         <dt class="tit">최종결제금액</dt>
         <dd class="price">
-        <span id="paper_settlement">${(total)-(pointUse)}</span>
+        <span id="paper_settlement"><fmt:formatNumber value="${(total)-(pointUse)}" pattern="#,###" /></span>
         <input type="hidden" value="${(total)-(pointUse)}" name="totalPrice">
         <span class="won">원</span>
         </dd>
@@ -776,7 +776,7 @@ transition: opacity 0.3s;
 		<fmt:formatNumber var="pointPlus2" value="${pointPlus1}"  maxFractionDigits="0" type="number"/>
 		<input type="hidden" value="${pointPlus2}" name="pointPlus2">
         <p class="reserve" style="display: block;">
-        <span class="ico">적립</span> 구매 시 <span class="emph"><span id="expectAmount">${pointPlus2}</span> 원 (<span class="ratio">1</span>%) 적립</span>
+        <span class="ico">적립</span> 구매 시 <span class="emph"><span id="expectAmount"><fmt:formatNumber value="${pointPlus2}" pattern="#,###" /></span> 원 (<span class="ratio">1</span>%) 적립</span>
         </p>
         </div>
         <div id="order_notice_section">
@@ -1135,7 +1135,7 @@ transition: opacity 0.3s;
         <div id="paymentMethodResult">
         <input type="hidden" name="payment_method" value="">
         </div>
-        <input type="button" value="${(total)-(pointUse)}원 결제하기" class="btn_payment" onclick="requestPay()">
+        <input type="button" value="<fmt:formatNumber value="${(total)-(pointUse)}" pattern="#,###" />원 결제하기" class="btn_payment" onclick="requestPay()">
         </form>
  <!--버튼클릭시 펑숀 시작 -->
  
@@ -1178,10 +1178,7 @@ transition: opacity 0.3s;
 			console.log(rsp);
 		    if ( rsp.success ) {
 		    	var msg = '결제가 완료되었습니다.';
-		        msg += '고유ID : ' + rsp.imp_uid;
-		        msg += '상점 거래ID : ' + rsp.merchant_uid;
 		        msg += '결제 금액 : ' + rsp.paid_amount;
-		        msg += '카드 승인번호 : ' + rsp.apply_num;
 		    	
 		        $('form[name=frmOrder]').submit();
 			   

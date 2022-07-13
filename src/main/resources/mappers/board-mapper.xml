@@ -76,17 +76,17 @@
 	<select id="checkScrap" resultType="_int">
 		select count(*)
 		from scrap
-		where email_id = #{emailId} and product_no = #{pNo}
+		where email_id = #{emailId} and product_no = #{pno}
 	</select>
 	<!-- 스크랩 삭제 -->
 	<delete id="deleteScrap">
 		delete scrap
-		where email_id = #{emailId} and product_no = #{pNo}
+		where email_id = #{emailId} and product_no = #{pno}
 	</delete>
 	<!-- 스크랩 추가 -->
 	<insert id="insertScrap">
 		insert into scrap
-		values(seq_sid.nextval, #{emailId}, #{pNo})
+		values(seq_sid.nextval, #{emailId}, #{pno})
 	</insert>
 	
 	
@@ -159,6 +159,8 @@
        <result column="PRODUCT_NO" property="productNo"/>
        <result column="EMAIL_ID" property="emailId"/>
        <result column="NICKNAME" property="nickName"/>
+       <result column="PRODUCT_NAME" property="productName"/>
+       <result column="PRODUCT_PRICE" property="productPrice"/>
     </resultMap>
     
 
@@ -620,11 +622,24 @@
 	<select id="getbReview" resultMap="reviewResultSet">
 	<![CDATA[
 		select *
-		from(select * 
-		from REVIEW_LIST
-		order by LIKE_COUNT DESC)
+		from(select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, 
+			rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3, nickname, PRODUCT_NAME, PRODUCT_PRICE
+		    from review_list rl
+         		join member m on (rl.email_id = m.email_id) 
+         		join product p using(product_no)   
+     			where review_status  = 'Y'
+				order by LIKE_COUNT DESC)
 		where ROWNUM <= 10
 	]]>
+	
+	
+<!-- 	<![CDATA[ -->
+<!-- 		select * -->
+<!-- 		from(select *  -->
+<!-- 		from REVIEW_LIST -->
+<!-- 		order by LIKE_COUNT DESC) -->
+<!-- 		where ROWNUM <= 10 -->
+<!-- 	]]> -->
 	</select>
 <!-- 메인페이지 좋아요 가장많이 받은 리뷰리스트 이미지 받아오기 -->	
 	<select id="getbRImgList" resultMap="reviewImageResultSet">

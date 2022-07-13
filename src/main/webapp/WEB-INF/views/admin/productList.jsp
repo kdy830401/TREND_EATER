@@ -18,6 +18,10 @@
 * {
 	word-break: keep-all;
 }
+.labelText{
+	font-size: 16px !important;
+	font-weight: 600 !important;
+}
 </style>
 </head>
 <body>
@@ -267,8 +271,8 @@
 								<div class="modal-dialog" id="animate${ p.productNo }">
 									<div class="modal-content">
 										<div class="modal-header">
-											<span class="label label-lg">${ p.productName }</span>
 											<h6 class="modal-title uk-text-bold">시식게시판 등록</h6>
+											<span class="label warning labelText ">${ p.productName }</span>
 										</div>
 										<form action="registerTaste.ad" method="post">
 											<div class="modal-body text-center p-lg">

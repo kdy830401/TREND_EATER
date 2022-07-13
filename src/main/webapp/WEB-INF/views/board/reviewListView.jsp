@@ -180,7 +180,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 }
 
 .thumb{
-cursor: pointer;
+	cursor: pointer;
 	margin: 0 7px 0 30px;
 	font-size: 20px;
 }

@@ -108,7 +108,7 @@ public class BoardController {
 		HashMap<String, Object> map = new HashMap<>();
 		
 			emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
-			
+			System.out.println(pno);
 			map.put("pno", pno);
 			map.put("emailId", emailId);
 			
@@ -227,12 +227,12 @@ public class BoardController {
 	
 	// 스크랩
 	@RequestMapping("scrap.me")
-	public void scrap(@RequestParam("pNo") Integer pNo, HttpServletRequest request, HttpServletResponse response) {
+	public void scrap(@RequestParam("pNo") Integer pno, HttpServletRequest request, HttpServletResponse response) {
 		String emailId = ((Member)request.getSession().getAttribute("loginUser")).getEmail();
 		
 		HashMap<String, Object> map = new HashMap<>();
 		
-		map.put("pNo", pNo);
+		map.put("pno", pno);
 		map.put("emailId", emailId);
 		
 		int result = bService.scrap(map);

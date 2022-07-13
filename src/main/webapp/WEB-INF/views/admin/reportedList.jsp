@@ -38,17 +38,19 @@
 	<!-- 하단 끝 -->
 
 <!-- ############ PAGE START 여기에 내용 넣어주세요 -->
-   <div class="uk-container uk-container-midium" id="container">
-   <h1 id="report-header" class="report-header">
+   <div class="uk-container uk-container-midium uk-tile-default uk-margin-medium uk-padding-small" id="container">
+   <h1 id="report-header" class="report-header uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">
       신고된 리뷰 목록<span id="review-count">(${reportCount})</span>
    </h1>
+   
+   
  				<c:url var="nes" value="reportedReview.ad">
  				 <c:param name="reportNo" value="${ reportNo }"/>
                </c:url>
                <li><a href="${ nes }"><span>최신순</span></a></li>
                <li><a href="${ nes }&value=old"><span>오래된순</span></a></li>
                <li><a href="${ nes }&value=reportType"><span>신고 종류순</span></a></li>
-   <table class="uk-table uk-table-justify uk-table-divider">
+   <table class="table table-hover b-t">
     <thead>
         <tr id="table-title">
            <th></th>

@@ -6,24 +6,25 @@
 <head>
 <meta charset="UTF-8">
     <title>주문 관리</title>
-    <script src="resources/js/jquery-3.6.0.min.js"></script>
-
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
-
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
+    <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+	<!-- UIkit CSS -->
+	<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+	
+	
+	<!-- UIkit JS -->
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
 
     <style>
     	body{font-family: noto sans;}
-        #check{ margin: auto; width: 80%; height: 60px; padding-bottom: 40px;}
-        #check td{text-align: center; border: 1px solid gray; width: 120px; height: 60px;}
+/*         #check{ margin: auto; width: 80%; height: 60px; padding-bottom: 40px;} */
+         #check td, #check th{text-align: center; border: 1px solid #f1f3f5; width: 120px; height: 60px; font-weight: bold;} 
         #search{margin: auto; width: 70%; align:center;}
-        .button{background-color: rgb(255, 92, 88); border: 1px solid rgb(255, 92, 88); color: white;}
-        #navOrder{padding-top: 50px; padding-bottom: 50px; padding-left: 200px;}
-        #orderList{margin: auto; padding-top:20px; text-align: center; width: 70%; background-color: rgb(218, 218, 218); height:600px;}
-        #orderCate{padding-bottom: 20px; font-size: large; border: 1px solid black;; height: 30px;}
+/*         .button{background-color: rgb(255, 92, 88); border: 1px solid rgb(255, 92, 88); color: white;} */
+/*         #navOrder{padding-top: 50px; padding-bottom: 50px; padding-left: 200px;} */
+/*         #orderList{margin: auto; padding-top:20px; text-align: center; width: 70%; background-color: rgb(218, 218, 218); height:600px;} */
+/*         #orderCate{padding-bottom: 20px; font-size: large; border: 1px solid black;; height: 30px;} */
+		#orderCate tr td{font-weight: bold;}	
         .chooseOrderStatus:hover{cursor:pointer;}
     </style>
 </head>
@@ -31,12 +32,11 @@
 	<c:import url="adminMenubar.jsp" />
 
 
-    <div>
-        <h2>주문 관리</h2>
-    </div>
+  <div class="uk-container uk-tile uk-tile-default uk-padding-small uk-margin-medium">
+		<h2 class="uk-h2 uk-text-bolder uk-heading-bullet uk-text-center uk-margin-medium">주문관리</h2>
 	
 	<!-- 주문 상태 중계 -->
-    <table id="check">
+    <table id="check"  class="table table-hover b-t">
     	<!-- forEach 돌려서 배송 준비, 배송 중, 배송 완료, 환불, 취소 해당될 때마다 1씩 증가-->
     	<c:set var="ordered" value="0"/>
     	<c:set var="preparingPdt" value="0"/>
@@ -100,6 +100,7 @@
             </td>
         </tr>
     </table>
+    </div>
 
 	<!-- 검색 창 -->
 <!-- 	<form action="searchAdminOrder.sp" method="post">
@@ -119,7 +120,7 @@
     </form> -->
 
 	<!-- 관리 창 -->
-    <div id="navOrder">
+    <div id="navOrder" class="uk-container uk-tile uk-tile-default uk-text-center uk-padding-medium">
         <ul class="uk-breadcrumb">
                 <li><a href="${pageContext.request.contextPath}/admin/orderAdminList.ad">전체</a></li>
                 <li>
@@ -155,10 +156,10 @@
                <!--  <li><span></span></li> -->
         </ul>
     </div>
-
+	<div class="uk-container uk-tile uk-tile-default uk-padding-remove-top">
 	<!-- 주문 목록 -->
-    <table id="orderList">
-        <thead id="orderCate">
+    <table id="orderList" class="table table-hover b-t">
+        <thead id="orderCate" >
             <tr>
                 <td>주문번호</td>
                 <td>주문자명</td>
@@ -181,7 +182,7 @@
 	                    <!-- ajax -->
 	                    	<input type="hidden" id="orderNo" name="orderNo" value="${i.orderNo }">	                    	
 	                    	<input type="hidden" name="originStatus" value="${i.orderStatusName }">                    	
-	                        <select id="newStatus" name="newStatus">
+	                        <select class="uk-text-middle" id="newStatus" name="newStatus">
 	                            <option id="ordered" value="주문" <c:if test="${i.orderStatusName == '주문'}">selected</c:if>>주문접수</option>
 	                            <option id="refund" value="환불" <c:if test="${i.orderStatusName == '환불'}">selected</c:if>>환불</option>
 	                            <option id="cancel" value="취소" <c:if test="${i.orderStatusName == '취소'}">selected</c:if>>주문취소</option>
@@ -190,14 +191,15 @@
 	                            <option id="delivering" value="배송 중" <c:if test="${i.orderStatusName == '배송 중'}">selected</c:if>>배송 중</option>
 	                            <option id="complete" value="배송 완료" <c:if test="${i.orderStatusName == '배송 완료'}">selected</c:if>>배송 완료</option>
 	                        </select>
-	                        <button class="chooseOrderStatus">선택</button>                    
+	                        <button class="chooseOrderStatus btn btn-sm white">선택</button>                    
 	                </td>
-	                <td><button class="orderDetail">상세보기</button></td>
+	                <td><button class="btn btn-sm white orderDetail">상세보기</button></td>
 	            </tr>               
             </c:forEach>     
          </tbody>
          
     </table>
+    </div>
 	
 	<!-- 페이징 -->
 <!--     <ul class="uk-pagination uk-flex-center" uk-margin>
@@ -340,5 +342,46 @@
     		window.open('orderDetail.or?orderNo='+orderNo, '주문 상세', 'width=1000, height=600');    	
     	});
     </script>
+    </div>
+	</div>
+	<!-- / -->
+
+	<!-- theme switcher -->
+
+	<!-- ############ LAYOUT END-->
+
+	</div>
+	<!-- build:js scripts/app.html.js -->
+	<!-- jQuery -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery/dist/jquery.js"></script>
+	<!-- Bootstrap -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/tether/dist/js/tether.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- core -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/underscore/underscore-min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/PACE/pace.min.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/config.lazyload.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/palette.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-load.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-jp.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-include.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
+
+	<!-- ajax -->
+	<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
+	<!-- endbuild -->
+    
 </body>
 </html>

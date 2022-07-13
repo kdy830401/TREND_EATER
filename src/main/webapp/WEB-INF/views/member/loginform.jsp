@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>TREND EATER</title>
        <!-- uikit -->
       <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit.min.css" />
       <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>

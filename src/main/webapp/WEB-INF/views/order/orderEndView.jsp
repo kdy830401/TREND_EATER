@@ -8,13 +8,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- UIkit CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
+<title>TREND EATER</title>
+<script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+
 
 <!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
 <style>
     body {
   background: none;
@@ -32,16 +36,16 @@ p {
 .center {
   text-align: center;
 }
-button {
-  cursor: pointer;
-  border: none;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  padding: 15px 30px;
-  position: absolute;
-  bottom: 80%;
-  left: 0;
-}
+/* button { */
+/*   cursor: pointer; */
+/*   border: none; */
+/*   background: #fff; */
+/*   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
+/*   padding: 15px 30px; */
+/*   position: absolute;  */
+/*   bottom: 80%; */
+/*   left: 0; */
+/* } */
 .app {
   display: flex;
   flex-flow: column;
@@ -278,7 +282,6 @@ footer svg {
 <body>
 <c:import url="../common/menubar.jsp"/>	
 <div class="uk-container">  
-    <button>CLOSE</button>
 <div class="app active">
   <header>
     <div class="cust-num">
@@ -286,7 +289,9 @@ footer svg {
 <path class="path1" fill="rgb(0, 157, 223)" d="M58.125 19.288c-2.987 13.262-12.212 20.262-26.75 20.262h-4.837l-3.363 21.35h-4.050l-0.212 1.375c-0.137 0.913 0.563 1.725 1.475 1.725h10.35c1.225 0 2.263-0.888 2.462-2.1l0.1-0.525 1.95-12.362 0.125-0.675c0.188-1.212 1.237-2.1 2.462-2.1h1.538c10.025 0 17.875-4.075 20.175-15.85 0.862-4.475 0.538-8.275-1.425-11.1z"></path>
 <path fill="rgb(0, 46, 135)" class="path2" d="M51.938 4.825c-2.962-3.375-8.325-4.825-15.175-4.825h-19.887c-1.4 0-2.6 1.012-2.813 2.4l-8.287 52.525c-0.162 1.038 0.638 1.975 1.688 1.975h12.287l3.087-19.563-0.1 0.612c0.212-1.388 1.4-2.4 2.8-2.4h5.837c11.462 0 20.438-4.65 23.063-18.125 0.075-0.4 0.15-0.788 0.2-1.163 0.775-4.975 0-8.375-2.7-11.438z"></path>
 </svg>
-      <p>24.04.2016 <br>of-113</p>
+	<jsp:useBean id="now" class="java.util.Date" />
+	<fmt:formatDate value="${ now }" pattern="yyyyMMdd" var="now2" />
+      <p>${ now } <br>of-116</p>
     </div>
 
     <div class="cust-info">
@@ -343,6 +348,10 @@ footer svg {
 
   </footer>
 </div>  
+<div class="uk-margin uk-text-center">
+	<a class="uk-button uk-button-default" href="home.do">	메인으로 </a>
+	<button class="uk-button uk-button-default">CLOSE</button>
+</div>
 <script>
     var app = document.querySelector('.app');
 var button = document.querySelector('button');
@@ -352,9 +361,38 @@ button.addEventListener('click', function(e) {
   app.classList.contains('active') ? this.innerHTML = "CLOSE" : this.innerHTML = "OPEN";
 })
 </script>
-<a href="home.do">메인으로 </a>
 </div>	
-	
+	<!-- build:js scripts/app.html.js -->
+	<!-- jQuery -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery/dist/jquery.js"></script>
+	<!-- Bootstrap -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/tether/dist/js/tether.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- core -->
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/underscore/underscore-min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/PACE/pace.min.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/config.lazyload.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/palette.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-load.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-jp.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-include.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-device.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-form.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-nav.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.js" integrity="sha512-Dv9aNdD27P2hvSJag3mpFwumC/UVIpWaVE6I4c8Nmx1pJiPd6DMdWGZZ5SFiys/M8oOSD1zVGgp1IxTJeWBg5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-screenfull.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-scroll-to.js"></script>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ui-toggle-class.js"></script>
+
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/app.js"></script>
+
+	<!-- ajax -->
+<%-- 	<script src="${ pageContext.servletContext.contextPath }/resources/libs/jquery/jquery-pjax/jquery.pjax.js"></script> --%>
+	<script src="${ pageContext.servletContext.contextPath }/resources/scripts/ajax.js"></script>
+	<!-- endbuild -->		
 	
 </body>
 </html>

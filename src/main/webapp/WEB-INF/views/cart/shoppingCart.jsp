@@ -24,7 +24,7 @@
         #pay{padding-left: 900px;}
         #all{content-align:right; }
         #checkAll{ background-color: rgb(255, 92, 88);}
-        button{background-color:rgb(255, 92, 88);}
+/*         button{background-color:rgb(255, 92, 88);} */
     </style>
 </head>
 <body>
@@ -75,7 +75,7 @@
 		                            </td> <!-- value에 상품번호 넣기 -->
 		                       		<td>
 		                       			<input type="hidden" id="cartNo${vs.index}" name="cartNo" value="${i.cartNo}">
-		                       			<button type="button" id="cartDelete">삭제</button>
+		                       			<button type="button" class="uk-button-small uk-button-default" id="cartDelete">삭제</button>
 		                       		</td>
 		                        </tr>
 		                  </c:forEach>

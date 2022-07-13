@@ -18,6 +18,8 @@ public class Review {
 	private Date modifyDate;
 	private int likeCount;
 	private int productNo;
+	private String productName;
+	private int productPrice;
 	private String emailId;
 	private String reviewStatus;
 	private String nickName;
@@ -28,12 +30,8 @@ public class Review {
 	
 	public Review() {}
 
-
-	public Review(int reviewNo, int reviewRating, int recommend, int repurcharse, int spicy, int sweet, int bitter,
-			int salty, int sour, String good, String bad, Date createDate, Date modifyDate, int likeCount,
-			int productNo, String emailId, String reviewStatus, String nickName, String flavor1, String flavor2,
-			String flavor3, String changeName) {
-
+	public Review(Integer reviewNo, int reviewRating, int recommend, int repurcharse, int spicy, int sweet, int bitter, int salty, int sour, String good, String bad, Date createDate, Date modifyDate, int likeCount, int productNo, String productName,
+			int productPrice, String emailId, String reviewStatus, String nickName, String flavor1, String flavor2, String flavor3, String changeName) {
 		super();
 		this.reviewNo = reviewNo;
 		this.reviewRating = reviewRating;
@@ -50,6 +48,8 @@ public class Review {
 		this.modifyDate = modifyDate;
 		this.likeCount = likeCount;
 		this.productNo = productNo;
+		this.productName = productName;
+		this.productPrice = productPrice;
 		this.emailId = emailId;
 		this.reviewStatus = reviewStatus;
 		this.nickName = nickName;
@@ -179,6 +179,22 @@ public class Review {
 		this.productNo = productNo;
 	}
 
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public int getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
+
 	public String getEmailId() {
 		return emailId;
 	}
@@ -235,16 +251,13 @@ public class Review {
 		this.changeName = changeName;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Review [reviewNo=" + reviewNo + ", reviewRating=" + reviewRating + ", recommend=" + recommend + ", repurcharse=" + repurcharse + ", spicy=" + spicy + ", sweet=" + sweet + ", bitter=" + bitter + ", salty=" + salty + ", sour=" + sour
-				+ ", good=" + good + ", bad=" + bad + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", likeCount=" + likeCount + ", productNo=" + productNo + ", emailId=" + emailId + ", reviewStatus=" + reviewStatus + ", nickName="
-				+ nickName + ", flavor1=" + flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + ", changeName=" + changeName + "]";
+				+ ", good=" + good + ", bad=" + bad + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", likeCount=" + likeCount + ", productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice
+				+ ", emailId=" + emailId + ", reviewStatus=" + reviewStatus + ", nickName=" + nickName + ", flavor1=" + flavor1 + ", flavor2=" + flavor2 + ", flavor3=" + flavor3 + ", changeName=" + changeName + "]";
 	}
 
-
-	
 
 
 	
