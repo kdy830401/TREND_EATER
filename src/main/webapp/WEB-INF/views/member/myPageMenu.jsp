@@ -106,9 +106,6 @@
                   <a href="pointList.me">내 포인트</a>
                </li>
                <li>
-                  <a href="#">내 문의사항</a>
-               </li>
-               <li>
                   <a href="orderList.me">주문 관리</a>
                </li>
             </ul>

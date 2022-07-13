@@ -368,7 +368,7 @@ public class AdminController {
 		
 		// 시식게시판 리스트 받아오기
 		ArrayList<ApplyTaste> aList = aService.getTasteList(pi, map);
-		
+		System.out.println(pi);
 //		System.out.println(aList);
 		
 		mv.addObject("pi", pi);

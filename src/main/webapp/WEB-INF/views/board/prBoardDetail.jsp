@@ -194,7 +194,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			</a>
 		</div>
 		<div class="uk-margin uk-border-circle floating-button buy" uk-tooltip="구매하기">
-			<a href="javascript:void(0)">
+			<a href="javascript:void(0)" id="buySide">
 				<span class="material-symbols-outlined icon changColor">credit_card</span>
 			</a>
 		</div>
@@ -574,6 +574,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	<script type="text/javascript">
 		$('#addCartSide').on('click', function(){
 		   $('#addCart').click(); 
+		});
+		
+		$('#buySide').on('click', function(){
+		   $('#buyBtn').click(); 
 		});
 	</script>
 	

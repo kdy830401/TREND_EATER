@@ -137,7 +137,7 @@
 			<div class="uk-child-width-1-3@m" uk-grid uk-height-match="target: > div > .uk-card">
 
 				<c:forEach var="a" items="${ aList }">
-					<c:if test="${ a.tasteIng == 1 }">
+<%-- 					<c:if test="${ a.tasteIng == 1 }"> --%>
 						<div>
 							<div class="uk-card uk-card-default">
 								<div class="uk-card-body">
@@ -275,7 +275,7 @@
 							</div>
 						</div>
 			</div>
-	</c:if>
+<%-- 	</c:if> --%>
 	</c:forEach>
 		<script>
           $('.applyBtn').on('click', function() {
