@@ -21,16 +21,13 @@
 	body{font-family:noto sans; text-align:center;}
 	.all{border:1px solid rgb(255, 92, 88); width: 800px; height: 500px; margin:auto;}
 	table,tr,td{border: 1px solid gray; margin:auto; width: 700px; border-collapse : collapse;}
-	#marginCnr{height:100px;}
+/* 	#marginCnr{height:100px;} */
 	#but{margin:auto; display:block;}
 	
 </style>
 </head>
 <body>
 <div class="all">
-	<div id="marginCnr">
-	
-	</div>
 	<table>
 		<thead>
 			<tr>
@@ -82,7 +79,7 @@
 	</div>
 	
     <span id="inputBtn">
-    <p uk-margin>
+    <p>
         <button class="uk-button uk-button-danger" onclick="closeWindow()" id="but">확인</button>
     </p>
     </span>

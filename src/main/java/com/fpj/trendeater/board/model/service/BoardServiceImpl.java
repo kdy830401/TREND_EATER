@@ -233,12 +233,6 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteBoardQna(int qnaNo) {
 		return bDAO.deleteBoardQna(sqlSession, qnaNo);
 	}
-	@Override
-	public int deleteBoardQna(BoardQnA b) {
-		return 0;
-	}
-
-
 
 
 /*********************************** admin **********************************/	
