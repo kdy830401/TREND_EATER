@@ -5,9 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>TREND EATER</title>
 <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit.min.css" />
 
 
 <!-- UIkit JS -->
@@ -44,7 +44,7 @@
 </head>
 <style>
 * {
-	font-family: "Noto Sans KR", sans-serif !important;
+	font-family: "Noto Sans KR", sans-serif;
 	word-break: keep-all;
 }
 .floating-button {
@@ -166,6 +166,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	{
 	-webkit-appearance: none;
 	margin: 0;
+}
+
+.uk-button-primary:hover {
+    background-color: #e50f8c;
+    color: #fff;
 }
 </style>
 

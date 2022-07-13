@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>TREND EATER</title>
 <!-- CSS Link  -->
 <link href="buyPage.css" rel="stylesheet">
 <!-- JQuery 최신버젼 CDN 링크  -->

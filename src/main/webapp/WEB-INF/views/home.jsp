@@ -10,8 +10,8 @@
 <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
 <!-- UIkit CSS -->
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
-
-
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/topstyle.css">
 <!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/font.css" type="text/css" />
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <style>
 .uk-container img {
@@ -37,7 +38,7 @@
 }
 
 * {
-	font-family: "Noto Sans KR", sans-serif !important;
+	font-family: "Noto Sans KR", sans-serif;
 	word-break: keep-all;
 }
 
@@ -59,9 +60,40 @@
 .productContent:hover {
 	cursor: pointer;
 }
+.color{
+	color: rgba(255, 99, 132, 0.6);
+
+}
+
+ .fill{
+ font-size : 24px;
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 200,
+  'GRAD' 100,
+  'opsz' 30;
+ 
+}
+
+.thumbNo{
+	width : 15px;
+	height: 15px;
+	font-weight : 500;
+	font-size: 11px;
+	
+}
+
+.uk-totop {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
 </style>
 <body>
 	<c:import url="common/menubar.jsp" />
+	
+	
 	<div class="uk-container">
 		<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="min-height: 300; max-height: 300; animation: push">
 			<ul class="uk-slideshow-items">
@@ -104,7 +136,7 @@
 								</div>
 								<hr class="uk-margin-remove-bottom">
 								<div class="uk-card-body uk-padding-small">
-									<p class="uk-text-muted m-b-sm">
+									<p class="uk-text-muted uk-text-small m-b-sm">
 										<fmt:formatNumber value="${pList[status.index].productPrice}" pattern="#,###" />
 										원
 									</p>
@@ -124,7 +156,6 @@
 	<div class="uk-container uk-margin-large">
 		<h3 class="uk-heading-bullet uk-h3 uk-text-center uk-text-bold">HOT 평점이 가장 높은 상품</h3>
 	</div>
-	<div class="uk-container uk-margin-large">
 		<div class="uk-container uk-margin-large">
 			<div class="uk-slider-container-offset" uk-slider>
 				<div class="uk-position-relative uk-visible-toggle" tabindex="-1">
@@ -143,7 +174,7 @@
 									</div>
 									<hr class="uk-margin-remove-bottom">
 									<div class="uk-card-body uk-padding-small">
-										<p class="uk-text-muted m-b-sm">
+										<p class="uk-text-muted uk-text-small m-b-sm">
 											<fmt:formatNumber value="${bProducts[status.index].productPrice}" pattern="#,###" />
 											원
 										</p>
@@ -158,51 +189,84 @@
 				</div>
 			</div>
 		</div>
-	</div>
 
 	<div class="uk-container uk-margin-large">
 		<h3 class="uk-heading-bullet uk-h3 uk-text-center uk-text-bold">Eater's Pick Best Review</h3>
 	</div>
 
 	<div class="uk-container uk-margin-large">
-		 <div uk-slider>
-
-            <div class="uk-position-relative">
-        
-                <div class="uk-slider-container uk-light ">
-                    <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid">
-                    	<c:forEach var="review" items="${review}" varStatus="status">
-                        <li>
-                            <img src="${ contextPath }/resources/reviewImages/${rImage[status.index].changeName}" width="400" height="600" alt="">
-                            <div class="uk-position-center uk-panel"><h1>좋아요 갯수 : ${review.likeCount }</h1></div>
-                        </li>
-                        </c:forEach>
-                    </ul>
-                </div>
-        
-                <div class="uk-hidden@s uk-light">
-                    <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
-                </div>
-        
-                <div class="uk-visible@s">
-                    <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
-                </div>
-        
-            </div>
-        
-            <!-- <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul> -->
-        
-        </div>
-        <br><br><br><br><br><br>
+		<div class="uk-slider-container-offset" uk-slider>
+				<div class="uk-position-relative uk-visible-toggle" tabindex="-1">
+					<ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid" uk-grid uk-height-match="target: > div > .uk-card">
+						<c:forEach var="review" items="${review}" varStatus="status">
+								<li class="productContent">
+								<c:url var="prdetail3" value="rlist.bo">
+									<c:param name="pno" value="${review.productNo}" />
+								</c:url>
+								<div class="uk-card uk-card-default">
+									<div class="uk-card-media-top uk-padding-small">
+										<div class="uk-transition-toggle" tabindex="0">
+											<img class=" uk-transition-scale-up uk-transition-opaque product" src="${ contextPath }/resources/reviewImages/${rImage[status.index].changeName}" onclick="location.href='${prdetail3}'" width="400" height="600" alt="상품사진">
+										
+										</div>
+									</div>
+										<div class="p-t-0 p-l-md">
+										<span class="material-symbols-outlined fill color">thumb_up</span>
+										<span class="uk-badge uk-text-top thumbNo">${review.likeCount}</span>
+<%-- 										<c:choose> --%>
+<%-- 											<c:when test="${ review.reviewRating == 1 }"> --%>
+<%-- 											<span class="star color">★${ review.reviewRating }</span> --%>
+<%-- 											</c:when> --%>
+<%-- 											<c:when test="${ review.reviewRating == 2 }"> --%>
+<%-- 											<span class="star color">★★${ review.reviewRating }</span> --%>
+<%-- 											</c:when> --%>
+<%-- 											<c:when test="${ review.reviewRating == 3 }"> --%>
+<%-- 											<span class="star color">★★★${ review.reviewRating }</span> --%>
+<%-- 											</c:when> --%>
+<%-- 											<c:when test="${ review.reviewRating == 4 }"> --%>
+<%-- 											<span class="star color">★★★★${ review.reviewRating }</span> --%>
+<%-- 											</c:when> --%>
+<%-- 											<c:when test="${ review.reviewRating == 5 }"> --%>
+<%-- 											<span class="star color">★★★★★${ review.reviewRating }</span> --%>
+<%-- 											</c:when> --%>
+<%-- 										</c:choose> --%>
+									</div>
+									<hr class="uk-margin-remove-bottom">
+									<div class="uk-card-body uk-padding-small">
+									
+										<h4 class="uk-h5 uk-text-bold uk-margin-small">${review.productName}</h4>
+									</div>
+								</div>
+							</li>
+						</c:forEach>
+					</ul>
+					<a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+					<a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+				</div>
+			</div>
+	
+	
+	
 
     </div>
-
-	</div>
+	<a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
 
 	<c:import url="common/footer.jsp" />
+    <script>
+    $(window).scroll(function() {
+        if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+            $('#return-to-top').fadeIn(200);    // Fade in the arrow
+        } else {
+            $('#return-to-top').fadeOut(200);   // Else fade out the arrow
+        }
+    });
+    $('#return-to-top').click(function() {      // When arrow is clicked
+        $('body,html').animate({
+            scrollTop : 0                       // Scroll to top of body
+        }, 500);
+    });// ===== Scroll to Top ==== 
 
+    </script>
 
 	<!-- build:js scripts/app.html.js -->
 	<!-- jQuery -->

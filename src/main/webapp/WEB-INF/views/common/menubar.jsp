@@ -20,7 +20,7 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 * {
-	font-family: "Noto Sans KR", sans-serif !important;
+	font-family: "Noto Sans KR", sans-serif;
 	word-break: keep-all;
 }
 
@@ -50,7 +50,9 @@ body { /* position: relative;  */
 #login {
 	display: block;
 	text-align: right;
+	margin-top: 30px;
 }
+
 
 .uk-navbar-container, .navbar {
 	background: white;

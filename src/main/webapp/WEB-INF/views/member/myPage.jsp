@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>TREND EATER</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- uikit -->
 <link rel="stylesheet" href="${ contextPath }/resources/css/uikit.min.css" />

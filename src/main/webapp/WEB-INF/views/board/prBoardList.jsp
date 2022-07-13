@@ -36,7 +36,7 @@
 <style>
 
 * {
-	font-family: "Noto Sans KR", sans-serif !important;
+	font-family: "Noto Sans KR", sans-serif;
 	word-break: keep-all;
 }
 
@@ -61,6 +61,10 @@
 
 .uk-card-header{
 	height: 117px;
+}
+
+.uk-article-meta{
+	font-size: 13px;
 }
 </style>
 <body>
@@ -227,7 +231,7 @@
 <!-- 								<i class="fa-regular fa-comments"></i> -->
 								<span uk-icon="comments"></span>
 								<span class="uk-badge uk-text-top">${ b.reviewCount }</span>
-								<P class="uk-text-muted m-t-md">${ b.productOneLine }</P>
+								<P class="uk-article-meta m-t-md">${ b.productOneLine }</P>
 							</div>
 						</div>
 					</div>

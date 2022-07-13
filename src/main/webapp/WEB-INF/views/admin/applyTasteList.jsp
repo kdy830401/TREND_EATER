@@ -11,6 +11,10 @@
 .uk-breadcrumb>:nth-child(n+2):not(.uk-first-column)::before {
 	margin: 0 5px 0 calc(5px - 4px) !important;
 }
+
+table{
+	font-size: 0.8rem;
+}
 </style>
 <body>
 	<c:import url="adminMenubar.jsp" />

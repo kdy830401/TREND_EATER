@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>TREND EATER</title>
 <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,7 +26,7 @@
 <!-- endbuild -->
 <link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/assets/styles/font.css" type="text/css" />
 
-<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
 
@@ -261,29 +262,7 @@
 													</div>
 
 												</form>
-											<script>
-                                                $('.applyBtn').on('click', function() {
-                                                    var tasteNo = $(this).prev().val();
-                                                    console.log(tasteNo);
-                                                    $.ajax({ url : "dupCheckApply.bo",
-                                                    data : { tasteNo : tasteNo },
-                                                    type : "POST",
-                                                    success : function(data) {
-                                                        console.log(data);
-                                                        if (parseInt(data) > 0) {
-                                                            alert("이미 신청하신 제품입니다.");
-                                                            $('#close'+tasteNo).click();
-                                                            return false;
-
-                                                        }
-
-                                                    },
-                                                    error : function(data) {
-                                                        console.log(data);
-                                                    } });
-
-                                                });
-                                            </script>
+										
 
 										</div>
 									</div>
@@ -298,6 +277,29 @@
 			</div>
 	</c:if>
 	</c:forEach>
+		<script>
+          $('.applyBtn').on('click', function() {
+              var tasteNo = $(this).prev().val();
+              console.log(tasteNo);
+              $.ajax({ url : "dupCheckApply.bo",
+              data : { tasteNo : tasteNo },
+              type : "POST",
+              success : function(data) {
+                  console.log(data);
+                  if (parseInt(data) > 0) {
+                      alert("이미 신청하신 제품입니다.");
+                      $('#close'+tasteNo).click();
+                      return false;
+
+                  }
+
+              },
+              error : function(data) {
+                  console.log(data);
+              } });
+
+          });
+      </script>
 
 	<!-- 페이징 처리 -->
 	</div>
@@ -416,7 +418,7 @@
                 var countdown = $(this);
 
                 // 				console.log($(this).prev().val());
-                var date = $(this).prev().val() + "T10:00:00+0900";
+                var date = $(this).prev().val() + "T14:35:00+0900";
                 var tasteIng = $(this).prev().prev().val();
                 let setDate = new Date(date), setDateYear = setDate.getFullYear(), setDateMonth = setDate.getMonth() + 1, setDateDay = setDate.getDate(), setDateHour = setDate.getHours(), setDateMinutes = setDate.getMinutes();
 

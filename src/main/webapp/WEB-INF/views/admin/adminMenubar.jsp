@@ -47,6 +47,10 @@ a:hover {
 	text-decoration: none;
 	color: white;
 }
+table{
+	font-size: 0.8rem;
+}
+
 </style>
 <body>
 	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />

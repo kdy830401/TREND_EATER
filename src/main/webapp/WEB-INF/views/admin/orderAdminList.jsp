@@ -6,14 +6,14 @@
 <head>
 <meta charset="UTF-8">
     <title>주문 관리</title>
-    <script src="resources/js/jquery-3.6.0.min.js"></script>
-
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
-
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
+   <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+	<!-- UIkit CSS -->
+	<link rel="stylesheet" href="${ pageContext.servletContext.contextPath }/resources/css/uikit/uikit.min.css" />
+	
+	
+	<!-- UIkit JS -->
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
 
     <style>
     	body{font-family: noto sans;}
@@ -183,7 +183,7 @@
 	                    <!-- ajax -->
 	                    	<input type="hidden" id="orderNo" name="orderNo" value="${i.orderNo }">	                    	
 	                    	<input type="hidden" name="originStatus" value="${i.orderStatusName }">                    	
-	                        <select id="newStatus" name="newStatus">
+	                        <select class="uk-text-middle" id="newStatus" name="newStatus">
 	                            <option id="ordered" value="주문" <c:if test="${i.orderStatusName == '주문'}">selected</c:if>>주문접수</option>
 	                            <option id="refund" value="환불" <c:if test="${i.orderStatusName == '환불'}">selected</c:if>>환불</option>
 	                            <option id="cancel" value="취소" <c:if test="${i.orderStatusName == '취소'}">selected</c:if>>주문취소</option>
@@ -192,9 +192,9 @@
 	                            <option id="delivering" value="배송 중" <c:if test="${i.orderStatusName == '배송 중'}">selected</c:if>>배송 중</option>
 	                            <option id="complete" value="배송 완료" <c:if test="${i.orderStatusName == '배송 완료'}">selected</c:if>>배송 완료</option>
 	                        </select>
-	                        <button class="chooseOrderStatus">선택</button>                    
+	                        <button class="chooseOrderStatus btn btn-sm white">선택</button>                    
 	                </td>
-	                <td><button class="orderDetail">상세보기</button></td>
+	                <td><button class="orderDetail btn btn-sm white">상세보기</button></td>
 	            </tr>               
             </c:forEach>     
          </tbody>
