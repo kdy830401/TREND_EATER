@@ -142,20 +142,20 @@ public class BoardServiceImpl implements BoardService{
 
 	//특정 회원 리뷰 
 	@Override
-	public int someReviewCount() {
-		return bDAO.someReviewCount(sqlSession);
+	public int someReviewCount(String nickName) {
+		return bDAO.someReviewCount(sqlSession,nickName);
 	}
 //	@Override
 //	public ArrayList<Review> someReviewList(PageInfo pi) {
 //		return bDAO.someReviewList(sqlSession, pi);
 //	}
 	@Override
-	public ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map) {
-		return bDAO.someReviewList(sqlSession, pi, map);
+	public ArrayList<Review> someReviewList(PageInfo pi, String nickName) {
+		return bDAO.someReviewList(sqlSession, pi, nickName);
 	}
 	@Override
-	public ArrayList<ReviewImage> someReviewImageList() {
-		return bDAO.someReviewImageList(sqlSession);
+	public ArrayList<ReviewImage> someReviewImageList(ArrayList<Review> reviewList) {
+		return bDAO.someReviewImageList(sqlSession, reviewList);
 	}
 
 	

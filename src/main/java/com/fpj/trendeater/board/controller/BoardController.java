@@ -749,7 +749,7 @@ public class BoardController {
 		}			
 		
 	}
-
+		
 		@RequestMapping("someReviewList.bo")
 	  	public ModelAndView someReviewList(@RequestParam(value = "page", required=false) Integer page,
 	  										@RequestParam(value = "nickName", required=false) String nickName,
@@ -762,26 +762,24 @@ public class BoardController {
 	  			currentPage = page;			
 	  		}
 	  		
-	  		int listCount = bService.someReviewCount();
+	  		int listCount = bService.someReviewCount(nickName);
 	  		
-	  		int boardLimit = 10;
-	  		
-	  		HashMap<String, String> map = new HashMap<>();
-	  		map.put("nickName", nickName);
-//	  		map.put("reviewNo", reviewNo);
-//	  		System.out.println("emailId" + emailId);
+	  		int boardLimit = 5;
 	  		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 	  		
+	  		ArrayList<Review> reviewList = bService.someReviewList(pi, nickName);
 	  		
-	  		ArrayList<Review> reviewList = bService.someReviewList(pi, map);
-	  		ArrayList<ReviewImage> reviewImageList = bService.someReviewImageList();
-	  		String loginUser = (String)session.getAttribute("loginUser.email");
+	  		ArrayList<ReviewImage> reviewImageList = bService.someReviewImageList(reviewList);
+//	  		map.put("reviewNo", reviewNo);
+//	  		System.out.println("emailId" + emailId);
 	  		
-	  		UserLike li = new UserLike();
-	  		li.setEmailId(loginUser);
-//	  		li.setReviewNo(reviewNo);
 	  		
-//	  		int count = bService.likeCount(li);
+	  		String emailId = ((Member)session.getAttribute("loginUser")).getEmail();
+			
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("emailId", emailId);
+			
+			ArrayList<UserLike> likeList = bService.userLikeSelect(map);
 	  		
 	  		
 	  		if(reviewList != null && reviewImageList != null) {
@@ -789,12 +787,12 @@ public class BoardController {
 	  			mv.addObject("pi", pi); 
 	  			mv.addObject("reviewImageList", reviewImageList);
 	  			mv.addObject("nickName", nickName);
-	  			mv.addObject(map);
 	  			mv.setViewName("someMemberReviewList");
-	  			System.out.println("someReviewList : " + reviewList);
+	  			System.out.println("someReviewImageList : " + reviewImageList);
 	  	  		System.out.println("nick : " + nickName);
+	  	  		System.out.println("reviewNo : " + reviewNo);
 	  		} else {
-//	  			System.out.println("실패 someReviewList : " + reviewList);
+	  			System.out.println("실패 someReviewList : " + reviewList);
 	  			throw new BoardException("특정 회원 리뷰 전체 조회에 실패하였습니다");
 	  		}
 	  	

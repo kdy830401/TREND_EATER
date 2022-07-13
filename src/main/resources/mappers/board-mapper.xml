@@ -120,7 +120,7 @@
   	</select>
   
   <select id="getReviewList" resultMap="reviewResultSet">
-	select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3, nickname
+	select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3, nickname,change_name
      from review_list rl
          join member m on (rl.email_id = m.email_id)    
      where review_status  = 'Y' and product_no = #{ productNo }
@@ -679,7 +679,7 @@
     select count(*)
      from review_list rl
         join member m on (rl.email_id = m.email_id) 
-     where REVIEW_STATUS = 'Y' and nickName=#{nickName}
+     where REVIEW_STATUS = 'Y' and m.nickName=#{nickName}
   </select>
   
     <select id="someReviewList" resultMap="reviewResultSet">
@@ -688,7 +688,7 @@
 <!--          join member m on (rl.email_id = m.email_id)     -->
 <!--      where review_status  = 'Y' -->
 <!--      order by review_no desc -->
-select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3,nickName
+select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3,nickName,change_name
      from review_list rl
          join member m on (rl.email_id = m.email_id)    
      where review_status  = 'Y' and nickName=#{nickName}
