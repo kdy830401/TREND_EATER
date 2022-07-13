@@ -94,8 +94,8 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public ArrayList<Review> getReviewList(PageInfo pi, Integer productNo) {
-		return bDAO.getReviewList(sqlSession, pi, productNo);
+	public ArrayList<Review> getReviewList(PageInfo pi, Integer productNo, String value) {
+		return bDAO.getReviewList(sqlSession, pi, productNo, value);
 	}
 	
 

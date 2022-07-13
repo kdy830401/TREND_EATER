@@ -88,10 +88,10 @@ public interface AdminService {
 	
 
 	//관리자 페이지 리뷰 조회
-	ArrayList<Review> reviewList(PageInfo pi);
+	ArrayList<Review> reviewList(PageInfo pi, String value);
 	ArrayList<ReviewImage> reviewImageList();
 	//신고된 리뷰 조회
-	ArrayList<Report> getReportList(PageInfo pi);
+	ArrayList<Report> getReportList(PageInfo pi, HashMap<String, Object> map);
 	int getListCount(Integer reportNo);
 	//신고된 리뷰 개수 조회
 	int reportCount();

@@ -120,16 +120,25 @@
   	</select>
   
   <select id="getReviewList" resultMap="reviewResultSet">
-<!--      select * -->
-<!--      from review_list rl -->
-<!--          join member m on (rl.email_id = m.email_id)     -->
-<!--      where review_status  = 'Y' -->
-<!--      order by review_no desc -->
 	select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3, nickname
      from review_list rl
          join member m on (rl.email_id = m.email_id)    
      where review_status  = 'Y' and product_no = #{ productNo }
-     order by review_no desc
+        <if test='value == null or value.equals("reviewNo")'>
+         order by review_no desc
+         </if>
+        <if test='value != null and value.equals("old")'>
+         order by review_no asc
+         </if>
+        <if test='value != null and value.equals("likeCount")'>
+         order by like_count desc
+         </if>
+        <if test='value != null and value.equals("reviewRatingHigh")'>
+         order by review_rating desc
+         </if>
+        <if test='value != null and value.equals("reviewRatingLow")'>
+         order by review_rating asc
+         </if>
   </select>
   <resultMap type="Review" id="reviewResultSet">
        <id column="REVIEW_NO" property="reviewNo"/>
@@ -655,9 +664,10 @@
  
     
     <select id="someReviewCount" resultType="_int">
-     select count(*)
-     from review_list
-     where REVIEW_STATUS = 'Y' and email_id=#{emailId}
+    select count(*)
+     from review_list rl
+        join member m on (rl.email_id = m.email_id) 
+     where REVIEW_STATUS = 'Y' and nickName=#{nickName}
   </select>
   
     <select id="someReviewList" resultMap="reviewResultSet">
@@ -666,10 +676,10 @@
 <!--          join member m on (rl.email_id = m.email_id)     -->
 <!--      where review_status  = 'Y' -->
 <!--      order by review_no desc -->
-select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3
+select REVIEW_NO, REVIEW_RATING, RECOMMEND, REPURCHARSE, spicy, sweet, bitter, salty, sour, good, bad, rl.CREATE_DATE, rl.MODIFY_DATE, LIKE_COUNT, REVIEW_STATUS, rl.email_id, PRODUCT_NO, flavor1, flavor2, flavor3,nickName
      from review_list rl
          join member m on (rl.email_id = m.email_id)    
-     where review_status  = 'Y' and rl.email_id=#{emailId}
+     where review_status  = 'Y' and nickName=#{nickName}
      order by review_no desc
   </select>
   

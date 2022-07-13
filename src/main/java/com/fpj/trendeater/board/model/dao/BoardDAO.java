@@ -99,10 +99,14 @@ public class BoardDAO {
 		return sqlSession.selectOne("boardMapper.reviewCount", productNo);
 	}
 
-	public ArrayList<Review> getReviewList(SqlSessionTemplate sqlSession, PageInfo pi, Integer productNo) {
+	public ArrayList<Review> getReviewList(SqlSessionTemplate sqlSession, PageInfo pi, Integer productNo, String value) {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("boardMapper.getReviewList", productNo, rowBounds);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("productNo", productNo);
+		map.put("value",value);
+		return (ArrayList)sqlSession.selectList("boardMapper.getReviewList", map, rowBounds);
 	}
 	
 

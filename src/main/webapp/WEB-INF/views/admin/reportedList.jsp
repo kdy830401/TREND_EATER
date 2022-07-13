@@ -43,6 +43,13 @@
       신고된 리뷰 목록<span id="review-count">(${reportCount})</span>
    </h1>
    
+   
+ 				<c:url var="nes" value="reportedReview.ad">
+ 				 <c:param name="reportNo" value="${ reportNo }"/>
+               </c:url>
+               <li><a href="${ nes }"><span>최신순</span></a></li>
+               <li><a href="${ nes }&value=old"><span>오래된순</span></a></li>
+               <li><a href="${ nes }&value=reportType"><span>신고 종류순</span></a></li>
    <table class="table table-hover b-t">
     <thead>
         <tr id="table-title">

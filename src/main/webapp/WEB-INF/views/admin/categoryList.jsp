@@ -178,7 +178,7 @@
 	                <td>${i.email }</td>
 	                <td>카드 결제</td>
 	                <td>${i.totalPrice }</td>
-	                <td>
+	                <td id="info">
 	                    <!-- ajax -->
 	                    	<input type="hidden" id="orderNo" name="orderNo" value="${i.orderNo }">	                    	
 	                    	<input type="hidden" name="originStatus" value="${i.orderStatusName }">                    	
@@ -193,7 +193,7 @@
 	                        </select>
 	                        <button class="chooseOrderStatus btn btn-sm white">선택</button>                    
 	                </td>
-	                <td><button class="btn btn-sm white" onclick="location.href=''">상세보기</button></td>
+	                <td><button class="btn btn-sm white orderDetail">상세보기</button></td>
 	            </tr>               
             </c:forEach>     
          </tbody>
@@ -338,7 +338,8 @@
     	$('.orderDetail').on('click', function(){
     		var orderNo = $(this).parent().siblings('#info').children('#orderNo').val();
     		
-    		location.href='orderAdminDetail.or?orderNo='+orderNo;
+    		/* location.href='orderAdminDetail.or?orderNo='+orderNo; */
+    		window.open('orderDetail.or?orderNo='+orderNo, '주문 상세', 'width=1000, height=600');    	
     	});
     </script>
     </div>

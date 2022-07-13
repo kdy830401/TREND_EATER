@@ -159,20 +159,20 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 
 	
 	<div class="uk-container uk-container-midium" id="review-container">
-		<div class="uk-inline" style="margin-top: 30px">
-				<input class="uk-input uk-width-medium" id="searchValue" name="seachValue" type="search" placeholder="회원 닉네임을 검색하세요">
-				<a class="uk-form-icon uk-form-icon-flip" id="search" href="javascript:void(0)" uk-icon="icon: search"></a>
-		</div>
 		<h1  id="review-header" class="review-header">
 			리뷰 목록<span id="review-count">${ pi.listCount }</span>
 		</h1>
 		<ul
 			class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"
 			id="total-arrange">
-			<li class="arrange"><a href="">최신순</a></li>
-			<li class="arrange"><a href="">추천순</a></li>
-			<li class="arrange"><a href="">높은 평점순</a></li>
-			<li class="arrange"><a href="">낮은 평점순</a></li>
+			<c:url var="nes" value="reviewList.ad">
+			 <c:param name="p" value="${ p }"/>
+               </c:url>
+               <li><a href="${ nes }"><span>최신순</span></a></li>
+               <li><a href="${ nes }&value=old"><span>오래된순</span></a></li>
+               <li><a href="${ nes }&value=likeCount"><span>좋아요순</span></a></li>
+               <li><a href="${ nes }&value=reviewRatingHigh"><span>높은 평점순</span></a></li>
+               <li><a href="${ nes }&value=reviewRatingLow"><span>낮은 평점순</span></a></li>
 		</ul>
 			<hr class="first-hr">
 			
@@ -212,7 +212,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 					</div>
 
 
-				</div>
+<!-- 				</div> -->
 				
 						<div class="uk-margin">
 								<dl class="uk-description-list uk-description-list-divider">
@@ -238,7 +238,6 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 								</c:when>
 							</c:choose>
 
-<!-- 					</div> -->
 			</header>
 			<!-- 슬라이더 -->
 			<div uk-slider="" class="uk-slider uk-slider-container" center="0" sets="0">

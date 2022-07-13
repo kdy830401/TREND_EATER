@@ -515,7 +515,21 @@
      from review_list rl
          join member m on (rl.email_id = m.email_id)    
      where review_status  = 'Y'
-     order by review_no desc
+    <if test='value == null or value.equals("reviewNo")'>
+         order by review_no desc
+         </if>
+        <if test='value != null and value.equals("old")'>
+         order by review_no asc
+         </if>
+        <if test='value != null and value.equals("likeCount")'>
+         order by like_count desc
+         </if>
+        <if test='value != null and value.equals("reviewRatingHigh")'>
+         order by review_rating desc
+         </if>
+        <if test='value != null and value.equals("reviewRatingLow")'>
+         order by review_rating asc
+         </if>
   </select>
   <resultMap type="Review" id="reviewResultSet">
        <id column="REVIEW_NO" property="reviewNo"/>
@@ -571,7 +585,16 @@
 		left JOIN review_list 
         USING (review_no)
 		where report_result = 'N'
-		order by report_no desc
+<!-- 		order by report_no desc -->
+		<if test='value == null or value.equals("reportNo")'>
+         order by report_no desc
+         </if>
+        <if test='value != null and value.equals("old")'>
+         order by report_no asc
+         </if>
+        <if test='value != null and value.equals("reportType")'>
+         order by report_type desc
+         </if>
 	</select>
 	<resultMap type="Report" id="reportResultSet">
 		<id column="REPORT_NO" property="reportNo"/>

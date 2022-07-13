@@ -528,6 +528,7 @@ public class BoardController {
 	@RequestMapping("rlist.bo")
 	public ModelAndView reviewList(@RequestParam(value = "page", required=false) Integer page, 
 								   @RequestParam(value="pno", required=false) Integer productNo,
+								   @RequestParam(value="value", required=false) String value,
 								   ModelAndView mv, UserLike like, HttpSession session) {
 		
 		int currentPage = 1;
@@ -535,13 +536,13 @@ public class BoardController {
 		if(page != null) {
 			currentPage = page;			
 		}
-		
+	
 		int listCount = bService.reviewCount(productNo);
 		
 		int boardLimit = 5;
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 		
-		ArrayList<Review> reviewList = bService.getReviewList(pi, productNo);
+		ArrayList<Review> reviewList = bService.getReviewList(pi, productNo, value);
 		
 		ArrayList<ReviewImage> reviewImageList = bService.getReviewImageList();
 		
@@ -549,12 +550,12 @@ public class BoardController {
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("emailId", emailId);
-//		System.out.println(map);
 		
 		ArrayList<UserLike> likeList = bService.userLikeSelect(map);
 		
 		System.out.println(reviewImageList);
 		System.out.println(pi);
+		System.out.println(value);
 		
 		if(reviewList != null && reviewImageList != null) {
 			mv.addObject("reviewList", reviewList);
@@ -563,9 +564,11 @@ public class BoardController {
 
 			mv.addObject("likeList",likeList);
 			mv.addObject("pno", productNo);
+			mv.addObject("value", value);
 
 			mv.setViewName("reviewListView");
 			System.out.println("page : " + page);
+			System.out.println("pno : " + productNo);
 		} else {
 			throw new BoardException("리뷰 전체 조회에 실패하였습니다");
 		}
@@ -710,11 +713,9 @@ public class BoardController {
 		
 			System.out.println("report : " + rep);
 			if(result > 0) {
-				System.out.println("sssss report : " + rep);
 				return "success";
 			} else {
-				System.out.println("fffff report : " + rep);
-				throw new BoardException("신고에 실패하였습니다!!!!!!!.");
+				throw new BoardException("신고에 실패하였습니다.");
 			}
 				
 
@@ -750,7 +751,8 @@ public class BoardController {
 
 		@RequestMapping("someReviewList.bo")
 	  	public ModelAndView someReviewList(@RequestParam(value = "page", required=false) Integer page,
-	  										@RequestParam(value = "emailId", required=false) String emailId,
+	  										@RequestParam(value = "nickName", required=false) String nickName,
+	  										@RequestParam(value = "reviewNo", required=false) Integer reviewNo,
 	  										ModelAndView mv, UserLike like, HttpSession session) {
 	  		
 	  		int currentPage = 1;
@@ -764,15 +766,14 @@ public class BoardController {
 	  		int boardLimit = 10;
 	  		
 	  		HashMap<String, String> map = new HashMap<>();
-	  		map.put("emailId", emailId);
-	  		
+	  		map.put("nickName", nickName);
+//	  		map.put("reviewNo", reviewNo);
+//	  		System.out.println("emailId" + emailId);
 	  		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, boardLimit);
 	  		
 	  		
 	  		ArrayList<Review> reviewList = bService.someReviewList(pi, map);
-	  		
 	  		ArrayList<ReviewImage> reviewImageList = bService.someReviewImageList();
-	  		
 	  		String loginUser = (String)session.getAttribute("loginUser.email");
 	  		
 	  		UserLike li = new UserLike();
@@ -786,10 +787,11 @@ public class BoardController {
 	  			mv.addObject("reviewList", reviewList);
 	  			mv.addObject("pi", pi); 
 	  			mv.addObject("reviewImageList", reviewImageList);
-//	  			mv.addObject(count);
-	  			mv.addObject(emailId);
+	  			mv.addObject("nickName", nickName);
+	  			mv.addObject(map);
 	  			mv.setViewName("someMemberReviewList");
 	  			System.out.println("someReviewList : " + reviewList);
+	  	  		System.out.println("nick : " + nickName);
 	  		} else {
 //	  			System.out.println("실패 someReviewList : " + reviewList);
 	  			throw new BoardException("특정 회원 리뷰 전체 조회에 실패하였습니다");

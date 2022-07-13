@@ -52,7 +52,7 @@ public interface BoardService {
 	int reviewLike(HashMap<String, Object> map);
 	
 	
-	ArrayList<Review> getReviewList(PageInfo pi, Integer productNo);
+	ArrayList<Review> getReviewList(PageInfo pi, Integer productNo, String value);
 
 	ArrayList<ReviewImage> getReviewImageList();
 
@@ -61,7 +61,6 @@ public interface BoardService {
 //	int insertReviewImage(ArrayList<ReviewImage> imageList, int reviewNo);
 	int insertReviewImage(ArrayList<ReviewImage> imageList);
 
-//	int reportReview(Report rep);
 	int reportReview(Report rep);
 
 	int someReviewCount();
