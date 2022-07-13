@@ -24,7 +24,6 @@
     </div>    
     
 	<form action='adminNoticeWriteForm.ad' method="post" id="adminNoticeWriteForm">
-
 	    <table class="tableWhole">
 	            <thead>
 	                <tr>

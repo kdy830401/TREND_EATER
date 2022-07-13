@@ -351,9 +351,6 @@
 	
 
 <!-- QnA 수정1 : select 수정을 위해 해당 게시판번호의 게시판 전체 정보 받아오기 -->		
-
-<!-- 수정을 위한 해당 id의 qna 전체 정보 받아오기 -->	
-
 	<select id="selectBoardQna" resultMap="boardQnaResultSet">
 		select *
 		from qna
@@ -363,9 +360,6 @@
 	
 
 <!-- QnA 수정2 : update -->
-
-<!-- QnA 수정 -->
-
 	<update id="updateBoardQna">
 		update qna
 		set qna_title = #{qnaTitle}, qna_content = #{qnaContent}
@@ -382,7 +376,6 @@
 
 
 <!-- adminNotice 수정1 : select 수정을 위해 해당 게시판번호의 게시판 전체 정보 받아오기 -->	
-
 	<select id="adminNoticeSelect" resultMap="boardResultSet">
 		select *
 		from board
@@ -422,6 +415,26 @@
 	</insert>
 
 
+
+<!-- adminQnaAnsUpdate : 답변 수정1 : select 수정을 위해 해당 정보 받아오기 -->	
+	<select id="adminQnaAnsSelect" resultMap="ReplyResultSet">
+		select *
+		from QNA_REPLY
+		where REPLY_STATUS = 'Y' and REPLY_NO = #{replyNo} 
+	</select>
+
+<!-- adminQnaAnsUpdate : 답변 수정2 -->
+	<update id="adminQnaAnsUpdate">
+		update qna_reply
+		set reply_content = #{replyContent}
+		where reply_No = #{replyNo}
+	</update>
+<!-- adminQnaAnsDelete : 답변 삭제 -->
+	<update id="adminQnaAnsDelete">
+		update qna_reply
+		set reply_status = 'N'
+		where reply_No = #{replyNo}
+	</update>
 
 
 

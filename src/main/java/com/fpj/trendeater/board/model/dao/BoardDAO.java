@@ -295,8 +295,18 @@ public class BoardDAO {
 		return sqlSession.insert("boardMapper.adminQnaAnsWrite",reply);
 	}
 
+	public Reply adminQnaAnsSelect(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.selectOne("boardMapper.adminQnaAnsSelect", r);
+	}
 	
+	public int adminQnaAnsUpdate(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("boardMapper.adminQnaAnsUpdate", replyNo);
+	}
 	
+	public int adminQnaAnsDelete(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("boardMapper.adminQnaAnsDelete", replyNo);
+	}
+
 
 	
 
@@ -316,7 +326,6 @@ public class BoardDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.getEBoardList", null, rowBounds);
 	}
-
 	public ArrayList<Reply> getQnaReplyListAdmin(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("boardMapper.getQnaReplyListAdmin");
 	}
@@ -452,10 +461,6 @@ public class BoardDAO {
 	
 	
 
-	
-	
-	
-	
 	
 	
 	

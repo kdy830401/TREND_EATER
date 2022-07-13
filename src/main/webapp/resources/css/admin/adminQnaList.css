@@ -234,15 +234,54 @@ boardSearchBox 아래있는 div태그 자식 요소 중에 seachBar태그에만 
 .searchBar > input{
     display: flex;
     border: 1px solid lightgray;
+    
 }
 
 
-/*********************************************/
+/*******************댓글 수정삭제 버튼**********************/
 
+.replyButton{
+	disply:flex;
+	text-align: right;
+}
+.replyButton button{
+    width:60px;
+    height:20px;
+    background-color: #FE8F8F;
+    border: 1px solid #FF5C58;
+    color:#fff;
+	font-size:10px;
+}
 
+.replyButton button:hover{
+    background-color:#f7b7b5;
+    color:#fff;
+    border:1px solid #FE8F8F;
+}
 
+/******************* 등록하기 버튼**********************/
 
+.replyTable{
+	disply:flex;
+	text-align: center;
+}
+.replyTable > div{
+	text-align: right;
+}
+.replyTable > div > button{
+    width:60px;
+    height:20px;
+    background-color: #FE8F8F;
+    border: 1px solid #FF5C58;
+    color:#fff;
+	font-size:10px;
+}
 
+.replyTable > div > button:hover{
+    background-color:#f7b7b5;
+    color:#fff;
+    border:1px solid #FE8F8F;
+}
 
 
 

@@ -1,86 +1,98 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css); 
 
 
 
-
-
-th{
-    width: 130px;
-    background-color: #f7f5f8;
-    font-weight: 600;
-    line-height: 200%;
+body{
+    font-family: "Noto Sans";
 }
 
-.title{
-    width: 1000px;
-    text-align: center;
-    margin: 0 auto;
-}
-.title > p{
-    color:rgb(149, 146, 146);
-    margin-bottom: 3%;
-}
-thead{
-    border-bottom: rgb(149, 146, 146);
-}
-
-.tableWhole{
-    width:100%;
-    max-width: 1000px;
-    border-top : 2px solid black;  
-    border-bottom: 1px solid lightgray;
-    line-height: 180%;
-    margin: 0 auto;
-}
-.tableWhole > thead > tr > td{
-	padding-left:10px;	
-	padding-top:5px;
-	padding-bottom:5px;
-	
-}
-thead > tr{
-    border-bottom : 1px solid rgb(149, 146, 146);  
-}
-.tableTop td{
-    width:450px;
-}
-
-    
-.content{
-    width:1000px;
-    margin: 0 auto;
-    word-break: break-all;
-}
-.content > p{
+h2{
+    border-bottom: 2px solid black;
     padding: 2%;
-    padding-bottom: 5%;
-    border-bottom: 1px solid  lightgray;
+}
+span{
+    width:100px;
+    padding-right: 30px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.listButton{
+
+
+.head{
     width:1000px;
-    text-align: right;
-    margin:2% auto;
-    padding-right: 3%;
+    align-items: center;
+    margin-left: 10px;
+    margin: 0 auto;
     
 }
-.listButton > button:hover{
-    background-color:#f7b7b5;
-    color:#fff;
-    border:1px solid #FE8F8F;
-    
-}
-.listButton > button{
 
+.main{
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+}
+.QuesType{
+    display: flex;
+    padding:1% 0;
+}
+.innerQuesType{
+    display: flex;  
+}
+.innerQuesTypeLeft{
+    width:100px;
+    text-align: center;
+    padding: 0 13px;
+}
+
+.QuesTitle{
+    display: flex;
+    padding:1% 0;
+}
+.QuesTitle > input{
+    width:890px;
+}
+
+.QuesContent{
+    display: flex;
+    height:500px;
+    padding:1% 0;
+    word-break: normal;
+}
+.QuesContent > textarea{
+    width:890px;
+    padding:1% 0;
+    resize: none;
+}
+
+
+.submitButton{
+    width:1000px;
+    text-align: center;
+    margin:2% auto;
+	padding-left: 5%;  
+}
+.submitButton > button{
     width:150px;
     height:35px;
     background-color: #FE8F8F;
     border: 1px solid #FF5C58;
     color:#fff;
-
+    
+    box-shadow:1px 1px 1px #FE8F8F;
+	transition-duration:0.2s;
 }
-
-
-
+.submitButton > button:hover{
+    cursor : pointer;
+	background-color: #FCD2D1;
+}
+.submitButton > button:active{
+	margin-left:3px;
+	margin-top:3px;
+	box-shadow:none;
+}
 
 
 

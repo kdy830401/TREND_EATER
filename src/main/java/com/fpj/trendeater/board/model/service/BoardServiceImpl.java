@@ -227,10 +227,6 @@ public class BoardServiceImpl implements BoardService{
 	public int updateBoardQna(BoardQnA b) {
 		return bDAO.updateBoardQna(sqlSession, b);
 	}
-//	@Override
-//	public int updateBoardQna(int qnaNo) {
-//		return bDAO.updateBoardQna(sqlSession, qnaNo);
-//	}
 
 	// QnA 삭제 
 	@Override
@@ -241,16 +237,6 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteBoardQna(BoardQnA b) {
 		return 0;
 	}
-
-//	@Override
-//	public int deleteBoardQna(BoardQnA b) {
-//		return bDAO.deleteBoardQna(sqlSession, b);
-//	}
-	
-
-
-
-
 
 
 
@@ -275,7 +261,21 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Reply> getQnaReplyListAdmin() {
 		return bDAO.getQnaReplyListAdmin(sqlSession);
 	}
-
+	// 답변 수정 : 수정폼을 위한 데이터 조회
+	@Override
+	public Reply adminQnaAnsSelect(Reply r) {
+		return bDAO.adminQnaAnsSelect(sqlSession, r);
+	}
+	// 답변 수정
+	@Override
+	public int adminQnaAnsUpdate(int replyNo) {
+		return bDAO.adminQnaAnsUpdate(sqlSession, replyNo);
+	}
+	// 답변 삭제
+	@Override
+	public int adminQnaAnsDelete(int replyNo) {
+		return bDAO.adminQnaAnsDelete(sqlSession, replyNo);
+	}
 
 
 /***********************************************************************/	
@@ -293,7 +293,6 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<EventBoard> getEBoardList(PageInfo pi) {
 		return bDAO.getEBoardList(sqlSession, pi);
 	}
-
 
 
 	// 이벤트 게시판 삽입 1 글내용 삽입
@@ -359,7 +358,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
-	
+
 /******************************MAIN*****************************************/
 	//이벤트게시판 최근 글 불러오기 
 	@Override

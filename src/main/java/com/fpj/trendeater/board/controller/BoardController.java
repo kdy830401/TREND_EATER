@@ -359,7 +359,7 @@ public class BoardController {
 			
 //		String adId = ((Admin)session.getAttribute("adminUser")).getId();
 //		b.setAdminId(adId);
-		
+
 		System.out.println("공지사항 상세보기_page="+page);
 		System.out.println("공지사항 상세보기_b="+b);
 		Board board = bService.selectBoard(b);
@@ -430,6 +430,7 @@ public class BoardController {
 		
 		System.out.println("qna쓰기_b="+b);
 		int result = bService.insertBoardQna(b);
+
  
 		if (result > 0) {
 			return "redirect:boardQna.bo";
@@ -519,7 +520,7 @@ public class BoardController {
 		}
 	}
 	
-	
+
 
 /**********************************************************************/	
 	

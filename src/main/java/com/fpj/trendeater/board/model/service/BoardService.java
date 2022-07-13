@@ -104,7 +104,9 @@ public interface BoardService {
 	int adminQnaAnsWrite(Reply reply);
 	ArrayList<Reply> getQnaReplyListAdmin();
 
-	int deleteBoardQna(BoardQnA b);
+	Reply adminQnaAnsSelect(Reply r);	// 수정폼에서 보여줄 데이터 가져오기(조회)
+	int adminQnaAnsUpdate(int replyNo);
+	int adminQnaAnsDelete(int replyNo);
 
 	
 /********************************** Event Management *********************************/	
@@ -150,6 +152,8 @@ public interface BoardService {
 	
 
 	
+
+
 
 
 

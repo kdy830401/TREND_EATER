@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,149 +9,139 @@ pageEncoding="UTF-8"%>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> TREND_EATER QnA </title>
-
-
-
 <!-- UIkit CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
-
 <!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit-icons.min.js"></script>
-
-
 <script src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.6.0.min.js"></script> 
-
 <!-- font awesome -->
 <script src="https://kit.fontawesome.com/76295929c4.js" crossorigin="anonymous"></script>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-
-
 <link rel="stylesheet" type="text/css" href="${ pageContext.servletContext.contextPath }/resources/css/admin/adminQnaList.css">
-  
+
 </head>
-    
 <body>
-
 	<c:import url="adminMenubar.jsp" />
+	<div class="container">
+	<!-- 헤더푸터는 클래스명 신경써야함
+		다른 페이지 임포트 되는거에는 css 선택자 적용안됨
+		메인 : 페이지가 달라지는거니 상관없다 -->
 
-<div class="container">
-<!-- 헤더푸터는 클래스명 신경써야함
-다른 페이지 임포트 되는거에는 css 선택자 적용안됨
-메인 : 페이지가 달라지는거니 상관없다 -->
-
-    <div class="main">
-        <div class="infoContainer">
-            <div class="titleArea">
-                <h3 > 1:1 문의 </h3>
-            </div>
-            <div class="tableArea">
-                <table>
-                    <thead>
-                        <tr>
-                            <th width="65">번호</th>
-                            <th >제목</th>
-                            <th width="100">작성일</th>
-                            <th width="70">답변상태</th>
-                        </tr>
-                    </thead>
-                </table>
-                <br>
-            </div>
-        <form action="adminQnaAnsWrite.ad" method="post" id="adminQnaAnsWrite">
-            <c:forEach var="b" items="${ list }" varStatus="vs">
-	            <details>
-	                <summary> 
-                        <div>
-                            <table>
-                                <tr class="tbodyContent">
-                                    <td class="tbodyTd1" width="65">${ b.qnaNo }</td>
-                                    <td class="tbodyTd2" style="text-align:left">${ b.qnaTitle }</td>
-                                    <td class="tbodyTd4" width="100">${ b.qnaCreateDate }</td>
-                                    <td class="tbodyTd5" width="70"> 
-                                   		<c:choose>
-                                   			<c:when test="${ b.qnaAnsStatus eq 'Y' }"><span>답변 완료</span></c:when>
-                                   			<c:when test="${ b.qnaAnsStatus eq 'N' }"><span>답변 대기중</span></c:when>
-                                   		</c:choose>
-                                    </td>
-                                </tr>   
-                            </table>
-                        </div>
-	                </summary>
-	                <div class="QnaToggleOpen">
-	                    <ul>
-	                        <div class="QnaToggleContent">
-		                        <li>
-		                            <div>
-		                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_q-solid.svg" style="width: 15px;">
-		                                <p>${ b.qnaContent }</p>
-	                                   <c:set var="newLineChar" value="ᚘ"/>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
-	                                  	 ${fn:replace(b.qnaContent, newLineChar, "<br>") }
-	                                   <input type="hidden" name="qnaContent" value="${b.qnaContent}">
+    	<div class="main">
+        	<div class="infoContainer">
+            	<div class="titleArea"><h3> 1:1 문의 </h3></div>
+            	<div class="tableArea">
+	                <table>
+	                    <thead>
+	                        <tr>
+	                            <th width="65">번호</th>
+	                            <th >제목</th>
+	                            <th width="100">작성일</th>
+	                            <th width="70">답변상태</th>
+	                        </tr>
+	                    </thead>
+	                </table>
+                	<br>
+            	</div>
+        		<form action="adminQnaAnsWrite.ad" method="post" id="adminQnaAnsWrite">
+            		<c:forEach var="b" items="${ list }" varStatus="vs">
+	            		<details>
+	                		<summary> 
+                        		<div>
+                            		<table>
+                                		<tr class="tbodyContent">
+                                    		<td class="tbodyTd1" width="65">${ b.qnaNo }</td>
+		                                    <td class="tbodyTd2" style="text-align:left">${ b.qnaTitle }</td>
+		                                    <td class="tbodyTd4" width="100">${ b.qnaCreateDate }</td>
+		                                    <td class="tbodyTd5" width="70"> 
+		                                   		<c:choose>
+		                                   			<c:when test="${ b.qnaAnsStatus eq 'Y' }"><span>답변 완료</span></c:when>
+		                                   			<c:when test="${ b.qnaAnsStatus eq 'N' }"><span>답변 대기중</span></c:when>
+		                                   		</c:choose>
+		                                    </td>
+		                                </tr>   
+		                            </table>
+		                        </div>
+	                		</summary>
+	               			<div class="QnaToggleOpen">
+	                    		<ul>
+	                        		<div class="QnaToggleContent">
+		                        		<li>
+		                            		<div>
+		                                		<img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_q-solid.svg" style="width: 15px;">
+		                                		<%-- <p>${ b.qnaContent }</p> --%>
+			                                    <c:set var="newLineChar" value="ᚘ"/>	 
+			                                    <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
+			                                    ${fn:replace(b.qnaContent, newLineChar, "<br>") }
+			                                    <input type="hidden" name="qnaContent" value="${b.qnaContent}">
 		                                   
-	                                  <%--  <c:set var="newLineChar" value="1"/> --%>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
-	                                   <%-- ${fn:contains(b.qnaContent, "\\r\\n")} --%> <!-- b.qnaContent 안에 내용 중에 개행문자가 포함되어있는지 확인 디버깅용 -->
-		                                   <%-- <input type="hidden" name="qnaContent" value="${b.qnaContent}">${b.qnaContent} --%>
-		                                   <!--타이틀도. 전체를 폼으로 감싸야함. href를 안주고 액션에 주소값 주는 것. 버튼을 누르면 폼에 감싸져있음. 서브밋 필요없이 버튼 누르면 제출됨. vo에 세터값이랑이랑 일치하니   -->
-		                            </div>
-		                            <br>
-		               				<div>
-		                                <!-- 답변 상태 b.QnAAnsStatus가 Y이면 A아이콘이 나타나는 c:if 사용 -->
-		                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_a-solid.svg" style="width: 15px;">
-		                                
-
-		                                
-	                                	<div id="dis${ vs.index }" style="display:none;" >
-                                			 <c:forEach var="reply" items="${replyList}">
-			                                 	<!-- 글번호 맞는거만 불러오게 반복문 사용 -->
-				                                <c:if test="${reply.refQnaNo eq b.qnaNo }"> <!-- 현재보고 있는 글번호랑  ref로해서 가져온 글번호랑 같아야함 -->
-					                                	<p>
-						                                	 ${reply.replyContent}
-						                                	<c:if test="${reply.replyContent ne null }">
-						                                	 	<div class="replyButton">
-						                                	 		<button type="button">수정</button>
-						                                	 		<button type="button">삭제</button>
-						                                	 	</div>
-						                                	</c:if>
-					                                	</p>
-				                                </c:if>
-			                         		      </c:forEach>
-			                         		      		
-	                                		<div class="replyTable">
-													<button class="rSubmit" >등록하기</button>
-
-													<textarea name="replyContent" cols="100" rows="5" id="replyContent${ vs.index }" style="resize:none"></textarea>
-											</div>
+	                                  		    <%--<c:set var="newLineChar" value="1"/> --%>	 <%-- <c:out  value="${b.qnaContent}"></c:out> --%>
+	                                  		    <%-- ${fn:contains(b.qnaContent, "\\r\\n")} --%> <!-- b.qnaContent 안에 내용 중에 개행문자가 포함되어있는지 확인 디버깅용 -->
+			                                    <%-- <input type="hidden" name="qnaContent" value="${b.qnaContent}">${b.qnaContent} --%>
+			                                   <!--타이틀도. 전체를 폼으로 감싸야함. href를 안주고 액션에 주소값 주는 것. 버튼을 누르면 폼에 감싸져있음. 서브밋 필요없이 버튼 누르면 제출됨. vo에 세터값이랑이랑 일치하니   -->
+		                            		</div>
+		                            		<br>
+		               						<div>
+				                                <!-- 답변 상태 b.QnAAnsStatus가 Y이면 A아이콘이 나타나는 c:if 사용 -->
+				                                <img src="${ pageContext.servletContext.contextPath }/resources/img/icons/icons_board_qna_a-solid.svg" style="width: 15px;">
+	                                			<div id="dis${ vs.index }" style="display:none;" >
+                                			 		<c:forEach var="reply" items="${replyList}">
+			                                 			<!-- 글번호 맞는거만 불러오게 반복문 사용 -->
+				                                		<c:if test="${reply.refQnaNo eq b.qnaNo }"> <!-- 현재보고 있는 글번호랑  ref로해서 가져온 글번호랑 같아야함 -->
+					                                		<p>
+					                                			${reply.replyContent}
+						                                		<c:if test="${reply.replyContent ne null }">
+							                                	 	<div class="replyButton">
+							                                	 		<input type="hidden" id="replyNo" name="replyNo" value="${reply.replyNo }">
+							                                	 		<!-- <button type="button" class="btnUpdate" >수정</button> -->
+							                                	 		<button type="button" class="btnDelete" >삭제</button>
+																		<%--<button type="button" class="btnDelete" name="replyNo" value="${reply.replyNo}">삭제</button> --%>
+							                                	 	</div>
+						                                		</c:if>
+					                                		</p>
+				                               	 		</c:if>
+		                         		      		</c:forEach>
+				                         		    <div class="replyTable">
+														<textarea name="replyContent" cols="100" rows="5" id="replyContent${ vs.index }" style="resize:none"></textarea>
+														<div>
+															<button class="rSubmit" type="button">등록하기</button>
+														</div>
+													</div>
 											
-											<table class="replyTable" id="rtb${ vs.index }">
-												<thead>	
-													<tr>
-														<td colspan="2"><b id="rCount${ vs.index }"></b></td>
-													</tr>
-												</thead>
-												<tbody>
-												
-												</tbody>
-											</table>
-	                                	</div>
-	                            	</div>
-		                        </li>
-	                        </div>  
-	                    </ul>
-	                    <div class="QnaToggleOpen_Button">
-	                        <button type="button" name="page" id="btnReply${ vs.index }" class="btnReply">답변하기</button> <!-- { vs.index } == 위의 varStatus -->
-	                       <%--  <button type="button" name="page" id="ReplyBtn${ vs.index }" class="btnReplyUpdate">수정</button> <!-- { vs.index } == 위의 varStatus -->
-	                        <button type="button" name="page" id="deleteBtn${ vs.index }" class="btnReplydelete">삭제</button>
-		                    <button type="submit" name="page" value="${pi.currentPage}" onclick="location.href='boardQnaDeleteForm.bo'">삭제</button> --%>
-	                    </div><br>																
-	                </div>
-	            </details>  
-            	<input type="hidden" id="refQnaNo" name="refQnaNo" value="${ b.qnaNo }">
-            </c:forEach>
-            <!-- <input type="hidden" name="qnaNo" id="qnaNo"> -->
-       </form>
-       <br>     
+													<%-- <table class="replyTable" id="rtb${ vs.index }">
+														<thead>	
+															<tr>
+																<td colspan="2"><b id="rCount${ vs.index }"></b></td>
+															</tr>
+														</thead>
+														<tbody></tbody>
+													</table> --%>
+	                                			</div>
+	                            			</div>
+		                        		</li>
+	                        		</div>  
+	                    		</ul>
+	                    		<div class="QnaToggleOpen_Button">
+	                        		<button type="button" name="page" id="btnReply${ vs.index }" class="btnReply">답변하기</button> 
+	                        		<!-- { vs.index } == 위의 varStatus -->
+	                       			<%--  <button type="button" name="page" id="ReplyBtn${ vs.index }" class="btnReplyUpdate">수정</button> <!-- { vs.index } == 위의 varStatus -->
+	                        		<button type="button" name="page" id="deleteBtn${ vs.index }" class="btnReplydelete">삭제</button>
+		                    		<button type="submit" name="page" value="${pi.currentPage}" onclick="location.href='boardQnaDeleteForm.bo'">삭제</button> --%>
+	                    		</div>
+	                    		<br>																
+	                		</div>
+	            		</details>  
+            			<input type="hidden" id="refQnaNo" name="refQnaNo" value="${ b.qnaNo }">
+            			
+            			<c:if test="${ vs.last }">
+            				<input type="hidden" id="lastFor" value="${ vs.index }" name="lastFor">
+            			</c:if>
+            	</c:forEach>
+            	<!-- <input type="hidden" name="qnaNo" id="qnaNo"> -->
+       		</form>
+      		<br>     
+
 
 		<!--UI kit pagination -->
 	        <ul class="uk-pagination uk-flex-center" uk-margin>
@@ -225,12 +214,37 @@ pageEncoding="UTF-8"%>
 	});
 	
 	$('.rSubmit').on('click',function(){
-		// rSubmit에서 name속성 지정됐으므로 form태그 안에 데이터값이 가게되고 vo클래스랑 매칭되서 컨트롤러러 갈 것임
-		/* $('#refQnaNo').val; */
+/* 		console.log('#replyContent${ vs.index }''); */
+// 		console.log('#replyContent');
+// 		console.log($(this).next().val());
+// 		console.log($('#lastFor').val());
+		
 		$('#adminQnaAnsWrite').submit();
 	});
+/* 	$('.btnUpdate').on('click',function(){
+		var replyNo = $(this).siblings('#replyNo').val();
+		$('#replyNo').val(replyNo);
+		console.log(replyNo);
+		location.href="adminQnaAnsUpdateView.ad?replyNo="+replyNo;
+	}); */
+	$('.btnUpdate').on('click',function(){
+		var replyNo = $(this).siblings('#replyNo').val();
+		$('#replyNo').val(replyNo);
+		console.log(replyNo);
+		/* location.href="adminQnaAnsUpdateView.ad?replyNo="+replyNo; */
+		
+	});
+	$('.btnDelete').on('click',function(){
+		var replyNo = $(this).siblings('#replyNo').val();
+		$('#replyNo').val(replyNo);
+		console.log(replyNo);
+		if(confirm("정말로 삭제하시겠습니까?")){
+			location.href="adminQnaAnsDelete.ad?replyNo="+replyNo;
+		}
+	});
+	
 
-	$('.deleteBtn').on('click',function(){
+/* 	$('.btnReplydelete').on('click',function(){
 		var qnaNo = $(this).parent().parent().prev().children().children().children().children().children().eq(0).text();
 		$('#qnaNo').val(qnaNo);
 		console.log(qnaNo);
@@ -377,11 +391,3 @@ pageEncoding="UTF-8"%>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
