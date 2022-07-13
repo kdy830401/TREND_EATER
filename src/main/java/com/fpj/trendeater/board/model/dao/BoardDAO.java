@@ -164,21 +164,28 @@ public class BoardDAO {
 	}
 	
 	//특정 회원 리뷰 보기
-	public int someReviewCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.someReviewCount");
+	public int someReviewCount(SqlSessionTemplate sqlSession, String nickName) {
+		return sqlSession.selectOne("boardMapper.someReviewCount", nickName);
 	}
 //	public ArrayList<Review> someReviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
 //		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 //		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 //		return (ArrayList)sqlSession.selectList("boardMapper.someReviewList", null, rowBounds);
 //	}
-	public ArrayList<Review> someReviewList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
+	public ArrayList<Review> someReviewList(SqlSessionTemplate sqlSession, PageInfo pi,String nickName) {
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("boardMapper.someReviewList", map, rowBounds);
+		return (ArrayList)sqlSession.selectList("boardMapper.someReviewList", nickName, rowBounds);
 	}
-	public ArrayList<ReviewImage> someReviewImageList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("boardMapper.someReviewImageList");
+	public ArrayList<ReviewImage> someReviewImageList(SqlSessionTemplate sqlSession, ArrayList<Review> reviewList) {
+		ArrayList<ReviewImage> reviewImageList = new ArrayList<ReviewImage>();
+		for(int i = 0; i < reviewList.size(); i++) {
+		ArrayList<ReviewImage> ri = (ArrayList)sqlSession.selectList("boardMapper.someReviewImageList",reviewList.get(i));
+		System.out.println("ri : " + ri);
+		reviewImageList.addAll(ri);
+		}
+		
+		return reviewImageList;
 	}
 	
 	//===============================이용준=================================================================

@@ -185,15 +185,6 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 		<ul
 			class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top"
 			id="total-arrange">
-			 <c:url var="nes" value="rlist.bo">
-                    <c:param name="page" value="${ p }"/>
-                    <c:param name="pno" value="${ pno }"/>
-               </c:url>
-               <li><a href="${ nes }"><span>최신순</span></a></li>
-               <li><a href="${ nes }&value=old"><span>오래된순</span></a></li>
-               <li><a href="${ nes }&value=likeCount"><span>좋아요순</span></a></li>
-               <li><a href="${ nes }&value=reviewRatingHigh"><span>높은 평점순</span></a></li>
-               <li><a href="${ nes }&value=reviewRatingLow"><span>낮은 평점순</span></a></li>
 		</ul>
 			<hr class="first-hr">
 <!-- 		<div style="margin-right:1px;"> -->
@@ -213,6 +204,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 						</c:if>
 						<div class="uk-inline" >
 				<input type="hidden" class="review" name="nickName" value="${ rev.nickName }">
+				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
 						<a href="someReviewList.bo?nickName=${rev.nickName }" class="uk-text-emphasis uk-text-normal uk-text-default" id="someMember">${ rev.nickName } </a>
 						</div>
 					</div>

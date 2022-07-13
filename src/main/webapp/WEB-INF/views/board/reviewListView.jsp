@@ -229,11 +229,11 @@ height: 180px;
 				<input type="hidden" class="review" name="reviewNo" value="${ rev.reviewNo }">
 				<div class="uk-grid-medium uk-flex-top" uk-grid>
 					<div>
-						<c:if test="${ empty loginUser.changeName }">
+						<c:if test="${ empty rev.changeName }">
 							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/images/avatar.png" alt="프로필사진">
 						</c:if>
-						<c:if test="${ not empty loginUser.changeName }">
-							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/uploadFiled/${ loginUser.changeName }" alt="프로필사진">
+						<c:if test="${ not empty rev.changeName }">
+							<img class="uk-border-circle" width="40" height="40" src="${ contextPath }/resources/uploadFiled/${ rev.changeName }" alt="프로필사진">
 						</c:if>
 						<div class="uk-inline" >
 				<input type="hidden" class="review" name="nickName" value="${ rev.nickName }">

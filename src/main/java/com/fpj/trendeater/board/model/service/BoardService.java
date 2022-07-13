@@ -63,11 +63,11 @@ public interface BoardService {
 
 	int reportReview(Report rep);
 
-	int someReviewCount();
+	int someReviewCount(String nickName);
 
-	ArrayList<Review> someReviewList(PageInfo pi, HashMap<String, String> map);
+	ArrayList<Review> someReviewList(PageInfo pi, String nickName);
 
-	ArrayList<ReviewImage> someReviewImageList();
+	ArrayList<ReviewImage> someReviewImageList(ArrayList<Review> reviewList);
 
 	
 		
