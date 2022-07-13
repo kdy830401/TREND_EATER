@@ -149,6 +149,12 @@ box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 .profileImg{
 background: gray; width: 50px; height: 50px; border-radius: 50px;
 }
+
+.img2{
+	width: 270px !important;
+	height: 180px !important;
+}
+
 </style>
 </head>
 <body>
@@ -247,7 +253,7 @@ background: gray; width: 50px; height: 50px; border-radius: 50px;
 							<c:if test="${ img.reviewNo == rev.reviewNo }">
                         <li tabindex="-1" class="uk-active" style="">
                             <div class="uk-panel uk-transition-toggle uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
-                                <img class="img" src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="400" height="600" alt="리뷰사진">
+                                <img class="img2" src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="400" height="200" alt="리뷰사진">
                                 <div class="uk-position-center uk-panel"><h1 class="uk-transition-slide-bottom-small"></h1></div>
                             </div>
                         </li>

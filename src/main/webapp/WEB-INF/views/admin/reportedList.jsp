@@ -47,9 +47,11 @@
  				<c:url var="nes" value="reportedReview.ad">
  				 <c:param name="reportNo" value="${ reportNo }"/>
                </c:url>
+               <ul class="uk-breadcrumb uk-align-right">
                <li><a href="${ nes }"><span>최신순</span></a></li>
                <li><a href="${ nes }&value=old"><span>오래된순</span></a></li>
                <li><a href="${ nes }&value=reportType"><span>신고 종류순</span></a></li>
+               </ul>
    <table class="table table-hover b-t">
     <thead>
         <tr id="table-title">
