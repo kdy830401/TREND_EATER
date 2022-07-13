@@ -173,7 +173,7 @@ public class BoardController {
 		
 		applyMv.addObject("imgList", imgList);
 		applyMv.setViewName("applyTasteBoardList");
-		
+
 		return applyMv;
 	}
 	

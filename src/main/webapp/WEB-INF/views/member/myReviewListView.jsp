@@ -96,11 +96,11 @@
 		        	<c:forEach var="r" items="${ list }">
 					<tr class="contentTr">
 						<td>
-							<c:forEach var="img" items="${ reviewImageList }" begin="0" end="1">
-							<c:if test="${ img.reviewNo eq r.reviewNo }">
-								<img class="uk-preserve-width" src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="200" height="200" alt="리뷰이미지">
-							</c:if>
-							</c:forEach>
+<%-- 							<c:forEach var="img" items="${ reviewImageList }" begin="0" end="1"> --%>
+<%-- 							<c:if test="${ img.reviewNo eq r.reviewNo }"> --%>
+<%-- 								<img class="uk-preserve-width" src="${ contextPath }/resources/reviewImages/${ img.changeName }" width="200" height="200" alt="리뷰이미지"> --%>
+<%-- 							</c:if> --%>
+<%-- 							</c:forEach> --%>
 						</td>
 						<td>
 							<h4>${ r.productName }</h4>
