@@ -616,7 +616,7 @@
 			select *
 			from (SELECT* 
 			FROM product
-			WHERE PRODUCT_STATUS ='Y'
+			WHERE PRODUCT_STATUS ='Y' AND TOTAL_AVG IS NOT NULL
 			order by TOTAL_AVG DESC)
 			where ROWNUM <=10
 		]]>	
